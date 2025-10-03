@@ -5,12 +5,12 @@ const Project1 = () => {
     <>
 
             {/* Project Image */}
-             <div className="w-2/5">
+             <div className="w-2/5 flex items-center justify-center">
                 <div className="relative">
                   <div className="absolute -inset-2.5 border border-[#F6AA10]/30 rounded-lg"></div>
                   <div className="absolute -inset-1.5 border border-[#F6AA10]/50 rounded-lg"></div>
                   <img 
-                    src="/images/pos-system.png" 
+                    src="/images/pos.png" 
                     alt="POS System Dashboard" 
                     className="relative w-[500px] h-[300px] object-cover rounded-lg shadow-2xl"
                   />
@@ -32,7 +32,7 @@ const Project1 = () => {
                 </div>
                 
                 <div className="flex items-center gap-3">
-                  <div className="text-gray-400">May 2025 - July 2025</div>
+                  <div className="text-gray-400">May 2025 - August 2025</div>
                 </div>
 
                 <p className="text-gray-300 text-lg leading-relaxed">

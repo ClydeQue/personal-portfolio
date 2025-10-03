@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import gsap from 'gsap'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollToPlugin, ScrollTrigger)
 
 const navItems = [
   { name: 'HOME', id: 'home' },
@@ -10,61 +15,50 @@ const navItems = [
 const NavBar = () => {
   const [activeSection, setActiveSection] = useState('HOME')
 
-  // Scroll detection to auto-update active section
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2
-      const documentHeight = document.documentElement.scrollHeight
-      
-        // Home is 0% to ~45%, Projects ~45% to ~65%, Skills ~65% to ~85%, Contact ~85% to 100%
-      const sectionThresholds = [
-        { name: 'HOME', start: 0, end: 0.45 },
-        { name: 'PROJECTS', start: 0.45, end: 0.65 },
-        { name: 'SKILLS', start: 0.65, end: 0.85 },
-        { name: 'CONTACT', start: 0.85, end: 1 }
-      ]
-
-      const scrollPercentage = scrollPosition / documentHeight
-
-      // current section
-      let currentSection = 'HOME'
-      for (const section of sectionThresholds) {
-        if (scrollPercentage >= section.start && scrollPercentage < section.end) {
-          currentSection = section.name
-          break
+    // Track which section is active based on scroll position
+    const sections = document.querySelectorAll('section[id]')
+    
+    sections.forEach((section) => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top center',
+        end: 'bottom center',
+        onEnter: () => {
+          const sectionId = section.getAttribute('id')
+          if (sectionId === 'home') setActiveSection('HOME')
+          else if (sectionId === 'projects') setActiveSection('PROJECTS')
+        },
+        onEnterBack: () => {
+          const sectionId = section.getAttribute('id')
+          if (sectionId === 'home') setActiveSection('HOME')
+          else if (sectionId === 'projects') setActiveSection('PROJECTS')
         }
-      }
+      })
+    })
 
-      setActiveSection(currentSection)
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
     }
-
-    window.addEventListener('scroll', handleScroll)
-    handleScroll() // Initial check
-
-    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   // Smooth scroll to section when clicked
   const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      const documentHeight = document.documentElement.scrollHeight
-      const windowHeight = window.innerHeight
-      
-
-
-      const scrollPositions = {
-        home: 0,
-        projects: documentHeight * 0.55 - windowHeight / 2,
-        skills: documentHeight * 0.75 - windowHeight / 2,  
-        contact: documentHeight * 0.95 - windowHeight / 2
-      }
-
-      window.scrollTo({
-        top: scrollPositions[sectionId] || 0,
-        behavior: 'smooth'
+    // Only handle Home and Projects for now
+    if (sectionId === 'home') {
+      gsap.to(window, { 
+        duration: 3, 
+        scrollTo: { y: 0, autoKill: false },
+        ease: "sine.inOut"
+      })
+    } else if (sectionId === 'projects') {
+      gsap.to(window, { 
+        duration: 3, 
+        scrollTo: "#projects",
+        ease: "sine.inOut"
       })
     }
+    // Skills and Contact are non-functional for now
   }
 
   return (

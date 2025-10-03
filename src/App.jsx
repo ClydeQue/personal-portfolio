@@ -5,12 +5,8 @@ import HomeScrollAnimations from './components/animations/HomeScrollAnimations'
 import Project1 from './components/panels/Project1'
 import Project2 from './components/panels/Project2'
 import Project3 from './components/panels/Project3'
-import ParallaxLanguagesOverlay from './components/ParallaxLanguagesOverlay'
-import { useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-gsap.registerPlugin(ScrollTrigger);
-import React, { useState } from 'react'
+import { BackgroundCircles, Windmill } from './components/section2'
+import React from 'react'
 
 /**
  * Main App Component - Simple scrolling with animated shapes
@@ -18,25 +14,7 @@ import React, { useState } from 'react'
  */
 function App() {
   // Get animation refs from HomeScrollAnimations hook
-  const [showLanguagesOverlay, setShowLanguagesOverlay] = useState(false);
-  const animationRefs = HomeScrollAnimations(setShowLanguagesOverlay);
-
-  useEffect(() => {
-    if (!animationRefs.homeSectionRef?.current || !animationRefs.section3Ref?.current) return;
-    const trigger = ScrollTrigger.create({
-      trigger: animationRefs.homeSectionRef.current,
-      start: "bottom top",
-      endTrigger: animationRefs.section3Ref.current,
-      end: "top center",
-      onEnter: () => setShowLanguagesOverlay(true),
-      onLeave: () => setShowLanguagesOverlay(false),
-      onEnterBack: () => setShowLanguagesOverlay(true),
-      onLeaveBack: () => setShowLanguagesOverlay(false),
-    });
-    return () => {
-      trigger.kill();
-    };
-  }, [animationRefs.homeSectionRef, animationRefs.section3Ref]);
+  const animationRefs = HomeScrollAnimations();
 
   return (
     <div className="App relative">
@@ -61,41 +39,36 @@ function App() {
   background: `
     /* White glow at very top */
     radial-gradient(
-      ellipse 200% 45% at 50% 0%,
+      ellipse 350% 55% at 50% 0%,
       #fafafa 0%,
-      #fafafa 20%,
-      transparent 60%
+      #fafafa 25%,
+      transparent 80%
     ),
 
-    /* Orange glow around 20% */
+
+    /* orange  glow around 15% */
     radial-gradient(
-      ellipse 150% 25% at 50% 4%,
-      #F6AA10 40%,
-      #F6AA10 25%,
-      transparent 70%
+      ellipse 300% 45% at 50% 20%,
+      #F6AA10 30%,
+      #143E5B 40%,
+      transparent 80%
     ),
 
-    /* Blue glow around 25% */
-    radial-gradient(
-      ellipse 140% 15% at 50% 8%,
-      #143E5B 0%,
-      #143E5B 25%,
-      transparent 75%
-    ),
+
 
     /* Dark navy shadow around 30% */
     radial-gradient(
-      ellipse 250% 50% at 50% 7%,
-      #021019 20%,
-      #021019 40%,
-      transparent 90%
+      ellipse 250% 25% at 50% 20%,
+      #021019 0%,
+      #021019 35%,
+      transparent 80%
     ),
 
     /* Base vertical gradient */
     linear-gradient(
       to bottom,
       #fafafa 0%,
-      #fafafa 6%,
+      #fafafa 8%,
       #F6AA10 20%,
       #143E5B 25%,
       #021019 30%,
@@ -115,8 +88,6 @@ function App() {
       {/* Fixed Navigation */}
       <NavBar />
       
-      {/* Global ParallaxLanguagesOverlay - always rendered, visibility controlled by showLanguagesOverlay */}
-      <ParallaxLanguagesOverlay visible={showLanguagesOverlay} />
       <div style={{ height: '4000vh' }} className="relative z-30">
         
         {/* SECTION 1: Home - Will be pinned during animations */}
@@ -415,18 +386,23 @@ function App() {
     height: "100vh",
     display: "grid",
     placeItems: "center",
+    position: "relative",
+    overflow: "hidden",
   }}
 >
-  {/* Global overlay – visible between Section 1 and Section 3 */}
-  <ParallaxLanguagesOverlay visible={showLanguagesOverlay} />
+  <BackgroundCircles />
+  <Windmill />
 
-  <h2 className="title font-[gotham] font-bold lg:text-8xl">
+  <h2 className="title font-[gotham] font-bold lg:text-8xl" style={{ position: "relative", zIndex: 1 }}>
     Take A Look!
   </h2>
 </section>
 
+<div id="pin-windmill-wrap" style={{ height: "1px", width: "100%" }} />
+
       {/* SECTION 3 */}
       <section 
+      id="projects"
       ref={animationRefs.section3Ref} 
       style={{ width: "100vw", height: "100vh", overflow: "hidden",  }}>
         <div 
@@ -444,9 +420,27 @@ function App() {
             </div>
           </article>
 
-          <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#ec4899" }}>
+          <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div className="panel-inner flex w-full max-w-7xl mx-auto px-6 gap-8">
-                <Project3/>
+              <Project3/>
+            </div>
+          </article>
+
+          <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div className="panel-inner flex w-full max-w-7xl mx-auto px-6 gap-8">
+              <Project3/>
+            </div>
+          </article>
+
+          <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div className="panel-inner flex w-full max-w-7xl mx-auto px-6 gap-8">
+              <Project3/>
+            </div>
+          </article>
+
+          <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div className="panel-inner flex w-full max-w-7xl mx-auto px-6 gap-8">
+              <Project3/>
             </div>
           </article>
         </div>
