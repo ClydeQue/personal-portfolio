@@ -49,8 +49,87 @@ export default function HomeScrollStepByStep() {
     // ====== HELPERS ======
     // Removed animateDescription function to let timeline control all animations
     
-    // ====== H1 ANIMATION ======
-    
+    // ====== TYPEWRITER ANIMATION ======
+    const titles = [
+      'A Full Stack Web Developer',
+      'A Backend Engineer',
+      'A Frontend Web Developer'
+    ];
+    let currentTitleIndex = 0;
+    let typewriterIntervals = [];
+    let isTypewriterActive = true;
+
+    const typeWriterEffect = () => {
+      if (!titleRef.current || !isTypewriterActive) return;
+
+      const targetText = titles[currentTitleIndex];
+      let charIndex = 0;
+      let isDeleting = false;
+      let currentText = '';
+
+      const type = () => {
+        if (!isTypewriterActive) {
+          typewriterIntervals.forEach(id => clearInterval(id));
+          return;
+        }
+
+        if (!isDeleting && charIndex < targetText.length) {
+          // Type forward
+          currentText = targetText.substring(0, charIndex + 1);
+          titleRef.current.textContent = currentText + '|';
+          charIndex++;
+          
+          const interval = setTimeout(type, 50); // Fast typing speed
+          typewriterIntervals.push(interval);
+        } else if (!isDeleting && charIndex === targetText.length) {
+          // Finished typing, show cursor blinking for 2 seconds
+          titleRef.current.textContent = currentText + '|';
+          
+          const blinkInterval = setInterval(() => {
+            if (!isTypewriterActive) {
+              clearInterval(blinkInterval);
+              return;
+            }
+            titleRef.current.textContent = titleRef.current.textContent.endsWith('|') 
+              ? currentText 
+              : currentText + '|';
+          }, 500);
+          typewriterIntervals.push(blinkInterval);
+
+          const timeout = setTimeout(() => {
+            clearInterval(blinkInterval);
+            isDeleting = true;
+            type();
+          }, 2000); // Wait 2 seconds before deleting
+          typewriterIntervals.push(timeout);
+        } else if (isDeleting && charIndex > 0) {
+          // Delete backward
+          charIndex--;
+          currentText = targetText.substring(0, charIndex);
+          titleRef.current.textContent = currentText + '|';
+          
+          const interval = setTimeout(type, 30); // Fast deleting speed
+          typewriterIntervals.push(interval);
+        } else if (isDeleting && charIndex === 0) {
+          // Finished deleting, move to next title
+          titleRef.current.textContent = '|';
+          currentTitleIndex = (currentTitleIndex + 1) % titles.length;
+          isDeleting = false;
+          
+          const timeout = setTimeout(() => {
+            typeWriterEffect();
+          }, 300); // Small pause before next title
+          typewriterIntervals.push(timeout);
+        }
+      };
+
+      type();
+    };
+
+    // Start the typewriter effect
+    if (titleRef.current) {
+      typeWriterEffect();
+    }
 
     // Track current phase
     let currentPhase = 0;
@@ -60,7 +139,13 @@ export default function HomeScrollStepByStep() {
     };
 
     const stopAnimations = () => {
-      // Timeline controls all animations, no manual stops needed
+      // Stop typewriter when titleRef animation begins
+      isTypewriterActive = false;
+      typewriterIntervals.forEach(id => {
+        clearTimeout(id);
+        clearInterval(id);
+      });
+      typewriterIntervals = [];
     };
 
     // MASTER timeline - Vertical cinematic intro ONLY
@@ -132,6 +217,15 @@ export default function HomeScrollStepByStep() {
         duration: 100
       }, 45)
       
+      .call(() => {
+        // Stop typewriter effect when title starts to fade out
+        isTypewriterActive = false;
+        typewriterIntervals.forEach(id => {
+          clearTimeout(id);
+          clearInterval(id);
+        });
+        typewriterIntervals = [];
+      }, [], 45)
       .to(titleRef.current, {
         y: -300,
         opacity: 0,
@@ -267,7 +361,7 @@ export default function HomeScrollStepByStep() {
 
       .set([pullUpContentRef.current, pullUpContentRef.current.querySelectorAll('*')], { 
         visibility: 'hidden' 
-      }, 850)
+      }, 850) 
 
       // (Overlay opacity no longer driven here)
     // (Section 2 is revealed during the exit tween above)

@@ -7,6 +7,10 @@ import Project2 from './components/panels/Project2'
 import Project3 from './components/panels/Project3'
 import { BackgroundCircles, Windmill } from './components/section2'
 import React from 'react'
+import gsap from 'gsap'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+
+gsap.registerPlugin(ScrollToPlugin)
 
 /**
  * Main App Component - Simple scrolling with animated shapes
@@ -119,39 +123,67 @@ function App() {
               {/* Gap */}
               <div className="mt-6 md:mt-8 lg:mt-15" ref={animationRefs.connectRef}>
                 <div className="flex items-center space-x-4 mb-4 md:mb-6">
-                  <p className="text-xs sm:text-xs md:text-sm lg:text-lg font-[gotham] font-bold text-black">
+                  <p 
+                    onClick={() => {
+                      gsap.to(window, { 
+                        duration: 3, 
+                        scrollTo: "#contact",
+                        ease: "sine.inOut"
+                      })
+                    }}
+                    className="text-xs sm:text-xs md:text-sm lg:text-lg font-[gotham] font-bold text-black cursor-pointer hover:text-blue-600 hover:scale-105 transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]"
+                  >
                     CONNECT WITH ME:
                   </p>
                   
                   {/* Social Media Icons */}
                   <div className="flex items-center space-x-3">
-                    <a href="#" className="hover:scale-110 transition-transform">
+                    <a 
+                      href="https://facebook.com/kc012s" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out"
+                    >
                       <img 
                         src="/icons/facebook.svg" 
                         alt="Facebook" 
-                        
-                        className="w-5 h-5   sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity"
+                        className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity hover:drop-shadow-[0_0_8px_rgba(24,119,242,0.8)]"
                       />
                     </a>
-                    <a href="#" className="hover:scale-110 transition-transform">
+                    <a 
+                      href="https://github.com/Clydefois" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out"
+                    >
                       <img 
                         src="/icons/github.svg" 
                         alt="GitHub" 
-                        className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity"
+                        className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity hover:drop-shadow-[0_0_8px_rgba(88,166,255,0.8)]"
                       />
                     </a>
-                    <a href="#" className="hover:scale-110 transition-transform">
+                    <a 
+                      href="https://www.linkedin.com/in/kcque101/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out"
+                    >
                       <img 
                         src="/icons/linkedin.svg" 
                         alt="LinkedIn" 
-                        className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity"
+                        className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity hover:drop-shadow-[0_0_8px_rgba(0,119,181,0.8)]"
                       />
                     </a>
-                    <a href="#" className="hover:scale-110 transition-transform">
+                    <a 
+                      href="https://twitter.com" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out"
+                    >
                       <img 
                         src="/icons/twitter.svg" 
                         alt="Twitter" 
-                        className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity"
+                        className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity hover:drop-shadow-[0_0_8px_rgba(29,161,242,0.8)]"
                       />
                     </a>
                   </div>
@@ -159,10 +191,28 @@ function App() {
               </div>
               
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-3" ref={animationRefs.buttonsRef}>
-                  <button className="slate-sky-theme-bg text-black font-black outline-1 outline-neutral-400 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-sm sm:text-base md:text-lg lg:text-xl px-4 sm:px-6 md:px-8 lg:px-13 py-2 sm:py-1.5 rounded-[15px] font-[gotham] hover:bg-gray-800 transition-colors w-full sm:w-auto">
+                  <button 
+                    onClick={() => {
+                      gsap.to(window, { 
+                        duration: 3, 
+                        scrollTo: "#projects",
+                        ease: "sine.inOut"
+                      })
+                    }}
+                    className="slate-sky-theme-bg text-black font-black outline-1 outline-neutral-400 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-sm sm:text-base md:text-lg lg:text-xl px-4 sm:px-6 md:px-8 lg:px-13 py-2 sm:py-1.5 rounded-[15px] font-[gotham] hover:scale-110 hover:shadow-[0px_8px_12px_0px_rgba(20,62,91,0.5)] hover:brightness-110 hover:-translate-y-1 transition-all duration-300 ease-out active:scale-95 w-full sm:w-auto cursor-pointer"
+                  >
                     PROJECTS
                   </button>
-                  <button className="yellow-gradient-2-bg text-black font-black outline-1 outline-neutral-400 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-sm sm:text-base md:text-lg lg:text-xl px-4 sm:px-6 md:px-8 py-2 sm:py-1.5 rounded-[15px] font-[gotham] hover:bg-gray-800 transition-colors w-full sm:w-auto">
+                  <button 
+                    onClick={() => {
+                      gsap.to(window, { 
+                        duration: 3, 
+                        scrollTo: "#skills",
+                        ease: "sine.inOut"
+                      })
+                    }}
+                    className="yellow-gradient-2-bg text-black font-black outline-1 outline-neutral-400 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] text-sm sm:text-base md:text-lg lg:text-xl px-4 sm:px-6 md:px-8 py-2 sm:py-1.5 rounded-[15px] font-[gotham] hover:scale-110 hover:shadow-[0px_8px_12px_0px_rgba(246,170,16,0.5)] hover:brightness-110 hover:-translate-y-1 transition-all duration-300 ease-out active:scale-95 w-full sm:w-auto cursor-pointer"
+                  >
                     SKILLS
                   </button>
               </div>
@@ -173,17 +223,30 @@ function App() {
             {/* Person and Background Elements Group */}
             <div 
               ref={animationRefs.personGroupRef}
-              className="absolute bottom-0 right-0 w-full h-full hidden md:block"
+              className="absolute bottom-0 right-0 w-full h-full hidden md:block pointer-events-none"
             >
               {/* Person Image - positioned in front of behind person rectangle */}
               <img 
                 draggable="false"
                 src="/images/me.png" 
                 alt="Clyde Que - Full Stack Developer"
-                className="absolute z-20 bottom-20 sm:bottom-24 md:bottom-28 right-4 sm:right-8 md:right-12 w-48 sm:w-64 md:w-80 h-auto max-h-[400px] sm:max-h-[480px] md:max-h-[560px] object-contain object-center"
+                className="absolute z-20 bottom-20 sm:bottom-24 md:bottom-40 right-4 sm:right-8 md:right-12 w-48 sm:w-64 md:w-80 h-auto max-h-[400px] sm:max-h-[480px] md:max-h-[560px] object-contain object-center pointer-events-auto"
               />
               
               {/* Stroke outlines for Behind Person Rectangle */}
+               <div 
+                className="absolute w-48 sm:w-60 md:w-62 h-[400px] sm:h-[480px] md:h-[550px] rounded-tr-full rounded-tl-full bottom-0 right-6 sm:right-10 md:right-20 overflow-visible"
+                style={{ 
+                  transform: 'scale(1.08)',
+                  background: 'linear-gradient(to bottom, rgba(27, 55, 75, 0.8), rgba(255, 255, 255, 0.8))',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  maskComposite: 'exclude',
+                  padding: '4px'
+                }}
+              >
+              </div>
               <div 
                 className="absolute w-48 sm:w-60 md:w-72 h-[400px] sm:h-[480px] md:h-[580px] rounded-tr-full rounded-tl-full bottom-0 right-6 sm:right-10 md:right-14 overflow-visible"
                 style={{ 
@@ -197,19 +260,21 @@ function App() {
                 }}
               >
               </div>
-              
-              {/* Behind Person Rectangle - positioned above the bottom rectangle */}
-              <div 
-                data-layer="behind person" 
-                className="BehindPerson w-48 sm:w-60 md:w-72 h-[390px] sm:h-[470px] md:h-[570px] bg-gradient-to-b rounded-tr-full rounded-tl-full from-[#51B2EC] to-[#ffffff29] absolute bottom-0 right-4 sm:right-8 md:right-12"
-                style={{
-                  background: `
-                    radial-gradient(circle at center, #D1D5DB, transparent 70%),
-                    linear-gradient(to bottom, #51B2EC, rgba(255, 255, 255, 0.16))
-                  `
+                <div 
+                className="absolute w-48 sm:w-60 md:w-82 h-[400px] sm:h-[480px] md:h-[600px] rounded-tr-full rounded-tl-full bottom-0 right-6 sm:right-10 md:right-10 overflow-visible"
+                style={{ 
+                  transform: 'scale(1.08)',
+                  background: 'linear-gradient(to bottom, rgba(27, 55, 75, 0.8), rgba(255, 255, 255, 0.8))',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  maskComposite: 'exclude',
+                  padding: '4px'
                 }}
               >
               </div>
+              
+              
             </div>
             
             {/* DECORATIVE ELEMENTS - Left Corner Geometric Shapes */}
@@ -380,6 +445,7 @@ function App() {
 
      {/* SECTION 2 */}
 <section
+  id="skills"
   ref={animationRefs.section2Ref}
   style={{
     width: "100vw",
@@ -447,9 +513,12 @@ function App() {
       </section>
 
         {/* Last container after horizontal panels */}
-        <div className="lastContainer w-full h-[100vh] flex items-center justify-center bg-[#021019] text-white text-3xl">
-          Last Container
-        </div>
+        <section id="contact" className="lastContainer w-full h-[100vh] flex items-center justify-center bg-[#021019] text-white text-3xl">
+          <div className="text-center">
+            <h2 className="font-[gotham] font-bold mb-4">Get In Touch</h2>
+            <p className="text-lg font-[gotham] text-gray-400">Contact section coming soon...</p>
+          </div>
+        </section>
       </div>
     </div>
   )

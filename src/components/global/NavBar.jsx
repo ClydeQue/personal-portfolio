@@ -27,12 +27,16 @@ const NavBar = () => {
         onEnter: () => {
           const sectionId = section.getAttribute('id')
           if (sectionId === 'home') setActiveSection('HOME')
+          else if (sectionId === 'skills') setActiveSection('SKILLS')
           else if (sectionId === 'projects') setActiveSection('PROJECTS')
+          else if (sectionId === 'contact') setActiveSection('CONTACT')
         },
         onEnterBack: () => {
           const sectionId = section.getAttribute('id')
           if (sectionId === 'home') setActiveSection('HOME')
+          else if (sectionId === 'skills') setActiveSection('SKILLS')
           else if (sectionId === 'projects') setActiveSection('PROJECTS')
+          else if (sectionId === 'contact') setActiveSection('CONTACT')
         }
       })
     })
@@ -44,11 +48,16 @@ const NavBar = () => {
 
   // Smooth scroll to section when clicked
   const scrollToSection = (sectionId) => {
-    // Only handle Home and Projects for now
     if (sectionId === 'home') {
       gsap.to(window, { 
         duration: 3, 
         scrollTo: { y: 0, autoKill: false },
+        ease: "sine.inOut"
+      })
+    } else if (sectionId === 'skills') {
+      gsap.to(window, { 
+        duration: 3, 
+        scrollTo: "#skills",
         ease: "sine.inOut"
       })
     } else if (sectionId === 'projects') {
@@ -58,7 +67,7 @@ const NavBar = () => {
         ease: "sine.inOut"
       })
     }
-    // Skills and Contact are non-functional for now
+    // Contact is non-functional for now
   }
 
   return (
