@@ -149,11 +149,15 @@ export default function HomeScrollStepByStep() {
     };
 
     // MASTER timeline - Vertical cinematic intro ONLY
+    // Responsive scroll distance: shorter on mobile for faster animations
+    const isMobile = window.innerWidth < 768;
+    const scrollDistance = isMobile ? "+=2500vh" : "+=7000vh";
+    
     const master = gsap.timeline({
       scrollTrigger: {
         trigger: homeSectionRef.current,
         start: "top top",
-        end: "+=7000vh", // Long scroll distance for slower animations
+        end: scrollDistance, // Mobile: 2500vh, Desktop: 7000vh
         scrub: 1,
         pin: true,
         pinSpacing: true,
@@ -391,6 +395,12 @@ master.addLabel("section1Exit", 862)  // Moved earlier: 860 (end of phase 5 cont
 // === SECTION 2: pinned "Take A Look" animation ===
 gsap.delayedCall(0, () => {
   if (section2Ref.current) {
+    // Mobile detection for performance optimization
+    const isMobileSection2 = window.innerWidth < 768;
+    const section2ScrollDistance = isMobileSection2 ? "+=300%" : "+=1000%";
+    
+    console.log(`Section 2: ${isMobileSection2 ? 'Mobile' : 'Desktop'} mode - Scroll distance: ${section2ScrollDistance}`);
+    
     const titleEl = section2Ref.current.querySelector('.title');
     if (titleEl) {
       // Initial state
@@ -401,7 +411,7 @@ gsap.delayedCall(0, () => {
         scrollTrigger: {
           trigger: section2Ref.current,
           start: "top top",
-          end: "+=1000%",
+          end: section2ScrollDistance, // Mobile: 300%, Desktop: 1000%
           scrub: true,
           pin: true,
           anticipatePin: 1,
@@ -436,8 +446,7 @@ gsap.delayedCall(0, () => {
         } else if (bounceDirection === 'right') {
           bounceX = 2000;
           bounceY = Math.random() * 500 - 250;
-        } else if (bounceDirection === 'up') {
-          bounceX = Math.random() * 500 - 250;
+        } else if (bounceDirection === 'up') {          bounceX = Math.random() * 500 - 250;
           bounceY = -2000;
         } else {
           bounceX = Math.random() * 500 - 250;
@@ -451,7 +460,7 @@ gsap.delayedCall(0, () => {
           scrollTrigger: {
             trigger: section2Ref.current,
             start: "top top",
-            end: "+=1000%",
+            end: section2ScrollDistance, // Mobile: 300%, Desktop: 1000%
             scrub: 1.5,
           },
         })
@@ -528,7 +537,7 @@ gsap.delayedCall(0, () => {
             scrollTrigger: {
               trigger: section2Ref.current,
               start: "top top",
-              end: "+=1000%",
+              end: section2ScrollDistance, // Mobile: 300%, Desktop: 1000%
               scrub: 1.5,
             },
           })
@@ -570,7 +579,7 @@ gsap.delayedCall(0, () => {
             scrollTrigger: {
               trigger: section2Ref.current,
               start: "top top",
-              end: "+=1000%",
+              end: section2ScrollDistance, // Mobile: 300%, Desktop: 1000%
               scrub: 1.5,
             },
           })

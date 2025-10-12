@@ -9,7 +9,17 @@ export const useLenis = () => {
   const lenisRef = useRef(null)
 
   useEffect(() => {
-    // Initialize Lenis with normal scrolling speed
+    // Check if mobile device - use native scroll on mobile for better performance
+    const isMobile = window.innerWidth < 768;
+    
+    if (isMobile) {
+      console.log('📱 Mobile detected: Using native scroll (Lenis disabled for performance)');
+      return; // Don't initialize Lenis on mobile
+    }
+
+    console.log('💻 Desktop detected: Initializing Lenis smooth scroll');
+
+    // Initialize Lenis with normal scrolling speed (Desktop only)
     const lenis = new Lenis({
       duration: 1.2,        // Normal animation duration 
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing function
@@ -20,7 +30,7 @@ export const useLenis = () => {
       smoothTouch: false,   // Disable smooth scrolling on touch devices
       touchMultiplier: 2,   // Normal touch gesture sensitivity
       infinite: false,      // Disable infinite scrolling
-      syncTouch: true,      // Sync touch gestures with smooth scrolling
+      syncTouch: false,     // Don't sync touch gestures (better performance)
     })
 
     lenisRef.current = lenis

@@ -8,6 +8,7 @@ export default function Windmill() {
   return (
     <div
       id="pin-windmill"
+      className="hidden md:block"
       style={{
         position: "absolute",
         top: "50%",

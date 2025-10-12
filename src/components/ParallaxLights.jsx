@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import Lenis from '@studio-freight/lenis'
 import { gsap } from 'gsap' // Import gsap for stopOverscroll function
 
-// Orbs config: faster, slightly randomized float speeds
+// Desktop orbs config: 8 orbs with complex animations
 const ORBS_CONFIG = [
   { color: '#60A5FA', size: 200, x: 10, y: 18, opacity: 0.55, scrollSpeed: 0.3, floatSpeed: 0.0025, floatRange: 30, delay: 0 },
   { color: '#FBBF24', size: 220, x: 72, y: 58, opacity: 0.50, scrollSpeed: -0.18, floatSpeed: 0.002, floatRange: 38, delay: 200 },
@@ -12,6 +12,13 @@ const ORBS_CONFIG = [
   { color: '#FBBF24', size: 110, x: 14, y: 50, opacity: 0.65, scrollSpeed: -0.38, floatSpeed: 0.003, floatRange: 16, delay: 1000 },
   { color: '#60A5FA', size: 90,  x: 46, y: 85, opacity: 0.75, scrollSpeed: 0.5,  floatSpeed: 0.004, floatRange: 12, delay: 1200 },
   { color: '#FBBF24', size: 100, x: 20, y: 90, opacity: 0.70, scrollSpeed: -0.45, floatSpeed: 0.0035, floatRange: 14, delay: 1400 },
+];
+
+// Mobile orbs config: Only 3 orbs with simpler animations for better performance
+const ORBS_CONFIG_MOBILE = [
+  { color: '#60A5FA', size: 150, x: 15, y: 20, opacity: 0.4, scrollSpeed: 0.2, floatSpeed: 0.002, floatRange: 20, delay: 0 },
+  { color: '#FBBF24', size: 160, x: 70, y: 60, opacity: 0.35, scrollSpeed: -0.15, floatSpeed: 0.0015, floatRange: 25, delay: 400 },
+  { color: '#60A5FA', size: 120, x: 45, y: 85, opacity: 0.45, scrollSpeed: 0.25, floatSpeed: 0.0025, floatRange: 15, delay: 800 },
 ];
 
 const ParallaxLights = () => {
@@ -25,6 +32,12 @@ const ParallaxLights = () => {
 
   useEffect(() => {
     if (!containerRef.current) return
+
+    // Detect mobile for optimized config
+    const isMobile = window.innerWidth < 768;
+    const activeConfig = isMobile ? ORBS_CONFIG_MOBILE : ORBS_CONFIG;
+    
+    console.log(`✨ ParallaxLights: ${isMobile ? 'Mobile' : 'Desktop'} mode - ${activeConfig.length} orbs`);
 
     // Setup Lenis for smooth scroll
     const lenis = new Lenis({
@@ -49,7 +62,8 @@ const ParallaxLights = () => {
 
       orbRefs.current.forEach((orb, index) => {
         if (!orb) return
-        const config = ORBS_CONFIG[index]
+        const config = activeConfig[index]
+        if (!config) return // Skip if this orb doesn't exist in mobile config
 
         // base viewport positioning
         const viewportHeight = window.innerHeight
@@ -95,6 +109,10 @@ const ParallaxLights = () => {
     }
   }, [])
 
+  // Use mobile or desktop config based on screen size
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const displayConfig = isMobile ? ORBS_CONFIG_MOBILE : ORBS_CONFIG;
+
   return (
     <div 
       ref={containerRef} 
@@ -103,21 +121,20 @@ const ParallaxLights = () => {
       {/* overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black/10" />
 
-      {/* Main glowing orbs */}
-      {ORBS_CONFIG.map((orb, index) => (
+      {/* Main glowing orbs - 3 on mobile, 8 on desktop */}
+      {displayConfig.map((orb, index) => (
         <div
           key={`orb-${index}`}
           ref={el => orbRefs.current[index] = el}
           className="absolute rounded-full"
           style={{
             left: `${orb.x}%`,
-            top: `${orb.y}%`, // Corrected syntax: orb.y as percentage
+            top: `${orb.y}%`,
             width: `${orb.size}px`,
             height: `${orb.size}px`,
             background: `radial-gradient(circle at 30% 30%, ${orb.color}CC, ${orb.color}88, transparent)`,
             opacity: orb.opacity,
             filter: `blur(${Math.max(12, orb.size * 0.45)}px)`,
-            willChange: 'transform, opacity',
             transform: 'translate3d(0, 0, 0)',
             // Removed mixBlendMode: 'screen' for better visibility
           }}

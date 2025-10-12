@@ -23,23 +23,12 @@ function App() {
   return (
     <div className="App relative">
       {/* Mobile Beta Notice - only visible below lg breakpoint, does not block corners */}
-      <div
-        className="fixed top-0 left-0 w-full z-[9999] bg-yellow-400 text-black text-center py-2 px-4 font-bold font-[gotham] shadow-lg transition-all duration-300 lg:hidden"
-        style={{
-          letterSpacing: '0.02em',
-          fontSize: '1rem',
-          minHeight: '40px',
-          pointerEvents: 'none', // allow access to corners
-        }}
-      >
-        🚧 Beta Mode: Mobile view is still in website mode.<br className="sm:hidden" />
-        Stay tuned for the upcoming mobile portfolio update!
-      </div>
+     
       {/* Scrollable Gradient Background - Circular curved gradients */}
       <div 
         className="absolute top-0 left-0 w-full pointer-events-none z-0"
    style={{
-  height: '4000vh',
+  height: typeof window !== 'undefined' && window.innerWidth < 768 ? '1500vh' : '4000vh',
   background: `
     /* White glow at very top */
     radial-gradient(
@@ -92,7 +81,7 @@ function App() {
       {/* Fixed Navigation */}
       <NavBar />
       
-      <div style={{ height: '4000vh' }} className="relative z-30">
+      <div style={{ height: typeof window !== 'undefined' && window.innerWidth < 768 ? '2500vh' : '4000vh' }} className="relative z-30">
         
         {/* SECTION 1: Home - Will be pinned during animations */}
         <section ref={animationRefs.homeSectionRef} id="home" className="relative w-full  h-[100vh] z-[30]">
@@ -459,7 +448,7 @@ function App() {
   <BackgroundCircles />
   <Windmill />
 
-  <h2 className="title font-[gotham] font-bold lg:text-8xl" style={{ position: "relative", zIndex: 1 }}>
+  <h2 className="title font-[gotham] font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl" style={{ position: "relative", zIndex: 1 }}>
     Take A Look!
   </h2>
 </section>
@@ -475,37 +464,37 @@ function App() {
         ref={animationRefs.wrapperRef}
         >
           <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center",}}>
-            <div className="panel-inner flex w-full max-w-7xl mx-auto px-6 gap-8">
+            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
               <Project1/>
             </div>
           </article>
 
           <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-             <div className="panel-inner flex w-full max-w-7xl mx-auto px-6 gap-8">
+             <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
               <Project2/>
             </div>
           </article>
 
           <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div className="panel-inner flex w-full max-w-7xl mx-auto px-6 gap-8">
+            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
               <Project3/>
             </div>
           </article>
 
           <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div className="panel-inner flex w-full max-w-7xl mx-auto px-6 gap-8">
+            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
               <Project3/>
             </div>
           </article>
 
           <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div className="panel-inner flex w-full max-w-7xl mx-auto px-6 gap-8">
+            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
               <Project3/>
             </div>
           </article>
 
           <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div className="panel-inner flex w-full max-w-7xl mx-auto px-6 gap-8">
+            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
               <Project3/>
             </div>
           </article>

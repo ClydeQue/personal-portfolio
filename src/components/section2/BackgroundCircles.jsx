@@ -4,10 +4,21 @@
  * Background Circles Component
  * Animated morphing circles for Section 2 background
  * Some circles start super small and grow upward (height increases while width stays constant)
+ * Responsive: Circles are scaled to 50% on mobile devices using CSS transform
  */
 export default function BackgroundCircles() {
   return (
-    <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+    <div 
+      className="absolute inset-0 pointer-events-none circles-container" 
+      style={{ 
+        zIndex: 0,
+        // Scale all circles to 50% on mobile using CSS transform
+        transform: typeof window !== 'undefined' && window.innerWidth < 768 ? 'scale(0.5)' : 'scale(1)',
+        transformOrigin: 'center center',
+        width: '100%',
+        height: '100%',
+      }}
+    >
       {/* Circle 1 - With JavaScript text - Pill shaped */}
       <div
         className="circle-morph circle-language"
@@ -29,12 +40,11 @@ export default function BackgroundCircles() {
           border: "2px solid rgba(81, 178, 236, 0.6)",
           boxShadow: "0 4px 20px rgba(81, 178, 236, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
           opacity: 1,
-          willChange: "transform, opacity",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           overflow: "hidden",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -70,12 +80,11 @@ export default function BackgroundCircles() {
           border: "2px solid rgba(246, 170, 16, 0.55)",
           boxShadow: "0 4px 20px rgba(246, 170, 16, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
           opacity: 1,
-          willChange: "transform, opacity",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           overflow: "hidden",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -104,8 +113,7 @@ export default function BackgroundCircles() {
           height: "25px",
           borderRadius: "12.5px",
           background: "linear-gradient(180deg, rgba(81, 178, 236, 0.8) 0%, rgba(81, 178, 236, 0.6) 100%)",
-          opacity: 0.3,
-          willChange: "transform, opacity",
+          opacity: 0.3, 
         }}
       />
 
@@ -124,7 +132,6 @@ export default function BackgroundCircles() {
           borderRadius: "15px",
           background: "linear-gradient(180deg, rgba(246, 170, 16, 0.8) 0%, rgba(246, 170, 16, 0.6) 100%)",
           opacity: 0.35,
-          willChange: "transform, opacity",
         }}
       />
 
@@ -143,7 +150,6 @@ export default function BackgroundCircles() {
           borderRadius: "10px",
           background: "linear-gradient(180deg, rgba(20, 62, 91, 0.8) 0%, rgba(20, 62, 91, 0.6) 100%)",
           opacity: 0.25,
-          willChange: "transform, opacity",
         }}
       />
 
@@ -162,7 +168,6 @@ export default function BackgroundCircles() {
           borderRadius: "14px",
           background: "linear-gradient(180deg, rgba(81, 178, 236, 0.8) 0%, rgba(81, 178, 236, 0.6) 100%)",
           opacity: 0.4,
-          willChange: "transform, opacity",
         }}
       />
 
@@ -181,7 +186,6 @@ export default function BackgroundCircles() {
           borderRadius: "11px",
           background: "linear-gradient(180deg, rgba(246, 170, 16, 0.8) 0%, rgba(246, 170, 16, 0.6) 100%)",
           opacity: 0.3,
-          willChange: "transform, opacity",
         }}
       />
 
@@ -200,7 +204,6 @@ export default function BackgroundCircles() {
           borderRadius: "13px",
           background: "linear-gradient(180deg, rgba(20, 62, 91, 0.8) 0%, rgba(20, 62, 91, 0.6) 100%)",
           opacity: 0.35,
-          willChange: "transform, opacity",
         }}
       />
 
@@ -219,7 +222,6 @@ export default function BackgroundCircles() {
           borderRadius: "12px",
           background: "linear-gradient(180deg, rgba(81, 178, 236, 0.8) 0%, rgba(81, 178, 236, 0.6) 100%)",
           opacity: 0.28,
-          willChange: "transform, opacity",
         }}
       />
 
@@ -238,7 +240,6 @@ export default function BackgroundCircles() {
           borderRadius: "16px",
           background: "linear-gradient(180deg, rgba(246, 170, 16, 0.8) 0%, rgba(246, 170, 16, 0.6) 100%)",
           opacity: 0.32,
-          willChange: "transform, opacity",
         }}
       />
 
@@ -257,7 +258,6 @@ export default function BackgroundCircles() {
           borderRadius: "13.5px",
           background: "linear-gradient(180deg, rgba(20, 62, 91, 0.8) 0%, rgba(20, 62, 91, 0.6) 100%)",
           opacity: 0.3,
-          willChange: "transform, opacity",
         }}
       />
 
@@ -276,7 +276,6 @@ export default function BackgroundCircles() {
           borderRadius: "14.5px",
           background: "linear-gradient(180deg, rgba(81, 178, 236, 0.8) 0%, rgba(81, 178, 236, 0.6) 100%)",
           opacity: 0.35,
-          willChange: "transform, opacity",
         }}
       />
       
@@ -300,7 +299,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -335,7 +334,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -370,7 +369,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -405,7 +404,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -440,7 +439,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -475,7 +474,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -510,7 +509,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -545,7 +544,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -580,7 +579,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -615,7 +614,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -650,7 +649,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -685,7 +684,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -720,7 +719,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -755,7 +754,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -790,7 +789,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -825,7 +824,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
@@ -860,7 +859,7 @@ export default function BackgroundCircles() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backdropFilter: "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{
