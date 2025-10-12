@@ -86,11 +86,11 @@ export default function BackgroundCircles() {
           border: "2px solid rgba(246, 170, 16, 0.55)",
           boxShadow: "0 4px 20px rgba(246, 170, 16, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
           opacity: 1,
-          display: isMobile ? "none" : "flex", // Hide on mobile
+          display: "flex",
           alignItems: "center",
           justifyContent: "center",
           overflow: "hidden",
-          backdropFilter: isMobile ? "none" : "blur(8px)",
+          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
         }}
       >
         <span style={{

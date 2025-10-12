@@ -16,7 +16,35 @@ const NavBar = () => {
   const [activeSection, setActiveSection] = useState('HOME')
 
   useEffect(() => {
-    // Track which section is active based on scroll position
+    // Check if mobile device - skip ScrollTrigger on mobile
+    const isMobile = window.innerWidth < 768;
+    
+    if (isMobile) {
+      console.log('📱 Mobile detected: Skipping NavBar ScrollTriggers');
+      
+      // On mobile, use IntersectionObserver instead for better performance
+      const sections = document.querySelectorAll('section[id]')
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.getAttribute('id')
+            if (sectionId === 'home') setActiveSection('HOME')
+            else if (sectionId === 'skills' || sectionId === 'skills-mobile') setActiveSection('SKILLS')
+            else if (sectionId === 'projects' || sectionId === 'projects-mobile') setActiveSection('PROJECTS')
+            else if (sectionId === 'contact') setActiveSection('CONTACT')
+          }
+        })
+      }, { threshold: 0.3 })
+      
+      sections.forEach(section => observer.observe(section))
+      
+      return () => observer.disconnect()
+    }
+
+    console.log('💻 Desktop detected: Using ScrollTrigger for NavBar');
+    
+    // Track which section is active based on scroll position (Desktop only)
     const sections = document.querySelectorAll('section[id]')
     
     sections.forEach((section) => {

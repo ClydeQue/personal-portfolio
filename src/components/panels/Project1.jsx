@@ -18,26 +18,18 @@ const Project1 = () => {
   const autoplayRef = useRef(null)
   const lastInteractionRef = useRef(Date.now())
 
-  // Auto slideshow - DISABLED ON MOBILE FOR PERFORMANCE
+  // Auto slideshow - ENABLED FOR BOTH MOBILE AND DESKTOP
   useEffect(() => {
-    // Check if mobile device
-    const isMobile = window.innerWidth < 768;
-    
-    if (isMobile) {
-      console.log('📱 Project1: Carousel autoplay disabled on mobile for performance');
-      return; // No autoplay on mobile - user can still navigate manually
-    }
-
-    // Desktop only: Start autoplay
+    // Start autoplay
     const startAutoplay = () => {
       if (autoplayRef.current) clearInterval(autoplayRef.current)
       
       autoplayRef.current = setInterval(() => {
         const timeSinceInteraction = Date.now() - lastInteractionRef.current
-        if (timeSinceInteraction >= 4000) {
+        if (timeSinceInteraction >= 3000) {
           setCurrentIndex((prev) => (prev + 1) % images.length)
         }
-      }, 5000)
+      }, 3000)
     }
 
     startAutoplay()

@@ -19,17 +19,9 @@ const Project2 = () => {
   const autoplayRef = useRef(null)
   const lastInteractionRef = useRef(Date.now())
 
-  // Auto slideshow - DISABLED ON MOBILE FOR PERFORMANCE
+  // Auto slideshow - ENABLED FOR BOTH MOBILE AND DESKTOP
   useEffect(() => {
-    // Check if mobile device
-    const isMobile = window.innerWidth < 768;
-    
-    if (isMobile) {
-      console.log('📱 Project2: Carousel autoplay disabled on mobile for performance');
-      return; // No autoplay on mobile - user can still navigate manually
-    }
-
-    // Desktop only: Start autoplay
+    // Start autoplay
     const startAutoplay = () => {
       if (autoplayRef.current) clearInterval(autoplayRef.current)
       

@@ -120,6 +120,137 @@
  
 }
 
+/* Mobile Statistics Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.6s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Typewriter Effect for Mobile - Now handled by JavaScript */
+
+/* Light Pulse Animation - One at a time */
+@keyframes light-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+    box-shadow: 0 0 0px currentColor;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+    box-shadow: 0 0 15px currentColor, 0 0 25px currentColor;
+  }
+}
+
+.animate-light-pulse {
+  animation: light-pulse 2.5s ease-in-out infinite;
+}
+
+/* Social Media Icon Color Animations - One at a time with 2s delay */
+@keyframes facebook-color {
+  0% {
+    filter: grayscale(0%) brightness(1) drop-shadow(0 0 10px #1877F2);
+  }
+  25%, 100% {
+    filter: grayscale(100%) brightness(0.5);
+  }
+}
+
+@keyframes github-color {
+  0%, 25% {
+    filter: grayscale(100%) brightness(0.5);
+  }
+  25.1% {
+    filter: grayscale(0%) brightness(1) drop-shadow(0 0 10px #333333);
+  }
+  50%, 100% {
+    filter: grayscale(100%) brightness(0.5);
+  }
+}
+
+@keyframes linkedin-color {
+  0%, 50% {
+    filter: grayscale(100%) brightness(0.5);
+  }
+  50.1% {
+    filter: grayscale(0%) brightness(1) drop-shadow(0 0 10px #0A66C2);
+  }
+  75%, 100% {
+    filter: grayscale(100%) brightness(0.5);
+  }
+}
+
+@keyframes twitter-color {
+  0%, 75% {
+    filter: grayscale(100%) brightness(0.5);
+  }
+  75.1% {
+    filter: grayscale(0%) brightness(1) drop-shadow(0 0 10px #1DA1F2);
+  }
+  100% {
+    filter: grayscale(100%) brightness(0.5);
+  }
+}
+
+.social-icon-facebook {
+  animation: facebook-color 8s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.social-icon-github {
+  animation: github-color 8s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.social-icon-linkedin {
+  animation: linkedin-color 8s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.social-icon-twitter {
+  animation: twitter-color 8s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
 .gradient-theme-bg {
   background: linear-gradient(265deg, white, #60a5fa);
 }
@@ -166,11 +297,294 @@
 
 /* Responsive design helpers */
 @media (max-width: 768px) {
-  /* Mobile-specific optimizations */
+  /* Mobile-specific optimizations - GSAP DISABLED */
   .expanding-square {
     /* Adjust transforms for mobile viewport */
     transform-origin: bottom right;
   }
+  
+  /* Simple fade-in animations for mobile (no GSAP) */
+  @keyframes mobileFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes mobileSlideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Apply simple animations to panels on mobile */
+  .panel {
+    animation: mobileFadeIn 0.6s ease-out forwards;
+  }
+  
+  .panel:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  
+  .panel:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  .panel:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  
+  /* Mobile: Ensure smooth scrolling */
+  .panel-inner {
+    will-change: auto;
+  }
+  
+  /* Section 2 circles - simple fade in on mobile */
+  .circle-morph {
+    animation: mobileFadeIn 0.8s ease-out forwards;
+  }
+
+  /* Hide desktop Section 2 & 3 on mobile */
+  #skills {
+    display: none !important;
+  }
+
+  #projects {
+    display: none !important;
+  }
+
+  /* Show mobile versions */
+  #skills-mobile,
+  #projects-mobile,
+  #stats-mobile,
+  #about-mobile {
+    display: flex !important;
+  }
+}
+
+/* Desktop styles (≥768px) */
+@media (min-width: 768px) {
+  /* Show desktop versions */
+  #skills,
+  #projects {
+    display: grid !important;
+  }
+
+  #projects {
+    display: block !important;
+  }
+
+  /* Hide mobile versions - use position absolute to remove from document flow */
+  #skills-mobile,
+  #projects-mobile,
+  #stats-mobile,
+  #about-mobile {
+    display: none !important;
+    position: absolute !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* ============================================
+   Mobile Section 2 - Programming Language Animations
+   ============================================ */
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll-right {
+  animation: scroll-right 20s linear infinite;
+  white-space: nowrap;
+}
+
+.animate-scroll-left {
+  animation: scroll-left 18s linear infinite;
+  white-space: nowrap;
+}
+
+.animate-scroll-right-slow {
+  animation: scroll-right 25s linear infinite;
+  white-space: nowrap;
+}
+
+.animate-scroll-left-slow {
+  animation: scroll-left 22s linear infinite;
+  white-space: nowrap;
+}
+
+.animate-scroll-right-fast {
+  animation: scroll-right 15s linear infinite;
+  white-space: nowrap;
+}
+
+.animate-scroll-left-fast {
+  animation: scroll-left 16s linear infinite;
+  white-space: nowrap;
+}
+
+/* ============================================
+   Mobile Stats & About Animations
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(123, 179, 211, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(246, 170, 16, 0.5);
+  }
+}
+
+/* Floating orb animations for glassmorphism backgrounds */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-40px, 40px) scale(1.15);
+  }
+}
+
+@keyframes float-slower {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(50px, -30px) scale(1.2);
+  }
+}
+
+.animate-float {
+  animation: float 20s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 25s ease-in-out infinite;
+}
+
+.animate-float-slower {
+  animation: float-slower 30s ease-in-out infinite;
+}
+
+/* Glow effect for text */
+.drop-shadow-glow {
+  filter: drop-shadow(0 0 12px currentColor);
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+  50% {
+    filter: drop-shadow(0 0 16px currentColor);
+  }
+}
+
+/* Pulse glow animation for UI elements */
+.animate-pulse-glow {
+  animation: pulse-glow-effect 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow-effect {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(123, 179, 211, 0.3), 0 0 40px rgba(246, 170, 16, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(123, 179, 211, 0.5), 0 0 60px rgba(246, 170, 16, 0.3);
+    transform: scale(1.02);
+  }
+}
+
+/* Stats section animations */
+#stats-mobile > div {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+#stats-mobile .grid > div {
+  animation: fadeInScale 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+#stats-mobile .grid > div:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+#stats-mobile .grid > div:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+#stats-mobile .grid > div:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+#stats-mobile .grid > div:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+/* About section animations */
+#about-mobile > div {
+  animation: fadeInUp 0.8s ease-out;
 }
 
 /* Print styles */

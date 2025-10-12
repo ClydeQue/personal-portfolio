@@ -17,6 +17,7 @@ export default function HomeScrollStepByStep() {
   const personGroupRef = useRef(null)
   const leftRectanglesRef = useRef(null)
   const pullUpContentRef = useRef(null)
+  const groupContainerRef = useRef(null) // Parent wrapper for rectangleRef + pullUpContentRef
   const homeSectionRef = useRef(null)
   const nextSectionRef = useRef(null)
   const parallaxLightsRef = useRef(null)
@@ -29,8 +30,30 @@ export default function HomeScrollStepByStep() {
     // capture refs in locals when needed inside cleanup blocks
     if (!homeSectionRef.current) return;
 
+    // ====== MOBILE DETECTION ======
+    const isMobile = window.innerWidth < 768;
+    
+    console.log(`🔍 Device detected: ${isMobile ? 'MOBILE' : 'DESKTOP'}`);
+    
+    // ====== MOBILE: DISABLE ALL GSAP ANIMATIONS ======
+    if (isMobile) {
+      console.log('📱 Mobile mode: GSAP animations DISABLED - Using simple scroll');
+      
+      // Show all panels immediately on mobile (no GSAP)
+      panelRefs.current.forEach((panel, index) => {
+        if (panel) {
+          panel.style.opacity = '1';
+          panel.style.transform = 'translateX(0) scale(1)';
+          console.log(`Panel ${index + 1} visible (mobile)`);
+        }
+      });
+      
+      // No GSAP animations - just return
+      return;
+    }
 
-
+    // ====== DESKTOP: FULL GSAP ANIMATIONS ======
+    console.log('💻 Desktop mode: GSAP animations ENABLED');
     
     panelRefs.current.forEach((panel, index) => {
       if (panel) {
@@ -39,7 +62,7 @@ export default function HomeScrollStepByStep() {
           x: 100,
           scale: 0.9
         });
-        console.log(`Panel ${index + 1} initialized`);
+        console.log(`Panel ${index + 1} initialized for animation`);
       }
     });
 
@@ -150,7 +173,7 @@ export default function HomeScrollStepByStep() {
 
     // MASTER timeline - Vertical cinematic intro ONLY
     // Responsive scroll distance: shorter on mobile for faster animations
-    const isMobile = window.innerWidth < 768;
+    // Note: isMobile already declared above at line 34
     const scrollDistance = isMobile ? "+=2000vh" : "+=7000vh";
     // Mobile: instant response (scrub: true), Desktop: slight delay (scrub: 1)
     const scrubValue = isMobile ? true : 1;
@@ -294,42 +317,42 @@ export default function HomeScrollStepByStep() {
         height: "100vh",
         ease: "power2.inOut",
         duration: 150
-      }, 340)
+      }, 200)
       .fromTo(rectangleRef.current.querySelectorAll('h3, div, span'), {
         scale: 1
       }, {
         scale: 1.15,
-        ease: "power2.out",
+
         duration: 90,
         stagger: 0.5
-      }, 360)
+      }, 400)
       .to(pullUpContentRef.current, {
         y: -250,
         opacity: 1,
-        ease: "power2.out",
-        duration: 80
-      }, 500);
+
+
+      }, 600);
 
     // ---- PHASE 4 (540 → 740s) - Content positioning
     master.addLabel("phase4", 540)
       .call(() => console.log('Entering Phase 4 - content positioning'), [], 540)
       .to([rectangleRef.current, pullUpContentRef.current], {
-        y: "-80vh",
-        ease: "power2.inOut",
+        y: "-81vh",
+
         duration: 200
-      }, 540)
+      }, 600)
       .to(rectangleRef.current, {
         borderTopLeftRadius: 500,
         borderTopRightRadius: 500,
-        ease: "power2.inOut",
+
         duration: 200
-      }, 540)
+      }, 600)
       .to(pullUpContentRef.current, {
         borderBottomRightRadius: 100,
         borderBottomLeftRadius: 100,
-        ease: "power2.inOut",
+
         duration: 200,
-      }, 540);
+      }, 600);
 
     // ---- PHASE 5 (740 → 940s) - Final exit & reveal Section 2
     master.addLabel("phase5", 740)
@@ -406,12 +429,15 @@ gsap.delayedCall(0, () => {
     
     console.log(`Section 2: ${isMobileSection2 ? 'Mobile' : 'Desktop'} mode - Scroll distance: ${section2ScrollDistance}, Scrub: instant`);
     
+    // Make section visible initially
+    gsap.set(section2Ref.current, { autoAlpha: 1 });
+    
     const titleEl = section2Ref.current.querySelector('.title');
     if (titleEl) {
-      // Initial state
-      gsap.set(titleEl, { autoAlpha: 0, y: 80, color: '#000000' });
+      // Initial state - title starts visible immediately
+      gsap.set(titleEl, { autoAlpha: 1, y: 0, color: '#000000' });
 
-      // Timeline for title fade in and color change
+      // Timeline for title color change (title is already visible)
       gsap.timeline({
         scrollTrigger: {
           trigger: section2Ref.current,
@@ -420,10 +446,12 @@ gsap.delayedCall(0, () => {
           scrub: section2ScrubValue, // Instant response
           pin: true,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onEnter: () => console.log('✅ Section 2 PINNED'),
+          markers: false, // Set to true for debugging
         },
       })
-      .to(titleEl, { autoAlpha: 1, y: 0, duration: 2, ease: 'power2.out' }, 0)
-      .to(titleEl, { color: '#ffffff', duration: 2, ease: 'power2.inOut' }, 1); // Change to white after initial fade in
+      .to(titleEl, { color: '#ffffff', duration: 2, ease: 'power2.inOut' }, 0); // Change to white immediately
     }
 
     // Animate background circles with morphing and parallax - smooth scroll effect
@@ -466,7 +494,7 @@ gsap.delayedCall(0, () => {
             trigger: section2Ref.current,
             start: "top top",
             end: section2ScrollDistance, // Mobile: 300%, Desktop: 1000%
-            scrub: isMobileSection2 ? true : 1.5, // Mobile: instant, Desktop: 1.5s delay
+            scrub: 1.5,
           },
         })
        
@@ -494,6 +522,7 @@ gsap.delayedCall(0, () => {
           ease: "none",
           opacity: 1,
           duration: 10,
+          
           force3D: true,
         }, 0)
         // Subtle scale pulse
@@ -650,10 +679,9 @@ gsap.delayedCall(0, () => {
     const pinWindmillWrap = document.getElementById('pin-windmill-wrap');
     
     if (windmillSvg && pinWindmill && pinWindmillWrap) {
-      const windmillScrub = isMobileSection2 ? true : 1; // Mobile: instant, Desktop: 1s delay
       const tl = gsap.timeline({
         scrollTrigger: {
-          scrub: windmillScrub,
+          scrub: 1,
           pin: true,
           trigger: "#pin-windmill",
           start: "50% 50%",
@@ -666,6 +694,12 @@ gsap.delayedCall(0, () => {
         rotateZ: 900,
       });
     }
+    
+    // Force ScrollTrigger refresh after Section 2 is set up
+    gsap.delayedCall(0.1, () => {
+      ScrollTrigger.refresh();
+      console.log('ScrollTrigger refreshed after Section 2 setup');
+    });
   }
 });
 
@@ -673,6 +707,12 @@ gsap.delayedCall(0, () => {
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 gsap.delayedCall(0, () => {
+  // Skip GSAP initialization on mobile (< 768px) - mobile uses separate Swiper carousel
+  if (window.innerWidth < 768) {
+    console.log('📱 Mobile detected: Skipping Section 3 GSAP initialization (using mobile carousel instead)');
+    return;
+  }
+
   const sectionEl = section3Ref.current;
   const wrapEl = wrapperRef.current;
 
@@ -680,12 +720,6 @@ gsap.delayedCall(0, () => {
     const panels = gsap.utils.toArray(wrapEl.querySelectorAll('.panel'));
 
     if (panels.length > 0) {
-      // Detect mobile for instant scroll response
-      const isMobileSection3 = window.innerWidth < 768;
-      const section3Scrub = isMobileSection3 ? true : 1; // Mobile: instant, Desktop: 1s delay
-      
-      console.log(`Section 3: ${isMobileSection3 ? 'Mobile' : 'Desktop'} mode - ${panels.length} panels, Scrub: ${section3Scrub === true ? 'instant' : section3Scrub + 's'}`);
-      
       // Layout setup
       wrapEl.style.width = `${panels.length * 100}vw`;
       wrapEl.style.display = 'flex';
@@ -693,24 +727,23 @@ gsap.delayedCall(0, () => {
       wrapEl.style.willChange = 'transform';
       panels.forEach((p) => (p && (p.style.willChange = 'transform, opacity')));
 
-      const delayAmount = isMobileSection3 ? 50 : 100; // Mobile: less scroll distance for delays
+      const delayAmount = 100; // vh - extra scroll for delays
 
-      // GSAP horizontal scroll for panels
+      // GSAP horizontal scroll for 6 panels
       gsap.to(panels, {
         xPercent: -100 * (panels.length - 1),
-        ease: 'none',
         scrollTrigger: {
           trigger: sectionEl,
           pin: true,
           start: "top top",
           end: () => "+=" + wrapEl.offsetWidth + ` +=${delayAmount}vh`,
-          scrub: section3Scrub, // Mobile: instant response, Desktop: smooth delay
-          snap: isMobileSection3 ? false : { // Disable snap on mobile for smoother scrolling
+          scrub: 1,
+          snap: {
             snapTo: panels.length > 1 ? 1 / (panels.length - 1) : 0,
-            duration: { min: 0.2, max: 0.5 },
-            ease: "power1.inOut",
-            delay: 0.1,
-            directional: false
+            duration: { min: 0.2, max: 0.3 },
+          ease: "power1.inOut",
+
+            directional: true
           }
         }
       });
