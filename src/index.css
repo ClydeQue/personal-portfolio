@@ -4,8 +4,9 @@
 
 
 html {
-  /* Prevent default scrollbar from showing during Lenis initialization */
+  /* Allow scrolling - critical for mobile */
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body {
@@ -14,7 +15,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  overflow-y: auto;
   line-height: 1.5;
+  position: static;
+  height: auto;
 }
 
 /* Ensure smooth scrolling container */

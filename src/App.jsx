@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Suspense } from 'react'
 import './App.css'
+import LoadingSpinner from './components/global/LoadingSpinner'
 
 // Lazy load layouts
 const DesktopLayout = React.lazy(() => import('./layouts/DesktopLayout'))
@@ -11,6 +12,7 @@ const MobileLayout = React.lazy(() => import('./layouts/MobileLayout'))
  */
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const handleResize = () => {
@@ -21,12 +23,21 @@ function App() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  useEffect(() => {
+    // Minimum loading time of 3 seconds
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (isLoading) {
+    return <LoadingSpinner />
+  }
+
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center min-h-screen bg-[#021019]">
-        <div className="text-white text-2xl font-[gotham]">Loading...</div>
-      </div>
-    }>
+    <Suspense fallback={<LoadingSpinner />}>
       {isMobile ? <MobileLayout /> : <DesktopLayout />}
     </Suspense>
   )

@@ -28,6 +28,86 @@ function MobileLayout() {
   const [isAutoplayEnabled, setIsAutoplayEnabled] = useState(true)
   const [fullscreenProject, setFullscreenProject] = useState(null)
 
+  // Smooth scroll function using GSAP
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId)
+    if (section) {
+      gsap.to(window, {
+        duration: 1,
+        scrollTo: {
+          y: section,
+          offsetY: 60 // Offset for fixed navbar
+        },
+        ease: 'power2.inOut'
+      })
+    }
+  }
+
+  // Scroll-based fade in/out animations for child containers only
+  useEffect(() => {
+    // CRITICAL: Ensure body can scroll immediately on page load
+    document.body.style.overflow = 'auto'
+    document.body.style.overflowX = 'hidden'
+    document.body.style.overflowY = 'scroll'
+    document.documentElement.style.overflow = 'auto'
+    document.documentElement.style.overflowX = 'hidden'
+    
+    // Disable any scroll-locking that might be active
+    document.body.style.position = 'static'
+    document.body.style.height = 'auto'
+    document.body.style.width = 'auto'
+    
+    // Configure ScrollTrigger to not interfere with normal scrolling
+    ScrollTrigger.config({
+      autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load',
+      ignoreMobileResize: true
+    })
+    
+    // Setup animations immediately - don't delay
+    // Only animate child containers/content divs, not section backgrounds
+    const animateElements = document.querySelectorAll('.animate-on-scroll')
+    
+    animateElements.forEach((element) => {
+      // Check if element is in viewport on load - if yes, show it immediately
+      const rect = element.getBoundingClientRect()
+      const isInViewport = rect.top < window.innerHeight && rect.bottom > 0
+      
+      // Set initial state based on viewport position
+      gsap.set(element, {
+        opacity: isInViewport ? 1 : 0,
+        y: isInViewport ? 0 : 30
+      })
+      
+      // Create scroll animation
+      gsap.to(element, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: element,
+          start: 'top 85%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse',
+          // markers: true // Uncomment to see trigger points
+        }
+      })
+    })
+    
+    // Refresh ScrollTrigger after a tiny delay to ensure DOM is ready
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh()
+    })
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.vars.trigger?.id !== 'skills-mobile') {
+          trigger.kill()
+        }
+      })
+    }
+  }, [])
+
   useEffect(() => {
     const section = skillsSectionRef.current
     const header = headerRef.current
@@ -40,10 +120,11 @@ function MobileLayout() {
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: '+=350%',
-        pin: true,
+        end: '+=200%',
+        // pin: true,
         scrub: 1,
         anticipatePin: 1,
+        invalidateOnRefresh: true,
       }
     })
 
@@ -146,8 +227,11 @@ function MobileLayout() {
   }, [])
 
   return (
-    <div className="App relative min-h-screen" style={{
-      background: 'linear-gradient(to bottom, #fafafa 0%, #fafafa 15%, #F6AA10 25%, #143E5B 35%, #021019 50%, #021019 100%)'
+    <div className="App relative w-full" style={{
+      background: 'linear-gradient(to bottom, #fafafa 0%, #fafafa 15%, #F6AA10 25%, #143E5B 35%, #021019 50%, #021019 100%)',
+      minHeight: '100vh',
+      overflow: 'visible',
+      touchAction: 'pan-y'
     }}>
       
       {/* Mobile Navigation */}
@@ -162,24 +246,24 @@ function MobileLayout() {
           <div className="bg-black rounded-full py-1 px-2">
             <ul className="flex space-x-1">
               <li>
-                <a href="#home" className="cursor-pointer transition-all duration-300 font-[gotham] font-bold text-center flex items-center justify-center text-xs text-white hover:text-gray-300 py-1 px-2">
+                <button onClick={() => scrollToSection('home')} className="cursor-pointer transition-all duration-300 font-[gotham] font-bold text-center flex items-center justify-center text-xs text-white hover:text-gray-300 py-1 px-2">
                   <img src="/icons/home.svg" alt="Home" className="w-3 h-3 filter invert" />
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#skills-mobile" className="cursor-pointer transition-all duration-300 font-[gotham] font-bold text-center flex items-center justify-center text-xs text-white hover:text-gray-300 py-1 px-2">
+                <button onClick={() => scrollToSection('skills-mobile')} className="cursor-pointer transition-all duration-300 font-[gotham] font-bold text-center flex items-center justify-center text-xs text-white hover:text-gray-300 py-1 px-2">
                   <img src="/icons/projects.svg" alt="Skills" className="w-3 h-3 filter invert" />
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#projects-mobile" className="cursor-pointer transition-all duration-300 font-[gotham] font-bold text-center flex items-center justify-center text-xs text-white hover:text-gray-300 py-1 px-2">
+                <button onClick={() => scrollToSection('projects-mobile')} className="cursor-pointer transition-all duration-300 font-[gotham] font-bold text-center flex items-center justify-center text-xs text-white hover:text-gray-300 py-1 px-2">
                   <img src="/icons/folder.svg" alt="Projects" className="w-3 h-3 filter invert" />
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#contact" className="cursor-pointer transition-all duration-300 font-[gotham] font-bold text-center flex items-center justify-center text-xs text-white hover:text-gray-300 py-1 px-2">
+                <button onClick={() => scrollToSection('contact')} className="cursor-pointer transition-all duration-300 font-[gotham] font-bold text-center flex items-center justify-center text-xs text-white hover:text-gray-300 py-1 px-2">
                   <img src="/icons/about.svg" alt="Contact" className="w-3 h-3 filter invert" />
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -187,7 +271,7 @@ function MobileLayout() {
       </nav>
 
       {/* SECTION 1: Home */}
-      <section id="home" className="min-h-screen flex flex-col justify-center px-6 pt-20 pb-12 relative overflow-hidden">
+      <section id="home" className="h-screen flex flex-col justify-center px-6 pt-20 pb-12 relative">
         {/* Subtle Grid Background */}
         <div className="absolute inset-0 z-0 opacity-5">
           <div className="absolute inset-0" style={{
@@ -196,9 +280,9 @@ function MobileLayout() {
           }}></div>
         </div>
 
-        <div className="space-y-8 relative z-10 max-w-xl mx-auto w-full text-center">
+        <div className="space-y-8 relative z-10 max-w-xl mx-auto w-full text-center animate-on-scroll">
           {/* Header Section */}
-          <div className="space-y-4">
+          <div className="space-y-4 animate-on-scroll">
             {/* Greeting */}
             <p className="text-base font-[gotham] text-gray-600 font-medium">
               Hi! I'm <span className="font-bold text-black">Clyde Que</span>
@@ -219,7 +303,7 @@ function MobileLayout() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3">
+          <div className="flex gap-3 animate-on-scroll">
             <a 
               href="#projects-mobile"
               className="flex-1 relative overflow-hidden group"
@@ -239,10 +323,10 @@ function MobileLayout() {
           </div>
 
           {/* Divider */}
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent animate-on-scroll"></div>
 
           {/* Connect With Me */}
-          <div className="space-y-3">
+          <div className="space-y-3 animate-on-scroll">
             <h3 className="text-xs font-[gotham] font-bold text-gray-500 uppercase tracking-wider">Connect With Me</h3>
             <div className="grid grid-cols-2 gap-2">
               <a href="https://github.com/Clydefois" target="_blank" rel="noopener noreferrer"
@@ -276,7 +360,7 @@ function MobileLayout() {
           </div>
 
           {/* Status Indicators */}
-          <div className="space-y-2 pt-2">
+          <div className="space-y-2 pt-2 animate-on-scroll">
             <div className="flex items-center justify-center gap-2">
               <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -287,7 +371,7 @@ function MobileLayout() {
               <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <p className="text-xs font-[gotham] text-gray-600">Open for opportunities</p>
+              <p className="text-xs font-[gotham] text-gray-600">Open for job opportunities</p>
             </div>
           </div>
         </div>
@@ -296,33 +380,33 @@ function MobileLayout() {
       {/* STATISTICS SECTION - Full Screen with Animations */}
       <section id="stats-mobile" className="min-h-screen flex flex-col justify-center px-5 py-16" style={{ background: 'rgba(2, 16, 25, 0.95)' }}>
         {/* Container with animations */}
-        <div className="w-full max-w-md mx-auto space-y-6 animate-fade-in">
+        <div className="w-full max-w-md mx-auto space-y-6 animate-on-scroll">
           {/* Title at top */}
-          <h2 className="text-3xl font-bold slate-sky-theme font-[gotham] text-center mb-8 animate-slide-down">
+          <h2 className="text-3xl font-bold slate-sky-theme font-[gotham] text-center mb-8">
             By The Numbers
           </h2>
           
           {/* 2x2 Grid - Top Stats with staggered animation */}
           <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 animate-fade-in-up shadow-lg" style={{ animationDelay: '0.1s' }}>
+            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 shadow-lg">
               <div className="text-4xl font-black slate-sky-theme font-[gotham] mb-2">15+</div>
               <div className="text-gray-200 text-sm font-[gotham]">Projects</div>
               <div className="text-gray-400 text-xs font-[gotham]">Completed</div>
             </div>
 
-            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 animate-fade-in-up shadow-lg" style={{ animationDelay: '0.2s' }}>
+            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 shadow-lg">
               <div className="text-4xl font-black slate-sky-theme font-[gotham] mb-2">3+</div>
               <div className="text-gray-200 text-sm font-[gotham]">Years</div>
               <div className="text-gray-400 text-xs font-[gotham]">Experience</div>
             </div>
 
-            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 animate-fade-in-up shadow-lg" style={{ animationDelay: '0.3s' }}>
+            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 shadow-lg">
               <div className="text-4xl font-black slate-sky-theme font-[gotham] mb-2">20+</div>
               <div className="text-gray-200 text-sm font-[gotham]">Technologies</div>
               <div className="text-gray-400 text-xs font-[gotham]">Mastered</div>
             </div>
 
-            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 animate-fade-in-up shadow-lg" style={{ animationDelay: '0.4s' }}>
+            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 shadow-lg">
               <div className="text-4xl font-black slate-sky-theme font-[gotham] mb-2">10+</div>
               <div className="text-gray-200 text-sm font-[gotham]">Clients</div>
               <div className="text-gray-400 text-xs font-[gotham]">Satisfied</div>
@@ -331,7 +415,7 @@ function MobileLayout() {
           
           {/* Full-width Cards with staggered animation */}
           <div className="space-y-4">
-            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 animate-fade-in-up shadow-lg" style={{ animationDelay: '0.5s' }}>
+            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 shadow-lg">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
                   <svg className="w-6 h-6 text-[#7BB3D3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,7 +429,7 @@ function MobileLayout() {
               </div>
             </div>
 
-            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 animate-fade-in-up shadow-lg" style={{ animationDelay: '0.6s' }}>
+            <div className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-2xl p-5 border border-white/10 hover:border-[#578e8c]/50 hover:scale-105 transition-all duration-300 shadow-lg">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
                   <svg className="w-6 h-6 text-[#F6AA10]" fill="currentColor" viewBox="0 0 24 24">
@@ -365,7 +449,7 @@ function MobileLayout() {
       {/* ABOUT SECTION - Mobile */}
             {/* ABOUT SECTION - Who am I? */}
       <section id="about-mobile" className="min-h-screen flex flex-col justify-center px-5 py-16" style={{ background: 'rgba(2, 16, 25, 0.95)' }}>
-        <div className="w-full max-w-md mx-auto space-y-6">
+        <div className="w-full max-w-md mx-auto space-y-6 animate-on-scroll">
           <h2 className="text-3xl font-bold slate-sky-theme font-[gotham] mb-6 text-center">
             Who am I?
           </h2>
@@ -431,9 +515,9 @@ function MobileLayout() {
       </section>
 
       {/* SECTION 2: Skills with GSAP Animations */}
-      <section ref={skillsSectionRef} id="skills-mobile" className="min-h-screen relative overflow-hidden bg-[#021019]">
+      <section ref={skillsSectionRef} id="skills-mobile" className="relative bg-[#021019] py-20">
         {/* Animated Header */}
-        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+        <div className="flex items-center justify-center z-20 pointer-events-none">
           <div ref={headerRef} className="bg-white/5 backdrop-blur-2xl border border-white/20 rounded-2xl px-8 py-6 shadow-2xl">
             <h2 className="font-[gotham] text-3xl font-bold text-white text-center whitespace-nowrap">
               Take A Look!
@@ -443,7 +527,7 @@ function MobileLayout() {
         </div>
         
         {/* Animated Programming Language Icons - Will fade in after header animates */}
-        <div ref={iconsContainerRef} className="absolute inset-0 pointer-events-none overflow-hidden opacity-0">
+        <div ref={iconsContainerRef} className="relative mt-12 pointer-events-none overflow-hidden opacity-0 h-64">
           <div className="absolute top-[10%] left-0 w-[200%] flex gap-12 animate-scroll-right">
             <span className="text-5xl opacity-30">⚛️</span><span className="text-5xl opacity-30">🔷</span><span className="text-5xl opacity-30">💚</span>
             <span className="text-5xl opacity-30">🐍</span><span className="text-5xl opacity-30">☕</span><span className="text-5xl opacity-30">📱</span>
@@ -472,7 +556,7 @@ function MobileLayout() {
 
       {/* SECTION 3: Projects */}
       <section id="projects-mobile" className="min-h-screen flex flex-col justify-center py-12 px-4" style={{ background: 'rgba(2, 16, 25, 0.95)' }}>
-        <div className="w-full max-w-md mx-auto">
+        <div className="w-full max-w-md mx-auto animate-on-scroll">
           <div className="text-center mb-6">
             <h2 className="font-[gotham] text-2xl font-bold slate-sky-theme mb-2">
               My Projects
@@ -562,8 +646,8 @@ function MobileLayout() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="min-h-[40vh] flex items-center justify-center bg-[#021019] py-12">
-        <div className="text-center px-4">
+      <section id="contact" className="min-h-[40vh] flex items-center justify-center bg-[#021019] py-12 animate-on-scroll">
+        <div className="text-center px-4 animate-on-scroll">
           <h2 className="font-[gotham] font-bold text-2xl text-white mb-3">Get In Touch</h2>
           <p className="text-sm font-[gotham] text-gray-400">Contact section coming soon...</p>
         </div>
@@ -572,7 +656,7 @@ function MobileLayout() {
       {/* Fullscreen Project Modal */}
       {fullscreenProject && (
         <div 
-          className="fixed inset-0 z-[9999] bg-[#021019] flex items-center justify-center animate-fade-in"
+          className="fixed inset-0 z-[9999] bg-[#021019] flex items-center justify-center animate-on-scroll"
           onClick={() => setFullscreenProject(null)}
         >
           {/* Close Button */}
