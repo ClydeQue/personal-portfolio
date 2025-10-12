@@ -19,8 +19,17 @@ const Project2 = () => {
   const autoplayRef = useRef(null)
   const lastInteractionRef = useRef(Date.now())
 
-  // Auto slideshow
+  // Auto slideshow - DISABLED ON MOBILE FOR PERFORMANCE
   useEffect(() => {
+    // Check if mobile device
+    const isMobile = window.innerWidth < 768;
+    
+    if (isMobile) {
+      console.log('📱 Project2: Carousel autoplay disabled on mobile for performance');
+      return; // No autoplay on mobile - user can still navigate manually
+    }
+
+    // Desktop only: Start autoplay
     const startAutoplay = () => {
       if (autoplayRef.current) clearInterval(autoplayRef.current)
       
@@ -38,51 +47,62 @@ const Project2 = () => {
     }
   }, [images.length])
 
-  // GSAP mixed animation when index changes
+  // GSAP mixed animation when index changes - Simplified on mobile
   useEffect(() => {
     if (imageRef.current) {
-      // Array of different transition effects
-      const transitions = [
-        // Fade + Scale
-        {
-          from: { opacity: 0, scale: 0.9 },
-          to: { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }
-        },
-        // Slide from right + Fade
-        {
-          from: { opacity: 0, x: 100 },
-          to: { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }
-        },
-        // Slide from left + Fade
-        {
-          from: { opacity: 0, x: -100 },
-          to: { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }
-        },
-        // Zoom in + Fade
-        {
-          from: { opacity: 0, scale: 1.2 },
-          to: { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }
-        },
-        // Rotate + Fade
-        {
-          from: { opacity: 0, rotation: -5, scale: 0.95 },
-          to: { opacity: 1, rotation: 0, scale: 1, duration: 0.6, ease: 'back.out(1.2)' }
-        },
-        // Slide up + Fade
-        {
-          from: { opacity: 0, y: 50 },
-          to: { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
-        }
-      ]
-
-      // Randomly pick a transition
-      const randomTransition = transitions[Math.floor(Math.random() * transitions.length)]
+      const isMobile = window.innerWidth < 768;
       
-      gsap.fromTo(
-        imageRef.current,
-        randomTransition.from,
-        randomTransition.to
-      )
+      if (isMobile) {
+        // Mobile: Simple fade only (best performance on Android)
+        gsap.fromTo(
+          imageRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.4, ease: 'power2.out' }
+        )
+      } else {
+        // Desktop: Fancy random transitions
+        const transitions = [
+          // Fade + Scale
+          {
+            from: { opacity: 0, scale: 0.9 },
+            to: { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }
+          },
+          // Slide from right + Fade
+          {
+            from: { opacity: 0, x: 100 },
+            to: { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }
+          },
+          // Slide from left + Fade
+          {
+            from: { opacity: 0, x: -100 },
+            to: { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }
+          },
+          // Zoom in + Fade
+          {
+            from: { opacity: 0, scale: 1.2 },
+            to: { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }
+          },
+          // Rotate + Fade
+          {
+            from: { opacity: 0, rotation: -5, scale: 0.95 },
+            to: { opacity: 1, rotation: 0, scale: 1, duration: 0.6, ease: 'back.out(1.2)' }
+          },
+          // Slide up + Fade
+          {
+            from: { opacity: 0, y: 50 },
+            to: { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
+          }
+        ]
+
+        // Randomly pick a transition
+        const randomTransition = transitions[Math.floor(Math.random() * transitions.length)]
+        
+        gsap.fromTo(
+          imageRef.current,
+          randomTransition.from,
+          randomTransition.to
+        )
+      }
     }
   }, [currentIndex])
 

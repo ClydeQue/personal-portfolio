@@ -5,15 +5,21 @@
  * Animated morphing circles for Section 2 background
  * Some circles start super small and grow upward (height increases while width stays constant)
  * Responsive: Circles are scaled to 50% on mobile devices using CSS transform
+ * Mobile: Only shows 10 circles (6 language pills + 4 rain pills) for better performance
  */
 export default function BackgroundCircles() {
+  // Detect mobile for conditional rendering
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  
+  console.log(`🎨 BackgroundCircles: ${isMobile ? 'Mobile' : 'Desktop'} mode - ${isMobile ? '~10 circles' : '~29 circles'}`);
+  
   return (
     <div 
       className="absolute inset-0 pointer-events-none circles-container" 
       style={{ 
         zIndex: 0,
         // Scale all circles to 50% on mobile using CSS transform
-        transform: typeof window !== 'undefined' && window.innerWidth < 768 ? 'scale(0.5)' : 'scale(1)',
+        transform: isMobile ? 'scale(0.5)' : 'scale(1)',
         transformOrigin: 'center center',
         width: '100%',
         height: '100%',
@@ -80,11 +86,11 @@ export default function BackgroundCircles() {
           border: "2px solid rgba(246, 170, 16, 0.55)",
           boxShadow: "0 4px 20px rgba(246, 170, 16, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
           opacity: 1,
-          display: "flex",
+          display: isMobile ? "none" : "flex", // Hide on mobile
           alignItems: "center",
           justifyContent: "center",
           overflow: "hidden",
-          backdropFilter: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "blur(8px)",
+          backdropFilter: isMobile ? "none" : "blur(8px)",
         }}
       >
         <span style={{

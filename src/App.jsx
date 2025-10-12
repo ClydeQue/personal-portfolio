@@ -459,42 +459,27 @@ function App() {
       <section 
       id="projects"
       ref={animationRefs.section3Ref} 
-      style={{ width: "100vw", height: "100vh", overflow: "hidden",  }}>
+      style={{ width: "100vw", height: "100vh", overflow: "hidden" }}>
         <div 
         ref={animationRefs.wrapperRef}
         >
-          <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center",}}>
-            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
+          {/* Panel 1 - POS System Project */}
+          <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-hidden md:overflow-visible py-6 md:py-0">
               <Project1/>
             </div>
           </article>
 
+          {/* Panel 2 - LeoRentACar Project */}
           <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-             <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
+             <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-hidden md:overflow-visible py-6 md:py-0">
               <Project2/>
             </div>
           </article>
 
+          {/* Panel 3 - Family Feud Project */}
           <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
-              <Project3/>
-            </div>
-          </article>
-
-          <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
-              <Project3/>
-            </div>
-          </article>
-
-          <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
-              <Project3/>
-            </div>
-          </article>
-
-          <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
+            <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-hidden md:overflow-visible py-6 md:py-0">
               <Project3/>
             </div>
           </article>
