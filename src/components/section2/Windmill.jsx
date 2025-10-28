@@ -25,7 +25,7 @@ export default function Windmill() {
           viewBox="0 0 250 250"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          style={{ filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.2))" }}
+
         >
           <defs>
             {/* Linear Gradient 1 - Blue Ocean */}

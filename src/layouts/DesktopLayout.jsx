@@ -4,7 +4,7 @@ import HomeScrollAnimations from '../components/animations/HomeScrollAnimations'
 import Project1 from '../components/panels/Project1'
 import Project2 from '../components/panels/Project2'
 import Project3 from '../components/panels/Project3'
-import { BackgroundCircles, Windmill } from '../components/section2'
+import { TechStackBackground, Windmill } from '../components/section2'
 import gsap from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import '../App.css'
@@ -136,7 +136,7 @@ function DesktopLayout() {
                 draggable="false"
                 src="/images/me.png" 
                 alt="Clyde Que - Full Stack Developer"
-                className="absolute z-20 bottom-20 sm:bottom-24 md:bottom-40 right-4 sm:right-8 md:right-12 w-48 sm:w-64 md:w-80 h-auto max-h-[400px] sm:max-h-[480px] md:max-h-[560px] object-contain object-center pointer-events-auto"
+                className="absolute z-20 bottom-20  cursor-none sm:bottom-24 md:bottom-40 right-4 sm:right-8 md:right-12 w-48 sm:w-64 md:w-80 h-auto max-h-[400px] sm:max-h-[480px] md:max-h-[560px] object-contain object-center pointer-events-auto"
               />
               
               {/* Stroke outlines */}
@@ -177,7 +177,7 @@ function DesktopLayout() {
             
             {/* Left Corner Geometric Shapes */}
             <div ref={animationRefs.leftRectanglesRef} className="absolute bottom-0 left-0 z-10">
-              <div className="absolute bottom-0 left-32 sm:left-40 md:left-56 w-8 sm:w-12 md:w-16 h-24 sm:h-32 md:h-40 bg-[#7BB3D3] rounded-tr-full rounded-tl-full"></div>
+              <div className="absolute bottom-0 left-32 sm:left-40 md:left-60 w-8 sm:w-12 md:w-16 h-24 sm:h-32 md:h-40 bg-[#7BB3D3] rounded-tr-full rounded-tl-full"></div>
               <div className="absolute bottom-0 left-48 sm:left-60 md:left-80 w-8 sm:w-12 md:w-16 h-20 sm:h-26 md:h-32 bg-[#B5D3E7] rounded-tr-full rounded-tl-full"></div>
               <div className="absolute bottom-0 left-20 sm:left-28 md:left-40 w-8 sm:w-12 md:w-16 h-16 sm:h-22 md:h-28 bg-[#D1D5DB] rounded-tr-full rounded-tl-full"></div>
             </div>
@@ -294,7 +294,7 @@ function DesktopLayout() {
             overflow: "hidden",
           }}
         >
-          <BackgroundCircles />
+          <TechStackBackground />
           <Windmill />
           <h2 className="title font-[gotham] font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl" style={{ position: "relative", zIndex: 1 }}>
             Take A Look!

@@ -21,19 +21,21 @@ const Project3 = () => {
              <div className="w-full md:w-3/5 space-y-4 md:space-y-6">
                 <div className="space-y-2">
                   <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-[gotham] font-bold text-white">OrSem 2025 Family Feud Game</h2>
-                  <div className="flex flex-wrap gap-2 md:gap-3">
-                    <span className="text-xs md:text-sm px-2 md:px-3 py-1 rounded-full bg-blue-900/30 text-blue-400">TypeScript</span>
-                    <span className="text-xs md:text-sm px-2 md:px-3 py-1 rounded-full bg-blue-900/30 text-blue-400">JavaScript</span>
-                    <span className="text-xs md:text-sm px-2 md:px-3 py-1 rounded-full bg-blue-900/30 text-blue-400">Next.js</span>
-                    <span className="text-xs md:text-sm px-2 md:px-3 py-1 rounded-full bg-blue-900/30 text-blue-400">PostgreSQL</span>
-                    <span className="text-xs md:text-sm px-2 md:px-3 py-1 rounded-full bg-blue-900/30 text-blue-400">TailwindCSS</span>
-                    <span className="text-xs md:text-sm px-2 md:px-3 py-1 rounded-full bg-blue-900/30 text-blue-400">Figma</span>
-                    <span className="text-xs md:text-sm px-2 md:px-3 py-1 rounded-full bg-blue-900/30 text-blue-400">Vercel</span>
+                  
+                  <div className="flex items-center gap-2">
+                    <img src="/icons/clock.svg" alt="Clock" className="w-4 h-4 md:w-5 md:h-5" />
+                    <div className="text-gray-400 text-sm md:text-base">2025</div>
                   </div>
-                </div>
-                
-                <div className="flex items-center gap-3">
-                  <div className="text-gray-400 text-sm md:text-base">2025</div>
+                  
+                  <div className="flex flex-wrap gap-2 md:gap-3">
+                    <span className="tech-pill">TypeScript</span>
+                    <span className="tech-pill">JavaScript</span>
+                    <span className="tech-pill">Next.js</span>
+                    <span className="tech-pill">PostgreSQL</span>
+                    <span className="tech-pill">TailwindCSS</span>
+                    <span className="tech-pill">Figma</span>
+                    <span className="tech-pill">Vercel</span>
+                  </div>
                 </div>
 
                 <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
@@ -44,8 +46,9 @@ const Project3 = () => {
                   <a href="#" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors">
                     View Project
                   </a>
-                  <a href="#" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors">
+                  <a href="#" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors flex items-center gap-2">
                     View Github
+                    <img src="/icons/arrowdiagonal.svg" alt="External link" className="w-3 h-3 md:w-4 md:h-4" />
                   </a>
                 </div>
               </div>

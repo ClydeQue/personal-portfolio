@@ -14,12 +14,8 @@ import 'swiper/css/navigation'
 import '../App.css'
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
-
-/**
- * Mobile Layout - Minimalist Dark Design
- * Optimized for mobile devices only
- */
-function MobileLayout() {
+// MObile Layout Component
+function MobileLayout() { 
   const skillsSectionRef = useRef(null)
   const headerRef = useRef(null)
   const iconsContainerRef = useRef(null)
@@ -65,7 +61,7 @@ function MobileLayout() {
     
     // Setup animations immediately - don't delay
     // Only animate child containers/content divs, not section backgrounds
-    const animateElements = document.querySelectorAll('.animate-on-scroll')
+    const animateElements = document.querySelectorAll('div')
     
     animateElements.forEach((element) => {
       // Check if element is in viewport on load - if yes, show it immediately
@@ -121,7 +117,7 @@ function MobileLayout() {
         trigger: section,
         start: 'top top',
         end: '+=200%',
-        // pin: true,
+        pin: true,
         scrub: 1,
         anticipatePin: 1,
         invalidateOnRefresh: true,
@@ -515,9 +511,9 @@ function MobileLayout() {
       </section>
 
       {/* SECTION 2: Skills with GSAP Animations */}
-      <section ref={skillsSectionRef} id="skills-mobile" className="relative bg-[#021019] py-20">
+      <section ref={skillsSectionRef} id="skills-mobile" className="min-h-screen relative overflow-hidden bg-[#021019]">
         {/* Animated Header */}
-        <div className="flex items-center justify-center z-20 pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
           <div ref={headerRef} className="bg-white/5 backdrop-blur-2xl border border-white/20 rounded-2xl px-8 py-6 shadow-2xl">
             <h2 className="font-[gotham] text-3xl font-bold text-white text-center whitespace-nowrap">
               Take A Look!
@@ -527,7 +523,7 @@ function MobileLayout() {
         </div>
         
         {/* Animated Programming Language Icons - Will fade in after header animates */}
-        <div ref={iconsContainerRef} className="relative mt-12 pointer-events-none overflow-hidden opacity-0 h-64">
+        <div ref={iconsContainerRef} className="absolute inset-0 pointer-events-none overflow-hidden opacity-0">
           <div className="absolute top-[10%] left-0 w-[200%] flex gap-12 animate-scroll-right">
             <span className="text-5xl opacity-30">⚛️</span><span className="text-5xl opacity-30">🔷</span><span className="text-5xl opacity-30">💚</span>
             <span className="text-5xl opacity-30">🐍</span><span className="text-5xl opacity-30">☕</span><span className="text-5xl opacity-30">📱</span>

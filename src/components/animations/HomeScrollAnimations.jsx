@@ -321,7 +321,7 @@ export default function HomeScrollStepByStep() {
       .fromTo(rectangleRef.current.querySelectorAll('h3, div, span'), {
         scale: 1
       }, {
-        scale: 1.15,
+        scale: 1.05,
 
         duration: 90,
         stagger: 0.5
@@ -720,33 +720,54 @@ gsap.delayedCall(0, () => {
     const panels = gsap.utils.toArray(wrapEl.querySelectorAll('.panel'));
 
     if (panels.length > 0) {
-      // Layout setup
+      // Layout setup - ensure proper sizing
       wrapEl.style.width = `${panels.length * 100}vw`;
       wrapEl.style.display = 'flex';
       wrapEl.style.height = '100vh';
       wrapEl.style.willChange = 'transform';
-      panels.forEach((p) => (p && (p.style.willChange = 'transform, opacity')));
+      
+      // Ensure each panel is exactly 100vw
+      panels.forEach((panel) => {
+        if (panel) {
+          panel.style.width = '100vw';
+          panel.style.minWidth = '100vw';
+          panel.style.maxWidth = '100vw';
+          panel.style.flex = '0 0 100vw';
+          panel.style.willChange = 'transform, opacity';
+        }
+      });
 
-      const delayAmount = 100; // vh - extra scroll for delays
+      // Calculate total scroll distance based on actual wrapper width
+      const totalWidth = panels.length * window.innerWidth;
 
-      // GSAP horizontal scroll for 6 panels
-      gsap.to(panels, {
-        xPercent: -100 * (panels.length - 1),
+      // GSAP horizontal scroll - animate the wrapper, not the panels
+      gsap.to(wrapEl, {
+        x: () => -(totalWidth - window.innerWidth),
+        ease: "none",
         scrollTrigger: {
           trigger: sectionEl,
           pin: true,
+          pinSpacing: true,
           start: "top top",
-          end: () => "+=" + wrapEl.offsetWidth + ` +=${delayAmount}vh`,
+          end: () => `+=${totalWidth}`,
           scrub: 1,
           snap: {
-            snapTo: panels.length > 1 ? 1 / (panels.length - 1) : 0,
-            duration: { min: 0.2, max: 0.3 },
-          ease: "power1.inOut",
-
+            snapTo: 1 / (panels.length - 1),
+            duration: 0.3,
+            ease: "power2.inOut",
             directional: true
+          },
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            // Debug: log progress to ensure snapping to correct positions
+            const panelIndex = Math.round(self.progress * (panels.length - 1));
+            console.log(`Scroll progress: ${(self.progress * 100).toFixed(1)}%, Panel: ${panelIndex + 1}/${panels.length}`);
           }
         }
       });
+
+      console.log(`✅ Section 3 initialized: ${panels.length} panels, ${totalWidth}px total width`);
     }
   }
 });
