@@ -6,16 +6,88 @@ import Project2 from '../components/panels/Project2'
 import Project3 from '../components/panels/Project3'
 import { TechStackBackground, Windmill } from '../components/section2'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+import { useEffect, useRef } from 'react'
 import '../App.css'
 
-gsap.registerPlugin(ScrollToPlugin)
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
 /**
  * Desktop Layout - GSAP Scroll Animations
  */
 function DesktopLayout() {
   const animationRefs = HomeScrollAnimations();
+  const contactSectionRef = useRef(null);
+  const contactTitleRef = useRef(null);
+  const contactFormRef = useRef(null);
+  const contactInfoRef = useRef(null);
+
+  // Contact section GSAP animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animate contact title
+      gsap.fromTo(contactTitleRef.current, 
+        { y: 100, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: contactSectionRef.current,
+            start: "top 80%",
+            end: "top 30%",
+            scrub: 1,
+          }
+        }
+      );
+
+      // Animate form items with stagger
+      const formItems = contactFormRef.current?.querySelectorAll('.contact-form-item');
+      if (formItems) {
+        gsap.fromTo(formItems,
+          { y: 60, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: contactSectionRef.current,
+              start: "top 60%",
+              end: "top 20%",
+              scrub: 1,
+            }
+          }
+        );
+      }
+
+      // Animate contact info
+      const infoItems = contactInfoRef.current?.querySelectorAll('.contact-info-item');
+      if (infoItems) {
+        gsap.fromTo(infoItems,
+          { x: 50, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: contactSectionRef.current,
+              start: "top 50%",
+              end: "top 10%",
+              scrub: 1,
+            }
+          }
+        );
+      }
+    }, contactSectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div className="App relative">

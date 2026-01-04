@@ -1,45 +1,49 @@
 import { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, A11y, EffectCoverflow, Autoplay, Navigation } from 'swiper/modules'
+import Tilt from 'react-parallax-tilt'
 import Project1 from '../components/panels/Project1'
 import Project2 from '../components/panels/Project2'
 import Project3 from '../components/panels/Project3'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
 import '../App.css'
 
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
+// Programming language icons from techstack folder
+const techIcons = [
+  { name: 'React', src: '/techstack/react.svg' },
+  { name: 'JavaScript', src: '/techstack/javascript.svg' },
+  { name: 'TypeScript', src: '/techstack/typescript.svg' },
+  { name: 'Python', src: '/techstack/python.svg' },
+  { name: 'Java', src: '/techstack/java.svg' },
+  { name: 'Node.js', src: '/techstack/nodejs.svg' },
+  { name: 'HTML', src: '/techstack/html.svg' },
+  { name: 'CSS', src: '/techstack/css.svg' },
+  { name: 'Tailwind', src: '/techstack/tailwind.svg' },
+  { name: 'MySQL', src: '/techstack/mysql.svg' },
+  { name: 'PostgreSQL', src: '/techstack/postgre.svg' },
+  { name: 'Docker', src: '/techstack/docker.svg' },
+  { name: 'Git', src: '/techstack/git.svg' },
+  { name: 'PHP', src: '/techstack/php.svg' },
+  { name: 'C++', src: '/techstack/c++.svg' },
+]
 // MObile Layout Component
 function MobileLayout() { 
-  const skillsSectionRef = useRef(null)
-  const headerRef = useRef(null)
-  const iconsContainerRef = useRef(null)
   const swiperRef = useRef(null)
   const titleRef = useRef(null)
-  const [isAutoplayEnabled, setIsAutoplayEnabled] = useState(true)
   const [fullscreenProject, setFullscreenProject] = useState(null)
 
-  // Smooth scroll function using GSAP
+  // Smooth scroll function using native smooth scroll (no GSAP conflicts)
   const scrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId)
     if (section) {
-      gsap.to(window, {
-        duration: 1,
-        scrollTo: {
-          y: section,
-          offsetY: 60 // Offset for fixed navbar
-        },
-        ease: 'power2.inOut'
-      })
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 
-  // Scroll-based fade in/out animations for child containers only
+  // Simple fade-in animations on scroll using Intersection Observer (no GSAP)
   useEffect(() => {
     // CRITICAL: Ensure body can scroll immediately on page load
     document.body.style.overflow = 'auto'
@@ -53,110 +57,24 @@ function MobileLayout() {
     document.body.style.height = 'auto'
     document.body.style.width = 'auto'
     
-    // Configure ScrollTrigger to not interfere with normal scrolling
-    ScrollTrigger.config({
-      autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load',
-      ignoreMobileResize: true
-    })
-    
-    // Setup animations immediately - don't delay
-    // Only animate child containers/content divs, not section backgrounds
-    const animateElements = document.querySelectorAll('div')
-    
-    animateElements.forEach((element) => {
-      // Check if element is in viewport on load - if yes, show it immediately
-      const rect = element.getBoundingClientRect()
-      const isInViewport = rect.top < window.innerHeight && rect.bottom > 0
-      
-      // Set initial state based on viewport position
-      gsap.set(element, {
-        opacity: isInViewport ? 1 : 0,
-        y: isInViewport ? 0 : 30
-      })
-      
-      // Create scroll animation
-      gsap.to(element, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: element,
-          start: 'top 85%',
-          end: 'bottom 20%',
-          toggleActions: 'play none none reverse',
-          // markers: true // Uncomment to see trigger points
-        }
-      })
-    })
-    
-    // Refresh ScrollTrigger after a tiny delay to ensure DOM is ready
-    requestAnimationFrame(() => {
-      ScrollTrigger.refresh()
-    })
-
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => {
-        if (trigger.vars.trigger?.id !== 'skills-mobile') {
-          trigger.kill()
-        }
-      })
-    }
-  }, [])
-
-  useEffect(() => {
-    const section = skillsSectionRef.current
-    const header = headerRef.current
-    const iconsContainer = iconsContainerRef.current
-
-    if (!section || !header || !iconsContainer) return
-
-    // Create timeline for the pinned section
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: '+=200%',
-        pin: true,
-        scrub: 1,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      }
-    })
-
-    // Animate header - scale up, rotate, then fade out
-    tl.fromTo(header, 
-      { scale: 1, rotation: 0, opacity: 1 },
-      { scale: 1.5, rotation: 5, opacity: 1, duration: 0.3 }
-    )
-    .to(header, {
-      scale: 2,
-      rotation: -5,
-      opacity: 0.8,
-      duration: 0.3
-    })
-    .to(header, {
-      scale: 0.5,
-      rotation: 360,
-      opacity: 0,
-      duration: 0.4
-    })
-
-    // Animate icons - fade in and scale up
-    tl.fromTo(iconsContainer.children,
-      { scale: 0, opacity: 0 },
-      { 
-        scale: 1, 
-        opacity: 1, 
-        stagger: 0.05,
-        duration: 0.5
+    // Use Intersection Observer for simple fade-in animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('mobile-visible')
+          }
+        })
       },
-      '-=0.2'
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     )
+    
+    // Observe all animate-on-scroll elements
+    const animateElements = document.querySelectorAll('.animate-on-scroll')
+    animateElements.forEach((el) => observer.observe(el))
 
     return () => {
-      if (tl.scrollTrigger) tl.scrollTrigger.kill()
-      tl.kill()
+      observer.disconnect()
     }
   }, [])
 
@@ -510,134 +428,197 @@ function MobileLayout() {
         </div>
       </section>
 
-      {/* SECTION 2: Skills with GSAP Animations */}
-      <section ref={skillsSectionRef} id="skills-mobile" className="min-h-screen relative overflow-hidden bg-[#021019]">
-        {/* Animated Header */}
-        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-          <div ref={headerRef} className="bg-white/5 backdrop-blur-2xl border border-white/20 rounded-2xl px-8 py-6 shadow-2xl">
-            <h2 className="font-[gotham] text-3xl font-bold text-white text-center whitespace-nowrap">
-              Take A Look!
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-[#7BB3D3] via-[#F6AA10] to-[#7BB3D3] rounded-full mx-auto mt-3"></div>
-          </div>
+      {/* SECTION 2: Skills - Interactive 3D Tilt Tech Icons Grid */}
+      <section id="skills-mobile" className="min-h-screen relative overflow-hidden bg-[#021019] flex flex-col items-center justify-center py-16 px-4">
+        {/* Title */}
+        <div className="text-center mb-10 z-10 animate-on-scroll">
+          <h2 className="font-[gotham] text-3xl font-bold text-white mb-3">
+            Take A Look!
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-[#7BB3D3] via-[#F6AA10] to-[#7BB3D3] rounded-full mx-auto"></div>
+          <p className="text-gray-400 text-sm mt-4 font-[gotham]">Technologies I work with</p>
         </div>
         
-        {/* Animated Programming Language Icons - Will fade in after header animates */}
-        <div ref={iconsContainerRef} className="absolute inset-0 pointer-events-none overflow-hidden opacity-0">
-          <div className="absolute top-[10%] left-0 w-[200%] flex gap-12 animate-scroll-right">
-            <span className="text-5xl opacity-30">⚛️</span><span className="text-5xl opacity-30">🔷</span><span className="text-5xl opacity-30">💚</span>
-            <span className="text-5xl opacity-30">🐍</span><span className="text-5xl opacity-30">☕</span><span className="text-5xl opacity-30">📱</span>
-            <span className="text-5xl opacity-30">⚛️</span><span className="text-5xl opacity-30">🔷</span><span className="text-5xl opacity-30">💚</span>
-          </div>
-          
-          <div className="absolute top-[30%] left-0 w-[200%] flex gap-12 animate-scroll-left">
-            <span className="text-4xl opacity-25">🐍</span><span className="text-4xl opacity-25">☕</span><span className="text-4xl opacity-25">📱</span>
-            <span className="text-4xl opacity-25">⚛️</span><span className="text-4xl opacity-25">🔷</span><span className="text-4xl opacity-25">💚</span>
-            <span className="text-4xl opacity-25">🐍</span><span className="text-4xl opacity-25">☕</span><span className="text-4xl opacity-25">📱</span>
-          </div>
-          
-          <div className="absolute top-[50%] left-0 w-[200%] flex gap-16 animate-scroll-right-slow text-[#7BB3D3]">
-            <span className="text-3xl font-bold opacity-35">JS</span><span className="text-3xl font-bold opacity-35">TS</span><span className="text-3xl font-bold opacity-35">PY</span>
-            <span className="text-3xl font-bold opacity-35">JAVA</span><span className="text-3xl font-bold opacity-35">C++</span><span className="text-3xl font-bold opacity-35">GO</span>
-            <span className="text-3xl font-bold opacity-35">JS</span><span className="text-3xl font-bold opacity-35">TS</span><span className="text-3xl font-bold opacity-35">PY</span>
-          </div>
-          
-          <div className="absolute top-[70%] left-0 w-[200%] flex gap-10 animate-scroll-left">
-            <span className="text-3xl opacity-20">🚀</span><span className="text-3xl opacity-20">💡</span><span className="text-3xl opacity-20">⚡</span>
-            <span className="text-3xl opacity-20">🎨</span><span className="text-3xl opacity-20">🔥</span><span className="text-3xl opacity-20">✨</span>
-            <span className="text-3xl opacity-20">🚀</span><span className="text-3xl opacity-20">💡</span><span className="text-3xl opacity-20">⚡</span>
-          </div>
+        {/* 3D Tilt Tech Icons Grid */}
+        <div className="grid grid-cols-3 gap-4 max-w-sm mx-auto animate-on-scroll">
+          {techIcons.map((icon, idx) => (
+            <Tilt
+              key={`tech-${idx}`}
+              tiltMaxAngleX={25}
+              tiltMaxAngleY={25}
+              perspective={1000}
+              scale={1.05}
+              transitionSpeed={400}
+              gyroscope={true}
+              glareEnable={true}
+              glareMaxOpacity={0.3}
+              glareColor="#7BB3D3"
+              glarePosition="all"
+              glareBorderRadius="12px"
+            >
+              <div className="w-full aspect-square bg-gradient-to-br from-white/10 to-white/5 rounded-xl flex flex-col items-center justify-center border border-white/10 hover:border-[#7BB3D3]/50 transition-all shadow-lg backdrop-blur-sm p-3 cursor-pointer">
+                <img 
+                  src={icon.src} 
+                  alt={icon.name} 
+                  className="w-10 h-10 object-contain mb-2 drop-shadow-lg" 
+                />
+                <span className="text-[10px] text-gray-300 font-[gotham] text-center leading-tight">{icon.name}</span>
+              </div>
+            </Tilt>
+          ))}
         </div>
+        
+        {/* Subtle hint */}
+        <p className="text-gray-500 text-xs mt-8 font-[gotham] animate-on-scroll">Tilt to interact</p>
       </section>
 
-      {/* SECTION 3: Projects */}
+      {/* SECTION 3: Projects - Improved UX */}
       <section id="projects-mobile" className="min-h-screen flex flex-col justify-center py-12 px-4" style={{ background: 'rgba(2, 16, 25, 0.95)' }}>
         <div className="w-full max-w-md mx-auto animate-on-scroll">
-          <div className="text-center mb-6">
+          <div className="text-center mb-8">
             <h2 className="font-[gotham] text-2xl font-bold slate-sky-theme mb-2">
               My Projects
             </h2>
-            <p className="text-gray-400 text-[10px]">Swipe to explore my work</p>
+            <p className="text-gray-400 text-xs font-[gotham]">Tap a card to view details</p>
           </div>
 
-          <Swiper
-            modules={[Pagination, A11y, EffectCoverflow, Autoplay]}
-            effect="coverflow"
-            grabCursor={true}
-            centeredSlides={true}
-            slidesPerView="auto"
-            loop={true}
-            autoplay={{
-              delay: 8000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: false,
-            }}
-            coverflowEffect={{
-              rotate: 20,
-              stretch: 0,
-              depth: 100,
-              modifier: 1,
-              slideShadows: true,
-            }}
-            pagination={{ 
-              dynamicBullets: true,
-              clickable: true 
-            }}
-            onSwiper={(swiper) => {
-              swiperRef.current = swiper
-            }}
-            onTouchStart={() => {
-              if (swiperRef.current) {
-                swiperRef.current.autoplay.stop()
-                setIsAutoplayEnabled(false)
-              }
-            }}
-            onTouchEnd={() => {
-              if (swiperRef.current) {
-                setTimeout(() => {
-                  if (swiperRef.current) {
-                    swiperRef.current.autoplay.start()
-                    setIsAutoplayEnabled(true)
-                  }
-                }, 2000)
-              }
-            }}
-            className="w-full pb-10"
-            style={{ maxHeight: '80vh' }}
-          >
-            <SwiperSlide style={{ width: '90%', maxWidth: '360px' }}>
-              <div 
-                className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-xl p-5 shadow-2xl border border-white/10 h-[70vh] overflow-y-auto cursor-pointer active:scale-95 transition-transform"
-                onClick={() => setFullscreenProject(1)}
-              >
-                <Project1 />
-              </div>
-            </SwiperSlide>
+          {/* Project Cards with Navigation */}
+          <div className="relative">
+            {/* Subtle Navigation Arrows - positioned at edges */}
+            <button 
+              onClick={() => swiperRef.current?.slidePrev()}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-8 h-16 flex items-center justify-center bg-gradient-to-r from-[#021019] to-transparent opacity-60 hover:opacity-100 transition-opacity"
+              aria-label="Previous project"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7BB3D3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+            
+            <button 
+              onClick={() => swiperRef.current?.slideNext()}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-8 h-16 flex items-center justify-center bg-gradient-to-l from-[#021019] to-transparent opacity-60 hover:opacity-100 transition-opacity"
+              aria-label="Next project"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7BB3D3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </button>
 
-            <SwiperSlide style={{ width: '90%', maxWidth: '360px' }}>
-              <div 
-                className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-xl p-5 shadow-2xl border border-white/10 h-[70vh] overflow-y-auto cursor-pointer active:scale-95 transition-transform"
-                onClick={() => setFullscreenProject(2)}
-              >
-                <Project2 />
-              </div>
-            </SwiperSlide>
+            <Swiper
+              modules={[Pagination, A11y, EffectCoverflow, Autoplay, Navigation]}
+              effect="coverflow"
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={1.2}
+              spaceBetween={16}
+              loop={true}
+              autoplay={{
+                delay: 6000,
+                disableOnInteraction: true,
+                pauseOnMouseEnter: true,
+              }}
+              coverflowEffect={{
+                rotate: 8,
+                stretch: 0,
+                depth: 80,
+                modifier: 1,
+                slideShadows: false,
+              }}
+              pagination={{ 
+                dynamicBullets: true,
+                clickable: true 
+              }}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper
+              }}
+              onTouchStart={() => {
+                if (swiperRef.current) {
+                  swiperRef.current.autoplay.stop()
+                }
+              }}
+              onTouchEnd={() => {
+                if (swiperRef.current) {
+                  setTimeout(() => {
+                    if (swiperRef.current) {
+                      swiperRef.current.autoplay.start()
+                    }
+                  }, 3000)
+                }
+              }}
+              className="w-full pb-12"
+            >
+              <SwiperSlide>
+                <Tilt
+                  tiltMaxAngleX={8}
+                  tiltMaxAngleY={8}
+                  perspective={1000}
+                  scale={1}
+                  transitionSpeed={300}
+                  gyroscope={false}
+                >
+                  <div 
+                    className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/30 to-[#578e8c]/15 rounded-2xl p-5 shadow-2xl border border-white/15 h-[60vh] overflow-hidden cursor-pointer active:scale-[0.98] transition-all duration-200 relative group"
+                    onClick={() => setFullscreenProject(1)}
+                  >
+                    {/* View indicator */}
+                    <div className="absolute top-3 right-3 px-2 py-1 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
+                      <span className="text-[10px] text-white font-[gotham]">Tap to view</span>
+                    </div>
+                    <div className="h-full overflow-y-auto pr-1 scrollbar-thin">
+                      <Project1 />
+                    </div>
+                  </div>
+                </Tilt>
+              </SwiperSlide>
 
-            <SwiperSlide style={{ width: '90%', maxWidth: '360px' }}>
-              <div 
-                className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/20 to-[#578e8c]/10 rounded-xl p-5 shadow-2xl border border-white/10 h-[70vh] overflow-y-auto cursor-pointer active:scale-95 transition-transform"
-                onClick={() => setFullscreenProject(3)}
-              >
-                <Project3 />
-              </div>
-            </SwiperSlide>
-          </Swiper>
+              <SwiperSlide>
+                <Tilt
+                  tiltMaxAngleX={8}
+                  tiltMaxAngleY={8}
+                  perspective={1000}
+                  scale={1}
+                  transitionSpeed={300}
+                  gyroscope={false}
+                >
+                  <div 
+                    className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/30 to-[#578e8c]/15 rounded-2xl p-5 shadow-2xl border border-white/15 h-[60vh] overflow-hidden cursor-pointer active:scale-[0.98] transition-all duration-200 relative group"
+                    onClick={() => setFullscreenProject(2)}
+                  >
+                    <div className="absolute top-3 right-3 px-2 py-1 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
+                      <span className="text-[10px] text-white font-[gotham]">Tap to view</span>
+                    </div>
+                    <div className="h-full overflow-y-auto pr-1 scrollbar-thin">
+                      <Project2 />
+                    </div>
+                  </div>
+                </Tilt>
+              </SwiperSlide>
 
-
-          
-
-
-          
+              <SwiperSlide>
+                <Tilt
+                  tiltMaxAngleX={8}
+                  tiltMaxAngleY={8}
+                  perspective={1000}
+                  scale={1}
+                  transitionSpeed={300}
+                  gyroscope={false}
+                >
+                  <div 
+                    className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/30 to-[#578e8c]/15 rounded-2xl p-5 shadow-2xl border border-white/15 h-[60vh] overflow-hidden cursor-pointer active:scale-[0.98] transition-all duration-200 relative group"
+                    onClick={() => setFullscreenProject(3)}
+                  >
+                    <div className="absolute top-3 right-3 px-2 py-1 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
+                      <span className="text-[10px] text-white font-[gotham]">Tap to view</span>
+                    </div>
+                    <div className="h-full overflow-y-auto pr-1 scrollbar-thin">
+                      <Project3 />
+                    </div>
+                  </div>
+                </Tilt>
+              </SwiperSlide>
+            </Swiper>
+          </div>
         </div>
       </section>
 
@@ -649,38 +630,78 @@ function MobileLayout() {
         </div>
       </section>
 
-      {/* Fullscreen Project Modal */}
+      {/* Fullscreen Project Modal - Improved UX */}
       {fullscreenProject && (
         <div 
-          className="fixed inset-0 z-[9999] bg-[#021019] flex items-center justify-center animate-on-scroll"
-          onClick={() => setFullscreenProject(null)}
+          className="fixed inset-0 z-[9999] bg-[#021019]/98 backdrop-blur-md flex flex-col"
+          style={{ animation: 'fadeIn 0.2s ease-out' }}
         >
-          {/* Close Button */}
-          <button 
-            className="absolute top-4 right-4 z-[10000] w-10 h-10 rounded-full backdrop-blur-lg bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all"
-            onClick={() => setFullscreenProject(null)}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
-              <path d="M18 6L6 18M6 6l12 12"/>
-            </svg>
-          </button>
+          {/* Top Bar with Close */}
+          <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-b from-[#021019] to-transparent">
+            <button 
+              onClick={() => setFullscreenProject(null)}
+              className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/10 border border-white/20 hover:bg-white/20 active:scale-95 transition-all"
+              aria-label="Close project view"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              <span className="text-white text-xs font-[gotham]">Back</span>
+            </button>
+            
+            <span className="text-gray-400 text-xs font-[gotham]">Project {fullscreenProject} of 3</span>
+          </div>
 
-          {/* Fullscreen Content */}
+          {/* Project Content */}
           <div 
-            className="w-full h-full overflow-y-auto p-6 pt-16"
+            className="flex-1 overflow-y-auto px-4 pb-20"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="max-w-4xl mx-auto backdrop-blur-lg bg-gradient-to-br from-[#004F85]/30 to-[#578e8c]/20 rounded-2xl p-6 shadow-2xl border border-white/20">
+            <div className="max-w-lg mx-auto backdrop-blur-lg bg-gradient-to-br from-[#004F85]/25 to-[#578e8c]/15 rounded-2xl p-5 shadow-2xl border border-white/15 my-4">
               {fullscreenProject === 1 && <Project1 />}
               {fullscreenProject === 2 && <Project2 />}
               {fullscreenProject === 3 && <Project3 />}
             </div>
           </div>
 
-          {/* Tap to close hint */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-            <div className="px-4 py-2 backdrop-blur-lg bg-white/10 border border-white/20 rounded-full">
-              <span className="text-white text-xs font-[gotham]">Tap anywhere to close</span>
+          {/* Bottom Navigation */}
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#021019] via-[#021019]/90 to-transparent pt-8 pb-4 px-4">
+            <div className="flex items-center justify-between max-w-lg mx-auto">
+              <button 
+                onClick={() => setFullscreenProject(fullscreenProject === 1 ? 3 : fullscreenProject - 1)}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 active:scale-95 transition-all"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7BB3D3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 18l-6-6 6-6"/>
+                </svg>
+                <span className="text-white text-xs font-[gotham]">Prev</span>
+              </button>
+              
+              {/* Project Indicators */}
+              <div className="flex gap-2">
+                {[1, 2, 3].map((num) => (
+                  <button
+                    key={num}
+                    onClick={() => setFullscreenProject(num)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      fullscreenProject === num 
+                        ? 'bg-[#7BB3D3] w-6' 
+                        : 'bg-white/30 hover:bg-white/50'
+                    }`}
+                    aria-label={`Go to project ${num}`}
+                  />
+                ))}
+              </div>
+              
+              <button 
+                onClick={() => setFullscreenProject(fullscreenProject === 3 ? 1 : fullscreenProject + 1)}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 active:scale-95 transition-all"
+              >
+                <span className="text-white text-xs font-[gotham]">Next</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7BB3D3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 18l6-6-6-6"/>
+                </svg>
+              </button>
             </div>
           </div>
         </div>

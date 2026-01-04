@@ -587,6 +587,51 @@
   animation: fadeInUp 0.8s ease-out;
 }
 
+/* ============================================
+   Mobile Scroll Animation Classes (no GSAP)
+   ============================================ */
+
+/* Initial hidden state for mobile animations */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Visible state when in viewport */
+.animate-on-scroll.mobile-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade in animation for modals */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Custom scrollbar for mobile */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(123, 179, 211, 0.3);
+  border-radius: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(123, 179, 211, 0.5);
+}
+
 /* Print styles */
 @media print {
   .expanding-square,
