@@ -622,11 +622,143 @@ function MobileLayout() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="min-h-[40vh] flex items-center justify-center bg-[#021019] py-12 animate-on-scroll">
-        <div className="text-center px-4 animate-on-scroll">
-          <h2 className="font-[gotham] font-bold text-2xl text-white mb-3">Get In Touch</h2>
-          <p className="text-sm font-[gotham] text-gray-400">Contact section coming soon...</p>
+      {/* Contact Section - Dennis Snellenberg Style (Mobile) */}
+      <section id="contact" className="relative min-h-screen bg-[#021019] overflow-hidden py-16 px-4">
+        {/* Parallax Lights Background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
+          <div className="absolute w-[200px] h-[200px] rounded-full bg-[#7BB3D3]/15 blur-[80px] animate-float" style={{ top: '5%', right: '10%' }}></div>
+          <div className="absolute w-[180px] h-[180px] rounded-full bg-[#F6AA10]/10 blur-[60px] animate-float-slow" style={{ bottom: '20%', left: '5%' }}></div>
+        </div>
+
+        <div className="relative z-10 max-w-md mx-auto">
+          {/* Title */}
+          <div className="mb-10 animate-on-scroll">
+            <h2 className="text-3xl font-[gotham] font-light text-white leading-tight">
+              Let's start a
+            </h2>
+            <h2 className="text-3xl font-[gotham] font-bold slate-sky-theme leading-tight">
+              project together
+            </h2>
+          </div>
+
+          {/* Profile Card */}
+          <div className="flex items-center gap-4 mb-10 animate-on-scroll">
+            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#7BB3D3]/30">
+              <img src="/images/me.png" alt="Clyde Que" className="w-full h-full object-cover" />
+            </div>
+            <div>
+              <p className="text-white font-[gotham] font-bold">Clyde Que</p>
+              <p className="text-white/60 text-sm font-[gotham]">Full Stack Developer</p>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div className="space-y-6 mb-12 animate-on-scroll">
+            {/* Form Item 1 */}
+            <div className="border-b border-white/10 pb-4">
+              <div className="flex items-start gap-3">
+                <span className="text-white/40 text-xs font-[gotham]">01</span>
+                <div className="flex-1">
+                  <label className="text-white text-sm font-[gotham] font-medium block mb-1">What's your name?</label>
+                  <input 
+                    type="text" 
+                    placeholder="John Doe *"
+                    className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Form Item 2 */}
+            <div className="border-b border-white/10 pb-4">
+              <div className="flex items-start gap-3">
+                <span className="text-white/40 text-xs font-[gotham]">02</span>
+                <div className="flex-1">
+                  <label className="text-white text-sm font-[gotham] font-medium block mb-1">What's your email?</label>
+                  <input 
+                    type="email" 
+                    placeholder="john@doe.com *"
+                    className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Form Item 3 */}
+            <div className="border-b border-white/10 pb-4">
+              <div className="flex items-start gap-3">
+                <span className="text-white/40 text-xs font-[gotham]">03</span>
+                <div className="flex-1">
+                  <label className="text-white text-sm font-[gotham] font-medium block mb-1">What services do you need?</label>
+                  <input 
+                    type="text" 
+                    placeholder="Web Design, Development..."
+                    className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Form Item 4 */}
+            <div className="border-b border-white/10 pb-4">
+              <div className="flex items-start gap-3">
+                <span className="text-white/40 text-xs font-[gotham]">04</span>
+                <div className="flex-1">
+                  <label className="text-white text-sm font-[gotham] font-medium block mb-1">Your message</label>
+                  <textarea 
+                    placeholder="Hello Clyde, can you help me with..."
+                    rows={2}
+                    className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors resize-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <button className="w-full flex items-center justify-center gap-3 px-6 py-3.5 bg-gradient-to-r from-[#004F85] to-[#578e8c] rounded-full text-white font-[gotham] font-bold text-sm active:scale-95 transition-transform">
+              <span>Send Message</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Contact Info Grid */}
+          <div className="grid grid-cols-2 gap-6 mb-10 animate-on-scroll">
+            {/* Contact Details */}
+            <div className="space-y-3">
+              <h4 className="text-white/40 text-[10px] font-[gotham] uppercase tracking-widest">Contact</h4>
+              <div className="space-y-1">
+                <a href="mailto:clydeque@example.com" className="block text-white text-xs font-[gotham] hover:text-[#7BB3D3] transition-colors truncate">clydeque@example.com</a>
+                <a href="tel:+639123456789" className="block text-white text-xs font-[gotham] hover:text-[#7BB3D3] transition-colors">+63 912 345 6789</a>
+              </div>
+            </div>
+
+            {/* Business */}
+            <div className="space-y-3">
+              <h4 className="text-white/40 text-[10px] font-[gotham] uppercase tracking-widest">Business</h4>
+              <div className="space-y-1 text-white/80 font-[gotham] text-xs">
+                <p>ClydeDevs</p>
+                <p>Philippines</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Socials */}
+          <div className="animate-on-scroll">
+            <h4 className="text-white/40 text-[10px] font-[gotham] uppercase tracking-widest mb-3">Socials</h4>
+            <div className="flex flex-wrap gap-3">
+              <a href="https://github.com/Clydefois" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-white text-xs font-[gotham] hover:bg-white/10 hover:border-[#7BB3D3]/50 transition-all">GitHub</a>
+              <a href="https://www.linkedin.com/in/kcque101/" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-white text-xs font-[gotham] hover:bg-white/10 hover:border-[#7BB3D3]/50 transition-all">LinkedIn</a>
+              <a href="https://facebook.com/kc012s" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-white text-xs font-[gotham] hover:bg-white/10 hover:border-[#7BB3D3]/50 transition-all">Facebook</a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-white text-xs font-[gotham] hover:bg-white/10 hover:border-[#7BB3D3]/50 transition-all">Twitter</a>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="mt-12 pt-6 border-t border-white/10 text-center animate-on-scroll">
+            <p className="text-white/40 text-xs font-[gotham]">© 2026 ClydeDevs. All rights reserved.</p>
+          </div>
         </div>
       </section>
 

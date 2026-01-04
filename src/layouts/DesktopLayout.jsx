@@ -107,18 +107,18 @@ function DesktopLayout() {
         }}
       />
       
-      {/* Fixed ParallaxLights */}
-      <div className="fixed inset-0 z-20">
+      {/* Fixed ParallaxLights - Lower z-index to stay behind content but above background */}
+      <div className="fixed inset-0 z-[5] pointer-events-none">
         <ParallaxLights />
       </div>
       
       {/* Fixed Navigation */}
       <NavBar />
       
-      <div style={{ height: '4000vh' }} className="relative z-30">
+      <div style={{ height: '4000vh' }} className="relative z-10">
         
         {/* SECTION 1: Home */}
-        <section ref={animationRefs.homeSectionRef} id="home" className="relative w-full min-h-[100vh] z-[30]">
+        <section ref={animationRefs.homeSectionRef} id="home" className="relative w-full min-h-[100vh] z-[10]">
           <div className="flex items-center h-full min-h-[100vh] py-8 md:py-0">
             {/* Left side content */}
             <div className="w-full md:w-[70%] mb-10 ml-4 md:ml-20 px-4 md:px-0 text-left space-y-4 md:space-y-5">
@@ -420,11 +420,171 @@ function DesktopLayout() {
           </div>
         </section>
 
-        {/* Contact Section */}
-        <section id="contact" className="lastContainer w-full h-[100vh] flex items-center justify-center bg-[#021019] text-white text-3xl">
-          <div className="text-center">
-            <h2 className="font-[gotham] font-bold mb-4">Get In Touch</h2>
-            <p className="text-lg font-[gotham] text-gray-400">Contact section coming soon...</p>
+        {/* Contact Section - Dennis Snellenberg Style */}
+        <section 
+          id="contact" 
+          ref={contactSectionRef}
+          className="relative w-full min-h-[100vh] bg-[#021019] overflow-hidden"
+          style={{ zIndex: 40 }}
+        >
+          {/* Parallax Lights Background for Contact */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
+            {/* Animated gradient orbs */}
+            <div className="absolute w-[400px] h-[400px] rounded-full bg-[#7BB3D3]/20 blur-[120px] animate-float" style={{ top: '10%', left: '5%' }}></div>
+            <div className="absolute w-[350px] h-[350px] rounded-full bg-[#F6AA10]/15 blur-[100px] animate-float-slow" style={{ top: '50%', right: '10%' }}></div>
+            <div className="absolute w-[300px] h-[300px] rounded-full bg-[#004F85]/20 blur-[80px] animate-float-slower" style={{ bottom: '20%', left: '30%' }}></div>
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-8 md:px-16 lg:px-24 py-20 md:py-32">
+            {/* Title */}
+            <div ref={contactTitleRef} className="mb-16 md:mb-24">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[gotham] font-light text-white leading-tight">
+                Let's start a
+              </h2>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[gotham] font-bold slate-sky-theme leading-tight">
+                project together
+              </h2>
+            </div>
+
+            {/* Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+              {/* Left - Contact Form */}
+              <div ref={contactFormRef} className="space-y-8">
+                {/* Form Item 1 */}
+                <div className="contact-form-item border-b border-white/10 pb-6 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <span className="text-white/40 text-sm font-[gotham]">01</span>
+                    <div className="flex-1">
+                      <label className="text-white text-lg font-[gotham] font-medium block mb-2">What's your name?</label>
+                      <input 
+                        type="text" 
+                        placeholder="John Doe *"
+                        className="w-full bg-transparent text-white/60 text-base font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Form Item 2 */}
+                <div className="contact-form-item border-b border-white/10 pb-6 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <span className="text-white/40 text-sm font-[gotham]">02</span>
+                    <div className="flex-1">
+                      <label className="text-white text-lg font-[gotham] font-medium block mb-2">What's your email?</label>
+                      <input 
+                        type="email" 
+                        placeholder="john@doe.com *"
+                        className="w-full bg-transparent text-white/60 text-base font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Form Item 3 */}
+                <div className="contact-form-item border-b border-white/10 pb-6 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <span className="text-white/40 text-sm font-[gotham]">03</span>
+                    <div className="flex-1">
+                      <label className="text-white text-lg font-[gotham] font-medium block mb-2">What's the name of your organization?</label>
+                      <input 
+                        type="text" 
+                        placeholder="Company Name ®"
+                        className="w-full bg-transparent text-white/60 text-base font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Form Item 4 */}
+                <div className="contact-form-item border-b border-white/10 pb-6 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <span className="text-white/40 text-sm font-[gotham]">04</span>
+                    <div className="flex-1">
+                      <label className="text-white text-lg font-[gotham] font-medium block mb-2">What services are you looking for?</label>
+                      <input 
+                        type="text" 
+                        placeholder="Web Design, Web Development..."
+                        className="w-full bg-transparent text-white/60 text-base font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Form Item 5 */}
+                <div className="contact-form-item border-b border-white/10 pb-6 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <span className="text-white/40 text-sm font-[gotham]">05</span>
+                    <div className="flex-1">
+                      <label className="text-white text-lg font-[gotham] font-medium block mb-2">Your message</label>
+                      <textarea 
+                        placeholder="Hello Clyde, can you help me with..."
+                        rows={3}
+                        className="w-full bg-transparent text-white/60 text-base font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors resize-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <button className="contact-form-item mt-8 group flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-[#004F85] to-[#578e8c] rounded-full text-white font-[gotham] font-bold hover:scale-105 hover:shadow-[0_0_30px_rgba(123,179,211,0.4)] transition-all duration-300">
+                  <span>Send Message</span>
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Right - Contact Info */}
+              <div ref={contactInfoRef} className="space-y-12 lg:pl-12">
+                {/* Profile Image */}
+                <div className="contact-info-item flex items-center gap-4">
+                  <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#7BB3D3]/30">
+                    <img src="/images/me.png" alt="Clyde Que" className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <svg className="w-6 h-6 text-[#7BB3D3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Contact Details */}
+                <div className="contact-info-item space-y-4">
+                  <h4 className="text-white/40 text-xs font-[gotham] uppercase tracking-widest">Contact Details</h4>
+                  <div className="space-y-2">
+                    <a href="mailto:clydeque@example.com" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">clydeque@example.com</a>
+                    <a href="tel:+639123456789" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">+63 912 345 6789</a>
+                  </div>
+                </div>
+
+                {/* Business Details */}
+                <div className="contact-info-item space-y-4">
+                  <h4 className="text-white/40 text-xs font-[gotham] uppercase tracking-widest">Business Details</h4>
+                  <div className="space-y-2 text-white/80 font-[gotham] text-sm">
+                    <p>ClydeDevs</p>
+                    <p>Freelance Developer</p>
+                    <p>Location: Philippines</p>
+                  </div>
+                </div>
+
+                {/* Socials */}
+                <div className="contact-info-item space-y-4">
+                  <h4 className="text-white/40 text-xs font-[gotham] uppercase tracking-widest">Socials</h4>
+                  <div className="space-y-2">
+                    <a href="https://github.com/Clydefois" target="_blank" rel="noopener noreferrer" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">GitHub</a>
+                    <a href="https://www.linkedin.com/in/kcque101/" target="_blank" rel="noopener noreferrer" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">LinkedIn</a>
+                    <a href="https://facebook.com/kc012s" target="_blank" rel="noopener noreferrer" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">Facebook</a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">Twitter</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-white/40 text-sm font-[gotham]">© 2026 ClydeDevs. All rights reserved.</p>
+              <p className="text-white/40 text-sm font-[gotham]">Designed & Built with passion</p>
+            </div>
           </div>
         </section>
         
