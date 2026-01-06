@@ -18,76 +18,10 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
  */
 function DesktopLayout() {
   const animationRefs = HomeScrollAnimations();
-  const contactSectionRef = useRef(null);
+  // Contact section refs - animations now handled in HomeScrollAnimations
   const contactTitleRef = useRef(null);
   const contactFormRef = useRef(null);
   const contactInfoRef = useRef(null);
-
-  // Contact section GSAP animations
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate contact title
-      gsap.fromTo(contactTitleRef.current, 
-        { y: 100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: contactSectionRef.current,
-            start: "top 80%",
-            end: "top 30%",
-            scrub: 1,
-          }
-        }
-      );
-
-      // Animate form items with stagger
-      const formItems = contactFormRef.current?.querySelectorAll('.contact-form-item');
-      if (formItems) {
-        gsap.fromTo(formItems,
-          { y: 60, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: contactSectionRef.current,
-              start: "top 60%",
-              end: "top 20%",
-              scrub: 1,
-            }
-          }
-        );
-      }
-
-      // Animate contact info
-      const infoItems = contactInfoRef.current?.querySelectorAll('.contact-info-item');
-      if (infoItems) {
-        gsap.fromTo(infoItems,
-          { x: 50, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: contactSectionRef.current,
-              start: "top 50%",
-              end: "top 10%",
-              scrub: 1,
-            }
-          }
-        );
-      }
-    }, contactSectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <div className="App relative">
@@ -115,7 +49,9 @@ function DesktopLayout() {
       {/* Fixed Navigation */}
       <NavBar />
       
-      <div style={{ height: '4000vh' }} className="relative z-10">
+      {/* Content container - height:auto lets ScrollTrigger pins create scroll space */}
+      {/* Background stays 4000vh for gradient, but content flows naturally */}
+      <div style={{ minHeight: '100vh' }} className="relative z-10">
         
         {/* SECTION 1: Home */}
         <section ref={animationRefs.homeSectionRef} id="home" className="relative w-full min-h-[100vh] z-[10]">
@@ -420,12 +356,11 @@ function DesktopLayout() {
           </div>
         </section>
 
-        {/* Contact Section - Dennis Snellenberg Style */}
+        {/* Contact Section - Dennis Snellenberg Style (GSAP animation handled in HomeScrollAnimations) */}
         <section 
           id="contact" 
-          ref={contactSectionRef}
-          className="relative w-full min-h-[100vh] bg-[#021019] overflow-hidden"
-          style={{ zIndex: 40 }}
+          className="relative w-full bg-[#021019] overflow-hidden"
+          style={{ zIndex: 40, minHeight: '100vh', paddingBottom: '60px' }}
         >
           {/* Parallax Lights Background for Contact */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
@@ -435,98 +370,98 @@ function DesktopLayout() {
             <div className="absolute w-[300px] h-[300px] rounded-full bg-[#004F85]/20 blur-[80px] animate-float-slower" style={{ bottom: '20%', left: '30%' }}></div>
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-8 md:px-16 lg:px-24 py-20 md:py-32">
-            {/* Title */}
-            <div ref={contactTitleRef} className="mb-16 md:mb-24">
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[gotham] font-light text-white leading-tight">
+          <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-24">
+            {/* Title - Centered */}
+            <div ref={contactTitleRef} className="mb-12 md:mb-16 text-center">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[gotham] font-light text-white leading-tight">
                 Let's start a
               </h2>
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-[gotham] font-bold slate-sky-theme leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[gotham] font-bold slate-sky-theme leading-tight">
                 project together
               </h2>
             </div>
 
-            {/* Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+            {/* Content Grid - Justified Around */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-32 items-start justify-items-center lg:justify-items-stretch">
               {/* Left - Contact Form */}
-              <div ref={contactFormRef} className="space-y-8">
+              <div ref={contactFormRef} className="space-y-6 w-full max-w-md lg:max-w-none lg:justify-self-start">
                 {/* Form Item 1 */}
-                <div className="contact-form-item border-b border-white/10 pb-6 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
-                  <div className="flex items-start gap-4">
+                <div className="contact-form-item border-b border-white/10 pb-5 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
+                  <div className="flex items-start gap-3">
                     <span className="text-white/40 text-sm font-[gotham]">01</span>
                     <div className="flex-1">
-                      <label className="text-white text-lg font-[gotham] font-medium block mb-2">What's your name?</label>
+                      <label className="text-white text-base font-[gotham] font-medium block mb-2">What's your name?</label>
                       <input 
                         type="text" 
                         placeholder="John Doe *"
-                        className="w-full bg-transparent text-white/60 text-base font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                        className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Form Item 2 */}
-                <div className="contact-form-item border-b border-white/10 pb-6 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
-                  <div className="flex items-start gap-4">
+                <div className="contact-form-item border-b border-white/10 pb-5 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
+                  <div className="flex items-start gap-3">
                     <span className="text-white/40 text-sm font-[gotham]">02</span>
                     <div className="flex-1">
-                      <label className="text-white text-lg font-[gotham] font-medium block mb-2">What's your email?</label>
+                      <label className="text-white text-base font-[gotham] font-medium block mb-2">What's your email?</label>
                       <input 
                         type="email" 
                         placeholder="john@doe.com *"
-                        className="w-full bg-transparent text-white/60 text-base font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                        className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Form Item 3 */}
-                <div className="contact-form-item border-b border-white/10 pb-6 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
-                  <div className="flex items-start gap-4">
+                <div className="contact-form-item border-b border-white/10 pb-5 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
+                  <div className="flex items-start gap-3">
                     <span className="text-white/40 text-sm font-[gotham]">03</span>
                     <div className="flex-1">
-                      <label className="text-white text-lg font-[gotham] font-medium block mb-2">What's the name of your organization?</label>
+                      <label className="text-white text-base font-[gotham] font-medium block mb-2">What's the name of your organization?</label>
                       <input 
                         type="text" 
                         placeholder="Company Name ®"
-                        className="w-full bg-transparent text-white/60 text-base font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                        className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Form Item 4 */}
-                <div className="contact-form-item border-b border-white/10 pb-6 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
-                  <div className="flex items-start gap-4">
+                <div className="contact-form-item border-b border-white/10 pb-5 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
+                  <div className="flex items-start gap-3">
                     <span className="text-white/40 text-sm font-[gotham]">04</span>
                     <div className="flex-1">
-                      <label className="text-white text-lg font-[gotham] font-medium block mb-2">What services are you looking for?</label>
+                      <label className="text-white text-base font-[gotham] font-medium block mb-2">What services are you looking for?</label>
                       <input 
                         type="text" 
                         placeholder="Web Design, Web Development..."
-                        className="w-full bg-transparent text-white/60 text-base font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
+                        className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Form Item 5 */}
-                <div className="contact-form-item border-b border-white/10 pb-6 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
-                  <div className="flex items-start gap-4">
+                <div className="contact-form-item border-b border-white/10 pb-5 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
+                  <div className="flex items-start gap-3">
                     <span className="text-white/40 text-sm font-[gotham]">05</span>
                     <div className="flex-1">
-                      <label className="text-white text-lg font-[gotham] font-medium block mb-2">Your message</label>
+                      <label className="text-white text-base font-[gotham] font-medium block mb-2">Your message</label>
                       <textarea 
                         placeholder="Hello Clyde, can you help me with..."
-                        rows={3}
-                        className="w-full bg-transparent text-white/60 text-base font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors resize-none"
+                        rows={2}
+                        className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors resize-none"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Submit Button */}
-                <button className="contact-form-item mt-8 group flex items-center gap-4 px-8 py-4 bg-gradient-to-r from-[#004F85] to-[#578e8c] rounded-full text-white font-[gotham] font-bold hover:scale-105 hover:shadow-[0_0_30px_rgba(123,179,211,0.4)] transition-all duration-300">
+                <button className="contact-form-item mt-6 group flex items-center justify-center gap-3 w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-[#004F85] to-[#578e8c] rounded-full text-white font-[gotham] font-bold hover:scale-105 hover:shadow-[0_0_30px_rgba(123,179,211,0.4)] transition-all duration-300">
                   <span>Send Message</span>
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -534,54 +469,68 @@ function DesktopLayout() {
                 </button>
               </div>
 
-              {/* Right - Contact Info */}
-              <div ref={contactInfoRef} className="space-y-12 lg:pl-12">
-                {/* Profile Image */}
-                <div className="contact-info-item flex items-center gap-4">
-                  <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#7BB3D3]/30">
-                    <img src="/images/me.png" alt="Clyde Que" className="w-full h-full object-cover" />
+              {/* Right - Contact Info - Left aligned inside, right side of grid */}
+              <div ref={contactInfoRef} className="space-y-8 flex flex-col items-start w-full max-w-md lg:max-w-none lg:justify-self-end">
+                {/* Profile Image - BIGGER */}
+                <div className="contact-info-item flex flex-col items-center lg:items-start gap-3">
+                  <div className="w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden border-4 border-[#7BB3D3]/40 shadow-[0_0_30px_rgba(123,179,211,0.3)]">
+                    <img src="/images/me.png" alt="Clyde Que" className="w-full h-full object-cover object-top" />
                   </div>
-                  <div>
-                    <svg className="w-6 h-6 text-[#7BB3D3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-2 text-[#7BB3D3]">
+                    <span className="font-[gotham] text-sm">Let's connect</span>
+                    <svg className="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                     </svg>
                   </div>
                 </div>
 
                 {/* Contact Details */}
-                <div className="contact-info-item space-y-4">
+                <div className="contact-info-item space-y-3 text-left">
                   <h4 className="text-white/40 text-xs font-[gotham] uppercase tracking-widest">Contact Details</h4>
-                  <div className="space-y-2">
-                    <a href="mailto:clydeque@example.com" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">clydeque@example.com</a>
-                    <a href="tel:+639123456789" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">+63 912 345 6789</a>
+                  <div className="space-y-1">
+                    <a href="mailto:kennethque101@gmail.com" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">kennethque101@gmail.com</a>
+                    <a href="mailto:co230718@adzu.edu.ph" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">co230718@adzu.edu.ph</a>
+                    <a href="tel:+639690919791" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">+63 969 091 9791</a>
                   </div>
                 </div>
 
                 {/* Business Details */}
-                <div className="contact-info-item space-y-4">
+                <div className="contact-info-item space-y-3 text-left">
                   <h4 className="text-white/40 text-xs font-[gotham] uppercase tracking-widest">Business Details</h4>
-                  <div className="space-y-2 text-white/80 font-[gotham] text-sm">
+                  <div className="space-y-1 text-white/80 font-[gotham] text-sm">
                     <p>ClydeDevs</p>
                     <p>Freelance Developer</p>
                     <p>Location: Philippines</p>
                   </div>
                 </div>
 
-                {/* Socials */}
-                <div className="contact-info-item space-y-4">
+                {/* Socials - Horizontal on desktop */}
+                <div className="contact-info-item space-y-3 text-left">
                   <h4 className="text-white/40 text-xs font-[gotham] uppercase tracking-widest">Socials</h4>
-                  <div className="space-y-2">
-                    <a href="https://github.com/Clydefois" target="_blank" rel="noopener noreferrer" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">GitHub</a>
-                    <a href="https://www.linkedin.com/in/kcque101/" target="_blank" rel="noopener noreferrer" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">LinkedIn</a>
-                    <a href="https://facebook.com/kc012s" target="_blank" rel="noopener noreferrer" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">Facebook</a>
-                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">Twitter</a>
+                  <div className="flex flex-wrap justify-start gap-4">
+                    <a href="https://github.com/Clydefois" target="_blank" rel="noopener noreferrer" className="text-white font-[gotham] hover:text-[#7BB3D3] transition-colors flex items-center gap-2">
+                      <img src="/icons/github.svg" alt="GitHub" className="w-5 h-5" />
+                      <span className="hidden sm:inline">GitHub</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/kcque101/" target="_blank" rel="noopener noreferrer" className="text-white font-[gotham] hover:text-[#7BB3D3] transition-colors flex items-center gap-2">
+                      <img src="/icons/linkedin.svg" alt="LinkedIn" className="w-5 h-5" />
+                      <span className="hidden sm:inline">LinkedIn</span>
+                    </a>
+                    <a href="https://facebook.com/kc012s" target="_blank" rel="noopener noreferrer" className="text-white font-[gotham] hover:text-[#7BB3D3] transition-colors flex items-center gap-2">
+                      <img src="/icons/facebook.svg" alt="Facebook" className="w-5 h-5" />
+                      <span className="hidden sm:inline">Facebook</span>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-white font-[gotham] hover:text-[#7BB3D3] transition-colors flex items-center gap-2">
+                      <img src="/icons/twitter.svg" alt="Twitter" className="w-5 h-5" />
+                      <span className="hidden sm:inline">Twitter</span>
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Footer */}
-            <div className="mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="mt-16 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-white/40 text-sm font-[gotham]">© 2026 ClydeDevs. All rights reserved.</p>
               <p className="text-white/40 text-sm font-[gotham]">Designed & Built with passion</p>
             </div>

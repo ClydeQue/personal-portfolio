@@ -20,12 +20,10 @@ export default function Windmill() {
     >
         <svg
           id="pin-windmill-svg"
-          width="500"
-          height="800"
+          className="w-[250px] h-[400px] md:w-[350px] md:h-[560px] lg:w-[450px] lg:h-[720px] xl:w-[500px] xl:h-[800px]"
           viewBox="0 0 250 250"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-
         >
           <defs>
             {/* Linear Gradient 1 - Blue Ocean */}

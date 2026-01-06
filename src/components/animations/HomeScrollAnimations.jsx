@@ -17,7 +17,6 @@ export default function HomeScrollStepByStep() {
   const personGroupRef = useRef(null)
   const leftRectanglesRef = useRef(null)
   const pullUpContentRef = useRef(null)
-  const groupContainerRef = useRef(null) // Parent wrapper for rectangleRef + pullUpContentRef
   const homeSectionRef = useRef(null)
   const nextSectionRef = useRef(null)
   const parallaxLightsRef = useRef(null)
@@ -182,6 +181,7 @@ export default function HomeScrollStepByStep() {
     
     const master = gsap.timeline({
       scrollTrigger: {
+        id: "section1-home",
         trigger: homeSectionRef.current,
         start: "top top",
         end: scrollDistance, // Mobile: 2000vh, Desktop: 7000vh
@@ -440,6 +440,7 @@ gsap.delayedCall(0, () => {
       // Timeline for title color change (title is already visible)
       gsap.timeline({
         scrollTrigger: {
+          id: "section2-takealook",
           trigger: section2Ref.current,
           start: "top top",
           end: section2ScrollDistance, // Mobile: 300%, Desktop: 1000%
@@ -447,8 +448,8 @@ gsap.delayedCall(0, () => {
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onEnter: () => console.log('✅ Section 2 PINNED'),
-          markers: false, // Set to true for debugging
+          onEnter: () => console.log('✅ Section 2 (Take A Look) PINNED'),
+          markers: false,
         },
       })
       .to(titleEl, { color: '#ffffff', duration: 2, ease: 'power2.inOut' }, 0); // Change to white immediately
@@ -745,6 +746,7 @@ gsap.delayedCall(0, () => {
         x: () => -(totalWidth - window.innerWidth),
         ease: "none",
         scrollTrigger: {
+          id: "section3-projects-horizontal",
           trigger: sectionEl,
           pin: true,
           pinSpacing: true,
@@ -759,15 +761,20 @@ gsap.delayedCall(0, () => {
           },
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          markers: false,
+          onEnter: () => console.log('✅ Section 3 (Projects Horizontal) PINNED'),
+          onLeave: () => console.log('➡️ Section 3 (Projects Horizontal) UNPINNED - Contact should appear next'),
           onUpdate: (self) => {
-            // Debug: log progress to ensure snapping to correct positions
             const panelIndex = Math.round(self.progress * (panels.length - 1));
-            console.log(`Scroll progress: ${(self.progress * 100).toFixed(1)}%, Panel: ${panelIndex + 1}/${panels.length}`);
+            console.log(`Section 3 Progress: ${(self.progress * 100).toFixed(1)}%, Panel: ${panelIndex + 1}/${panels.length}`);
           }
         }
       });
 
       console.log(`✅ Section 3 initialized: ${panels.length} panels, ${totalWidth}px total width`);
+      
+      // Contact section follows naturally after horizontal scroll - no pin needed
+      // The contact section is just a regular section at the end of the page
     }
   }
 });

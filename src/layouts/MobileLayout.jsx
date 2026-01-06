@@ -29,6 +29,28 @@ const techIcons = [
   { name: 'PHP', src: '/techstack/php.svg' },
   { name: 'C++', src: '/techstack/c++.svg' },
 ]
+
+// Project preview data for mobile cards (only image, title, tech stack)
+const projectPreviews = [
+  {
+    id: 1,
+    title: 'POS System',
+    image: '/images/pos.webp',
+    techStack: ['react', 'nodejs', 'mysql', 'tailwind']
+  },
+  {
+    id: 2,
+    title: 'Portfolio Website',
+    image: '/images/portfolio.webp',
+    techStack: ['react', 'javascript', 'css', 'git']
+  },
+  {
+    id: 3,
+    title: 'E-Commerce App',
+    image: '/images/ecommerce.webp',
+    techStack: ['react', 'typescript', 'postgre', 'docker']
+  }
+]
 // MObile Layout Component
 function MobileLayout() { 
   const swiperRef = useRef(null)
@@ -43,6 +65,18 @@ function MobileLayout() {
     }
   }
 
+  // Fix scroll when fullscreen modal is open/closed
+  useEffect(() => {
+    if (fullscreenProject) {
+      // Lock body scroll when modal is open
+      document.body.style.overflow = 'hidden'
+    } else {
+      // Restore scroll when modal is closed
+      document.body.style.overflow = 'auto'
+      document.body.style.overflowX = 'hidden'
+    }
+  }, [fullscreenProject])
+
   // Simple fade-in animations on scroll using Intersection Observer (no GSAP)
   useEffect(() => {
     // CRITICAL: Ensure body can scroll immediately on page load
@@ -56,6 +90,7 @@ function MobileLayout() {
     document.body.style.position = 'static'
     document.body.style.height = 'auto'
     document.body.style.width = 'auto'
+    document.documentElement.style.height = 'auto'
     
     // Use Intersection Observer for simple fade-in animations
     const observer = new IntersectionObserver(
@@ -166,12 +201,12 @@ function MobileLayout() {
               </li>
               <li>
                 <button onClick={() => scrollToSection('skills-mobile')} className="cursor-pointer transition-all duration-300 font-[gotham] font-bold text-center flex items-center justify-center text-xs text-white hover:text-gray-300 py-1 px-2">
-                  <img src="/icons/projects.svg" alt="Skills" className="w-3 h-3 filter invert" />
+                  <img src="/icons/folder.svg" alt="Skills" className="w-3 h-3 filter invert" />
                 </button>
               </li>
               <li>
                 <button onClick={() => scrollToSection('projects-mobile')} className="cursor-pointer transition-all duration-300 font-[gotham] font-bold text-center flex items-center justify-center text-xs text-white hover:text-gray-300 py-1 px-2">
-                  <img src="/icons/folder.svg" alt="Projects" className="w-3 h-3 filter invert" />
+                  <img src="/icons/projects.svg" alt="Projects" className="w-3 h-3 filter invert" />
                 </button>
               </li>
               <li>
@@ -472,58 +507,28 @@ function MobileLayout() {
         <p className="text-gray-500 text-xs mt-8 font-[gotham] animate-on-scroll">Tilt to interact</p>
       </section>
 
-      {/* SECTION 3: Projects - Improved UX */}
-      <section id="projects-mobile" className="min-h-screen flex flex-col justify-center py-12 px-4" style={{ background: 'rgba(2, 16, 25, 0.95)' }}>
-        <div className="w-full max-w-md mx-auto animate-on-scroll">
-          <div className="text-center mb-8">
-            <h2 className="font-[gotham] text-2xl font-bold slate-sky-theme mb-2">
+      {/* SECTION 3: Projects - Compact Preview Cards */}
+      <section id="projects-mobile" className="min-h-screen flex flex-col justify-center py-8 px-3" style={{ background: 'rgba(2, 16, 25, 0.95)' }}>
+        <div className="w-full max-w-sm mx-auto animate-on-scroll">
+          <div className="text-center mb-4">
+            <h2 className="font-[gotham] text-xl font-bold slate-sky-theme mb-1">
               My Projects
             </h2>
-            <p className="text-gray-400 text-xs font-[gotham]">Tap a card to view details</p>
+            <p className="text-gray-400 text-[10px] font-[gotham]">Tap to view details</p>
           </div>
 
-          {/* Project Cards with Navigation */}
+          {/* Project Preview Cards */}
           <div className="relative">
-            {/* Subtle Navigation Arrows - positioned at edges */}
-            <button 
-              onClick={() => swiperRef.current?.slidePrev()}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-8 h-16 flex items-center justify-center bg-gradient-to-r from-[#021019] to-transparent opacity-60 hover:opacity-100 transition-opacity"
-              aria-label="Previous project"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7BB3D3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M15 18l-6-6 6-6"/>
-              </svg>
-            </button>
-            
-            <button 
-              onClick={() => swiperRef.current?.slideNext()}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-8 h-16 flex items-center justify-center bg-gradient-to-l from-[#021019] to-transparent opacity-60 hover:opacity-100 transition-opacity"
-              aria-label="Next project"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7BB3D3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 18l6-6-6-6"/>
-              </svg>
-            </button>
-
             <Swiper
-              modules={[Pagination, A11y, EffectCoverflow, Autoplay, Navigation]}
-              effect="coverflow"
+              modules={[Pagination, A11y, Autoplay]}
               grabCursor={true}
               centeredSlides={true}
-              slidesPerView={1.2}
-              spaceBetween={16}
+              slidesPerView={1.15}
+              spaceBetween={12}
               loop={true}
               autoplay={{
-                delay: 6000,
+                delay: 5000,
                 disableOnInteraction: true,
-                pauseOnMouseEnter: true,
-              }}
-              coverflowEffect={{
-                rotate: 8,
-                stretch: 0,
-                depth: 80,
-                modifier: 1,
-                slideShadows: false,
               }}
               pagination={{ 
                 dynamicBullets: true,
@@ -532,232 +537,197 @@ function MobileLayout() {
               onSwiper={(swiper) => {
                 swiperRef.current = swiper
               }}
-              onTouchStart={() => {
-                if (swiperRef.current) {
-                  swiperRef.current.autoplay.stop()
-                }
-              }}
-              onTouchEnd={() => {
-                if (swiperRef.current) {
-                  setTimeout(() => {
-                    if (swiperRef.current) {
-                      swiperRef.current.autoplay.start()
-                    }
-                  }, 3000)
-                }
-              }}
-              className="w-full pb-12"
+              className="w-full pb-8"
             >
-              <SwiperSlide>
-                <Tilt
-                  tiltMaxAngleX={8}
-                  tiltMaxAngleY={8}
-                  perspective={1000}
-                  scale={1}
-                  transitionSpeed={300}
-                  gyroscope={false}
-                >
-                  <div 
-                    className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/30 to-[#578e8c]/15 rounded-2xl p-5 shadow-2xl border border-white/15 h-[60vh] overflow-hidden cursor-pointer active:scale-[0.98] transition-all duration-200 relative group"
-                    onClick={() => setFullscreenProject(1)}
+              {projectPreviews.map((project) => (
+                <SwiperSlide key={project.id}>
+                  <Tilt
+                    tiltMaxAngleX={5}
+                    tiltMaxAngleY={5}
+                    perspective={1000}
+                    scale={1}
+                    transitionSpeed={300}
+                    gyroscope={false}
                   >
-                    {/* View indicator */}
-                    <div className="absolute top-3 right-3 px-2 py-1 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
-                      <span className="text-[10px] text-white font-[gotham]">Tap to view</span>
+                    <div 
+                      className="bg-gradient-to-br from-[#004F85]/25 to-[#578e8c]/10 rounded-xl overflow-hidden border border-white/10 cursor-pointer active:scale-[0.98] transition-all duration-200 shadow-lg"
+                      onClick={() => setFullscreenProject(project.id)}
+                    >
+                      {/* Project Image */}
+                      <div className="relative h-40 overflow-hidden">
+                        <img 
+                          src={project.image} 
+                          alt={project.title}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.src = '/images/pos.webp'
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#021019]/80 to-transparent"></div>
+                        
+                        {/* Title overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 p-3">
+                          <h3 className="text-white font-[gotham] font-bold text-sm">{project.title}</h3>
+                        </div>
+                      </div>
+                      
+                      {/* Tech Stack */}
+                      <div className="p-3 flex items-center gap-2">
+                        <span className="text-[9px] text-gray-400 font-[gotham] uppercase">Tech:</span>
+                        <div className="flex gap-1.5">
+                          {project.techStack.map((tech, idx) => {
+                            const techIcon = techIcons.find(t => t.name.toLowerCase() === tech)
+                            return techIcon ? (
+                              <img 
+                                key={idx}
+                                src={techIcon.src} 
+                                alt={tech} 
+                                className="w-4 h-4 object-contain opacity-70"
+                              />
+                            ) : null
+                          })}
+                        </div>
+                      </div>
                     </div>
-                    <div className="h-full overflow-y-auto pr-1 scrollbar-thin">
-                      <Project1 />
-                    </div>
-                  </div>
-                </Tilt>
-              </SwiperSlide>
-
-              <SwiperSlide>
-                <Tilt
-                  tiltMaxAngleX={8}
-                  tiltMaxAngleY={8}
-                  perspective={1000}
-                  scale={1}
-                  transitionSpeed={300}
-                  gyroscope={false}
-                >
-                  <div 
-                    className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/30 to-[#578e8c]/15 rounded-2xl p-5 shadow-2xl border border-white/15 h-[60vh] overflow-hidden cursor-pointer active:scale-[0.98] transition-all duration-200 relative group"
-                    onClick={() => setFullscreenProject(2)}
-                  >
-                    <div className="absolute top-3 right-3 px-2 py-1 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
-                      <span className="text-[10px] text-white font-[gotham]">Tap to view</span>
-                    </div>
-                    <div className="h-full overflow-y-auto pr-1 scrollbar-thin">
-                      <Project2 />
-                    </div>
-                  </div>
-                </Tilt>
-              </SwiperSlide>
-
-              <SwiperSlide>
-                <Tilt
-                  tiltMaxAngleX={8}
-                  tiltMaxAngleY={8}
-                  perspective={1000}
-                  scale={1}
-                  transitionSpeed={300}
-                  gyroscope={false}
-                >
-                  <div 
-                    className="backdrop-blur-lg bg-gradient-to-br from-[#004F85]/30 to-[#578e8c]/15 rounded-2xl p-5 shadow-2xl border border-white/15 h-[60vh] overflow-hidden cursor-pointer active:scale-[0.98] transition-all duration-200 relative group"
-                    onClick={() => setFullscreenProject(3)}
-                  >
-                    <div className="absolute top-3 right-3 px-2 py-1 bg-white/10 rounded-full opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
-                      <span className="text-[10px] text-white font-[gotham]">Tap to view</span>
-                    </div>
-                    <div className="h-full overflow-y-auto pr-1 scrollbar-thin">
-                      <Project3 />
-                    </div>
-                  </div>
-                </Tilt>
-              </SwiperSlide>
+                  </Tilt>
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
         </div>
       </section>
 
-      {/* Contact Section - Dennis Snellenberg Style (Mobile) */}
-      <section id="contact" className="relative min-h-screen bg-[#021019] overflow-hidden py-16 px-4">
-        {/* Parallax Lights Background */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
-          <div className="absolute w-[200px] h-[200px] rounded-full bg-[#7BB3D3]/15 blur-[80px] animate-float" style={{ top: '5%', right: '10%' }}></div>
-          <div className="absolute w-[180px] h-[180px] rounded-full bg-[#F6AA10]/10 blur-[60px] animate-float-slow" style={{ bottom: '20%', left: '5%' }}></div>
+      {/* Contact Reveal Animation */}
+      <section className="relative h-[30vh] bg-[#021019] flex items-center justify-center overflow-hidden">
+        <div className="animate-on-scroll text-center">
+          <p className="text-[#7BB3D3] text-xs font-[gotham] uppercase tracking-[0.3em] mb-2">Get In Touch</p>
+          <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-[#7BB3D3] to-transparent mx-auto"></div>
+          <svg className="w-5 h-5 text-white/50 mx-auto mt-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Contact Section - Final Section (fills remaining viewport) */}
+      <section id="contact" className="relative bg-[#021019] overflow-hidden" style={{ minHeight: '70vh', maxHeight: '70vh' }}>
+        {/* Subtle background glow */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute w-[150px] h-[150px] rounded-full bg-[#7BB3D3]/10 blur-[60px]" style={{ top: '10%', left: '5%' }}></div>
+          <div className="absolute w-[120px] h-[120px] rounded-full bg-[#F6AA10]/8 blur-[50px]" style={{ bottom: '15%', right: '10%' }}></div>
         </div>
 
-        <div className="relative z-10 max-w-md mx-auto">
-          {/* Title */}
-          <div className="mb-10 animate-on-scroll">
-            <h2 className="text-3xl font-[gotham] font-light text-white leading-tight">
-              Let's start a
-            </h2>
-            <h2 className="text-3xl font-[gotham] font-bold slate-sky-theme leading-tight">
-              project together
-            </h2>
-          </div>
-
-          {/* Profile Card */}
-          <div className="flex items-center gap-4 mb-10 animate-on-scroll">
-            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#7BB3D3]/30">
-              <img src="/images/me.png" alt="Clyde Que" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <p className="text-white font-[gotham] font-bold">Clyde Que</p>
-              <p className="text-white/60 text-sm font-[gotham]">Full Stack Developer</p>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="space-y-6 mb-12 animate-on-scroll">
-            {/* Form Item 1 */}
-            <div className="border-b border-white/10 pb-4">
-              <div className="flex items-start gap-3">
-                <span className="text-white/40 text-xs font-[gotham]">01</span>
-                <div className="flex-1">
-                  <label className="text-white text-sm font-[gotham] font-medium block mb-1">What's your name?</label>
-                  <input 
-                    type="text" 
-                    placeholder="John Doe *"
-                    className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Form Item 2 */}
-            <div className="border-b border-white/10 pb-4">
-              <div className="flex items-start gap-3">
-                <span className="text-white/40 text-xs font-[gotham]">02</span>
-                <div className="flex-1">
-                  <label className="text-white text-sm font-[gotham] font-medium block mb-1">What's your email?</label>
-                  <input 
-                    type="email" 
-                    placeholder="john@doe.com *"
-                    className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Form Item 3 */}
-            <div className="border-b border-white/10 pb-4">
-              <div className="flex items-start gap-3">
-                <span className="text-white/40 text-xs font-[gotham]">03</span>
-                <div className="flex-1">
-                  <label className="text-white text-sm font-[gotham] font-medium block mb-1">What services do you need?</label>
-                  <input 
-                    type="text" 
-                    placeholder="Web Design, Development..."
-                    className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Form Item 4 */}
-            <div className="border-b border-white/10 pb-4">
-              <div className="flex items-start gap-3">
-                <span className="text-white/40 text-xs font-[gotham]">04</span>
-                <div className="flex-1">
-                  <label className="text-white text-sm font-[gotham] font-medium block mb-1">Your message</label>
-                  <textarea 
-                    placeholder="Hello Clyde, can you help me with..."
-                    rows={2}
-                    className="w-full bg-transparent text-white/60 text-sm font-[gotham] placeholder-white/30 outline-none focus:text-white transition-colors resize-none"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <button className="w-full flex items-center justify-center gap-3 px-6 py-3.5 bg-gradient-to-r from-[#004F85] to-[#578e8c] rounded-full text-white font-[gotham] font-bold text-sm active:scale-95 transition-transform">
-              <span>Send Message</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Contact Info Grid */}
-          <div className="grid grid-cols-2 gap-6 mb-10 animate-on-scroll">
-            {/* Contact Details */}
+        <div className="relative z-10 max-w-sm mx-auto h-full flex flex-col justify-center px-3 py-6">
+          {/* Two Column Grid */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* LEFT COLUMN - Title + Form */}
             <div className="space-y-3">
-              <h4 className="text-white/40 text-[10px] font-[gotham] uppercase tracking-widest">Contact</h4>
+              {/* Title */}
+              <div className="animate-on-scroll">
+                <h2 className="text-lg font-[gotham] font-light text-white leading-tight">
+                  Let's start a
+                </h2>
+                <h2 className="text-lg font-[gotham] font-bold slate-sky-theme leading-tight">
+                  project together
+                </h2>
+              </div>
+
+              {/* Compact Form */}
+              <div className="space-y-2 animate-on-scroll">
+                <div className="border-b border-white/10 pb-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-white/30 text-[10px] font-[gotham]">01</span>
+                    <input 
+                      type="text" 
+                      placeholder="Your name *"
+                      className="flex-1 bg-transparent text-white/70 text-[11px] font-[gotham] placeholder-white/30 outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="border-b border-white/10 pb-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-white/30 text-[10px] font-[gotham]">02</span>
+                    <input 
+                      type="email" 
+                      placeholder="Your email *"
+                      className="flex-1 bg-transparent text-white/70 text-[11px] font-[gotham] placeholder-white/30 outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="border-b border-white/10 pb-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-white/30 text-[10px] font-[gotham]">03</span>
+                    <input 
+                      type="text" 
+                      placeholder="Service needed"
+                      className="flex-1 bg-transparent text-white/70 text-[11px] font-[gotham] placeholder-white/30 outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="border-b border-white/10 pb-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-white/30 text-[10px] font-[gotham]">04</span>
+                    <input 
+                      type="text" 
+                      placeholder="Your message"
+                      className="flex-1 bg-transparent text-white/70 text-[11px] font-[gotham] placeholder-white/30 outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <button className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-[#004F85] to-[#578e8c] rounded-full text-white font-[gotham] font-bold text-[10px] active:scale-95 transition-transform mt-2">
+                  <span>Send</span>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN - Profile + Contact Info */}
+            <div className="space-y-3 animate-on-scroll">
+              {/* Profile - Bigger */}
+              <div className="flex flex-col items-center text-center mb-2">
+                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#7BB3D3]/40 shadow-lg shadow-[#7BB3D3]/20 mb-2">
+                  <img src="/images/me.png" alt="Kenneth Que" className="w-full h-full object-cover" />
+                </div>
+                <p className="text-white font-[gotham] font-bold text-xs">Kenneth Que</p>
+                <p className="text-white/50 text-[10px] font-[gotham]">Full Stack Developer</p>
+              </div>
+
+              {/* Contact Details */}
+              <div className="space-y-0.5">
+                <h4 className="text-white/30 text-[8px] font-[gotham] uppercase tracking-wider">Contact</h4>
+                <a href="mailto:kennethque101@gmail.com" className="block text-white text-[10px] font-[gotham] truncate hover:text-[#7BB3D3] transition-colors">kennethque101@gmail.com</a>
+                <a href="mailto:co230718@adzu.edu.ph" className="block text-white text-[10px] font-[gotham] truncate hover:text-[#7BB3D3] transition-colors">co230718@adzu.edu.ph</a>
+                <a href="tel:+639690919791" className="block text-white text-[10px] font-[gotham] hover:text-[#7BB3D3] transition-colors">+63 969 091 9791</a>
+              </div>
+
+              {/* Business */}
+              <div className="space-y-0.5">
+                <h4 className="text-white/30 text-[8px] font-[gotham] uppercase tracking-wider">Business</h4>
+                <p className="text-white/70 text-[10px] font-[gotham]">ClydeDevs</p>
+                <p className="text-white/70 text-[10px] font-[gotham]">Philippines</p>
+              </div>
+
+              {/* Socials - All linked */}
               <div className="space-y-1">
-                <a href="mailto:clydeque@example.com" className="block text-white text-xs font-[gotham] hover:text-[#7BB3D3] transition-colors truncate">clydeque@example.com</a>
-                <a href="tel:+639123456789" className="block text-white text-xs font-[gotham] hover:text-[#7BB3D3] transition-colors">+63 912 345 6789</a>
-              </div>
-            </div>
-
-            {/* Business */}
-            <div className="space-y-3">
-              <h4 className="text-white/40 text-[10px] font-[gotham] uppercase tracking-widest">Business</h4>
-              <div className="space-y-1 text-white/80 font-[gotham] text-xs">
-                <p>ClydeDevs</p>
-                <p>Philippines</p>
+                <h4 className="text-white/30 text-[8px] font-[gotham] uppercase tracking-wider">Socials</h4>
+                <div className="flex flex-wrap gap-1">
+                  <a href="https://github.com/kennethque" target="_blank" rel="noopener noreferrer" className="px-2 py-1 bg-white/5 border border-white/10 rounded-full text-white text-[9px] font-[gotham] hover:bg-[#7BB3D3]/20 hover:border-[#7BB3D3]/30 transition-all">GitHub</a>
+                  <a href="https://www.linkedin.com/in/kennethque101/" target="_blank" rel="noopener noreferrer" className="px-2 py-1 bg-white/5 border border-white/10 rounded-full text-white text-[9px] font-[gotham] hover:bg-[#7BB3D3]/20 hover:border-[#7BB3D3]/30 transition-all">LinkedIn</a>
+                  <a href="https://facebook.com/kennethque" target="_blank" rel="noopener noreferrer" className="px-2 py-1 bg-white/5 border border-white/10 rounded-full text-white text-[9px] font-[gotham] hover:bg-[#7BB3D3]/20 hover:border-[#7BB3D3]/30 transition-all">Facebook</a>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Socials */}
-          <div className="animate-on-scroll">
-            <h4 className="text-white/40 text-[10px] font-[gotham] uppercase tracking-widest mb-3">Socials</h4>
-            <div className="flex flex-wrap gap-3">
-              <a href="https://github.com/Clydefois" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-white text-xs font-[gotham] hover:bg-white/10 hover:border-[#7BB3D3]/50 transition-all">GitHub</a>
-              <a href="https://www.linkedin.com/in/kcque101/" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-white text-xs font-[gotham] hover:bg-white/10 hover:border-[#7BB3D3]/50 transition-all">LinkedIn</a>
-              <a href="https://facebook.com/kc012s" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-white text-xs font-[gotham] hover:bg-white/10 hover:border-[#7BB3D3]/50 transition-all">Facebook</a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-white text-xs font-[gotham] hover:bg-white/10 hover:border-[#7BB3D3]/50 transition-all">Twitter</a>
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="mt-12 pt-6 border-t border-white/10 text-center animate-on-scroll">
-            <p className="text-white/40 text-xs font-[gotham]">© 2026 ClydeDevs. All rights reserved.</p>
+          {/* Footer - At bottom */}
+          <div className="mt-auto pt-4 border-t border-white/10 text-center">
+            <p className="text-white/30 text-[9px] font-[gotham]">© 2026 ClydeDevs</p>
           </div>
         </div>
       </section>

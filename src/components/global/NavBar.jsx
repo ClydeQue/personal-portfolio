@@ -78,24 +78,29 @@ const NavBar = () => {
   const scrollToSection = (sectionId) => {
     if (sectionId === 'home') {
       gsap.to(window, { 
-        duration: 3, 
+        duration: 2, 
         scrollTo: { y: 0, autoKill: false },
-        ease: "sine.inOut"
+        ease: "power2.inOut"
       })
     } else if (sectionId === 'skills') {
       gsap.to(window, { 
-        duration: 3, 
-        scrollTo: "#skills",
-        ease: "sine.inOut"
+        duration: 2, 
+        scrollTo: { y: "#skills", autoKill: false },
+        ease: "power2.inOut"
       })
     } else if (sectionId === 'projects') {
       gsap.to(window, { 
-        duration: 3, 
-        scrollTo: "#projects",
-        ease: "sine.inOut"
+        duration: 2, 
+        scrollTo: { y: "#projects", autoKill: false },
+        ease: "power2.inOut"
+      })
+    } else if (sectionId === 'contact') {
+      gsap.to(window, { 
+        duration: 2.5, 
+        scrollTo: { y: "#contact", autoKill: false },
+        ease: "power2.inOut"
       })
     }
-    // Contact is non-functional for now
   }
 
   return (
@@ -137,22 +142,22 @@ const NavBar = () => {
                               )}
                               {item.name === 'PROJECTS' && (
                                 <img 
-                                  src="/icons/folder.svg" 
+                                  src="/icons/projects.svg" 
                                   alt="Projects" 
                                   className={`w-3 h-3 ${activeSection === 'PROJECTS' ? '' : 'filter invert'}`}
                                 />
                               )}
                               {item.name === 'SKILLS' && (
                                 <img 
-                                  src="/icons/projects.svg" 
-                                  alt="Projects" 
+                                  src="/icons/folder.svg" 
+                                  alt="Skills" 
                                   className={`w-3 h-3 ${activeSection === 'SKILLS' ? '' : 'filter invert'}`}
                                 />
                               )}
                               {item.name === 'CONTACT' && (
                                 <img 
                                   src="/icons/about.svg" 
-                                  alt="About" 
+                                  alt="Contact" 
                                   className={`w-3 h-3 ${activeSection === 'CONTACT' ? '' : 'filter invert'}`}
                                 />
                               )}

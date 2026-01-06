@@ -166,12 +166,12 @@ const Project2 = () => {
       )}
 
       {/* Project Image */}
-      <div className="w-full md:w-2/5 flex flex-col items-center justify-center gap-4">
-        <div className="relative group w-full">
+      <div className="w-full lg:w-2/5 flex flex-col items-center justify-center gap-4">
+        <div className="relative group w-full max-w-[90vw] sm:max-w-[80vw] md:max-w-[60vw] lg:max-w-[500px] mx-auto">
           <div className="absolute -inset-2.5 border border-[#F6AA10]/30 rounded-lg hidden md:block"></div>
           <div className="absolute -inset-1.5 border border-[#F6AA10]/50 rounded-lg hidden md:block"></div>
           
-          <div className="relative w-full md:w-[500px] h-[200px] md:h-[300px] overflow-hidden rounded-lg shadow-2xl">
+          <div className="relative w-full aspect-video overflow-hidden rounded-lg shadow-2xl">
             <img
               ref={imageRef}
               src={images[currentIndex]}
@@ -222,9 +222,9 @@ const Project2 = () => {
       </div>
 
 
-             <div className="w-full md:w-3/5 space-y-4 md:space-y-6">
+             <div className="w-full lg:w-3/5 space-y-4 md:space-y-6">
                 <div className="space-y-2">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-[gotham] font-bold text-white">LeoRentACar</h2>
+                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-[gotham] font-bold text-white">LeoRentACar</h2>
                   
                   <div className="flex items-center gap-2">
                     <img src="/icons/clock.svg" alt="Clock" className="w-4 h-4 md:w-5 md:h-5" />
