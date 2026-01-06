@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollToPlugin, ScrollTrigger)
 const navItems = [
   { name: 'HOME', id: 'home' },
   { name: 'PROJECTS', id: 'projects' },
-  { name: 'SKILLS', id: 'skills' },
+  // { name: 'SKILLS', id: 'skills' }, // Commented out for now
   { name: 'CONTACT', id: 'contact' }
 ]
 
@@ -44,33 +44,49 @@ const NavBar = () => {
 
     console.log('💻 Desktop detected: Using ScrollTrigger for NavBar');
     
-    // Track which section is active based on scroll position (Desktop only)
-    const sections = document.querySelectorAll('section[id]')
-    
-    sections.forEach((section) => {
+    // Wait for GSAP ScrollTriggers to be created, then monitor them
+    const setupNavTracking = () => {
+      // Create custom ScrollTriggers that work with pinned sections
+      // Use scroll position percentage to determine active section
+      
       ScrollTrigger.create({
-        trigger: section,
-        start: 'top center',
-        end: 'bottom center',
-        onEnter: () => {
-          const sectionId = section.getAttribute('id')
-          if (sectionId === 'home') setActiveSection('HOME')
-          else if (sectionId === 'skills') setActiveSection('SKILLS')
-          else if (sectionId === 'projects') setActiveSection('PROJECTS')
-          else if (sectionId === 'contact') setActiveSection('CONTACT')
-        },
-        onEnterBack: () => {
-          const sectionId = section.getAttribute('id')
-          if (sectionId === 'home') setActiveSection('HOME')
-          else if (sectionId === 'skills') setActiveSection('SKILLS')
-          else if (sectionId === 'projects') setActiveSection('PROJECTS')
-          else if (sectionId === 'contact') setActiveSection('CONTACT')
+        trigger: document.body,
+        start: 'top top',
+        end: 'bottom bottom',
+        onUpdate: (self) => {
+          const progress = self.progress;
+          
+          // Calculated thresholds based on scroll structure:
+          // Section 1 (Home): 7000vh pin
+          // Section 2 (Take A Look): 1000% pin  
+          // Section 3 (Projects): 3 panels horizontal scroll
+          // Section 4 (Contact): 100vh
+          // HOME: 0% to 74% (before horizontal scroll starts)
+          // PROJECTS: 74% to 97% (just before horizontal panels begin)
+          // CONTACT: 97% to 100% (contact section)
+          
+          if (progress < 0.6) {
+            setActiveSection('HOME')
+          } else if (progress < 0.97) {
+            setActiveSection('PROJECTS')
+          } else {
+            setActiveSection('CONTACT')
+          }
         }
       })
-    })
+    }
+    
+    // Delay setup to ensure GSAP ScrollTriggers are initialized
+    const timer = setTimeout(setupNavTracking, 500)
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+      clearTimeout(timer)
+      ScrollTrigger.getAll().forEach(trigger => {
+        // Only kill nav-related triggers, not the main animation ones
+        if (trigger.vars && !trigger.vars.id) {
+          trigger.kill()
+        }
+      })
     }
   }, [])
 
@@ -125,10 +141,10 @@ const NavBar = () => {
                         <li 
                             key={item.name}
                             onClick={() => scrollToSection(item.id)}
-                            className={`cursor-pointer transition-all duration-500 font-[gotham] font-bold text-center flex items-center justify-center text-xs sm:text-xs md:text-sm lg:text-sm ${
+                            className={`cursor-pointer font-[gotham] font-bold text-center flex items-center justify-center text-xs sm:text-xs md:text-sm lg:text-sm rounded-full py-1 px-2 sm:py-1 sm:px-2 md:px-3 transition-colors duration-300 ease-out ${
                                 activeSection === item.name 
-                                    ? 'bg-white text-black py-1 px-2 sm:py-1 sm:px-2 md:px-3 rounded-full' 
-                                    : 'text-white hover:text-gray-300 py-1 px-2 sm:py-1 sm:px-2'
+                                    ? 'bg-white text-black' 
+                                    : 'bg-transparent text-white hover:text-gray-300'
                             }`}
                         >
                             <span className='hidden sm:inline'>{item.name}</span>

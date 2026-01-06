@@ -181,14 +181,13 @@ export default function HomeScrollStepByStep() {
     
     const master = gsap.timeline({
       scrollTrigger: {
-        id: "section1-home",
         trigger: homeSectionRef.current,
         start: "top top",
         end: scrollDistance, // Mobile: 2000vh, Desktop: 7000vh
         scrub: scrubValue, // Mobile: instant (true), Desktop: 1 second delay
         pin: true,
         pinSpacing: true,
-        markers: false,
+        markers: true, // DEBUG: Show markers
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const progress = self.progress;
@@ -440,7 +439,6 @@ gsap.delayedCall(0, () => {
       // Timeline for title color change (title is already visible)
       gsap.timeline({
         scrollTrigger: {
-          id: "section2-takealook",
           trigger: section2Ref.current,
           start: "top top",
           end: section2ScrollDistance, // Mobile: 300%, Desktop: 1000%
@@ -448,8 +446,8 @@ gsap.delayedCall(0, () => {
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onEnter: () => console.log('✅ Section 2 (Take A Look) PINNED'),
-          markers: false,
+          onEnter: () => console.log('✅ Section 2 PINNED'),
+          markers: true, // DEBUG: Show markers
         },
       })
       .to(titleEl, { color: '#ffffff', duration: 2, ease: 'power2.inOut' }, 0); // Change to white immediately
@@ -738,20 +736,19 @@ gsap.delayedCall(0, () => {
         }
       });
 
-      // Calculate total scroll distance based on actual wrapper width
-      const totalWidth = panels.length * window.innerWidth;
+      // Calculate total scroll distance - only need to scroll (panels-1) widths
+      const scrollDistance = (panels.length - 1) * window.innerWidth;
 
       // GSAP horizontal scroll - animate the wrapper, not the panels
       gsap.to(wrapEl, {
-        x: () => -(totalWidth - window.innerWidth),
+        x: () => -scrollDistance,
         ease: "none",
         scrollTrigger: {
-          id: "section3-projects-horizontal",
           trigger: sectionEl,
           pin: true,
           pinSpacing: true,
           start: "top top",
-          end: () => `+=${totalWidth}`,
+          end: () => `+=${scrollDistance}`,
           scrub: 1,
           snap: {
             snapTo: 1 / (panels.length - 1),
@@ -761,20 +758,47 @@ gsap.delayedCall(0, () => {
           },
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          markers: false,
-          onEnter: () => console.log('✅ Section 3 (Projects Horizontal) PINNED'),
-          onLeave: () => console.log('➡️ Section 3 (Projects Horizontal) UNPINNED - Contact should appear next'),
           onUpdate: (self) => {
+            // Debug: log progress to ensure snapping to correct positions
             const panelIndex = Math.round(self.progress * (panels.length - 1));
-            console.log(`Section 3 Progress: ${(self.progress * 100).toFixed(1)}%, Panel: ${panelIndex + 1}/${panels.length}`);
+            console.log(`Scroll progress: ${(self.progress * 100).toFixed(1)}%, Panel: ${panelIndex + 1}/${panels.length}`);
           }
         }
       });
 
-      console.log(`✅ Section 3 initialized: ${panels.length} panels, ${totalWidth}px total width`);
+      console.log(`✅ Section 3 initialized: ${panels.length} panels, ${scrollDistance}px scroll distance`);
       
-      // Contact section follows naturally after horizontal scroll - no pin needed
-      // The contact section is just a regular section at the end of the page
+      // Section 4: Contact Section - NO pinning needed, just reveal animation
+      // The contact section flows naturally after the horizontal scroll
+      requestAnimationFrame(() => {
+        const contactEl = document.getElementById('contact');
+        if (contactEl) {
+          console.log('🔧 Setting up Contact Section animations...');
+          
+          // Simple reveal animation - NO pinning (contact is the dead end)
+          gsap.fromTo(contactEl.querySelectorAll('h2'),
+            { y: 60, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1,
+              stagger: 0.2,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: contactEl,
+                start: "top 80%",
+                end: "top 30%",
+                scrub: 1,
+              }
+            }
+          );
+
+          ScrollTrigger.refresh();
+          console.log('✅ Contact Section animation initialized');
+        } else {
+          console.error('❌ Contact element NOT FOUND!');
+        }
+      });
     }
   }
 });
