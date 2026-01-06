@@ -463,6 +463,65 @@ export default function TechStackBackground() {
           }}
         />
       </div>
+
+      {/* Figma - UI/UX Design & Prototyping */}
+      <div
+        className="circle-morph circle-language"
+        data-speed="5.5"
+        data-direction="right"
+        data-bounce-direction="up"
+        style={{
+          position: "absolute",
+          top: "12vh",
+          left: "82vw",
+          width: "70px",
+          height: "70px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 10,
+        }}
+      >
+        <img 
+          src="/techstack/figma.svg" 
+          alt="Figma" 
+          style={{
+            width: "70px",
+            height: "70px",
+            opacity: 0.7,
+          }}
+        />
+      </div>
+
+      {/* Canva - Layouting & Design */}
+      <div
+        className="circle-morph circle-language"
+        data-speed="6.2"
+        data-direction="left"
+        data-bounce-direction="down"
+        style={{
+          position: "absolute",
+          top: "72vh",
+          left: "8vw",
+          width: "70px",
+          height: "70px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 10,
+        }}
+      >
+        <img 
+          src="/techstack/canva.svg" 
+          alt="Canva" 
+          style={{
+            width: "70px",
+            height: "70px",
+            opacity: 0.7,
+          }}
+        />
+      </div>
+
  {/* Rain Pill 1 */}
       <div
         className="circle-morph circle-rain-pill"

@@ -370,7 +370,7 @@ function DesktopLayout() {
             <div className="absolute w-[300px] h-[300px] rounded-full bg-[#004F85]/20 blur-[80px] animate-float-slower" style={{ bottom: '20%', left: '30%' }}></div>
           </div>
 
-          <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-24">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-12 md:py-20 lg:py-24">
             {/* Title - Centered */}
             <div ref={contactTitleRef} className="mb-12 md:mb-16 text-center">
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[gotham] font-light text-white leading-tight">
@@ -382,7 +382,7 @@ function DesktopLayout() {
             </div>
 
             {/* Content Grid - Justified Around */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-32 items-start justify-items-center lg:justify-items-stretch">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-start justify-items-center lg:justify-items-stretch">
               {/* Left - Contact Form */}
               <div ref={contactFormRef} className="space-y-6 w-full max-w-md lg:max-w-none lg:justify-self-start">
                 {/* Form Item 1 */}
@@ -473,8 +473,8 @@ function DesktopLayout() {
               <div ref={contactInfoRef} className="space-y-8 flex flex-col items-start w-full max-w-md lg:max-w-none lg:justify-self-end">
                 {/* Profile Image - BIGGER */}
                 <div className="contact-info-item flex flex-col items-center lg:items-start gap-3">
-                  <div className="w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full overflow-hidden border-4 border-[#7BB3D3]/40 shadow-[0_0_30px_rgba(123,179,211,0.3)]">
-                    <img src="/images/me.png" alt="Clyde Que" className="w-full h-full object-cover object-top" />
+                  <div className="w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border-4 border-[#7BB3D3]/40 shadow-[0_0_30px_rgba(123,179,211,0.3)]">
+                    <img src="/images/me.png" alt="Clyde Que" className="w-full h-full object-contain scale-100" />
                   </div>
                   <div className="flex items-center gap-2 text-[#7BB3D3]">
                     <span className="font-[gotham] text-sm">Let's connect</span>
@@ -536,7 +536,7 @@ function DesktopLayout() {
             </div>
 
             {/* Footer */}
-            <div className="mt-16 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="mt-20 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-white/40 text-sm font-[gotham]">© 2026 ClydeDevs. All rights reserved.</p>
               <p className="text-white/40 text-sm font-[gotham]">Designed & Built with passion</p>
             </div>

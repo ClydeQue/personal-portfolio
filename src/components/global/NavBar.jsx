@@ -7,8 +7,8 @@ gsap.registerPlugin(ScrollToPlugin, ScrollTrigger)
 
 const navItems = [
   { name: 'HOME', id: 'home' },
+  { name: 'SKILLS', id: 'skills' },
   { name: 'PROJECTS', id: 'projects' },
-  // { name: 'SKILLS', id: 'skills' }, // Commented out for now
   { name: 'CONTACT', id: 'contact' }
 ]
 
@@ -58,15 +58,18 @@ const NavBar = () => {
           
           // Calculated thresholds based on scroll structure:
           // Section 1 (Home): 7000vh pin
-          // Section 2 (Take A Look): 1000% pin  
+          // Section 2 (Take A Look/Skills): 1000% pin  
           // Section 3 (Projects): 3 panels horizontal scroll
           // Section 4 (Contact): 100vh
-          // HOME: 0% to 74% (before horizontal scroll starts)
-          // PROJECTS: 74% to 97% (just before horizontal panels begin)
+          // HOME: 0% to 55% (before skills section)
+          // SKILLS: 55% to 74% (Take A Look technologies)
+          // PROJECTS: 74% to 97% (horizontal panels)
           // CONTACT: 97% to 100% (contact section)
           
-          if (progress < 0.6) {
+          if (progress < 0.55) {
             setActiveSection('HOME')
+          } else if (progress < 0.74) {
+            setActiveSection('SKILLS')
           } else if (progress < 0.97) {
             setActiveSection('PROJECTS')
           } else {
@@ -156,18 +159,18 @@ const NavBar = () => {
                                   className={`w-3 h-3 ${activeSection === 'HOME' ? '' : 'filter invert'}`}
                                 />
                               )}
-                              {item.name === 'PROJECTS' && (
-                                <img 
-                                  src="/icons/projects.svg" 
-                                  alt="Projects" 
-                                  className={`w-3 h-3 ${activeSection === 'PROJECTS' ? '' : 'filter invert'}`}
-                                />
-                              )}
                               {item.name === 'SKILLS' && (
                                 <img 
-                                  src="/icons/folder.svg" 
+                                  src="/icons/projects.svg" 
                                   alt="Skills" 
                                   className={`w-3 h-3 ${activeSection === 'SKILLS' ? '' : 'filter invert'}`}
+                                />
+                              )}
+                              {item.name === 'PROJECTS' && (
+                                <img 
+                                  src="/icons/folder.svg" 
+                                  alt="Projects" 
+                                  className={`w-3 h-3 ${activeSection === 'PROJECTS' ? '' : 'filter invert'}`}
                                 />
                               )}
                               {item.name === 'CONTACT' && (
