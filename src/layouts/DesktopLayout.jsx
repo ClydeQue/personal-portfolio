@@ -485,7 +485,7 @@ function DesktopLayout() {
                 </div>
 
                 {/* Contact Details */}
-                <div className="contact-info-item space-y-3 text-left">
+                <div className="contact-info-item space-y-3 text-left">3
                   <h4 className="text-white/40 text-xs font-[gotham] uppercase tracking-widest">Contact Details</h4>
                   <div className="space-y-1">
                     <a href="mailto:kennethque101@gmail.com" className="block text-white font-[gotham] hover:text-[#7BB3D3] transition-colors">kennethque101@gmail.com</a>
