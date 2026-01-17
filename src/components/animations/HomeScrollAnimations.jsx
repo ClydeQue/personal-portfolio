@@ -187,7 +187,6 @@ export default function HomeScrollStepByStep() {
         scrub: scrubValue, // Mobile: instant (true), Desktop: 1 second delay
         pin: true,
         pinSpacing: true,
-        markers: true, // DEBUG: Show markers
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const progress = self.progress;
@@ -447,7 +446,6 @@ gsap.delayedCall(0, () => {
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onEnter: () => console.log('✅ Section 2 PINNED'),
-          markers: true, // DEBUG: Show markers
         },
       })
       .to(titleEl, { color: '#ffffff', duration: 2, ease: 'power2.inOut' }, 0); // Change to white immediately
@@ -478,7 +476,8 @@ gsap.delayedCall(0, () => {
         } else if (bounceDirection === 'right') {
           bounceX = 2000;
           bounceY = Math.random() * 500 - 250;
-        } else if (bounceDirection === 'up') {          bounceX = Math.random() * 500 - 250;
+        } else if (bounceDirection === 'up') {
+          bounceX = Math.random() * 500 - 250;
           bounceY = -2000;
         } else {
           bounceX = Math.random() * 500 - 250;
@@ -503,9 +502,9 @@ gsap.delayedCall(0, () => {
           duration: 3,
           ease: "power2.out",
         }, 0)
-         // Fade in at the start
+        // Fade in at the start
         .to(circle, {
-
+          opacity: 1,
           duration: 1.5,
           ease: "power2.out",
         }, 0)

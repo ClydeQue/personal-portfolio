@@ -182,18 +182,18 @@ const Project1 = () => {
           </div>
         </div>
 
-        {/* Navigation and indicators below the image */}
-        <div className="flex items-center gap-4">
-          {/* Previous button */}
+        {/* Navigation and indicators below the image - Subtle design */}
+        <div className="flex items-center justify-center gap-3 mt-2">
+          {/* Previous button - smaller on mobile */}
           <button
             onClick={goToPrev}
-            className="bg-[#F6AA10]/20 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#F6AA10]/40 transition-colors text-2xl"
+            className="bg-white/10 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/20 transition-colors text-xl md:text-2xl"
           >
             ‹
           </button>
 
-          {/* Slide indicators */}
-          <div className="flex gap-2">
+          {/* Slide indicators - minimal dots */}
+          <div className="flex gap-1.5">
             {images.map((_, index) => (
               <button
                 key={index}
@@ -201,19 +201,19 @@ const Project1 = () => {
                   lastInteractionRef.current = Date.now()
                   setCurrentIndex(index)
                 }}
-                className={`h-2 rounded-full transition-all ${
+                className={`rounded-full transition-all duration-300 ${
                   index === currentIndex 
-                    ? 'bg-[#F6AA10] w-8' 
-                    : 'bg-white/30 w-2 hover:bg-white/50'
+                    ? 'bg-[#F6AA10]/90 w-4 md:w-6 h-1.5' 
+                    : 'bg-white/20 w-1.5 h-1.5 hover:bg-white/40'
                 }`}
               />
             ))}
           </div>
 
-          {/* Next button */}
+          {/* Next button - smaller on mobile */}
           <button
             onClick={goToNext}
-            className="bg-[#F6AA10]/20 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-[#F6AA10]/40 transition-colors text-2xl"
+            className="bg-white/10 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/20 transition-colors text-xl md:text-2xl"
           >
             ›
           </button>

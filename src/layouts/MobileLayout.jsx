@@ -34,21 +34,21 @@ const techIcons = [
 const projectPreviews = [
   {
     id: 1,
-    title: 'POS System',
+    title: 'Offline Point of Sale System',
     image: '/images/pos.webp',
-    techStack: ['react', 'nodejs', 'mysql', 'tailwind']
+    techStack: ['java', 'mysql', 'css']
   },
   {
     id: 2,
-    title: 'Portfolio Website',
-    image: '/images/portfolio.webp',
-    techStack: ['react', 'javascript', 'css', 'git']
+    title: 'LeoRentACar',
+    image: '/images/leo1.webp',
+    techStack: ['react', 'tailwind', 'javascript']
   },
   {
     id: 3,
-    title: 'E-Commerce App',
-    image: '/images/ecommerce.webp',
-    techStack: ['react', 'typescript', 'postgre', 'docker']
+    title: 'OrSem 2025 Family Feud',
+    image: '/images/feud.png',
+    techStack: ['typescript', 'javascript', 'postgresql', 'tailwind']
   }
 ]
 // MObile Layout Component
@@ -775,29 +775,29 @@ function MobileLayout() {
             </div>
           </div>
 
-          {/* Bottom Navigation */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#021019] via-[#021019]/90 to-transparent pt-8 pb-4 px-4">
-            <div className="flex items-center justify-between max-w-lg mx-auto">
+          {/* Bottom Navigation - Minimal & Subtle */}
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#021019] to-transparent pt-6 pb-3 px-4">
+            <div className="flex items-center justify-center gap-6 max-w-lg mx-auto">
               <button 
                 onClick={() => setFullscreenProject(fullscreenProject === 1 ? 3 : fullscreenProject - 1)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 active:scale-95 transition-all"
+                className="p-2 rounded-full bg-white/5 hover:bg-white/10 active:scale-95 transition-all"
+                aria-label="Previous project"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7BB3D3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7BB3D3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M15 18l-6-6 6-6"/>
                 </svg>
-                <span className="text-white text-xs font-[gotham]">Prev</span>
               </button>
               
-              {/* Project Indicators */}
-              <div className="flex gap-2">
+              {/* Subtle Project Indicators */}
+              <div className="flex items-center gap-1.5">
                 {[1, 2, 3].map((num) => (
                   <button
                     key={num}
                     onClick={() => setFullscreenProject(num)}
-                    className={`w-2 h-2 rounded-full transition-all ${
+                    className={`rounded-full transition-all duration-300 ${
                       fullscreenProject === num 
-                        ? 'bg-[#7BB3D3] w-6' 
-                        : 'bg-white/30 hover:bg-white/50'
+                        ? 'bg-[#7BB3D3]/80 w-5 h-1.5' 
+                        : 'bg-white/20 w-1.5 h-1.5 hover:bg-white/40'
                     }`}
                     aria-label={`Go to project ${num}`}
                   />
@@ -806,10 +806,10 @@ function MobileLayout() {
               
               <button 
                 onClick={() => setFullscreenProject(fullscreenProject === 3 ? 1 : fullscreenProject + 1)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 active:scale-95 transition-all"
+                className="p-2 rounded-full bg-white/5 hover:bg-white/10 active:scale-95 transition-all"
+                aria-label="Next project"
               >
-                <span className="text-white text-xs font-[gotham]">Next</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7BB3D3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7BB3D3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M9 18l6-6-6-6"/>
                 </svg>
               </button>
