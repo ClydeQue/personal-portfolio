@@ -13,6 +13,7 @@ export default function HomeScrollStepByStep() {
   const rectangleRef = useRef(null)
   const titleRef = useRef(null)
   const descriptionRef = useRef(null)
+  const viewCVRef = useRef(null)
   const buttonsRef = useRef(null)
   const personGroupRef = useRef(null)
   const leftRectanglesRef = useRef(null)
@@ -264,6 +265,13 @@ export default function HomeScrollStepByStep() {
       
       .to(descriptionRef.current, {
         y: -220,
+        opacity: 0,
+        ease: "power3.inOut",
+        duration: 100
+      }, 45)
+      
+      .to(viewCVRef.current, {
+        y: -200,
         opacity: 0,
         ease: "power3.inOut",
         duration: 100
@@ -832,6 +840,7 @@ gsap.delayedCall(0, () => {
     rectangleRef,
     titleRef,
     descriptionRef,
+    viewCVRef,
     buttonsRef,
     personGroupRef,
     leftRectanglesRef,

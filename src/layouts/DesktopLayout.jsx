@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import ParallaxLights from '../components/ParallaxLights'
 import NavBar from '../components/global/NavBar'
+import PDFModal from '../components/global/PDFModal'
 import HomeScrollAnimations from '../components/animations/HomeScrollAnimations'
 import Project1 from '../components/panels/Project1'
 import Project2 from '../components/panels/Project2'
@@ -8,7 +10,7 @@ import { TechStackBackground, Windmill } from '../components/section2'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import '../App.css'
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
@@ -22,6 +24,9 @@ function DesktopLayout() {
   const contactTitleRef = useRef(null);
   const contactFormRef = useRef(null);
   const contactInfoRef = useRef(null);
+  
+  // PDF Modal state
+  const [isPDFOpen, setIsPDFOpen] = useState(false);
 
   return (
     <div className="App relative">
@@ -76,6 +81,24 @@ function DesktopLayout() {
                  Let's Bring Your <span className='font-extrabold slate-sky-theme'>Next Idea</span> to Life!
                 </p>
               </div>
+              
+              {/* View CV Button */}
+              <button
+                ref={animationRefs.viewCVRef}
+                onClick={() => setIsPDFOpen(true)}
+                className="group flex items-center gap-2 text-sm sm:text-base md:text-lg text-gray-700 font-medium font-[gotham] hover:text-[#143E5B] transition-all duration-300 mt-2 cursor-pointer"
+              >
+                <span className="border-b border-gray-400 group-hover:border-[#143E5B] transition-colors font-semibold">View CV</span>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </button>
               
               <div className="mt-6 md:mt-8 lg:mt-15" ref={animationRefs.connectRef}>
                 <div className="flex items-center space-x-4 mb-4 md:mb-6">
@@ -539,6 +562,14 @@ function DesktopLayout() {
         </section>
         
       </div>
+      
+      {/* PDF Modal for CV */}
+      <PDFModal 
+        isOpen={isPDFOpen} 
+        onClose={() => setIsPDFOpen(false)} 
+        pdfUrl="/portfolio/Clyde_Que_CV.pdf"
+        title="Kenneth Clyde Que - CV"
+      />
     </div>
   )
 }

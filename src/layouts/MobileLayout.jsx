@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, A11y, EffectCoverflow, Autoplay, Navigation } from 'swiper/modules'
 import Tilt from 'react-parallax-tilt'
+import gsap from 'gsap'
 import Project1 from '../components/panels/Project1'
 import Project2 from '../components/panels/Project2'
 import Project3 from '../components/panels/Project3'
+import PDFModal from '../components/global/PDFModal'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/effect-coverflow'
@@ -55,7 +57,10 @@ const projectPreviews = [
 function MobileLayout() { 
   const swiperRef = useRef(null)
   const titleRef = useRef(null)
+  const taglineRef = useRef(null)
+  const viewCVRef = useRef(null)
   const [fullscreenProject, setFullscreenProject] = useState(null)
+  const [isPDFOpen, setIsPDFOpen] = useState(false)
 
   // Smooth scroll function using native smooth scroll (no GSAP conflicts)
   const scrollToSection = (sectionId) => {
@@ -111,6 +116,46 @@ function MobileLayout() {
     return () => {
       observer.disconnect()
     }
+  }, [])
+
+  // GSAP entrance animation for tagline and View CV button
+  useLayoutEffect(() => {
+    const tagline = taglineRef.current
+    const viewCV = viewCVRef.current
+    
+    if (!tagline || !viewCV) return
+    
+    const ctx = gsap.context(() => {
+      // Create timeline with entrance animations
+      const tl = gsap.timeline({ delay: 0.3 })
+      
+      // Animate tagline sliding up and fading in
+      tl.fromTo(tagline, 
+        { opacity: 0, y: 30 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          ease: 'power3.out',
+          clearProps: 'transform'
+        }
+      )
+      // Animate View CV button following tagline
+      .fromTo(viewCV, 
+        { opacity: 0, y: 30 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.6, 
+          ease: 'power3.out',
+          clearProps: 'transform'
+        }, 
+        '-=0.4'
+      )
+    })
+    
+    return () => ctx.revert()
+  }, [])
   }, [])
 
   // Typewriter effect with rotating titles
@@ -229,26 +274,49 @@ function MobileLayout() {
           }}></div>
         </div>
 
-        <div className="space-y-8 relative z-10 max-w-xl mx-auto w-full text-center animate-on-scroll">
+        <div className="space-y-8 relative z-10 max-w-xl mx-auto w-full text-center">
           {/* Header Section */}
-          <div className="space-y-4 animate-on-scroll">
+          <div className="space-y-4">
             {/* Greeting */}
-            <p className="text-base font-[gotham] text-gray-600 font-medium">
+            <p className="text-base font-[gotham] text-gray-600 font-medium animate-on-scroll">
               Hi! I'm <span className="font-bold text-black">Clyde Que</span>
             </p>
             
             {/* Dynamic Title with Typewriter */}
             <h1 
               ref={titleRef}
-              className="text-3xl font-[gotham-narrow] font-bold slate-sky-theme leading-tight min-h-[2.5rem]"
+              className="text-3xl font-[gotham-narrow] font-bold slate-sky-theme leading-tight min-h-[2.5rem] animate-on-scroll"
             >
               A Full Stack Web Developer|
             </h1>
 
-            {/* Tagline */}
-            <p className="text-lg text-black font-bold font-[gotham] leading-relaxed pt-2">
+            {/* Tagline - GSAP animated */}
+            <p 
+              ref={taglineRef} 
+              className="text-lg text-black font-bold font-[gotham] leading-relaxed pt-2"
+              style={{ opacity: 0, transform: 'translateY(30px)' }}
+            >
               Let's Bring Your <span className='font-extrabold slate-sky-theme text-xl'>Next Idea</span> to Life!
             </p>
+            
+            {/* View CV Button - GSAP animated */}
+            <button
+              ref={viewCVRef}
+              onClick={() => setIsPDFOpen(true)}
+              className="group flex items-center justify-center gap-2 text-sm text-gray-700 font-medium font-[gotham] hover:text-[#143E5B] mt-1 cursor-pointer mx-auto"
+              style={{ opacity: 0, transform: 'translateY(30px)' }}
+            >
+              <span className="border-b border-gray-400 group-hover:border-[#143E5B] transition-colors font-semibold">View CV</span>
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </button>
           </div>
 
           {/* Action Buttons */}
@@ -818,6 +886,13 @@ function MobileLayout() {
         </div>
       )}
       
+      {/* PDF Modal for CV */}
+      <PDFModal 
+        isOpen={isPDFOpen} 
+        onClose={() => setIsPDFOpen(false)} 
+        pdfUrl="/portfolio/Clyde_Que_CV.pdf"
+        title="Kenneth Clyde Que - CV"
+      />
     </div>
   )
 }
