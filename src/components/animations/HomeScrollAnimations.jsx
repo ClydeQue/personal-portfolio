@@ -277,6 +277,7 @@ export default function HomeScrollStepByStep() {
         duration: 100
       }, 45)
       
+      
       .to(buttonsRef.current, {
         y: -200,
         opacity: 0,

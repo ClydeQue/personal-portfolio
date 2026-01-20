@@ -120,7 +120,7 @@ function DesktopLayout() {
                     <a href="https://facebook.com/kc012s" target="_blank" rel="noopener noreferrer" className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out">
                       <img src="/icons/facebook.svg" alt="Facebook" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity hover:drop-shadow-[0_0_8px_rgba(24,119,242,0.8)]" />
                     </a>
-                    <a href="https://github.com/Clydefois" target="_blank" rel="noopener noreferrer" className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out">
+                    <a href="https://github.com/09874321  `fois" target="_blank" rel="noopener noreferrer" className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out">
                       <img src="/icons/github.svg" alt="GitHub" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity hover:drop-shadow-[0_0_8px_rgba(88,166,255,0.8)]" />
                     </a>
                     <a href="https://www.linkedin.com/in/kcque101/" target="_blank" rel="noopener noreferrer" className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out">
