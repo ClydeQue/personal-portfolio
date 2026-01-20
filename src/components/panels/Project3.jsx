@@ -29,6 +29,7 @@ const Project3 = () => {
                   
                   <div className="flex flex-wrap gap-2 md:gap-3">
                     <span className="tech-pill">TypeScript</span>
+                    
                     <span className="tech-pill">JavaScript</span>
                     <span className="tech-pill">Next.js</span>
                     <span className="tech-pill">PostgreSQL</span>

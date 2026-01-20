@@ -6,6 +6,10 @@ import HomeScrollAnimations from '../components/animations/HomeScrollAnimations'
 import Project1 from '../components/panels/Project1'
 import Project2 from '../components/panels/Project2'
 import Project3 from '../components/panels/Project3'
+import Project4 from '../components/panels/Project4'
+import Project5 from '../components/panels/Project5'
+import Project6 from '../components/panels/Project6'
+import Project7 from '../components/panels/Project7'
 import { TechStackBackground, Windmill } from '../components/section2'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -362,19 +366,25 @@ function DesktopLayout() {
 
             <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
-                <Project3/>
+                <Project4/>
               </div>
             </article>
 
             <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
-                <Project3/>
+                <Project5/>
               </div>
             </article>
 
             <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
-                <Project3/>
+                <Project6/>
+              </div>
+            </article>
+
+            <article className="panel" style={{ minWidth: "100vw", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div className="panel-inner flex flex-col md:flex-row w-full max-w-7xl mx-auto px-4 md:px-6 gap-4 md:gap-8 overflow-y-auto md:overflow-visible py-6 md:py-0">
+                <Project7/>
               </div>
             </article>
           </div>
@@ -383,16 +393,9 @@ function DesktopLayout() {
         {/* Contact Section - Dennis Snellenberg Style (GSAP animation handled in HomeScrollAnimations) */}
         <section 
           id="contact" 
-          className="relative w-full bg-[#021019] overflow-hidden"
+          className="relative w-full overflow-hidden"
           style={{ zIndex: 40, minHeight: '100vh', paddingBottom: '60px' }}
         >
-          {/* Parallax Lights Background for Contact */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
-            {/* Animated gradient orbs */}
-            <div className="absolute w-[400px] h-[400px] rounded-full bg-[#7BB3D3]/20 blur-[120px] animate-float" style={{ top: '10%', left: '5%' }}></div>
-            <div className="absolute w-[350px] h-[350px] rounded-full bg-[#F6AA10]/15 blur-[100px] animate-float-slow" style={{ top: '50%', right: '10%' }}></div>
-            <div className="absolute w-[300px] h-[300px] rounded-full bg-[#004F85]/20 blur-[80px] animate-float-slower" style={{ bottom: '20%', left: '30%' }}></div>
-          </div>
 
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-12 md:py-20 lg:py-24">
             {/* Title - Centered */}
