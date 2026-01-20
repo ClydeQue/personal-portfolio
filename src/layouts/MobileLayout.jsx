@@ -156,7 +156,6 @@ function MobileLayout() {
     
     return () => ctx.revert()
   }, [])
-  }, [])
 
   // Typewriter effect with rotating titles
   useEffect(() => {
