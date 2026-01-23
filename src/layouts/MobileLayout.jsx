@@ -33,42 +33,43 @@ const techIcons = [
 ]
 
 // Project preview data for mobile cards (only image, title, tech stack)
+// Ordered by date: latest first
 const projectPreviews = [
   {
     id: 1,
-    title: 'Offline Point of Sale System',
-    image: '/images/pos.webp',
-    techStack: ['java', 'mysql', 'css']
+    title: 'WaiveRight',
+    image: '/images/waiveright1.webp',
+    techStack: ['react', 'tailwind']
   },
   {
     id: 2,
+    title: 'Social Development Unit',
+    image: '/images/sdu1.webp',
+    techStack: ['react', 'tailwind']
+  },
+  {
+    id: 3,
+    title: 'HealthMate',
+    image: null,
+    techStack: ['react', 'tailwind']
+  },
+  {
+    id: 4,
     title: 'LeoRentACar',
     image: '/images/leo1.webp',
     techStack: ['react', 'tailwind', 'javascript']
   },
   {
-    id: 3,
+    id: 5,
     title: 'OrSem 2025 Family Feud',
     image: '/images/feud.png',
     techStack: ['typescript', 'javascript', 'postgresql', 'tailwind']
   },
   {
-    id: 4,
-    title: 'Social Development Unit',
-    image: null,
-    techStack: ['react', 'tailwind']
-  },
-  {
-    id: 5,
-    title: 'WaiveRight',
-    image: null,
-    techStack: ['react', 'tailwind']
-  },
-  {
     id: 6,
-    title: 'HealthMate',
-    image: null,
-    techStack: ['react', 'tailwind']
+    title: 'Offline Point of Sale System',
+    image: '/images/pos.webp',
+    techStack: ['java', 'mysql', 'css']
   },
   {
     id: 7,
@@ -1013,7 +1014,7 @@ function MobileLayout() {
                   </svg>
                 </a>
 
-                {/* WhatsApp */}
+                {/* WhatsApp */}  
                 <a 
                   href="https://wa.me/639060364511"
                   target="_blank"

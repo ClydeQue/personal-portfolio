@@ -14,7 +14,6 @@ import { TechStackBackground, Windmill } from '../components/section2'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
-import { useRef } from 'react'
 import '../App.css'
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
@@ -24,10 +23,6 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
  */
 function DesktopLayout() {
   const animationRefs = HomeScrollAnimations();
-  // Contact section refs - animations now handled in HomeScrollAnimations
-  const contactTitleRef = useRef(null);
-  const contactFormRef = useRef(null);
-  const contactInfoRef = useRef(null);
   
   // PDF Modal state
   const [isPDFOpen, setIsPDFOpen] = useState(false);
@@ -127,7 +122,7 @@ function DesktopLayout() {
                     <a href="https://github.com/09874321  `fois" target="_blank" rel="noopener noreferrer" className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out">
                       <img src="/icons/github.svg" alt="GitHub" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity hover:drop-shadow-[0_0_8px_rgba(88,166,255,0.8)]" />
                     </a>
-                    <a href="https://www.linkedin.com/in/kcque101/" target="_blank" rel="noopener noreferrer" className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out">
+                    <a href="https://www.linkedin.com/in/kenneth-que/" target="_blank" rel="noopener noreferrer" className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out">
                       <img src="/icons/linkedin.svg" alt="LinkedIn" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:opacity-75 transition-opacity hover:drop-shadow-[0_0_8px_rgba(0,119,181,0.8)]" />
                     </a>
                     <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:scale-125 hover:rotate-6 transition-all duration-300 ease-out">
@@ -390,28 +385,53 @@ function DesktopLayout() {
           </div>
         </section>
 
-        {/* Contact Section - Dennis Snellenberg Style (GSAP animation handled in HomeScrollAnimations) */}
+        {/* SECTION 4 - Contact Title (Scale from nothing to full) */}
         <section 
-          id="contact" 
-          className="relative w-full overflow-hidden"
-          style={{ zIndex: 40, minHeight: '100vh', paddingBottom: '60px' }}
+          id="contact-title-section"
+          ref={animationRefs.contactSectionRef}
+          style={{
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            overflow: "hidden",
+            background: "transparent",
+          }}
         >
+          <div 
+            ref={animationRefs.contactTitleRef}
+            className="contact-title font-[gotham] text-center"
+            style={{ 
+              position: "relative", 
+              zIndex: 1,
+              transform: "scale(0)",
+              opacity: 0,
+            }}
+          >
+            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-white leading-tight">
+              Let's start a
+            </span>
+            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold slate-sky-theme leading-tight">
+              project together
+            </span>
+          </div>
+        </section>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-12 md:py-20 lg:py-24">
-            {/* Title - Centered */}
-            <div ref={contactTitleRef} className="mb-12 md:mb-16 text-center">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[gotham] font-light text-white leading-tight">
-                Let's start a
-              </h2>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[gotham] font-bold slate-sky-theme leading-tight">
-                project together
-              </h2>
-            </div>
+        {/* SECTION 5 - Contact Form (scrolls in naturally after title unpin) */}
+        <section 
+          id="contact"
+          ref={animationRefs.contactContentRef}
+          className="relative w-full"
+          style={{ zIndex: 40 }}
+        >
+          <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-8 md:py-12 lg:py-16">
 
             {/* Content Grid - Justified Around */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-start justify-items-center lg:justify-items-stretch">
               {/* Left - Contact Form */}
-              <div ref={contactFormRef} className="space-y-6 w-full max-w-md lg:max-w-none lg:justify-self-start">
+              <div className="space-y-6 w-full max-w-md lg:max-w-none lg:justify-self-start">
                 {/* Form Item 1 */}
                 <div className="contact-form-item border-b border-white/10 pb-5 group cursor-pointer hover:border-[#7BB3D3]/50 transition-colors">
                   <div className="flex items-start gap-3">
@@ -497,7 +517,7 @@ function DesktopLayout() {
               </div>
 
               {/* Right - Contact Info - Left aligned inside, right side of grid */}
-              <div ref={contactInfoRef} className="space-y-8 flex flex-col items-start w-full max-w-md lg:max-w-none lg:justify-self-end">
+              <div className="space-y-8 flex flex-col items-start w-full max-w-md lg:max-w-none lg:justify-self-end">
                 {/* Profile Image - BIGGER */}
                 <div className="contact-info-item flex flex-col items-center lg:items-start gap-3">
                   <div className="w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border-4 border-[#7BB3D3]/40 shadow-[0_0_30px_rgba(123,179,211,0.3)]">
@@ -539,7 +559,7 @@ function DesktopLayout() {
                       <img src="/icons/github.svg" alt="GitHub" className="w-5 h-5 brightness-0 invert" />
                       <span className="hidden sm:inline">GitHub</span>
                     </a>
-                    <a href="https://www.linkedin.com/in/kcque101/" target="_blank" rel="noopener noreferrer" className="text-white font-[gotham] hover:text-[#7BB3D3] transition-colors flex items-center gap-2">
+                    <a href="https://www.linkedin.com/in/kenneth-que/" target="_blank" rel="noopener noreferrer" className="text-white font-[gotham] hover:text-[#7BB3D3] transition-colors flex items-center gap-2">
                       <img src="/icons/linkedin.svg" alt="LinkedIn" className="w-5 h-5 brightness-0 invert" />
                       <span className="hidden sm:inline">LinkedIn</span>
                     </a>
@@ -557,7 +577,7 @@ function DesktopLayout() {
             </div>
 
             {/* Footer */}
-            <div className="mt-20 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="mt-10 pt-4 pb-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-white/40 text-sm font-[gotham]">© 2026 ClydeDevs. All rights reserved.</p>
               <p className="text-white/40 text-sm font-[gotham]">Designed & Built with passion</p>
             </div>

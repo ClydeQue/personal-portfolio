@@ -25,6 +25,9 @@ export default function HomeScrollStepByStep() {
   const section2Ref = useRef(null);
   const section3Ref = useRef(null);
   const wrapperRef = useRef(null);
+  const contactSectionRef = useRef(null);
+  const contactTitleRef = useRef(null);
+  const contactContentRef = useRef(null);
 
   useLayoutEffect(() => {
     // capture refs in locals when needed inside cleanup blocks
@@ -776,37 +779,47 @@ gsap.delayedCall(0, () => {
 
       console.log(`✅ Section 3 initialized: ${panels.length} panels, ${scrollDistance}px scroll distance`);
       
-      // Section 4: Contact Section - NO pinning needed, just reveal animation
-      // The contact section flows naturally after the horizontal scroll
-      requestAnimationFrame(() => {
-        const contactEl = document.getElementById('contact');
-        if (contactEl) {
-          console.log('🔧 Setting up Contact Section animations...');
-          
-          // Simple reveal animation - NO pinning (contact is the dead end)
-          gsap.fromTo(contactEl.querySelectorAll('h2'),
-            { y: 60, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 1,
-              stagger: 0.2,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: contactEl,
-                start: "top 80%",
-                end: "top 30%",
-                scrub: 1,
-              }
-            }
-          );
+      // Section 4: Contact Title - Scale animation tied to section 3 ending
+      // This uses a separate ScrollTrigger that starts after section 3's pin ends
+      const contactTitleSection = contactSectionRef.current;
+      const contactTitleEl = contactTitleRef.current;
+      
+      if (contactTitleSection && contactTitleEl) {
+        console.log('🔧 Setting up Contact Title animations...');
+        
+        // Set initial state - completely invisible
+        gsap.set(contactTitleEl, { 
+          scale: 0, 
+          opacity: 0,
+          transformOrigin: "center center"
+        });
+        
+        // Calculate the end position of section 3's scroll
+        // The contact title section pins and scales the title from 0 to 1
+        const contactScrollDistance = window.innerWidth < 768 ? window.innerHeight * 2 : window.innerHeight * 3;
+        
+        gsap.to(contactTitleEl, {
+          scale: 1,
+          opacity: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: contactTitleSection,
+            start: "top top",
+            end: () => `+=${contactScrollDistance}`,
+            scrub: 0.5,
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onEnter: () => console.log('✅ Contact Title PINNED'),
+            onLeave: () => console.log('✅ Contact Title UNPINNED'),
+            onEnterBack: () => console.log('↩️ Contact Title RE-PINNED'),
+            onLeaveBack: () => console.log('↩️ Contact Title LEFT BACK'),
+          }
+        });
 
-          ScrollTrigger.refresh();
-          console.log('✅ Contact Section animation initialized');
-        } else {
-          console.error('❌ Contact element NOT FOUND!');
-        }
-      });
+        console.log(`✅ Contact Title animation initialized, scroll distance: ${contactScrollDistance}px`);
+      }
     }
   }
 });
@@ -853,5 +866,8 @@ gsap.delayedCall(0, () => {
     section2Ref,
     section3Ref,
     wrapperRef,
+    contactSectionRef,
+    contactTitleRef,
+    contactContentRef,
   }
 }

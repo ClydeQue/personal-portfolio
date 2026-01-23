@@ -44,39 +44,73 @@ const NavBar = () => {
 
     console.log('💻 Desktop detected: Using ScrollTrigger for NavBar');
     
-    // Wait for GSAP ScrollTriggers to be created, then monitor them
+    // Wait for GSAP ScrollTriggers to be created, then set up section-based tracking
     const setupNavTracking = () => {
-      // Create custom ScrollTriggers that work with pinned sections
-      // Use scroll position percentage to determine active section
+      // Create individual ScrollTriggers for each section
+      // These detect when each section enters/leaves the viewport
       
-      ScrollTrigger.create({
-        trigger: document.body,
-        start: 'top top',
-        end: 'bottom bottom',
-        onUpdate: (self) => {
-          const progress = self.progress;
-          
-          // Calculated thresholds based on scroll structure:
-          // Section 1 (Home): 7000vh pin
-          // Section 2 (Take A Look/Skills): 1000% pin  
-          // Section 3 (Projects): 3 panels horizontal scroll
-          // Section 4 (Contact): 100vh
-          // HOME: 0% to 55% (before skills section)
-          // SKILLS: 55% to 74% (Take A Look technologies)
-          // PROJECTS: 74% to 97% (horizontal panels)
-          // CONTACT: 97% to 100% (contact section)
-          
-          if (progress < 0.55) {
-            setActiveSection('HOME')
-          } else if (progress < 0.74) {
-            setActiveSection('SKILLS')
-          } else if (progress < 0.97) {
-            setActiveSection('PROJECTS')
-          } else {
-            setActiveSection('CONTACT')
-          }
-        }
-      })
+      const homeSection = document.getElementById('home');
+      const skillsSection = document.getElementById('skills');
+      const projectsSection = document.getElementById('projects');
+      const contactTitleSection = document.getElementById('contact-title-section');
+      const contactSection = document.getElementById('contact');
+      
+      // Home section - active until skills section starts
+      if (homeSection) {
+        ScrollTrigger.create({
+          trigger: homeSection,
+          start: 'top top',
+          end: 'bottom top',
+          onEnter: () => setActiveSection('HOME'),
+          onEnterBack: () => setActiveSection('HOME'),
+        });
+      }
+      
+      // Skills section - "Take A Look" section
+      if (skillsSection) {
+        ScrollTrigger.create({
+          trigger: skillsSection,
+          start: 'top center',
+          end: 'bottom top',
+          onEnter: () => setActiveSection('SKILLS'),
+          onEnterBack: () => setActiveSection('SKILLS'),
+        });
+      }
+      
+      // Projects section - horizontal scroll panels
+      if (projectsSection) {
+        ScrollTrigger.create({
+          trigger: projectsSection,
+          start: 'top center',
+          end: 'bottom top',
+          onEnter: () => setActiveSection('PROJECTS'),
+          onEnterBack: () => setActiveSection('PROJECTS'),
+        });
+      }
+      
+      // Contact title section - counts as CONTACT
+      if (contactTitleSection) {
+        ScrollTrigger.create({
+          trigger: contactTitleSection,
+          start: 'top center',
+          end: 'bottom top',
+          onEnter: () => setActiveSection('CONTACT'),
+          onEnterBack: () => setActiveSection('CONTACT'),
+        });
+      }
+      
+      // Contact form section
+      if (contactSection) {
+        ScrollTrigger.create({
+          trigger: contactSection,
+          start: 'top center',
+          end: 'bottom bottom',
+          onEnter: () => setActiveSection('CONTACT'),
+          onEnterBack: () => setActiveSection('CONTACT'),
+        });
+      }
+      
+      console.log('✅ NavBar ScrollTriggers initialized for all sections');
     }
     
     // Delay setup to ensure GSAP ScrollTriggers are initialized

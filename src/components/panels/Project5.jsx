@@ -3,50 +3,51 @@ import React from 'react'
 const Project5 = () => {
   return (
     <>
-      {/* Project Placeholder - No Image */}
-      <div className="w-full lg:w-2/5 flex flex-col items-center justify-center gap-4">
+      {/* Project Image */}
+      <div className="w-full lg:w-2/5 flex items-center justify-center">
         <div className="relative w-full max-w-[90vw] sm:max-w-[80vw] md:max-w-[60vw] lg:max-w-[500px] mx-auto">
-          <div className="absolute -inset-2.5 border border-[#7BB3D3]/30 rounded-lg hidden md:block"></div>
-          <div className="absolute -inset-1.5 border border-[#7BB3D3]/50 rounded-lg hidden md:block"></div>
-          
-          <div className="relative w-full aspect-video overflow-hidden rounded-lg shadow-2xl bg-[#021019] border border-white/10 flex items-center justify-center">
-            <div className="text-center p-6">
-              <svg className="w-16 h-16 mx-auto mb-4 text-[#7BB3D3]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
-              <p className="text-gray-500 font-[gotham] text-sm">Coming Soon</p>
-            </div>
-          </div>
+          <div className="absolute -inset-2.5 border border-[#F6AA10]/30 rounded-lg hidden md:block"></div>
+          <div className="absolute -inset-1.5 border border-[#F6AA10]/50 rounded-lg hidden md:block"></div>
+          <img 
+            src="/images/feud.png" 
+            alt="OrSem 2025 Family Feud Game" 
+            className="relative w-full aspect-video object-cover rounded-lg shadow-2xl"
+          />
         </div>
       </div>
 
       <div className="w-full lg:w-3/5 space-y-4 md:space-y-6">
         <div className="space-y-2">
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-[gotham] font-bold text-white">WaiveRight</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-[gotham] font-bold text-white">OrSem 2025 Family Feud Game</h2>
           
           <div className="flex items-center gap-2">
             <img src="/icons/clock.svg" alt="Clock" className="w-4 h-4 md:w-5 md:h-5" />
-            <div className="text-gray-400 text-sm md:text-base">Coming Soon</div>
+            <div className="text-gray-400 text-sm md:text-base">2025</div>
           </div>
           
           <div className="flex flex-wrap gap-2 md:gap-3">
-            <span className="tech-pill">React</span>
+            <span className="tech-pill">TypeScript</span>
+            <span className="tech-pill">JavaScript</span>
+            <span className="tech-pill">Next.js</span>
+            <span className="tech-pill">PostgreSQL</span>
             <span className="tech-pill">TailwindCSS</span>
+            <span className="tech-pill">Figma</span>
+            <span className="tech-pill">Vercel</span>
           </div>
         </div>
 
         <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-          To be continued code
+          My senior in Computer Science led the development of this TypeScript-based Family Feud web app for OrSem 2025 at Ateneo de Zamboanga University, and I assisted in its implementation. Built with Next.js and PostgreSQL, it features two synchronized interfaces: a main game display and a controller view for the game master to manage questions, reveal answers, and update scores in real time.
         </p>
 
         <div className="flex gap-3 md:gap-4">
-          <button disabled className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-gray-600 text-gray-400 font-bold rounded-xl cursor-not-allowed">
+          <a href="#" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors">
             View Project
-          </button>
-          <button disabled className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/5 text-gray-500 font-bold rounded-xl cursor-not-allowed flex items-center gap-2">
+          </a>
+          <a href="#" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors flex items-center gap-2">
             View Github
-            <img src="/icons/arrowdiagonal.svg" alt="External link" className="w-3 h-3 md:w-4 md:h-4 opacity-50" />
-          </button>
+            <img src="/icons/arrowdiagonal.svg" alt="External link" className="w-3 h-3 md:w-4 md:h-4" />
+          </a>
         </div>
       </div>
     </>

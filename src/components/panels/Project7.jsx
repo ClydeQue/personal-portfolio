@@ -26,7 +26,7 @@ const Project7 = () => {
           
           <div className="flex items-center gap-2">
             <img src="/icons/clock.svg" alt="Clock" className="w-4 h-4 md:w-5 md:h-5" />
-            <div className="text-gray-400 text-sm md:text-base">Coming Soon</div>
+            <div className="text-gray-400 text-sm md:text-base">September 2024 - November 2024</div>
           </div>
           
           <div className="flex flex-wrap gap-2 md:gap-3">
@@ -36,7 +36,7 @@ const Project7 = () => {
         </div>
 
         <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-          To be continued code
+          Will code this soon.
         </p>
 
         <div className="flex gap-3 md:gap-4">
