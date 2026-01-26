@@ -78,14 +78,44 @@ const Project1 = () => {
     setIsFullscreen(!isFullscreen)
   }
 
+  // Handle keyboard navigation and body scroll lock when fullscreen
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = 'hidden'
+      
+      const handleKeyDown = (e) => {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault()
+          goToPrev()
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault()
+          goToNext()
+        } else if (e.key === 'Escape') {
+          e.preventDefault()
+          setIsFullscreen(false)
+        } else if (e.key === ' ') {
+          e.preventDefault()
+        }
+      }
+      
+      window.addEventListener('keydown', handleKeyDown)
+      return () => {
+        document.body.style.overflow = ''
+        window.removeEventListener('keydown', handleKeyDown)
+      }
+    } else {
+      document.body.style.overflow = ''
+    }
+  }, [isFullscreen])
+
   return (
     <>
       {isFullscreen && (
         <div className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center" onClick={toggleFullscreen}>
-          <button onClick={(e) => { e.stopPropagation(); toggleFullscreen() }} className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 z-[10000]">×</button>
-          <button onClick={(e) => { e.stopPropagation(); goToPrev() }} className="absolute left-4 text-white text-4xl hover:text-gray-300 z-[10000]">‹</button>
+          <button onClick={(e) => { e.stopPropagation(); toggleFullscreen() }} className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">×</button>
+          <button onClick={(e) => { e.stopPropagation(); goToPrev() }} className="absolute left-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">‹</button>
           <img src={images[currentIndex]} alt={`WaiveRight Screenshot ${currentIndex + 1}`} className="max-w-[90vw] max-h-[90vh] object-contain" onClick={(e) => e.stopPropagation()} />
-          <button onClick={(e) => { e.stopPropagation(); goToNext() }} className="absolute right-4 text-white text-4xl hover:text-gray-300 z-[10000]">›</button>
+          <button onClick={(e) => { e.stopPropagation(); goToNext() }} className="absolute right-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">›</button>
           <div className="absolute bottom-4 text-white text-lg">{currentIndex + 1} / {images.length}</div>
         </div>
       )}
@@ -100,13 +130,13 @@ const Project1 = () => {
         </div>
 
         <div className="flex items-center justify-center gap-3 mt-2">
-          <button onClick={goToPrev} className="bg-white/10 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/20 transition-colors text-xl md:text-2xl">‹</button>
+          <button onClick={goToPrev} className="bg-white/10 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/20 transition-colors text-xl md:text-2xl cursor-pointer">‹</button>
           <div className="flex gap-1.5">
             {images.map((_, index) => (
-              <button key={index} onClick={() => { lastInteractionRef.current = Date.now(); setCurrentIndex(index) }} className={`rounded-full transition-all duration-300 ${index === currentIndex ? 'bg-[#F6AA10]/90 w-4 md:w-6 h-1.5' : 'bg-white/20 w-1.5 h-1.5 hover:bg-white/40'}`} />
+              <button key={index} onClick={() => { lastInteractionRef.current = Date.now(); setCurrentIndex(index) }} className={`rounded-full transition-all duration-300 cursor-pointer ${index === currentIndex ? 'bg-[#F6AA10]/90 w-4 md:w-6 h-1.5' : 'bg-white/20 w-1.5 h-1.5 hover:bg-white/40'}`} />
             ))}
           </div>
-          <button onClick={goToNext} className="bg-white/10 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/20 transition-colors text-xl md:text-2xl">›</button>
+          <button onClick={goToNext} className="bg-white/10 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/20 transition-colors text-xl md:text-2xl cursor-pointer">›</button>
         </div>
       </div>
 
@@ -128,11 +158,13 @@ const Project1 = () => {
         </p>
 
         <div className="flex gap-3 md:gap-4">
-          <a href="#" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors">View Project</a>
-          <a href="#" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors flex items-center gap-2">
-            View Github
+          <a href="https://waiveright.vercel.app" target='_blank' className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors flex items-center gap-2 cursor-pointer">
+            Live Website
             <img src="/icons/arrowdiagonal.svg" alt="External link" className="w-3 h-3 md:w-4 md:h-4" />
           </a>
+          <button className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors cursor-pointer">
+            View Details
+          </button>
         </div>
       </div>
     </>

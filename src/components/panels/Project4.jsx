@@ -73,35 +73,65 @@ const Project4 = () => {
     setIsFullscreen(!isFullscreen)
   }
 
+  // Handle keyboard navigation and body scroll lock when fullscreen
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = 'hidden'
+      
+      const handleKeyDown = (e) => {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault()
+          goToPrev()
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault()
+          goToNext()
+        } else if (e.key === 'Escape') {
+          e.preventDefault()
+          setIsFullscreen(false)
+        } else if (e.key === ' ') {
+          e.preventDefault()
+        }
+      }
+      
+      window.addEventListener('keydown', handleKeyDown)
+      return () => {
+        document.body.style.overflow = ''
+        window.removeEventListener('keydown', handleKeyDown)
+      }
+    } else {
+      document.body.style.overflow = ''
+    }
+  }, [isFullscreen])
+
   return (
     <>
       {isFullscreen && (
         <div className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center" onClick={toggleFullscreen}>
-          <button onClick={(e) => { e.stopPropagation(); toggleFullscreen() }} className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 z-[10000]">×</button>
-          <button onClick={(e) => { e.stopPropagation(); goToPrev() }} className="absolute left-4 text-white text-4xl hover:text-gray-300 z-[10000]">‹</button>
+          <button onClick={(e) => { e.stopPropagation(); toggleFullscreen() }} className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">×</button>
+          <button onClick={(e) => { e.stopPropagation(); goToPrev() }} className="absolute left-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">‹</button>
           <img src={images[currentIndex]} alt={`LeoRentACar Screenshot ${currentIndex + 1}`} className="max-w-[90vw] max-h-[90vh] object-contain" onClick={(e) => e.stopPropagation()} />
-          <button onClick={(e) => { e.stopPropagation(); goToNext() }} className="absolute right-4 text-white text-4xl hover:text-gray-300 z-[10000]">›</button>
+          <button onClick={(e) => { e.stopPropagation(); goToNext() }} className="absolute right-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">›</button>
           <div className="absolute bottom-4 text-white text-lg">{currentIndex + 1} / {images.length}</div>
         </div>
       )}
 
       <div className="w-full lg:w-2/5 flex flex-col items-center justify-center gap-4">
-        <div className="relative group w-full max-w-[90vw] sm:max-w-[80vw] md:max-w-[60vw] lg:max-w-[500px] mx-auto">
-          <div className="absolute -inset-2.5 border border-[#F6AA10]/30 rounded-lg hidden md:block"></div>
+        <div className="relative group w-full max-w-[85vw] sm:max-w-[75vw] md:max-w-[55vw] lg:max-w-[450px] mx-auto">
+          <div className="absolute -inset-3 border border-[#F6AA10]/30 rounded-lg hidden md:block"></div>
           <div className="absolute -inset-1.5 border border-[#F6AA10]/50 rounded-lg hidden md:block"></div>
           <div className="relative w-full aspect-video overflow-hidden rounded-lg shadow-2xl">
-            <img ref={imageRef} src={images[currentIndex]} alt={`LeoRentACar Screenshot ${currentIndex + 1}`} className="w-full h-full object-cover cursor-pointer" onClick={toggleFullscreen} draggable={false} />
+            <img ref={imageRef} src={images[currentIndex]} alt={`LeoRentACar Screenshot ${currentIndex + 1}`} className="w-full h-full object-contain cursor-pointer bg-black/20" onClick={toggleFullscreen} draggable={false} />
           </div>
         </div>
 
         <div className="flex items-center justify-center gap-3 mt-2">
-          <button onClick={goToPrev} className="bg-white/10 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/20 transition-colors text-xl md:text-2xl">‹</button>
+          <button onClick={goToPrev} className="bg-white/10 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/20 transition-colors text-xl md:text-2xl cursor-pointer">‹</button>
           <div className="flex gap-1.5">
             {images.map((_, index) => (
-              <button key={index} onClick={() => { lastInteractionRef.current = Date.now(); setCurrentIndex(index) }} className={`rounded-full transition-all duration-300 ${index === currentIndex ? 'bg-[#F6AA10]/90 w-4 md:w-6 h-1.5' : 'bg-white/20 w-1.5 h-1.5 hover:bg-white/40'}`} />
+              <button key={index} onClick={() => { lastInteractionRef.current = Date.now(); setCurrentIndex(index) }} className={`rounded-full transition-all duration-300 cursor-pointer ${index === currentIndex ? 'bg-[#F6AA10]/90 w-4 md:w-6 h-1.5' : 'bg-white/20 w-1.5 h-1.5 hover:bg-white/40'}`} />
             ))}
           </div>
-          <button onClick={goToNext} className="bg-white/10 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/20 transition-colors text-xl md:text-2xl">›</button>
+          <button onClick={goToNext} className="bg-white/10 text-white rounded-full w-8 h-8 md:w-10 md:h-10 flex items-center justify-center hover:bg-white/20 transition-colors text-xl md:text-2xl cursor-pointer">›</button>
         </div>
       </div>
 
@@ -115,22 +145,24 @@ const Project4 = () => {
           <div className="flex flex-wrap gap-2 md:gap-3">
             <span className="tech-pill">React</span>
             <span className="tech-pill">Vite</span>
-            <span className="tech-pill">TailwindCSS</span>
-            <span className="tech-pill">Vercel</span>
-            <span className="tech-pill">Responsive Design</span>
+            <span className="tech-pill">TailwindCSS v4</span>
+            <span className="tech-pill">React Router DOM</span>
+            <span className="tech-pill">React Helmet Async</span>
+            <span className="tech-pill">Resend API</span>
+            <span className="tech-pill">Vercel Serverless</span>
           </div>
         </div>
 
         <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-          I designed, developed, and deployed www.leorentacarph.com, an informative website for a car rental business. Built with React and modern web tools, the site features a clean and responsive design, intuitive navigation, and clear service information to connect customers with the business easily. I deployed it on Vercel, ensuring fast performance and reliable hosting. This project allowed me to apply my frontend development skills, practice deployment workflows, and deliver a real-world solution for my client.
+          Built a full-stack car rental website for a private business in Zamboanga City, enabling customers to browse vehicle fleets, explore services (airport transfers, corporate travel, tours), and submit booking inquiries through an integrated contact system. Used React Router DOM and React Helmet Async for a multi-page SPA with SEO-optimized routing and dynamic meta tags. Implemented serverless email handling via Resend API with Vercel Serverless Functions, featuring custom HTML templates and auto-reply functionality. Crafted responsive layouts with TailwindCSS v4, custom IntersectionObserver hooks for scroll-triggered animations, and optimized lazy-loaded images for memory performance.
         </p>
 
         <div className="flex gap-3 md:gap-4">
-          <a href="https://www.leorentacarph.com" target="_blank" rel="noopener noreferrer" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors">View Project</a>
-          <a href="#" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors flex items-center gap-2">
-            View Github
+          <a href="https://www.leorentacarph.com" target="_blank" rel="noopener noreferrer" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors flex items-center gap-2 cursor-pointer">
+            View Project
             <img src="/icons/arrowdiagonal.svg" alt="External link" className="w-3 h-3 md:w-4 md:h-4" />
           </a>
+         
         </div>
       </div>
     </>

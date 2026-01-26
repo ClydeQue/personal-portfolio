@@ -117,7 +117,7 @@ export default ContinuousBackground
  *    - Add more floating orbs or shapes
  *    - Modify sizes, colors, and positions
  *    - Adjust animation duration and easing
- * 
+ *  
  * 5. BACKGROUND PATTERNS:
  *    - Replace radial gradients with images
  *    - Add noise textures or geometric patterns

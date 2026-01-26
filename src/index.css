@@ -1,12 +1,26 @@
 /* TailwindCSS v4 imports */
 @import "tailwindcss";
 
-
+/* Mobile scroll fix - ensure touch scrolling works immediately */
+@media (max-width: 767px) {
+  html, body {
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+    overflow-y: auto !important;
+    overscroll-behavior: auto !important;
+  }
+  
+  #root {
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
 
 html {
   /* Allow scrolling - critical for mobile */
   overflow-x: hidden;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {

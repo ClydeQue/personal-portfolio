@@ -139,17 +139,35 @@ function MobileLayout() {
   // Simple fade-in animations on scroll using Intersection Observer (no GSAP)
   useEffect(() => {
     // CRITICAL: Ensure body can scroll immediately on page load
-    document.body.style.overflow = 'auto'
-    document.body.style.overflowX = 'hidden'
-    document.body.style.overflowY = 'scroll'
-    document.documentElement.style.overflow = 'auto'
-    document.documentElement.style.overflowX = 'hidden'
+    // Set all scroll-related properties synchronously
+    const html = document.documentElement
+    const body = document.body
+    const root = document.getElementById('root')
     
-    // Disable any scroll-locking that might be active
-    document.body.style.position = 'static'
-    document.body.style.height = 'auto'
-    document.body.style.width = 'auto'
-    document.documentElement.style.height = 'auto'
+    // Force enable scrolling on all containers
+    html.style.overflow = 'auto'
+    html.style.overflowX = 'hidden'
+    html.style.overflowY = 'auto'
+    html.style.touchAction = 'pan-y'
+    html.style.webkitOverflowScrolling = 'touch'
+    
+    body.style.overflow = 'auto'
+    body.style.overflowX = 'hidden'
+    body.style.overflowY = 'auto'
+    body.style.position = 'static'
+    body.style.height = 'auto'
+    body.style.width = 'auto'
+    body.style.touchAction = 'pan-y'
+    body.style.webkitOverflowScrolling = 'touch'
+    
+    if (root) {
+      root.style.touchAction = 'pan-y'
+      root.style.webkitOverflowScrolling = 'touch'
+    }
+    
+    // Force a scroll to trigger the scroll recognition on iOS
+    window.scrollTo(0, 1)
+    window.scrollTo(0, 0)
     
     // Use Intersection Observer for simple fade-in animations
     const observer = new IntersectionObserver(
