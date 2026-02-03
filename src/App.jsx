@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Suspense } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import './App.css'
 import LoadingSpinner from './components/global/LoadingSpinner'
 
@@ -37,9 +38,12 @@ function App() {
   }
 
   return (
-    <Suspense fallback={<LoadingSpinner />}>
-      {isMobile ? <MobileLayout /> : <DesktopLayout />}
-    </Suspense>
+    <>
+      <Analytics />
+      <Suspense fallback={<LoadingSpinner />}>
+        {isMobile ? <MobileLayout /> : <DesktopLayout />}
+      </Suspense>
+    </>
   )
 }
 
