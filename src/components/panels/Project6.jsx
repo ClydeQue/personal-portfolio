@@ -85,7 +85,7 @@ const Project6 = () => {
     } else {
       document.body.style.overflow = ''
     }
-  }, [isFullscreen])
+  }, [isFullscreen]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -93,7 +93,7 @@ const Project6 = () => {
         <div className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center" onClick={toggleFullscreen}>
           <button onClick={(e) => { e.stopPropagation(); toggleFullscreen() }} className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">×</button>
           <button onClick={(e) => { e.stopPropagation(); goToPrev() }} className="absolute left-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">‹</button>
-          <img src={images[currentIndex]} alt={`POS System Screenshot ${currentIndex + 1}`} className="max-w-[90vw] max-h-[90vh] object-contain" onClick={(e) => e.stopPropagation()} />
+          <img src={images[currentIndex]} alt={`Offline POS Screenshot ${currentIndex + 1}`} className="max-w-[90vw] max-h-[90vh] object-contain" onClick={(e) => e.stopPropagation()} />
           <button onClick={(e) => { e.stopPropagation(); goToNext() }} className="absolute right-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">›</button>
           <div className="absolute bottom-4 text-white text-lg">{currentIndex + 1} / {images.length}</div>
         </div>

@@ -86,7 +86,7 @@ const Project4 = () => {
     } else {
       document.body.style.overflow = ''
     }
-  }, [isFullscreen])
+  }, [isFullscreen]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
