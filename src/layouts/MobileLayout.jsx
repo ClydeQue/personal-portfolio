@@ -84,6 +84,7 @@ function MobileLayout() {
   const titleRef = useRef(null)
   const taglineRef = useRef(null)
   const viewCVRef = useRef(null)
+  const scrollYRef = useRef(0)
   const [fullscreenProject, setFullscreenProject] = useState(null)
   const [isPDFOpen, setIsPDFOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
@@ -125,14 +126,20 @@ function MobileLayout() {
   }
 
   // Fix scroll when fullscreen modal is open/closed
+  // Uses position:fixed pattern for iOS Safari scroll-lock compatibility
   useEffect(() => {
     if (fullscreenProject) {
-      // Lock body scroll when modal is open
+      scrollYRef.current = window.scrollY
       document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollYRef.current}px`
+      document.body.style.width = '100%'
     } else {
-      // Restore scroll when modal is closed
-      document.body.style.overflow = 'auto'
-      document.body.style.overflowX = 'hidden'
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      window.scrollTo(0, scrollYRef.current)
     }
   }, [fullscreenProject])
 
@@ -164,10 +171,6 @@ function MobileLayout() {
       root.style.touchAction = 'pan-y'
       root.style.webkitOverflowScrolling = 'touch'
     }
-    
-    // Force a scroll to trigger the scroll recognition on iOS
-    window.scrollTo(0, 1)
-    window.scrollTo(0, 0)
     
     // Use Intersection Observer for simple fade-in animations
     const observer = new IntersectionObserver(
