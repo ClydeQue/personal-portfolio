@@ -41,22 +41,7 @@ const Project2 = () => {
 
   useEffect(() => {
     if (imageRef.current) {
-      const isMobile = window.innerWidth < 768;
-      
-      if (isMobile) {
-        gsap.fromTo(imageRef.current, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' })
-      } else {
-        const transitions = [
-          { from: { opacity: 0, scale: 0.9 }, to: { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, x: 100 }, to: { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, x: -100 }, to: { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, scale: 1.2 }, to: { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, rotation: -5, scale: 0.95 }, to: { opacity: 1, rotation: 0, scale: 1, duration: 0.6, ease: 'back.out(1.2)' } },
-          { from: { opacity: 0, y: 50 }, to: { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' } }
-        ]
-        const randomTransition = transitions[Math.floor(Math.random() * transitions.length)]
-        gsap.fromTo(imageRef.current, randomTransition.from, randomTransition.to)
-      }
+      gsap.fromTo(imageRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.inOut' })
     }
   }, [currentIndex])
 
@@ -139,14 +124,6 @@ const Project2 = () => {
 
       <div className="w-full lg:w-3/5 space-y-4 md:space-y-6">
         <div className="space-y-2">
-          <div className="flex flex-wrap items-center gap-2 mb-1">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs md:text-sm font-bold bg-[#F6AA10] text-black uppercase tracking-wider shadow-lg">
-              <span className="text-base leading-none">★</span> Major Project
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs md:text-sm font-bold bg-white/10 text-white uppercase tracking-wider border border-white/20">
-              Full-Scale System
-            </span>
-          </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-[gotham] font-bold text-white">Social Development Unit</h2>
           <div className="flex items-center gap-2">
             <img src="/icons/clock.svg" alt="Clock" className="w-4 h-4 md:w-5 md:h-5" />

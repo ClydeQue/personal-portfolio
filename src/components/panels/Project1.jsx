@@ -40,26 +40,7 @@ const Project1 = () => {
   // GSAP animation when index changes
   useEffect(() => {
     if (imageRef.current) {
-      const isMobile = window.innerWidth < 768;
-      
-      if (isMobile) {
-        gsap.fromTo(
-          imageRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.4, ease: 'power2.out' }
-        )
-      } else {
-        const transitions = [
-          { from: { opacity: 0, scale: 0.9 }, to: { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, x: 100 }, to: { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, x: -100 }, to: { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, scale: 1.2 }, to: { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, rotation: -5, scale: 0.95 }, to: { opacity: 1, rotation: 0, scale: 1, duration: 0.6, ease: 'back.out(1.2)' } },
-          { from: { opacity: 0, y: 50 }, to: { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' } }
-        ]
-        const randomTransition = transitions[Math.floor(Math.random() * transitions.length)]
-        gsap.fromTo(imageRef.current, randomTransition.from, randomTransition.to)
-      }
+      gsap.fromTo(imageRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.inOut' })
     }
   }, [currentIndex])
 
@@ -148,13 +129,21 @@ const Project1 = () => {
             <div className="text-gray-400 text-sm md:text-base">November 2025 - December 2025</div>
           </div>
           <div className="flex flex-wrap gap-2 md:gap-3">
-            <span className="tech-pill">React</span>
-            <span className="tech-pill">TailwindCSS</span>
+            <span className="tech-pill">Next.js 16</span>
+            <span className="tech-pill">TypeScript 5</span>
+            <span className="tech-pill">Tailwind CSS v4</span>
+            <span className="tech-pill">Supabase</span>
+            <span className="tech-pill">TanStack React Query</span>
           </div>
         </div>
 
         <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-          Will code this soon.
+          A client-based web system developed as a research study by a group of Accountancy students, built to modernize the waiver submission process at their academic organization. Instead of submitting physical paperwork, students can now upload and scan their signed waivers directly through the web, covering both on-campus and off-campus activities.
+        </p>
+        <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
+          The system streamlines the workflow between{' '}
+          <span className="text-[#F6AA10] font-semibold">Accountancy students</span> and the{' '}
+          <span className="text-[#F6AA10] font-semibold">Office of Student Affairs (OSA)</span>, which acts as the facilitating admin. Students submit waivers that include guardian signatures digitally, removing the need for physical paperwork on both sides. The OSA then reviews and processes each submission virtually, reducing hassle and improving turnaround for both students and the office.
         </p>
 
         <div className="flex gap-3 md:gap-4">

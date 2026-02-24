@@ -38,22 +38,7 @@ const Project6 = () => {
 
   useEffect(() => {
     if (imageRef.current) {
-      const isMobile = window.innerWidth < 768;
-      
-      if (isMobile) {
-        gsap.fromTo(imageRef.current, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' })
-      } else {
-        const transitions = [
-          { from: { opacity: 0, scale: 0.9 }, to: { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, x: 100 }, to: { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, x: -100 }, to: { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, scale: 1.2 }, to: { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' } },
-          { from: { opacity: 0, rotation: -5, scale: 0.95 }, to: { opacity: 1, rotation: 0, scale: 1, duration: 0.6, ease: 'back.out(1.2)' } },
-          { from: { opacity: 0, y: 50 }, to: { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' } }
-        ]
-        const randomTransition = transitions[Math.floor(Math.random() * transitions.length)]
-        gsap.fromTo(imageRef.current, randomTransition.from, randomTransition.to)
-      }
+      gsap.fromTo(imageRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.inOut' })
     }
   }, [currentIndex])
 
