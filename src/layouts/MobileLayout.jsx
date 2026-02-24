@@ -6,6 +6,10 @@ import gsap from 'gsap'
 import Project1 from '../components/panels/Project1'
 import Project2 from '../components/panels/Project2'
 import Project3 from '../components/panels/Project3'
+import Project4 from '../components/panels/Project4'
+import Project5 from '../components/panels/Project5'
+import Project6 from '../components/panels/Project6'
+import Project7 from '../components/panels/Project7'
 import PDFModal from '../components/global/PDFModal'
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -1113,7 +1117,7 @@ function MobileLayout() {
               <span className="text-white text-xs font-[gotham]">Back</span>
             </button>
             
-            <span className="text-gray-400 text-xs font-[gotham]">Project {fullscreenProject} of 3</span>
+            <span className="text-gray-400 text-xs font-[gotham]">Project {fullscreenProject} of 7</span>
           </div>
 
           {/* Project Content */}
@@ -1125,6 +1129,10 @@ function MobileLayout() {
               {fullscreenProject === 1 && <Project1 />}
               {fullscreenProject === 2 && <Project2 />}
               {fullscreenProject === 3 && <Project3 />}
+              {fullscreenProject === 4 && <Project4 />}
+              {fullscreenProject === 5 && <Project5 />}
+              {fullscreenProject === 6 && <Project6 />}
+              {fullscreenProject === 7 && <Project7 />}
             </div>
           </div>
 
@@ -1132,7 +1140,7 @@ function MobileLayout() {
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#021019] to-transparent pt-6 pb-3 px-4">
             <div className="flex items-center justify-center gap-6 max-w-lg mx-auto">
               <button 
-                onClick={() => setFullscreenProject(fullscreenProject === 1 ? 3 : fullscreenProject - 1)}
+                onClick={() => setFullscreenProject(fullscreenProject === 1 ? 7 : fullscreenProject - 1)}
                 className="p-2 rounded-full bg-white/5 hover:bg-white/10 active:scale-95 transition-all"
                 aria-label="Previous project"
               >
@@ -1143,7 +1151,7 @@ function MobileLayout() {
               
               {/* Subtle Project Indicators */}
               <div className="flex items-center gap-1.5">
-                {[1, 2, 3].map((num) => (
+                {[1, 2, 3, 4, 5, 6, 7].map((num) => (
                   <button
                     key={num}
                     onClick={() => setFullscreenProject(num)}
@@ -1158,7 +1166,7 @@ function MobileLayout() {
               </div>
               
               <button 
-                onClick={() => setFullscreenProject(fullscreenProject === 3 ? 1 : fullscreenProject + 1)}
+                onClick={() => setFullscreenProject(fullscreenProject === 7 ? 1 : fullscreenProject + 1)}
                 className="p-2 rounded-full bg-white/5 hover:bg-white/10 active:scale-95 transition-all"
                 aria-label="Next project"
               >
