@@ -37,17 +37,8 @@ const Project5 = () => {
         </div>
 
         <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-          My senior in Computer Science led the development of this TypeScript-based Family Feud web app for OrSem 2025 at Ateneo de Zamboanga University, and I assisted in its implementation. Built with Next.js and PostgreSQL, it features two synchronized interfaces: a main game display and a controller view for the game master to manage questions, reveal answers, and update scores in real time.
+          A TypeScript-based Family Feud web app built for OrSem 2025 at Ateneo de Zamboanga University. My senior in Computer Science led the development and I assisted in its implementation. Built with Next.js and PostgreSQL, it features two synchronized interfaces: a main game display and a controller view that lets the game master manage questions, reveal answers, and update scores in real time.
         </p>
-
-        <div className="flex gap-3 md:gap-4">
-          <button className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors cursor-pointer">
-            View Demo
-          </button>
-          <button className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors cursor-pointer">
-            View Details
-          </button>
-        </div>
       </div>
     </>
   )

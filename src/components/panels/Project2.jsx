@@ -139,29 +139,49 @@ const Project2 = () => {
 
       <div className="w-full lg:w-3/5 space-y-4 md:space-y-6">
         <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2 mb-1">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs md:text-sm font-bold bg-[#F6AA10] text-black uppercase tracking-wider shadow-lg">
+              <span className="text-base leading-none">★</span> Major Project
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs md:text-sm font-bold bg-white/10 text-white uppercase tracking-wider border border-white/20">
+              Full-Scale System
+            </span>
+          </div>
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-[gotham] font-bold text-white">Social Development Unit</h2>
           <div className="flex items-center gap-2">
             <img src="/icons/clock.svg" alt="Clock" className="w-4 h-4 md:w-5 md:h-5" />
             <div className="text-gray-400 text-sm md:text-base">September 2025 - December 2025</div>
           </div>
           <div className="flex flex-wrap gap-2 md:gap-3">
-            <span className="tech-pill">React</span>
-            <span className="tech-pill">TailwindCSS</span>
+            <span className="tech-pill">React 19</span>
+            <span className="tech-pill">Tailwind CSS</span>
+            <span className="tech-pill">Material UI</span>
+            <span className="tech-pill">TanStack React Query</span>
+            <span className="tech-pill">Node.js</span>
+            <span className="tech-pill">Express.js</span>
+            <span className="tech-pill">PostgreSQL (Supabase)</span>
+            <span className="tech-pill">Vercel</span>
           </div>
         </div>
 
         <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-          Will code this soon.
+          A large-scale, full-stack web application built for the{' '}
+          <span className="text-[#F6AA10] font-semibold">Social Development Unit (SDU)</span> of Ateneo de Zamboanga University, the central body overseeing six offices responsible for managing programs, projects, and community initiatives. The SDU previously relied entirely on manual reporting workflows, fragmented spreadsheets, and informal group-chat coordination, which caused major inconsistencies, duplicated data, and delayed oversight across all offices.
+        </p>
+        <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
+          To solve this, a{' '}
+          <span className="text-white font-semibold">centralized project monitoring platform</span> was designed and built from the ground up, successfully standardizing report submissions across all six offices, giving the Unit Director real-time visibility and consolidated monthly reports, automating notifications to eliminate missed deadlines, and tracking each project's alignment with the{' '}
+          <span className="text-[#F6AA10] font-semibold">Sustainable Development Goals (SDGs)</span>. This is one of the most complex projects in this portfolio, involving deep system design, multi-role access control, and end-to-end data integrity across a live institutional environment.
         </p>
 
         <div className="flex gap-3 md:gap-4">
-          <a href="https://ateneo-sdu.vercel.app" target='_blank' className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors flex items-center gap-2 cursor-pointer">
+          <a href="https://ateneo-sdu.vercel.app" target='_blank' className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors cursor-pointer">
             Live Website
+          </a>
+          <a href="#" target="_blank" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors flex items-center gap-2 cursor-pointer">
+            Documentation
             <img src="/icons/arrowdiagonal.svg" alt="External link" className="w-3 h-3 md:w-4 md:h-4" />
           </a>
-          <button className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors cursor-pointer">
-            View Details
-          </button>
         </div>
       </div>
     </>

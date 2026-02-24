@@ -143,6 +143,7 @@ const Project4 = () => {
             <div className="text-gray-400 text-sm md:text-base">July 2025 - August 2025</div>
           </div>
           <div className="flex flex-wrap gap-2 md:gap-3">
+            <span className="tech-pill">Figma</span>
             <span className="tech-pill">React</span>
             <span className="tech-pill">Vite</span>
             <span className="tech-pill">TailwindCSS v4</span>
@@ -153,14 +154,17 @@ const Project4 = () => {
           </div>
         </div>
 
-        <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-          Built a full-stack car rental website for a private business in Zamboanga City, enabling customers to browse vehicle fleets, explore services (airport transfers, corporate travel, tours), and submit booking inquiries through an integrated contact system. Used React Router DOM and React Helmet Async for a multi-page SPA with SEO-optimized routing and dynamic meta tags. Implemented serverless email handling via Resend API with Vercel Serverless Functions, featuring custom HTML templates and auto-reply functionality. Crafted responsive layouts with TailwindCSS v4, custom IntersectionObserver hooks for scroll-triggered animations, and optimized lazy-loaded images for memory performance.
+        <p className="text-gray-300 text-xs md:text-sm lg:text-base leading-relaxed">
+          A real-world client project for a private car rental business in Zamboanga City. The entire UI was designed first in{' '}
+          <span className="text-[#F6AA10] font-semibold">Figma</span>, going through layout planning and UI/UX refinement before a single line of code was written, ensuring a polished and deliberate visual outcome from the start.
+        </p>
+        <p className="text-gray-300 text-xs md:text-sm lg:text-base leading-relaxed">
+          The Figma designs were then translated into a fully responsive website, allowing customers to browse vehicle fleets, explore services like airport transfers and corporate travel, and submit booking inquiries through an integrated contact system. The project also achieved SEO-optimized multi-page routing with React Router DOM and React Helmet Async, serverless email handling with auto-reply via the Resend API, scroll-triggered animations through custom IntersectionObserver hooks, and optimized lazy-loaded images for strong memory performance.
         </p>
 
         <div className="flex gap-3 md:gap-4">
-          <a href="https://www.leorentacarph.com" target="_blank" rel="noopener noreferrer" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors flex items-center gap-2 cursor-pointer">
+          <a href="https://www.leorentacarph.com" target="_blank" rel="noopener noreferrer" className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors cursor-pointer">
             View Project
-            <img src="/icons/arrowdiagonal.svg" alt="External link" className="w-3 h-3 md:w-4 md:h-4" />
           </a>
          
         </div>

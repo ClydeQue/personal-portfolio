@@ -1172,7 +1172,7 @@ function MobileLayout() {
       <PDFModal 
         isOpen={isPDFOpen} 
         onClose={() => setIsPDFOpen(false)} 
-        pdfUrl="/portfolio/Clyde_Que_CV.pdf"
+        pdfUrl="/portfolio/KennethClydeQue_CV.pdf"
         title="Kenneth Clyde Que - CV"
       />
     </div>

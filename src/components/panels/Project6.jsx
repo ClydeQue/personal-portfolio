@@ -152,17 +152,8 @@ const Project6 = () => {
         </div>
 
         <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-          I built a custom offline POS system in Java for my client, a local mini grocery store in Zamboanga City. Their main challenge was keeping track of stock levels and sales transactions without relying on an internet connection. I designed and delivered a solution tailored to their daily operations, enabling them to easily manage inventory, monitor product movement, and streamline checkout.
+          A custom offline POS system built in Java for a local mini grocery store in Zamboanga City. The client's main challenge was tracking stock levels and sales transactions without relying on an internet connection. The system was designed and tailored to their daily operations, making it easy to manage inventory, monitor product movement, and streamline the checkout process.
         </p>
-
-        <div className="flex gap-3 md:gap-4">
-          <button className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-[#F6AA10] text-black font-bold rounded-xl hover:bg-[#F6AA10]/90 transition-colors cursor-pointer">
-            View Preview
-          </button>
-          <button className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base bg-white/10 text-white font-bold rounded-xl hover:bg-white/20 transition-colors cursor-pointer">
-            View Details
-          </button>
-        </div>
       </div>
     </>
   )
