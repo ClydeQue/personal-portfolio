@@ -30,13 +30,18 @@ const Project7 = () => {
           </div>
           
           <div className="flex flex-wrap gap-2 md:gap-3">
-            <span className="tech-pill">React</span>
-            <span className="tech-pill">TailwindCSS</span>
+            <span className="tech-pill">HTML</span>
+            <span className="tech-pill">CSS</span>
+            <span className="tech-pill">JavaScript</span>
+            <span className="tech-pill">Canva</span>
           </div>
         </div>
 
         <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
-          Will code this soon.
+          An informative website built for <span className="text-[#F6AA10] font-semibold">Mujer-LGBT Organization Inc.</span>, a Zamboanga City-based registered non-profit human rights group in the Philippines, founded in 2015 by transgender women. The organization advocates for LGBTQIA+ rights, HIV/AIDS awareness, and community empowerment, and has been internationally recognized for its pandemic support and contributions to equality.
+        </p>
+        <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
+          We built this as our team's very first client-based project, covering the organization's history, its advocates, and the goals behind their empowerment work. It marked the beginning of our journey in collaborative web development and showed us what it means to deliver a real product for a real client.
         </p>
 
        <div className="flex gap-3 md:gap-4">
