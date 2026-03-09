@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import gsap from 'gsap'
 
 const Project4 = () => {
@@ -62,6 +63,11 @@ const Project4 = () => {
   useEffect(() => {
     if (isFullscreen) {
       document.body.style.overflow = 'hidden'
+      // Stop Lenis smooth scroll so it cannot move the page while fullscreen is open
+      window.__lenis?.stop()
+      const blockScroll = (e) => { e.preventDefault(); e.stopImmediatePropagation() }
+      window.addEventListener('wheel', blockScroll, { passive: false, capture: true })
+      window.addEventListener('touchmove', blockScroll, { passive: false, capture: true })
       
       const handleKeyDown = (e) => {
         if (e.key === 'ArrowLeft') {
@@ -81,6 +87,9 @@ const Project4 = () => {
       window.addEventListener('keydown', handleKeyDown)
       return () => {
         document.body.style.overflow = ''
+        window.__lenis?.start()
+        window.removeEventListener('wheel', blockScroll, { capture: true })
+        window.removeEventListener('touchmove', blockScroll, { capture: true })
         window.removeEventListener('keydown', handleKeyDown)
       }
     } else {
@@ -90,14 +99,15 @@ const Project4 = () => {
 
   return (
     <>
-      {isFullscreen && (
-        <div className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center" onClick={toggleFullscreen}>
-          <button onClick={(e) => { e.stopPropagation(); toggleFullscreen() }} className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">×</button>
-          <button onClick={(e) => { e.stopPropagation(); goToPrev() }} className="absolute left-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">‹</button>
+      {isFullscreen && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center" onClick={() => setIsFullscreen(false)}>
+          <button aria-label="Close fullscreen" onClick={(e) => { e.stopPropagation(); setIsFullscreen(false) }} className="absolute top-16 right-4 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-2xl cursor-pointer transition-colors">×</button>
+          <button aria-label="Previous image" onClick={(e) => { e.stopPropagation(); goToPrev() }} className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-2xl cursor-pointer transition-colors">‹</button>
           <img src={images[currentIndex]} alt={`LeoRentACar Screenshot ${currentIndex + 1}`} className="max-w-[90vw] max-h-[90vh] object-contain" onClick={(e) => e.stopPropagation()} />
-          <button onClick={(e) => { e.stopPropagation(); goToNext() }} className="absolute right-4 text-white text-4xl hover:text-gray-300 z-[10000] cursor-pointer">›</button>
-          <div className="absolute bottom-4 text-white text-lg">{currentIndex + 1} / {images.length}</div>
-        </div>
+          <button aria-label="Next image" onClick={(e) => { e.stopPropagation(); goToNext() }} className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white text-2xl cursor-pointer transition-colors">›</button>
+          <div className="absolute bottom-4 text-white text-sm">{currentIndex + 1} / {images.length}</div>
+        </div>,
+        document.body
       )}
 
       <div className="w-full lg:w-2/5 flex flex-col items-center justify-center gap-4">

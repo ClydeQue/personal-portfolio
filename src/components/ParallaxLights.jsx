@@ -46,6 +46,9 @@ const ParallaxLights = () => {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // ease-out expo
     })
 
+    // Expose lenis globally so panels can pause/resume it during fullscreen
+    window.__lenis = lenis
+
     function raf(time) {
       lenis.raf(time)
       animationFrameRef.current = requestAnimationFrame(raf)
@@ -105,6 +108,7 @@ const ParallaxLights = () => {
     return () => {
       cancelAnimationFrame(animationFrameRef.current)
       lenis.destroy()
+      window.__lenis = null
       // Removed mousemove event listener
     }
   }, [])

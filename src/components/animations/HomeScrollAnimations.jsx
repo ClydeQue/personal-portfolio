@@ -760,24 +760,18 @@ gsap.delayedCall(0, () => {
           pinSpacing: true,
           start: "top top",
           end: () => `+=${scrollDistance}`,
-          scrub: 1,
+          scrub: 0.5,
           snap: {
             snapTo: 1 / (panels.length - 1),
-            duration: 0.3,
-            ease: "power2.inOut",
-            directional: true
+            duration: { min: 0.2, max: 0.4 },
+            ease: "power1.inOut",
           },
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            // Debug: log progress to ensure snapping to correct positions
-            const panelIndex = Math.round(self.progress * (panels.length - 1));
-            console.log(`Scroll progress: ${(self.progress * 100).toFixed(1)}%, Panel: ${panelIndex + 1}/${panels.length}`);
-          }
         }
       });
 
-      console.log(`✅ Section 3 initialized: ${panels.length} panels, ${scrollDistance}px scroll distance`);
+
       
       // Section 4: Contact Title - Scale animation tied to section 3 ending
       // This uses a separate ScrollTrigger that starts after section 3's pin ends
