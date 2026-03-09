@@ -141,11 +141,11 @@ const Project2 = () => {
           </div>
         </div>
 
-        <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
+        <p className="text-gray-300 text-sm md:text-base lg:text-sm leading-relaxed">
           A large-scale, full-stack web application built for the{' '}
           <span className="text-[#F6AA10] font-semibold">Social Development Unit (SDU)</span> of Ateneo de Zamboanga University, the central body overseeing six offices responsible for managing programs, projects, and community initiatives. The SDU previously relied entirely on manual reporting workflows, fragmented spreadsheets, and informal group-chat coordination, which caused major inconsistencies, duplicated data, and delayed oversight across all offices.
         </p>
-        <p className="text-gray-300 text-sm md:text-base lg:text-lg leading-relaxed">
+        <p className="text-gray-300 text-sm md:text-base lg:text-sm leading-relaxed">
           To solve this, a{' '}
           <span className="text-white font-semibold">centralized project monitoring platform</span> was designed and built from the ground up, successfully standardizing report submissions across all six offices, giving the Unit Director real-time visibility and consolidated monthly reports, automating notifications to eliminate missed deadlines, and tracking each project's alignment with the{' '}
           <span className="text-[#F6AA10] font-semibold">Sustainable Development Goals (SDGs)</span>. This is one of the most complex projects in this portfolio, involving deep system design, multi-role access control, and end-to-end data integrity across a live institutional environment.
