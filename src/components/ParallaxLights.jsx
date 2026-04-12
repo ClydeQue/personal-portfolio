@@ -37,8 +37,6 @@ const ParallaxLights = () => {
     const isMobile = window.innerWidth < 768;
     const activeConfig = isMobile ? ORBS_CONFIG_MOBILE : ORBS_CONFIG;
     
-    console.log(`✨ ParallaxLights: ${isMobile ? 'Mobile' : 'Desktop'} mode - ${activeConfig.length} orbs`);
-
     // Setup Lenis for smooth scroll
     const lenis = new Lenis({
       duration: 1.2,   // scroll inertia

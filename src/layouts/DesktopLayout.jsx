@@ -28,7 +28,7 @@ function DesktopLayout() {
   const [isPDFOpen, setIsPDFOpen] = useState(false);
 
   return (
-    <div className="App relative">
+    <div className="App relative" style={{ backgroundColor: '#021019' }}>
       {/* Scrollable Gradient Background */}
       <div 
         className="absolute top-0 left-0 w-full pointer-events-none z-0"
@@ -397,7 +397,7 @@ function DesktopLayout() {
             justifyContent: "center",
             position: "relative",
             overflow: "hidden",
-            background: "transparent",
+            background: "#021019",
           }}
         >
           <div 
@@ -424,7 +424,7 @@ function DesktopLayout() {
           id="contact"
           ref={animationRefs.contactContentRef}
           className="relative w-full"
-          style={{ zIndex: 40 }}
+          style={{ zIndex: 40, backgroundColor: '#021019' }}
         >
           <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-8 md:py-12 lg:py-16">
 

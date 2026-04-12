@@ -36,18 +36,14 @@ export default function HomeScrollStepByStep() {
     // ====== MOBILE DETECTION ======
     const isMobile = window.innerWidth < 768;
     
-    console.log(`🔍 Device detected: ${isMobile ? 'MOBILE' : 'DESKTOP'}`);
-    
     // ====== MOBILE: DISABLE ALL GSAP ANIMATIONS ======
     if (isMobile) {
-      console.log('📱 Mobile mode: GSAP animations DISABLED - Using simple scroll');
       
       // Show all panels immediately on mobile (no GSAP)
       panelRefs.current.forEach((panel, index) => {
         if (panel) {
           panel.style.opacity = '1';
           panel.style.transform = 'translateX(0) scale(1)';
-          console.log(`Panel ${index + 1} visible (mobile)`);
         }
       });
       
@@ -56,8 +52,6 @@ export default function HomeScrollStepByStep() {
     }
 
     // ====== DESKTOP: FULL GSAP ANIMATIONS ======
-    console.log('💻 Desktop mode: GSAP animations ENABLED');
-    
     panelRefs.current.forEach((panel, index) => {
       if (panel) {
         gsap.set(panel, {
@@ -65,7 +59,6 @@ export default function HomeScrollStepByStep() {
           x: 100,
           scale: 0.9
         });
-        console.log(`Panel ${index + 1} initialized for animation`);
       }
     });
 
@@ -161,7 +154,14 @@ export default function HomeScrollStepByStep() {
     let currentPhase = 0;
     
     const restartAnimations = () => {
-      // Timeline controls all animations, no manual restarts needed
+      typewriterIntervals.forEach(id => {
+        clearTimeout(id);
+        clearInterval(id);
+      });
+      typewriterIntervals = [];
+      isTypewriterActive = true;
+      currentTitleIndex = 0;
+      typeWriterEffect();
     };
 
     const stopAnimations = () => {
@@ -180,8 +180,6 @@ export default function HomeScrollStepByStep() {
     const scrollDistance = isMobile ? "+=2000vh" : "+=7000vh";
     // Mobile: instant response (scrub: true), Desktop: slight delay (scrub: 1)
     const scrubValue = isMobile ? true : 1;
-    
-    console.log(`Section 1: ${isMobile ? 'Mobile' : 'Desktop'} mode - Scrub: ${scrubValue}`);
     
     const master = gsap.timeline({
       scrollTrigger: {
@@ -212,12 +210,10 @@ export default function HomeScrollStepByStep() {
           
           if (newPhase !== currentPhase) {
             if (newPhase <= 1 && currentPhase >= 2) {
-              console.log(`ScrollTrigger: Returning to Phase ${newPhase} - restarting animations`);
               currentPhase = newPhase;
               restartAnimations();
             } else if (currentPhase <= 1 && newPhase >= 2) {
-              console.log(`ScrollTrigger: Entering Phase ${newPhase} - stopping animations`);
-                stopAnimations();
+              stopAnimations();
               currentPhase = newPhase;
             } else {
               currentPhase = newPhase;
@@ -232,10 +228,6 @@ export default function HomeScrollStepByStep() {
 
     // ---- PHASE 1 (40 → 140s) - Uniform animations
     master
-      .call(() => {
-        console.log('Entering Phase 1 - text fade out begins');
-      }, [], 20)
-      
       .to(helloRef.current, {
         y: -250,
         opacity: 0,
@@ -311,7 +303,6 @@ export default function HomeScrollStepByStep() {
 
     // ---- PHASE 2 (140 → 340s) - Rectangle width expansion
     master.addLabel("phase2", 140)
-      .call(() => console.log('Entering Phase 2 - rectangle expansion'), [], 140)
       .to(rectangleRef.current, {
         width: "100vw",
         borderTopRightRadius: 55,
@@ -321,7 +312,6 @@ export default function HomeScrollStepByStep() {
 
     // ---- PHASE 3 (340 → 540s) - Rectangle height expansion
     master.addLabel("phase3", 340)
-      .call(() => console.log('Entering Phase 3 - full rectangle + content'), [], 340)
       .set([pullUpContentRef.current], { visibility: 'visible' }, 340)
       .to(rectangleRef.current, {
         height: "100vh",
@@ -345,7 +335,6 @@ export default function HomeScrollStepByStep() {
 
     // ---- PHASE 4 (540 → 740s) - Content positioning
     master.addLabel("phase4", 540)
-      .call(() => console.log('Entering Phase 4 - content positioning'), [], 540)
       .to([rectangleRef.current, pullUpContentRef.current], {
         y: "-81vh",
 
@@ -408,26 +397,17 @@ export default function HomeScrollStepByStep() {
     // (Section 2 is revealed during the exit tween above)
     
 
-    // --- SECTION 2: pinned "Take A Look" (simple example) ---
-    // First, fade out section 1 content
-   // --- SECTION 2: pinned "Take A Look" ---
-master.addLabel("section1Exit", 862)  // Moved earlier: 860 (end of phase 5 content) + 2
-  // Fade out Section 1
-  .to([homeSectionRef.current, parallaxLightsRef.current], { 
-    autoAlpha: 0, 
-    duration: 40
-  }, "section1Exit")
- 
-  // Section 2 reveal handled at t=780; keep this block free to avoid conflicts
- 
-  // Optional: debug log
-  .call(() => console.log('Entering new Section 2 - Take A Look'), [], "section1Exit+=20")
-  // (Section 2 ScrollTrigger is created outside master; here we only reveal)
-  .call(() => {
-    if (nextSectionRef.current) {
-      gsap.set(nextSectionRef.current, { autoAlpha: 1 });
-    }
-  }, [], "section1Exit+=0") // just after the fade in starts
+    // --- SECTION 2: Fade out Section 1 and reveal "Take A Look" ---
+    master.addLabel("section1Exit", 862)
+      .to([homeSectionRef.current, parallaxLightsRef.current], {
+        autoAlpha: 0,
+        duration: 40
+      }, "section1Exit")
+      .call(() => {
+        if (nextSectionRef.current) {
+          gsap.set(nextSectionRef.current, { autoAlpha: 1 });
+        }
+      }, [], "section1Exit+=0");
 
 // === SECTION 2: pinned "Take A Look" animation ===
 gsap.delayedCall(0, () => {
@@ -435,10 +415,6 @@ gsap.delayedCall(0, () => {
     // Mobile detection for performance optimization
     const isMobileSection2 = window.innerWidth < 768;
     const section2ScrollDistance = isMobileSection2 ? "+=300%" : "+=1000%";
-    const section2ScrubValue = isMobileSection2 ? true : true; // Both instant for smooth scrolling
-    
-    console.log(`Section 2: ${isMobileSection2 ? 'Mobile' : 'Desktop'} mode - Scroll distance: ${section2ScrollDistance}, Scrub: instant`);
-    
     // Make section visible initially
     gsap.set(section2Ref.current, { autoAlpha: 1 });
     
@@ -453,14 +429,13 @@ gsap.delayedCall(0, () => {
           trigger: section2Ref.current,
           start: "top top",
           end: section2ScrollDistance, // Mobile: 300%, Desktop: 1000%
-          scrub: section2ScrubValue, // Instant response
+          scrub: true,
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onEnter: () => console.log('✅ Section 2 PINNED'),
         },
       })
-      .to(titleEl, { color: '#ffffff', duration: 2, ease: 'power2.inOut' }, 0); // Change to white immediately
+      .to(titleEl, { color: '#ffffff', duration: 2, ease: 'power2.inOut' }, 0);
     }
 
     // Animate background circles with morphing and parallax - smooth scroll effect
@@ -708,18 +683,14 @@ gsap.delayedCall(0, () => {
     // Force ScrollTrigger refresh after Section 2 is set up
     gsap.delayedCall(0.1, () => {
       ScrollTrigger.refresh();
-      console.log('ScrollTrigger refreshed after Section 2 setup');
     });
   }
 });
 
     // Section 3: horizontal panels with snap
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
 gsap.delayedCall(0, () => {
   // Skip GSAP initialization on mobile (< 768px) - mobile uses separate Swiper carousel
   if (window.innerWidth < 768) {
-    console.log('📱 Mobile detected: Skipping Section 3 GSAP initialization (using mobile carousel instead)');
     return;
   }
 
@@ -779,7 +750,6 @@ gsap.delayedCall(0, () => {
       const contactTitleEl = contactTitleRef.current;
       
       if (contactTitleSection && contactTitleEl) {
-        console.log('🔧 Setting up Contact Title animations...');
         
         // Set initial state - completely invisible
         gsap.set(contactTitleEl, { 
@@ -805,14 +775,9 @@ gsap.delayedCall(0, () => {
             pinSpacing: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            onEnter: () => console.log('✅ Contact Title PINNED'),
-            onLeave: () => console.log('✅ Contact Title UNPINNED'),
-            onEnterBack: () => console.log('↩️ Contact Title RE-PINNED'),
-            onLeaveBack: () => console.log('↩️ Contact Title LEFT BACK'),
           }
         });
 
-        console.log(`✅ Contact Title animation initialized, scroll distance: ${contactScrollDistance}px`);
       }
     }
   }
