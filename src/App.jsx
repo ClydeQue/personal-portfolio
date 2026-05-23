@@ -7,6 +7,26 @@ import LoadingSpinner from './components/global/LoadingSpinner'
 const DesktopLayout = React.lazy(() => import('./layouts/DesktopLayout'))
 const MobileLayout = React.lazy(() => import('./layouts/MobileLayout'))
 
+const CRITICAL_IMAGES = ['/images/me.webp']
+
+const preloadImage = (src) => {
+  return new Promise((resolve) => {
+    const image = new Image()
+    image.onload = async () => {
+      try {
+        if (image.decode) {
+          await image.decode()
+        }
+      } catch {
+        // The browser already loaded the image, so decoding failure should not block the app.
+      }
+      resolve()
+    }
+    image.onerror = resolve
+    image.src = src
+  })
+}
+
 /**
  * Main App Component - Routes to Desktop or Mobile Layout
  * Breakpoint: 768px (Tailwind md breakpoint)
@@ -25,12 +45,19 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // Minimum loading time of 3 seconds
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
+    let isMounted = true
+    const minimumLoadingTime = new Promise(resolve => setTimeout(resolve, 1200))
+    const criticalAssets = Promise.all(CRITICAL_IMAGES.map(preloadImage))
 
-    return () => clearTimeout(timer)
+    Promise.all([minimumLoadingTime, criticalAssets]).then(() => {
+      if (isMounted) {
+        setIsLoading(false)
+      }
+    })
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   if (isLoading) {

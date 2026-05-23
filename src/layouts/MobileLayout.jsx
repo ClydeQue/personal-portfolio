@@ -214,7 +214,7 @@ function MobileLayout() {
     }
   }, [])
 
-  // GSAP entrance animation for tagline and View CV button
+  // GSAP entrance animation for tagline and View Resume button
   useLayoutEffect(() => {
     const tagline = taglineRef.current
     const viewCV = viewCVRef.current
@@ -236,7 +236,7 @@ function MobileLayout() {
           clearProps: 'transform'
         }
       )
-      // Animate View CV button following tagline
+      // Animate View Resume button following tagline
       .fromTo(viewCV, 
         { opacity: 0, y: 30 },
         { 
@@ -433,7 +433,7 @@ function MobileLayout() {
               className="group flex items-center gap-1.5 text-white/80 hover:text-white font-medium text-sm font-[gotham] transition-colors"
               style={{ opacity: 0, transform: 'translateY(20px)' }}
             >
-              <span className="border-b border-white/40 group-hover:border-white/70 pb-0.5 transition-colors">View CV</span>
+              <span className="border-b border-white/40 group-hover:border-white/70 pb-0.5 transition-colors">View Resume</span>
               <svg className="w-3.5 h-3.5 -rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
@@ -706,8 +706,12 @@ function MobileLayout() {
           <div className="flex justify-center mb-6">
             <div className="relative">
               <img 
-                src="/images/me.png" 
+                src="/images/me.webp" 
                 alt="Profile" 
+                width="1776"
+                height="2568"
+                loading="lazy"
+                decoding="async"
                 className="w-54 h-54 rounded-full object-contain border-2 border-[#578e8c]/50 shadow-lg"
               />
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#004F85]/20 to-transparent"></div>
@@ -1179,12 +1183,12 @@ function MobileLayout() {
         </div>
       )}
       
-      {/* PDF Modal for CV */}
+      {/* PDF Modal for Resume */}
       <PDFModal 
         isOpen={isPDFOpen} 
         onClose={() => setIsPDFOpen(false)} 
-        pdfUrl="/portfolio/KennethClydeQue_CV.pdf"
-        title="Kenneth Clyde Que - CV"
+        pdfUrl="/portfolio/KennethClydeQue_Resume.pdf"
+        title="Kenneth Clyde Que - Resume"
       />
     </div>
   )

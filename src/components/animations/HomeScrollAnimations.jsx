@@ -40,7 +40,7 @@ export default function HomeScrollStepByStep() {
     if (isMobile) {
       
       // Show all panels immediately on mobile (no GSAP)
-      panelRefs.current.forEach((panel, index) => {
+      panelRefs.current.forEach((panel) => {
         if (panel) {
           panel.style.opacity = '1';
           panel.style.transform = 'translateX(0) scale(1)';
@@ -52,7 +52,7 @@ export default function HomeScrollStepByStep() {
     }
 
     // ====== DESKTOP: FULL GSAP ANIMATIONS ======
-    panelRefs.current.forEach((panel, index) => {
+    panelRefs.current.forEach((panel) => {
       if (panel) {
         gsap.set(panel, {
           opacity: 0,
@@ -76,7 +76,15 @@ export default function HomeScrollStepByStep() {
     ];
     let currentTitleIndex = 0;
     let typewriterIntervals = [];
-    let isTypewriterActive = true;
+    let isTypewriterActive = false;
+
+    const clearTypewriterTimers = () => {
+      typewriterIntervals.forEach(id => {
+        clearTimeout(id);
+        clearInterval(id);
+      });
+      typewriterIntervals = [];
+    };
 
     const typeWriterEffect = () => {
       if (!titleRef.current || !isTypewriterActive) return;
@@ -145,34 +153,37 @@ export default function HomeScrollStepByStep() {
       type();
     };
 
-    // Start the typewriter effect
-    if (titleRef.current) {
-      typeWriterEffect();
-    }
-
     // Track current phase
     let currentPhase = 0;
     
     const restartAnimations = () => {
-      typewriterIntervals.forEach(id => {
-        clearTimeout(id);
-        clearInterval(id);
-      });
-      typewriterIntervals = [];
+      clearTypewriterTimers();
       isTypewriterActive = true;
       currentTitleIndex = 0;
       typeWriterEffect();
     };
 
     const stopAnimations = () => {
-      // Stop typewriter when titleRef animation begins
       isTypewriterActive = false;
-      typewriterIntervals.forEach(id => {
-        clearTimeout(id);
-        clearInterval(id);
-      });
-      typewriterIntervals = [];
+      clearTypewriterTimers();
+      if (titleRef.current) {
+        titleRef.current.textContent = titles[currentTitleIndex];
+      }
     };
+
+    const syncTypewriterWithScroll = (progress) => {
+      const shouldRunTypewriter = progress < 0.045;
+
+      if (shouldRunTypewriter && !isTypewriterActive) {
+        restartAnimations();
+      }
+
+      if (!shouldRunTypewriter && isTypewriterActive) {
+        stopAnimations();
+      }
+    };
+
+    restartAnimations();
 
     // MASTER timeline - Vertical cinematic intro ONLY
     // Responsive scroll distance: shorter on mobile for faster animations
@@ -192,6 +203,7 @@ export default function HomeScrollStepByStep() {
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const progress = self.progress;
+          syncTypewriterWithScroll(progress);
           let newPhase;
           
           if (progress < 0.01) {
@@ -243,13 +255,7 @@ export default function HomeScrollStepByStep() {
       }, 45)
       
       .call(() => {
-        // Stop typewriter effect when title starts to fade out
-        isTypewriterActive = false;
-        typewriterIntervals.forEach(id => {
-          clearTimeout(id);
-          clearInterval(id);
-        });
-        typewriterIntervals = [];
+        stopAnimations();
       }, [], 45)
       .to(titleRef.current, {
         y: -300,
@@ -799,6 +805,7 @@ gsap.delayedCall(0, () => {
       if (master) {
         master.kill();
       }
+      stopAnimations();
       
       // Clean up all ScrollTriggers
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());

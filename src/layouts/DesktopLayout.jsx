@@ -81,13 +81,13 @@ function DesktopLayout() {
                 </p>
               </div>
               
-              {/* View CV Button */}
+              {/* View Resume Button */}
               <button
                 ref={animationRefs.viewCVRef}
                 onClick={() => setIsPDFOpen(true)}
                 className="group flex items-center gap-2 text-sm sm:text-base md:text-lg text-gray-700 font-medium font-[gotham] hover:text-[#143E5B] transition-all duration-300 mt-2 cursor-pointer"
               >
-                <span className="border-b border-gray-400 group-hover:border-[#143E5B] transition-colors font-semibold">View CV</span>
+                <span className="border-b border-gray-400 group-hover:border-[#143E5B] transition-colors font-semibold">View Resume</span>
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
                   className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" 
@@ -164,8 +164,12 @@ function DesktopLayout() {
             <div ref={animationRefs.personGroupRef} className="absolute bottom-0 right-0 w-full h-full pointer-events-none">
               <img 
                 draggable="false"
-                src="/images/me.png" 
+                src="/images/me.webp" 
                 alt="Clyde Que - Full Stack Developer"
+                width="1776"
+                height="2568"
+                fetchPriority="high"
+                decoding="async"
                 className="absolute z-20 bottom-20  cursor-none sm:bottom-24 md:bottom-40 right-4 sm:right-8 md:right-12 w-48 sm:w-64 md:w-80 h-auto max-h-[400px] sm:max-h-[480px] md:max-h-[560px] object-contain object-center pointer-events-auto"
               />
               
@@ -521,7 +525,7 @@ function DesktopLayout() {
                 {/* Profile Image - BIGGER */}
                 <div className="contact-info-item flex flex-col items-center lg:items-start gap-3">
                   <div className="w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border-4 border-[#7BB3D3]/40 shadow-[0_0_30px_rgba(123,179,211,0.3)]">
-                    <img src="/images/me.png" alt="Clyde Que" className="w-full h-full object-contain scale-100" />
+                    <img src="/images/me.webp" alt="Clyde Que" loading="lazy" decoding="async" className="w-full h-full object-contain scale-100" />
                   </div>
                   <div className="flex items-center gap-2 text-[#7BB3D3]">
                     <span className="font-[gotham] text-sm">Let's connect</span>
@@ -586,12 +590,12 @@ function DesktopLayout() {
         
       </div>
       
-      {/* PDF Modal for CV */}
+      {/* PDF Modal for Resume */}
       <PDFModal 
         isOpen={isPDFOpen} 
         onClose={() => setIsPDFOpen(false)} 
-        pdfUrl="/portfolio/KennethClydeQue_CV.pdf"
-        title="Kenneth Clyde Que - CV"
+        pdfUrl="/portfolio/KennethClydeQue_Resume.pdf"
+        title="Kenneth Clyde Que - Resume"
       />
     </div>
   )

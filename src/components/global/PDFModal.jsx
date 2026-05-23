@@ -106,7 +106,7 @@ const PDFModal = ({ isOpen, onClose, pdfUrl, title = 'Document' }) => {
           </button>
           
           <h3 className="text-sm md:text-lg font-semibold text-gray-800 font-[gotham] truncate flex-1 text-center md:text-left md:flex-none">
-            {isMobile ? 'CV' : title}
+            {isMobile ? 'Resume' : title}
           </h3>
           
           {/* Controls - Minimal on mobile */}
@@ -179,7 +179,7 @@ const PDFModal = ({ isOpen, onClose, pdfUrl, title = 'Document' }) => {
               <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
                 <div className="flex flex-col items-center gap-3">
                   <div className="w-10 h-10 border-4 border-[#1B374B] border-t-transparent rounded-full animate-spin" />
-                  <span className="text-gray-600 font-medium text-sm">Loading CV...</span>
+                  <span className="text-gray-600 font-medium text-sm">Loading Resume...</span>
                 </div>
               </div>
             )}
