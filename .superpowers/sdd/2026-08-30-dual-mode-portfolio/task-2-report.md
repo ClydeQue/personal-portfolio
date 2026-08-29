@@ -47,3 +47,33 @@
   build still completed successfully.
 - Existing unrelated changes remain unstaged: `package-lock.json`, `docs/`,
   and `.playwright-cli/`.
+
+## Fix round 1: review follow-up
+
+### Changes
+
+- Unknown non-root paths now infer JSTN mode while `normalizeJstnPath` maps
+  them to the JSTN home route. `/` remains the only no-storage default for
+  Original mode.
+- `Analytics` mounts only while Original mode is active, so the JSTN branch
+  does not mount the Vercel analytics integration.
+- A saved JSTN deep path restored from `/` replaces the browser URL with that
+  path using `history.replaceState`; this avoids a duplicate history entry.
+- Added the package metadata field `"license": "GPL-3.0-only"`.
+
+### Verification evidence
+
+- TDD red: `node --test test/mode-routing.test.js` produced 9 passing tests
+  and 1 expected failure because `/missing` still resolved to Original.
+- TDD green: the same focused command passed 10/10 after the routing change.
+- Final commands and results:
+  - `node --test` — exit 0, 10 tests passed, 0 failed.
+  - `npm run lint` — exit 0.
+  - `npm run build` — exit 0; Vite built 139 modules successfully.
+  - `git diff --check` — exit 0.
+
+### Remaining concern
+
+Vite continues to warn that the installed Node 22.11.0 is below its stated
+22.12.0 patch requirement and reports the existing large-chunk advisory. The
+build completed successfully.

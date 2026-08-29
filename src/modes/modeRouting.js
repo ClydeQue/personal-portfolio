@@ -40,7 +40,7 @@ export function normalizeJstnPath(pathname) {
 export function modeFromLocation({ pathname, savedMode } = {}) {
   if (savedMode === 'original' || savedMode === 'jstn') return savedMode
 
-  return normalizeJstnPath(pathname) === '/' ? 'original' : 'jstn'
+  return cleanPathname(pathname) === '/' ? 'original' : 'jstn'
 }
 
 function storedValue(storage, key) {

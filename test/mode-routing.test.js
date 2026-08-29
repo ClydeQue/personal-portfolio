@@ -88,7 +88,7 @@ test('falls back to the JSTN home route for unknown paths', () => {
   assert.equal(normalizeJstnPath('/missing'), '/')
   assert.equal(normalizeJstnPath('/projects/'), '/projects')
   assert.equal(normalizeJstnPath('/projects/not a slug'), '/')
-  assert.equal(modeFromLocation({ pathname: '/missing' }), 'original')
+  assert.equal(modeFromLocation({ pathname: '/missing' }), 'jstn')
 })
 
 test('switching to Original preserves a JSTN deep link for a later restore', () => {

@@ -129,6 +129,18 @@ function App() {
     persistValue(storage, jstnPathStorageKey, jstnPath)
   }, [jstnPath, mode])
 
+  useEffect(() => {
+    const browser = browserWindow()
+    if (
+      mode === 'jstn'
+      && jstnPath !== '/'
+      && browser?.history?.replaceState
+      && browser.location.pathname === '/'
+    ) {
+      browser.history.replaceState({ portfolioMode: mode }, '', jstnPath)
+    }
+  }, [jstnPath, mode])
+
   const handleModeChange = useCallback((nextMode) => {
     const browser = browserWindow()
     const storage = browserStorage(browser)
@@ -154,7 +166,7 @@ function App() {
 
   return (
     <>
-      <Analytics />
+      {mode === 'original' && <Analytics />}
       <ModeSwitcher compact={isMobile} mode={mode} onChange={handleModeChange} />
       <Suspense fallback={<LoadingSpinner />}>
         {mode === 'jstn'
