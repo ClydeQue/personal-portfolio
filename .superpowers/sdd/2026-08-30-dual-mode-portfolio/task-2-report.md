@@ -102,3 +102,28 @@ build completed successfully.
   - `npm run lint` — exit 0.
   - `npm run build` — exit 0.
   - `git diff --check` — exit 0.
+
+## Fix round 3: initial history-entry seeding
+
+### Changes
+
+- Added `historyStateForMode`, a pure state builder that retains enumerable
+  fields from an existing object history state and normalizes the JSTN path.
+- `App` now seeds the active browser entry through `replaceState` with the
+  resolved mode and JSTN path. This applies to `/` and initial deep routes
+  without changing their URLs.
+- The existing saved-JSTN deep-path behavior remains the only case that
+  replaces `/` with a different URL.
+- Mode transitions use the same builder for `pushState`, so a same-URL JSTN
+  root entry can return to the seeded Original root entry on Back.
+
+### Verification evidence
+
+- TDD red: `node --test test/mode-routing.test.js` produced 12 passing tests
+  and 2 expected failures because `historyStateForMode` was not yet exported.
+- TDD green: focused routing tests passed 14/14; `npm run lint` exited 0.
+- Final commands and outputs:
+  - `node --test` — exit 0, 14 tests passed, 0 failed.
+  - `npm run lint` — exit 0.
+  - `npm run build` — exit 0.
+  - `git diff --check` — exit 0.

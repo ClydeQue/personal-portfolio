@@ -93,6 +93,18 @@ export function modeStateFromHistory({ pathname, historyState, storage } = {}) {
   }
 }
 
+export function historyStateForMode({ historyState, mode, jstnPath } = {}) {
+  const existingState = historyState !== null && typeof historyState === 'object'
+    ? historyState
+    : {}
+
+  return {
+    ...existingState,
+    portfolioMode: mode === 'jstn' ? 'jstn' : 'original',
+    portfolioJstnPath: normalizeJstnPath(jstnPath),
+  }
+}
+
 export function modeChangeState({ nextMode, pathname, savedJstnPath } = {}) {
   const currentJstnPath = normalizeJstnPath(pathname)
   const storedJstnPath = normalizeJstnPath(savedJstnPath)

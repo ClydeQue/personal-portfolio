@@ -4,6 +4,7 @@ import './App.css'
 import LoadingSpinner from './components/global/LoadingSpinner'
 import ModeSwitcher from './components/ModeSwitcher'
 import {
+  historyStateForMode,
   jstnPathFromEnvironment,
   jstnPathStorageKey,
   modeChangeState,
@@ -134,16 +135,23 @@ function App() {
 
   useEffect(() => {
     const browser = browserWindow()
-    if (
-      mode === 'jstn'
+    if (!browser?.history?.replaceState) return
+
+    const nextHistoryState = historyStateForMode({
+      historyState: browser.history.state,
+      mode,
+      jstnPath,
+    })
+    const needsUrlRestore = mode === 'jstn'
       && jstnPath !== '/'
-      && browser?.history?.replaceState
       && browser.location.pathname === '/'
-    ) {
-      browser.history.replaceState({
-        portfolioMode: mode,
-        portfolioJstnPath: jstnPath,
-      }, '', jstnPath)
+    const needsStateSeed = browser.history.state?.portfolioMode !== nextHistoryState.portfolioMode
+      || browser.history.state?.portfolioJstnPath !== nextHistoryState.portfolioJstnPath
+
+    if (needsUrlRestore) {
+      browser.history.replaceState(nextHistoryState, '', jstnPath)
+    } else if (needsStateSeed) {
+      browser.history.replaceState(nextHistoryState, '')
     }
   }, [jstnPath, mode])
 
@@ -169,10 +177,11 @@ function App() {
         || browser.history.state?.portfolioJstnPath !== nextState.jstnPath
       )
     ) {
-      browser.history.pushState({
-        portfolioMode: nextState.mode,
-        portfolioJstnPath: nextState.jstnPath,
-      }, '', nextState.pathname)
+      browser.history.pushState(historyStateForMode({
+        historyState: browser.history.state,
+        mode: nextState.mode,
+        jstnPath: nextState.jstnPath,
+      }), '', nextState.pathname)
     }
   }, [jstnPath])
 
