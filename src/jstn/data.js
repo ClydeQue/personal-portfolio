@@ -114,7 +114,7 @@ export const experience = freezeRecords([
   {
     company: 'Capytech E-Learning Solutions',
     role: 'AI / .NET Intern',
-    period: 'Jun 2026–Jul 2026',
+    period: 'Jun 2026',
     summary: 'Worked across AI-assisted and .NET development during an internship.',
   },
   {

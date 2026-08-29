@@ -19,7 +19,7 @@ test('JSTN data exports immutable local portfolio records', () => {
 test('JSTN career records retain the verified employers and dates', () => {
   assert.deepEqual(experience.map(({ company, period }) => ({ company, period })), [
     { company: 'Ngnair Payments', period: 'Jul 2026–Present' },
-    { company: 'Capytech E-Learning Solutions', period: 'Jun 2026–Jul 2026' },
+    { company: 'Capytech E-Learning Solutions', period: 'Jun 2026' },
     { company: 'JP Consulting and Services', period: 'Apr 2026–May 2026' },
   ])
 })
