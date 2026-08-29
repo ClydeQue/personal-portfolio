@@ -62,8 +62,9 @@ export function modeFromEnvironment({ pathname, storage } = {}) {
 }
 
 export function jstnPathFromEnvironment({ pathname, storage } = {}) {
+  const cleanedPathname = cleanPathname(pathname)
   const locationPath = normalizeJstnPath(pathname)
-  if (locationPath !== '/') return locationPath
+  if (cleanedPathname !== '/') return locationPath
 
   return normalizeJstnPath(storedValue(storage, jstnPathStorageKey))
 }

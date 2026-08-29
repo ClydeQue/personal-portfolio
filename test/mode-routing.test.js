@@ -70,6 +70,17 @@ test('restores valid storage values without accepting an invalid JSTN path', () 
   }), '/')
 })
 
+test('does not restore a stale JSTN route for an unknown pathname', () => {
+  const jstnPathFromEnvironment = contractFunction('jstnPathFromEnvironment')
+  const storage = {
+    getItem(key) {
+      return key === jstnPathStorageKey ? '/projects/suntastic-solar-ims' : null
+    },
+  }
+
+  assert.equal(jstnPathFromEnvironment({ pathname: '/missing', storage }), '/')
+})
+
 test('infers JSTN mode for public deep links without saved mode', () => {
   assert.equal(modeFromLocation({ pathname: '/about' }), 'jstn')
   assert.equal(modeFromLocation({ pathname: '/projects' }), 'jstn')
