@@ -9,8 +9,8 @@ The contract exports `modeStorageKey`, `jstnPathStorageKey`, and the six public
 route families. It normalizes static routes and valid lowercase kebab-case
 project slugs, strips query/hash/trailing-slash formatting, and safely falls
 back to `/`. A valid saved mode takes precedence over deep-link inference;
-without one, public non-root routes infer `jstn` and root/unknown routes use
-`original`.
+without one, root `/` defaults to `original`, every non-root path infers
+`jstn`, and unknown non-root paths normalize to the JSTN home route.
 
 ## TDD evidence
 
@@ -63,7 +63,7 @@ build.
 
 ## Commit
 
-`1c50196a703a48e13b47bb57877ac2d74ba40e64`
+`bb3f460826030286a96f40cd99bd287f5d5a4d6b`
 
 ## Concerns
 
