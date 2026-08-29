@@ -261,8 +261,17 @@ function MobileLayout() {
       'A Frontend Web Developer'
     ]
     let currentTitleIndex = 0
-    let typewriterIntervals = []
     let isTypewriterActive = true
+    const typewriterTimeouts = new Set()
+
+    const scheduleTypewriter = (callback, delay) => {
+      const timeoutId = window.setTimeout(() => {
+        typewriterTimeouts.delete(timeoutId)
+        if (isTypewriterActive) callback()
+      }, delay)
+
+      typewriterTimeouts.add(timeoutId)
+    }
 
     const typeWriterEffect = () => {
       if (!titleRef.current || !isTypewriterActive) return
@@ -273,20 +282,17 @@ function MobileLayout() {
       let currentText = ''
 
       const type = () => {
-        if (!isTypewriterActive) {
-          typewriterIntervals.forEach(id => clearInterval(id))
-          return
-        }
+        if (!isTypewriterActive) return
 
         if (!isDeleting && charIndex < targetText.length) {
           // Type forward
           currentText = targetText.substring(0, charIndex + 1)
           titleRef.current.textContent = currentText + '|'
           charIndex++
-          setTimeout(type, 100)
+          scheduleTypewriter(type, 100)
         } else if (!isDeleting && charIndex === targetText.length) {
           // Pause at end
-          setTimeout(() => {
+          scheduleTypewriter(() => {
             isDeleting = true
             type()
           }, 2000)
@@ -295,12 +301,12 @@ function MobileLayout() {
           currentText = targetText.substring(0, charIndex - 1)
           titleRef.current.textContent = currentText + '|'
           charIndex--
-          setTimeout(type, 50)
+          scheduleTypewriter(type, 50)
         } else if (isDeleting && charIndex === 0) {
           // Move to next title
           isDeleting = false
           currentTitleIndex = (currentTitleIndex + 1) % titles.length
-          setTimeout(typeWriterEffect, 500)
+          scheduleTypewriter(typeWriterEffect, 500)
         }
       }
 
@@ -311,7 +317,8 @@ function MobileLayout() {
 
     return () => {
       isTypewriterActive = false
-      typewriterIntervals.forEach(id => clearInterval(id))
+      typewriterTimeouts.forEach((timeoutId) => window.clearTimeout(timeoutId))
+      typewriterTimeouts.clear()
     }
   }, [])
 
