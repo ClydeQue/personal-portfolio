@@ -11,6 +11,7 @@ import {
   modeFromEnvironment,
   modeStateFromHistory,
   modeStorageKey,
+  normalizeJstnPath,
 } from './modes/modeRouting'
 
 // Lazy load layouts
@@ -185,6 +186,25 @@ function App() {
     }
   }, [jstnPath])
 
+  const handleJstnNavigate = useCallback((nextPath) => {
+    const browser = browserWindow()
+    const storage = browserStorage(browser)
+    const normalizedPath = normalizeJstnPath(nextPath)
+
+    setMode('jstn')
+    setJstnPath(normalizedPath)
+    persistValue(storage, modeStorageKey, 'jstn')
+    persistValue(storage, jstnPathStorageKey, normalizedPath)
+
+    if (browser?.history?.pushState && browser.location.pathname !== normalizedPath) {
+      browser.history.pushState(historyStateForMode({
+        historyState: browser.history.state,
+        mode: 'jstn',
+        jstnPath: normalizedPath,
+      }), '', normalizedPath)
+    }
+  }, [])
+
   if (mode === 'original' && isLoading) {
     return <LoadingSpinner />
   }
@@ -195,7 +215,7 @@ function App() {
       <ModeSwitcher compact={isMobile} mode={mode} onChange={handleModeChange} />
       <Suspense fallback={<LoadingSpinner />}>
         {mode === 'jstn'
-          ? <JstnMode pathname={jstnPath} />
+          ? <JstnMode pathname={jstnPath} onNavigate={handleJstnNavigate} onExit={() => handleModeChange('original')} />
           : (isMobile ? <MobileLayout /> : <DesktopLayout />)}
       </Suspense>
     </>
