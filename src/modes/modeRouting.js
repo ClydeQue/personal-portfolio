@@ -42,3 +42,40 @@ export function modeFromLocation({ pathname, savedMode } = {}) {
 
   return normalizeJstnPath(pathname) === '/' ? 'original' : 'jstn'
 }
+
+function storedValue(storage, key) {
+  try {
+    if (!storage || typeof storage.getItem !== 'function') return null
+
+    const value = storage.getItem(key)
+    return typeof value === 'string' ? value : null
+  } catch {
+    return null
+  }
+}
+
+export function modeFromEnvironment({ pathname, storage } = {}) {
+  return modeFromLocation({
+    pathname,
+    savedMode: storedValue(storage, modeStorageKey),
+  })
+}
+
+export function jstnPathFromEnvironment({ pathname, storage } = {}) {
+  const locationPath = normalizeJstnPath(pathname)
+  if (locationPath !== '/') return locationPath
+
+  return normalizeJstnPath(storedValue(storage, jstnPathStorageKey))
+}
+
+export function modeChangeState({ nextMode, pathname, savedJstnPath } = {}) {
+  const currentJstnPath = normalizeJstnPath(pathname)
+  const storedJstnPath = normalizeJstnPath(savedJstnPath)
+  const jstnPath = currentJstnPath !== '/' ? currentJstnPath : storedJstnPath
+
+  if (nextMode === 'original') {
+    return { mode: 'original', pathname: '/', jstnPath }
+  }
+
+  return { mode: 'jstn', pathname: jstnPath, jstnPath }
+}
