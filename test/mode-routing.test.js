@@ -118,3 +118,57 @@ test('switching to JSTN restores the persisted public route from Original', () =
     jstnPath: '/projects/suntastic-solar-ims',
   })
 })
+
+test('keeps a JSTN home history entry on the home route despite a persisted deep path', () => {
+  const modeStateFromHistory = contractFunction('modeStateFromHistory')
+  const storage = {
+    getItem(key) {
+      return {
+        [modeStorageKey]: 'jstn',
+        [jstnPathStorageKey]: '/projects/suntastic-solar-ims',
+      }[key] ?? null
+    },
+  }
+
+  assert.deepEqual(modeStateFromHistory({
+    pathname: '/',
+    historyState: { portfolioMode: 'jstn', portfolioJstnPath: '/' },
+    storage,
+  }), {
+    mode: 'jstn',
+    jstnPath: '/',
+  })
+})
+
+test('uses valid history state for deep JSTN entries and falls back when it is absent or invalid', () => {
+  const modeStateFromHistory = contractFunction('modeStateFromHistory')
+  const storage = {
+    getItem(key) {
+      return key === modeStorageKey ? 'original' : '/projects/suntastic-solar-ims'
+    },
+  }
+
+  assert.deepEqual(modeStateFromHistory({
+    pathname: '/projects/Suntastic-Solar-IMS/',
+    historyState: {
+      portfolioMode: 'jstn',
+      portfolioJstnPath: '/projects/suntastic-solar-ims',
+    },
+    storage,
+  }), {
+    mode: 'jstn',
+    jstnPath: '/projects/suntastic-solar-ims',
+  })
+  assert.deepEqual(modeStateFromHistory({ pathname: '/about', storage }), {
+    mode: 'original',
+    jstnPath: '/about',
+  })
+  assert.deepEqual(modeStateFromHistory({
+    pathname: '/about',
+    historyState: { portfolioMode: 'unknown', portfolioJstnPath: '/not-a-route' },
+    storage,
+  }), {
+    mode: 'original',
+    jstnPath: '/about',
+  })
+})

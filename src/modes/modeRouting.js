@@ -68,6 +68,31 @@ export function jstnPathFromEnvironment({ pathname, storage } = {}) {
   return normalizeJstnPath(storedValue(storage, jstnPathStorageKey))
 }
 
+function historyJstnPath(historyState) {
+  if (typeof historyState?.portfolioJstnPath !== 'string') return null
+
+  const cleanedPath = cleanPathname(historyState.portfolioJstnPath)
+  const normalizedPath = normalizeJstnPath(historyState.portfolioJstnPath)
+
+  return cleanedPath === normalizedPath ? normalizedPath : null
+}
+
+export function modeStateFromHistory({ pathname, historyState, storage } = {}) {
+  const historyMode = historyState?.portfolioMode
+
+  if (historyMode === 'original' || historyMode === 'jstn') {
+    return {
+      mode: historyMode,
+      jstnPath: historyJstnPath(historyState) ?? normalizeJstnPath(pathname),
+    }
+  }
+
+  return {
+    mode: modeFromEnvironment({ pathname, storage }),
+    jstnPath: jstnPathFromEnvironment({ pathname, storage }),
+  }
+}
+
 export function modeChangeState({ nextMode, pathname, savedJstnPath } = {}) {
   const currentJstnPath = normalizeJstnPath(pathname)
   const storedJstnPath = normalizeJstnPath(savedJstnPath)

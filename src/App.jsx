@@ -8,7 +8,7 @@ import {
   jstnPathStorageKey,
   modeChangeState,
   modeFromEnvironment,
-  modeFromLocation,
+  modeStateFromHistory,
   modeStorageKey,
 } from './modes/modeRouting'
 
@@ -110,13 +110,16 @@ function App() {
     const handlePopState = () => {
       const storage = browserStorage(browser)
       const pathname = browser.location.pathname
-      const nextMode = modeFromLocation({ pathname })
-      const nextJstnPath = jstnPathFromEnvironment({ pathname, storage })
+      const nextState = modeStateFromHistory({
+        pathname,
+        historyState: browser.history.state,
+        storage,
+      })
 
-      setMode(nextMode)
-      setJstnPath(nextJstnPath)
-      persistValue(storage, modeStorageKey, nextMode)
-      persistValue(storage, jstnPathStorageKey, nextJstnPath)
+      setMode(nextState.mode)
+      setJstnPath(nextState.jstnPath)
+      persistValue(storage, modeStorageKey, nextState.mode)
+      persistValue(storage, jstnPathStorageKey, nextState.jstnPath)
     }
 
     browser.addEventListener('popstate', handlePopState)
@@ -137,7 +140,10 @@ function App() {
       && browser?.history?.replaceState
       && browser.location.pathname === '/'
     ) {
-      browser.history.replaceState({ portfolioMode: mode }, '', jstnPath)
+      browser.history.replaceState({
+        portfolioMode: mode,
+        portfolioJstnPath: jstnPath,
+      }, '', jstnPath)
     }
   }, [jstnPath, mode])
 
@@ -155,8 +161,18 @@ function App() {
     persistValue(storage, modeStorageKey, nextState.mode)
     persistValue(storage, jstnPathStorageKey, nextState.jstnPath)
 
-    if (browser?.history?.pushState && browser.location.pathname !== nextState.pathname) {
-      browser.history.pushState({ portfolioMode: nextState.mode }, '', nextState.pathname)
+    if (
+      browser?.history?.pushState
+      && (
+        browser.location.pathname !== nextState.pathname
+        || browser.history.state?.portfolioMode !== nextState.mode
+        || browser.history.state?.portfolioJstnPath !== nextState.jstnPath
+      )
+    ) {
+      browser.history.pushState({
+        portfolioMode: nextState.mode,
+        portfolioJstnPath: nextState.jstnPath,
+      }, '', nextState.pathname)
     }
   }, [jstnPath])
 

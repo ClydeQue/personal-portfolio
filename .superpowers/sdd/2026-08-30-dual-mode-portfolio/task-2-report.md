@@ -77,3 +77,28 @@
 Vite continues to warn that the installed Node 22.11.0 is below its stated
 22.12.0 patch requirement and reports the existing large-chunk advisory. The
 build completed successfully.
+
+## Fix round 2: history-state popstate follow-up
+
+### Changes
+
+- Added the pure `modeStateFromHistory` contract. Valid `portfolioMode` and
+  `portfolioJstnPath` history data takes precedence during back/forward
+  navigation; absent or invalid state keeps the pathname and storage fallback.
+- A JSTN-root history entry now resolves to mode `jstn` with path `/`, even
+  when storage contains an older JSTN deep path.
+- Mode history entries now record both the selected mode and JSTN path. A mode
+  switch at the same `/` URL still pushes a distinct history entry.
+- The URL-restoration `replaceState` now records the corresponding JSTN path.
+
+### Verification evidence
+
+- TDD red: `node --test test/mode-routing.test.js` produced 10 passing tests
+  and 2 expected failures because `modeStateFromHistory` was not yet exported.
+- TDD green: the focused command passed 12/12 after implementing the history
+  resolver and using it in `App`'s `popstate` handler.
+- Final commands and outputs:
+  - `node --test` — exit 0, 12 tests passed, 0 failed.
+  - `npm run lint` — exit 0.
+  - `npm run build` — exit 0.
+  - `git diff --check` — exit 0.
