@@ -3,26 +3,18 @@ import gsap from 'gsap'
 import { normalizeJstnPath } from '../modes/modeRouting'
 import JstnFooter from './components/JstnFooter'
 import JstnHeader from './components/JstnHeader'
-import EditorialPanel from './components/EditorialPanel'
+import AboutPage from './pages/AboutPage'
+import CollectionPage from './pages/CollectionPage'
+import ExperiencePage from './pages/ExperiencePage'
 import HomePage from './pages/HomePage'
+import ProjectDetailPage from './pages/ProjectDetailPage'
+import ProjectsPage from './pages/ProjectsPage'
 import './jstn.css'
-
-function RouteFallback({ path, onNavigate }) {
-  return (
-    <EditorialPanel className="jstn-route-fallback" label="Public route" title="This section is being prepared">
-      <p>
-        <code>{path}</code> is part of Clyde’s public portfolio route map. Its dedicated page arrives in the next pass; the shared shell and home route are ready now.
-      </p>
-      <button className="jstn-text-link" type="button" onClick={() => onNavigate('/')}>
-        Return home <span aria-hidden="true">↗</span>
-      </button>
-    </EditorialPanel>
-  )
-}
 
 function JstnMode({ pathname = '/', onExit, onNavigate }) {
   const rootRef = useRef(null)
   const path = normalizeJstnPath(pathname)
+  const projectSlug = path.startsWith('/projects/') ? path.slice('/projects/'.length) : undefined
 
   useLayoutEffect(() => {
     const root = rootRef.current
@@ -41,13 +33,19 @@ function JstnMode({ pathname = '/', onExit, onNavigate }) {
     return () => context.revert()
   }, [path])
 
+  let page = <HomePage onNavigate={onNavigate} />
+
+  if (path === '/about') page = <AboutPage onNavigate={onNavigate} />
+  if (path === '/projects') page = <ProjectsPage onNavigate={onNavigate} />
+  if (projectSlug) page = <ProjectDetailPage slug={projectSlug} onNavigate={onNavigate} />
+  if (path === '/experience') page = <ExperiencePage onNavigate={onNavigate} />
+  if (path === '/collection') page = <CollectionPage onNavigate={onNavigate} />
+
   return (
     <main className="jstn-mode" ref={rootRef} aria-label="Clyde Que editorial portfolio">
       <JstnHeader path={path} onNavigate={onNavigate} onExit={onExit} />
       <div className="jstn-shell">
-        {path === '/'
-          ? <HomePage onNavigate={onNavigate} />
-          : <RouteFallback path={path} onNavigate={onNavigate} />}
+        {page}
         <JstnFooter onNavigate={onNavigate} />
       </div>
     </main>

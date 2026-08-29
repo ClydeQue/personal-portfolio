@@ -6,6 +6,8 @@ const navigation = [
 ]
 
 function JstnHeader({ path, onNavigate, onExit }) {
+  const isActive = (to) => path === to || (to === '/projects' && path.startsWith('/projects/'))
+
   return (
     <header className="jstn-header">
       <button
@@ -21,11 +23,11 @@ function JstnHeader({ path, onNavigate, onExit }) {
       <nav className="jstn-header__nav" aria-label="JSTN portfolio navigation">
         {navigation.map((item) => (
           <button
-            className={path === item.to ? 'is-active' : ''}
+            className={isActive(item.to) ? 'is-active' : ''}
             key={item.to}
             type="button"
             onClick={() => onNavigate(item.to)}
-            aria-current={path === item.to ? 'page' : undefined}
+            aria-current={isActive(item.to) ? 'page' : undefined}
           >
             {item.label}
           </button>
