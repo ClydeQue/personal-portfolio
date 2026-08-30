@@ -31,7 +31,7 @@ function PortfolioShell({ route, view, onViewChange, children }) {
       <CustomCursor />
       {route.name !== 'projectDetail' && <StatusBar />}
       <Header route={route} view={selectedView} onViewChange={selectView} menuOpen={ui.menuOpen} onMenuToggle={() => dispatch({ type: 'menu/toggle' })} menuTriggerRef={menuTriggerRef} />
-      <MobileMenu open={ui.menuOpen} view={selectedView} onViewChange={selectView} onClose={() => dispatch({ type: 'menu/close' })} triggerRef={menuTriggerRef} />
+      <MobileMenu open={ui.menuOpen} route={route} view={selectedView} onViewChange={selectView} onClose={() => dispatch({ type: 'menu/close' })} triggerRef={menuTriggerRef} />
       <main className="portfolio-main">{children}</main>
       <Footer />
       <BackToTop />
