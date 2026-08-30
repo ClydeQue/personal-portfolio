@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { matchRoute, navigate, subscribeToRoute } from './app/router'
+import { matchRoute, subscribeToRoute } from './app/router'
 import { readPortfolioView } from './app/uiState.js'
 import PortfolioShell from './components/shell/PortfolioShell.jsx'
 import HomePage from './pages/HomePage.jsx'
@@ -8,7 +8,10 @@ import ProjectsPage from './pages/ProjectsPage.jsx'
 import ProjectDetailPage from './pages/ProjectDetailPage.jsx'
 import ExperiencePage from './pages/ExperiencePage.jsx'
 import CollectionPage from './pages/CollectionPage.jsx'
-import JstnMode from './jstn/JstnMode'
+import BlogPage from './pages/BlogPage.jsx'
+import BlogDetailPage from './pages/BlogDetailPage.jsx'
+import LicensePage from './pages/LicensePage.jsx'
+import NotFoundPage from './pages/NotFoundPage.jsx'
 
 function App() {
   const [route, setRoute] = useState(() => matchRoute(window.location.pathname))
@@ -30,6 +33,10 @@ function App() {
   if (route.name === 'projectDetail') page = <ProjectDetailPage slug={route.params.slug} />
   if (route.name === 'experience') page = <ExperiencePage />
   if (route.name === 'collection') page = <CollectionPage />
+  if (route.name === 'blog') page = <BlogPage />
+  if (route.name === 'blogDetail') page = <BlogDetailPage slug={route.params.slug} />
+  if (route.name === 'license') page = <LicensePage />
+  if (route.name === 'notFound') page = <NotFoundPage path={route.path} />
 
   if (page) {
     return <PortfolioShell route={route} view={view} onViewChange={setView}>
@@ -37,7 +44,7 @@ function App() {
     </PortfolioShell>
   }
 
-  return <JstnMode route={route} onNavigate={navigate} />
+  return <NotFoundPage path={route.path} />
 }
 
 export default App 

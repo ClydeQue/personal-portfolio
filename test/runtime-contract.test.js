@@ -24,6 +24,19 @@ test('App registers About, Projects, and project detail pages', () => {
   for (const page of ['AboutPage', 'ProjectsPage', 'ProjectDetailPage']) assert.match(source, new RegExp(page))
 })
 
+test('App registers writing, license, and not-found surfaces', () => {
+  const source = read('src/App.jsx')
+  for (const page of ['BlogPage', 'BlogDetailPage', 'LicensePage', 'NotFoundPage']) assert.match(source, new RegExp(page))
+})
+
+test('writing detail stays text-focused without unsupported article chrome', () => {
+  const source = read('src/pages/BlogDetailPage.jsx')
+
+  assert.doesNotMatch(source, /relatedPosts|shareProject|ImageWithFallback|readingTime/)
+  assert.match(source, /Back to writing/)
+  assert.match(source, /postBySlug/)
+})
+
 test('Home keeps truthful tech icons and a cached, top-biased particle portrait', () => {
   const homeSource = read('src/pages/HomePage.jsx')
   const portraitSource = read('src/components/ui/ParticlePortrait.jsx')

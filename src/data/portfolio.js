@@ -156,7 +156,7 @@ const posts = [
   {
     slug: 'capytech-scorm-qa-sandbox', title: 'A local SCORM QA sandbox for instructional-design workflows',
     dek: 'Portfolio case-study note on a native desktop sandbox for testing SCORM packages locally.', published: null,
-    readingTime: '4 min read', category: 'Portfolio case-study note', cover: '/images/me.webp',
+    category: 'Portfolio case-study note', cover: '/images/me.webp', context: { label: 'View experience context', path: '/experience' },
     sections: [
       { heading: 'Context', body: 'At Capytech E-Learning Solutions, the sandbox supported local testing and debugging of SCORM packages exported from Articulate 360.' },
       { heading: 'Implementation', body: 'The native Photino.NET application used C# and ASP.NET Core for manifest parsing and SCORM 1.2/2004 playback simulation, with SQLite telemetry.' },
@@ -166,7 +166,7 @@ const posts = [
   {
     slug: 'sdu-multi-office-dashboard', title: 'Centralizing visibility for six university offices',
     dek: 'Portfolio case-study note on a multi-office project-monitoring and reporting dashboard.', published: null,
-    readingTime: '4 min read', category: 'Portfolio case-study note', cover: '/images/sdu1.webp',
+    category: 'Portfolio case-study note', cover: '/images/sdu1.webp', context: { label: 'View Social Development Unit project', path: '/projects/social-development-unit' },
     sections: [
       { heading: 'Need', body: 'The Social Development Unit needed a centralized way to collect project and report submissions across six offices.' },
       { heading: 'System', body: 'The React, Express, and Supabase platform provides office and Unit Director roles, consolidated visibility, and SDG-alignment tracking.' },
@@ -176,7 +176,7 @@ const posts = [
   {
     slug: 'waiveright-role-based-workflow', title: 'Role-based waiver handling with custom Supabase authentication',
     dek: 'Portfolio case-study note on the student and administrator workflows behind WaiveRight.', published: null,
-    readingTime: '3 min read', category: 'Portfolio case-study note', cover: '/images/waiveright1.webp',
+    category: 'Portfolio case-study note', cover: '/images/waiveright1.webp', context: { label: 'View WaiveRight project', path: '/projects/waiveright' },
     sections: [
       { heading: 'Two portals', body: 'WaiveRight separates student submission work from administrator review work for academic waivers.' },
       { heading: 'Authentication', body: 'The system uses Supabase RPC functions, Row-Level Security, pgcrypto, and session management for custom role-based access.' },
@@ -186,7 +186,7 @@ const posts = [
   {
     slug: 'offline-first-pos-ims', title: 'What an offline POS project taught me before a separate IMS web architecture',
     dek: 'Portfolio case-study note distinguishing a Java desktop POS from later IMS web work.', published: null,
-    readingTime: '3 min read', category: 'Portfolio case-study note', cover: '/images/pos.webp',
+    category: 'Portfolio case-study note', cover: '/images/pos.webp', context: { label: 'View Offline POS project', path: '/projects/offline-pos' },
     sections: [
       { heading: 'Offline POS', body: 'The original mini-grocery system used Java, JavaFX, and SQLite for local checkout, inventory, and product-movement workflows.' },
       { heading: 'Separate systems', body: 'The later IMS application uses an ASP.NET Core and Next.js web architecture and is not represented here as offline-first.' },

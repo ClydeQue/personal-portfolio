@@ -20,6 +20,16 @@ test('contains six truthful project case studies and four writing entries', () =
   ])
 })
 
+test('writing entries keep unpublished case-study metadata and do not invent reading times', () => {
+  for (const post of portfolio.posts) {
+    assert.match(post.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+    assert.equal(post.published, null)
+    assert.equal(post.readingTime, undefined)
+    assert.equal(post.category, 'Portfolio case-study note')
+    assert.ok(post.sections.length >= 3)
+  }
+})
+
 test('experience skills do not turn generic cloud learning into an AWS qualification', () => {
   const universityPhase = portfolio.experiencePhases.at(-1)
 
