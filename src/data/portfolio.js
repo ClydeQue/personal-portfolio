@@ -235,8 +235,28 @@ export const portfolio = deepFreeze({
     github: 'https://github.com/ClydeQue', linkedin: 'https://www.linkedin.com/in/kenneth-que/', email: 'mailto:kennethque101@gmail.com',
   },
   home: {
-    personal: { eyebrow: 'Software engineer / product builder', title: 'Clyde Que' },
-    professional: { title: 'Kenneth Clyde Que', location: 'Zamboanga City, Philippines' },
+    personal: {
+      eyebrow: 'Software engineer / product builder', title: 'Clyde Que', greeting: 'I’m', displayName: 'CLYDE',
+      statement: 'I build practical full-stack products and thoughtful interfaces for real teams, local businesses, and institutional work.',
+      associations: ['Ngnair Brice Holding', 'Ateneo de Zamboanga University', 'Capytech E-Learning Solutions'],
+      techGroups: [
+        { title: 'Frontend', items: ['React', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Tailwind CSS', 'MUI'] },
+        { title: 'Backend & data', items: ['Node.js', 'Express', 'ASP.NET Core', 'PostgreSQL', 'Supabase', 'SQLite'] },
+        { title: 'Tools & delivery', items: ['Figma', 'Git', 'Docker', 'Vite', 'Cloudflare', 'OpenAI'] },
+      ],
+      description: [
+        'I work from a practical product question through interface design and full-stack implementation. Recent work spans payment-product QA, institutional reporting, custom workflows, and local-business systems.',
+        'I use AI-assisted execution with verification, keeping the claim as careful as the implementation.',
+      ],
+      recognitionLabel: 'Recognition from project work and hackathons',
+    },
+    professional: {
+      title: 'Kenneth Clyde Que', location: 'Zamboanga City, Philippines',
+      about: [
+        'I am a software engineer and product builder based in Zamboanga City. I work across frontend design, full-stack web systems, QA, and systems architecture, using evidence and iteration to keep products understandable and useful.',
+        'My experience includes payment-product engineering with Ngnair Brice Holding, e-learning work at Capytech, institutional reporting systems, and freelance products for real organizations.',
+      ],
+    },
   },
   projects, experiencePhases, collection, posts, activity, recognition,
   license: { identifier: 'GPL-3.0-only', route: '/license', sourceUrl: 'https://github.com/ClydeQue/personal-portfolio' },
