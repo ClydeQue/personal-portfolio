@@ -1,6 +1,10 @@
 const icons = Object.freeze({
   github: '/icons/github.svg',
   linkedin: '/icons/linkedin.svg',
+  about: '/icons/about.svg',
+  mail: '/icons/mail.svg',
+  info: '/icons/info.svg',
+  mapPin: '/icons/map-pin.svg',
   arrow: '/icons/arrowdiagonal.svg',
 })
 

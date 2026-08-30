@@ -237,7 +237,7 @@ export const portfolio = deepFreeze({
   home: {
     personal: {
       eyebrow: 'Software engineer / product builder', title: 'Clyde Que', greeting: 'I’m', displayName: 'CLYDE',
-      statement: 'I build practical full-stack products and thoughtful interfaces for real teams, local businesses, and institutional work.',
+      statement: 'I’m a software engineer building practical full-stack products and thoughtful interfaces for real teams, local businesses, and institutional work.',
       associations: ['Ngnair Brice Holding', 'Ateneo de Zamboanga University', 'Capytech E-Learning Solutions'],
       techGroups: [
         { title: 'Frontend', items: ['React', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Tailwind CSS', 'MUI'] },

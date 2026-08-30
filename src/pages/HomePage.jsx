@@ -1,20 +1,26 @@
+import { useState } from 'react'
 import { portfolio } from '../data/portfolio.js'
 import { navigate } from '../app/router.js'
 import ActivityHeatmap from '../components/ui/ActivityHeatmap.jsx'
 import ImageWithFallback from '../components/ui/ImageWithFallback.jsx'
 import ParticlePortrait from '../components/ui/ParticlePortrait.jsx'
 import ProjectCard from '../components/ui/ProjectCard.jsx'
+import Icon from '../components/ui/Icon.jsx'
 
 const portraitSources = ['/images/me.webp', '/images/me.png']
 const activityYears = [...new Set(portfolio.activity.commitsByDate.map(({ date }) => date.slice(0, 4)))]
-const iconFor = { React: 'react', TypeScript: 'typescript', JavaScript: 'javascript', HTML: 'html', CSS: 'css', 'Tailwind CSS': 'tailwind', MUI: 'mui', 'Node.js': 'nodejs', Express: 'express', 'ASP.NET Core': 'c++', PostgreSQL: 'postgre', Supabase: 'supabase', SQLite: 'mysql', Figma: 'figma', Git: 'git', Docker: 'docker', Vite: 'vercel', Cloudflare: 'cloudflare', OpenAI: 'openai' }
+const iconFor = { React: 'react', TypeScript: 'typescript', JavaScript: 'javascript', HTML: 'html', CSS: 'css', 'Tailwind CSS': 'tailwind', MUI: 'mui', 'Node.js': 'nodejs', Express: 'express', PostgreSQL: 'postgre', Supabase: 'supabase', Figma: 'figma', Git: 'git', Docker: 'docker', Cloudflare: 'cloudflare', OpenAI: 'openai' }
 
 function TechList({ compact = false }) {
   return (
     <div className={compact ? 'tech-list tech-list--compact' : 'tech-list'}>
       {portfolio.home.personal.techGroups.map((group) => <section key={group.title}>
         <h3>{group.title}</h3>
-        <div>{group.items.map((item) => compact ? <span key={item}>{item}</span> : <span key={item}><img src={`/techstack/${iconFor[item]}.svg`} alt="" />{item}</span>)}</div>
+        <div>{group.items.map((item) => {
+          if (compact) return <span key={item}>{item}</span>
+          const icon = iconFor[item]
+          return icon ? <span className="tech-list__icon" key={item} aria-label={item} title={item}><img src={`/techstack/${icon}.svg`} alt="" /></span> : <span className="tech-list__text" key={item}>{item}</span>
+        })}</div>
       </section>)}
     </div>
   )
@@ -76,19 +82,17 @@ function ProfessionalHome() {
       <div className="professional-profile">
         <div className="professional-profile__intro">
           <ImageWithFallback sources={portraitSources} alt={portfolio.identity.name} />
-          <div><h1 id="professional-home-title">{portfolio.home.professional.title}<i aria-label="Verified local portfolio identity">✓</i></h1><p>{portfolio.home.professional.location}</p><strong>{portfolio.identity.role}</strong></div>
+          <div className="professional-profile__identity"><h1 id="professional-home-title"><span>{portfolio.home.professional.title}</span><i aria-label="Verified local portfolio identity">✓</i></h1><p><Icon name="mapPin" size={15} />{portfolio.home.professional.location}</p><strong>{portfolio.identity.role}</strong></div>
         </div>
-        <div className="professional-profile__actions"><a href={portfolio.socials.github}>GitHub</a><a href={portfolio.socials.linkedin}>LinkedIn</a><a href={portfolio.socials.email}>Email</a></div>
+        <div className="professional-profile__actions"><a href={portfolio.socials.github} aria-label="GitHub"><Icon name="github" /></a><a href={portfolio.socials.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a><a href={portfolio.socials.email} aria-label="Email"><Icon name="mail" /></a></div>
         <div className="professional-profile__cta"><a href={`${portfolio.socials.email}?subject=Portfolio%20call%20request`}>Schedule a Call</a><button type="button" onClick={() => navigate('/experience')}>Experience</button></div>
-        <section className="professional-profile__about" aria-labelledby="professional-about-title"><h2 id="professional-about-title">About</h2>{portfolio.home.professional.about.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>
+        <section className="professional-profile__about" aria-labelledby="professional-about-title"><h2 id="professional-about-title"><Icon name="info" size={16} />About</h2>{portfolio.home.professional.about.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>
         <section className="professional-profile__experience" aria-labelledby="professional-experience-title"><h2 id="professional-experience-title">Work experience</h2>{portfolio.experiencePhases.map((item) => <article key={item.organization}><p>{item.period}</p><h3>{item.role}</h3><strong>{item.organization}</strong><span>{item.summary}</span></article>)}</section>
       </div>
-      <div className="professional-work">
-        <section aria-labelledby="professional-stack-title"><h2 id="professional-stack-title">Tech stack</h2><TechList compact /></section>
-        <section className="professional-projects" aria-labelledby="professional-project-title"><div><h2 id="professional-project-title">Recent projects</h2><button type="button" onClick={() => navigate('/projects')}>All projects ↗</button></div><div>{portfolio.projects.slice(0, 3).map((project) => <ProjectCard project={project} variant="professional" key={project.slug} />)}</div></section>
-        <section className="professional-education" aria-labelledby="education-title"><h2 id="education-title">Education & recognition</h2><p><b>BS Computer Science</b> · Ateneo de Zamboanga University</p><div>{portfolio.recognition.map((item) => <span key={item.title}><b>{item.title}</b>{item.detail}</span>)}</div></section>
-        <ActivityHeatmap years={activityYears} />
-      </div>
+      <section className="professional-tech" aria-labelledby="professional-stack-title"><h2 id="professional-stack-title">Tech stack</h2><TechList compact /></section>
+      <section className="professional-projects" aria-labelledby="professional-project-title"><div><h2 id="professional-project-title">Recent projects</h2><button type="button" onClick={() => navigate('/projects')}>All projects ↗</button></div><div>{portfolio.projects.slice(0, 2).map((project) => <ProjectCard project={project} variant="professional" key={project.slug} />)}</div></section>
+      <section className="professional-education" aria-labelledby="education-title"><h2 id="education-title">Education & recognition</h2><p><b>BS Computer Science</b> · Ateneo de Zamboanga University</p><div>{portfolio.recognition.map((item) => <span key={item.title}><b>{item.title}</b>{item.detail}</span>)}</div></section>
+      <ActivityHeatmap years={activityYears} />
     </section>
   </div>
 }
@@ -102,4 +106,3 @@ function HomePage({ view, onViewChange }) {
 }
 
 export default HomePage
-import { useState } from 'react'

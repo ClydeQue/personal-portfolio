@@ -25,3 +25,9 @@ license text from `vercel/geist-font` is included at `public/fonts/OFL.txt`.
 
 This repository is distributed under GPL-3.0. See `LICENSE` for the complete
 license text and retain this notice in redistributed modified versions.
+
+## Lucide icons
+
+`public/icons/mail.svg`, `public/icons/info.svg`, and
+`public/icons/map-pin.svg` are unmodified icons from
+[Lucide](https://lucide.dev/), licensed under the ISC License.
