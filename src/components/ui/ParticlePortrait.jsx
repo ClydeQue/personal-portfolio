@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import ImageWithFallback from './ImageWithFallback.jsx'
+import { portraitSampleKey, shouldRefreshPortraitSample } from './portraitSampleCache.js'
 
 const PORTRAIT_SOURCES = ['/images/me.webp', '/images/me.png']
 
@@ -18,8 +19,7 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
     let cancelled = false
 
     const prepareSamples = (bounds) => {
-      const currentRatio = bounds.width / bounds.height
-      if (samplePixelsRef.current && Math.abs(samplePixelsRef.current.currentRatio - currentRatio) < .01) return samplePixelsRef.current
+      if (samplePixelsRef.current && !shouldRefreshPortraitSample(samplePixelsRef.current.cacheKey, bounds)) return samplePixelsRef.current
       const sampleCanvas = document.createElement('canvas')
       const sampleWidth = 220
       const sampleHeight = Math.round(sampleWidth * (bounds.height / bounds.width))
@@ -33,7 +33,7 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       const sourceX = (source.naturalWidth - sourceWidth) / 2
       const sourceY = (source.naturalHeight - sourceHeight) * 0.08
       sampleContext.drawImage(source, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, sampleWidth, sampleHeight)
-      samplePixelsRef.current = { pixels: sampleContext.getImageData(0, 0, sampleWidth, sampleHeight).data, sampleWidth, sampleHeight, currentRatio }
+      samplePixelsRef.current = { pixels: sampleContext.getImageData(0, 0, sampleWidth, sampleHeight).data, sampleWidth, sampleHeight, cacheKey: portraitSampleKey(bounds) }
       return samplePixelsRef.current
     }
 

@@ -27,7 +27,7 @@ test('Home keeps truthful tech icons and a cached, top-biased particle portrait'
   assert.doesNotMatch(homeSource, /SQLite: 'mysql'/)
   assert.doesNotMatch(homeSource, /Vite: 'vercel'/)
   assert.match(portraitSource, /samplePixelsRef/)
-  assert.match(portraitSource, /currentRatio/)
+  assert.match(portraitSource, /portraitSampleKey/)
   assert.match(portraitSource, /sourceY = \(source\.naturalHeight - sourceHeight\) \* 0\.08/)
 })
 
