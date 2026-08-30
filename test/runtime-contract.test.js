@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { portfolio } from '../src/data/portfolio.js'
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8')
@@ -56,4 +56,16 @@ test('Task 5 mobile action and index-card semantics use local schedule and share
   assert.match(detailSource, /name="calendar"/)
   assert.match(detailSource, /name="share"/)
   assert.doesNotMatch(cardSource, /project-card__index-copy"><small>/)
+})
+
+test('Experience route contains the complete interactive sections', () => {
+  const path = new URL('../src/pages/ExperiencePage.jsx', import.meta.url)
+  const source = existsSync(path) ? readFileSync(path, 'utf8') : ''
+  for (const label of ['Career Path', 'Proof of work', 'Writing', 'Education']) assert.match(source, new RegExp(label, 'i'))
+})
+
+test('Experience writing entries open their local case-study route without a provisional reading-time claim', () => {
+  const source = read('src/pages/ExperiencePage.jsx')
+  assert.match(source, /navigate\(`\/blog\/\$\{post\.slug\}`\)/)
+  assert.doesNotMatch(source, /post\.readingTime/)
 })

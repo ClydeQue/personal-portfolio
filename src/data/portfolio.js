@@ -113,10 +113,26 @@ const projects = [
 ]
 
 const experiencePhases = [
-  { organization: 'Ngnair Brice Holding', role: 'Software Engineer Intern', period: 'Jul 2026–Present', summary: 'Contributing to payment-product engineering through frontend and QA collaboration with documented verification.' },
-  { organization: 'Capytech E-Learning Solutions', role: 'Solutions Developer Intern', period: 'Jun 2026', summary: 'Built a native SCORM QA sandbox and contributed to e-learning implementation work.' },
-  { organization: 'JP Consulting and Services', role: 'Web Development Intern', period: 'Apr–May 2026', summary: 'Contributed to full-stack JavaScript and TypeScript work for Australian clients under a senior developer.' },
-  { organization: 'Ateneo de Zamboanga University', role: 'BS Computer Science foundation', period: '2023–Present', summary: 'Building foundations in web development, cloud computing, and systems architecture.' },
+  {
+    organization: 'Ngnair Brice Holding', role: 'Software Engineer Intern', period: 'Jul 2026–Present',
+    summary: 'Contributing to payment-product engineering through frontend and QA collaboration with documented verification.',
+    skills: [{ label: 'React', icon: 'react' }, { label: 'TypeScript', icon: 'typescript' }, { label: 'Figma', icon: 'figma' }, { label: 'Product QA' }],
+  },
+  {
+    organization: 'Capytech E-Learning Solutions', role: 'Solutions Developer Intern', period: 'Jun 2026',
+    summary: 'Built a native SCORM QA sandbox and contributed to e-learning implementation work.',
+    skills: [{ label: 'C#' }, { label: 'ASP.NET Core' }, { label: 'SQLite' }, { label: 'SCORM' }],
+  },
+  {
+    organization: 'JP Consulting and Services', role: 'Web Development Intern', period: 'Apr–May 2026',
+    summary: 'Contributed to full-stack JavaScript and TypeScript work for Australian clients under a senior developer.',
+    skills: [{ label: 'JavaScript', icon: 'javascript' }, { label: 'TypeScript', icon: 'typescript' }, { label: 'Web development' }],
+  },
+  {
+    organization: 'Ateneo de Zamboanga University', role: 'BS Computer Science foundation', period: '2023–Present',
+    summary: 'Building foundations in web development, cloud computing, and systems architecture.',
+    skills: [{ label: 'Web development' }, { label: 'Cloud computing', icon: 'aws' }, { label: 'Systems architecture' }],
+  },
 ]
 
 const collection = {

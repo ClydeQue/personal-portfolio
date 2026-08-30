@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage.jsx'
 import AboutPage from './pages/AboutPage.jsx'
 import ProjectsPage from './pages/ProjectsPage.jsx'
 import ProjectDetailPage from './pages/ProjectDetailPage.jsx'
+import ExperiencePage from './pages/ExperiencePage.jsx'
 import JstnMode from './jstn/JstnMode'
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
   if (route.name === 'about') page = <AboutPage />
   if (route.name === 'projects') page = <ProjectsPage />
   if (route.name === 'projectDetail') page = <ProjectDetailPage slug={route.params.slug} />
+  if (route.name === 'experience') page = <ExperiencePage />
 
   if (page) {
     return <PortfolioShell route={route} view={view} onViewChange={setView}>
