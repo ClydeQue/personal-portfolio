@@ -16,6 +16,11 @@ function ResourceAction({ resource }) {
   return <button className="collection-detail__action" type="button" onClick={() => navigate(resource.destination)}>{resource.actionLabel ?? 'Open resource'} <span aria-hidden="true">↗</span></button>
 }
 
+function ResourceDestination({ resource }) {
+  if (isExternal(resource.destination)) return <a href={resource.destination} target="_blank" rel="noreferrer">{resource.destination}</a>
+  return <a href={resource.destination} onClick={(event) => { event.preventDefault(); navigate(resource.destination) }}>{resource.destination}</a>
+}
+
 function CollectionPage() {
   const [state, dispatch] = useReducer(uiReducer, initialUiState)
   const [query, setQuery] = useState('')
@@ -23,11 +28,11 @@ function CollectionPage() {
   const items = useMemo(() => collectionItems(query, state.collectionCategory), [query, state.collectionCategory])
   const selectedResource = useMemo(() => collectionSelection(query, state.collectionCategory, state.collectionSelection), [query, state.collectionCategory, state.collectionSelection])
   const availableFileCount = resources.reduce((count, resource) => count + (resource.files?.length ?? 0), 0)
-  const categoryEntries = [{ id: 'all', name: 'All resources', description: 'Browse the complete local collection.' }, ...categories]
+  const categoryEntries = [portfolio.collection.allCategory, ...categories]
 
   const resetFilters = () => {
     setQuery('')
-    dispatch({ type: 'collection/category', id: 'all' })
+    dispatch({ type: 'collection/reset' })
   }
 
   const updateQuery = (nextQuery) => {
@@ -50,12 +55,12 @@ function CollectionPage() {
     </section>
 
     <section className="collection-page__controls" aria-label="Collection controls">
-      <div>
+      <div className="collection-page__source">
         <p className="page-kicker">Local collection</p>
         <p>Resource metadata is bundled with this portfolio. No remote collection API is requested at runtime.</p>
+        <button type="button" onClick={resetFilters}>Reset</button>
       </div>
       <label className="collection-page__search"><span className="sr-only">Search collection</span><input value={query} onChange={(event) => updateQuery(event.target.value)} type="search" placeholder="Search resources, tools, categories…" /></label>
-      <button type="button" onClick={resetFilters}>Reset</button>
     </section>
 
     <section className="collection-browser" aria-label="Collection browser">
@@ -63,10 +68,9 @@ function CollectionPage() {
         <h2>Categories</h2>
         <div>{categoryEntries.map((category) => {
           const count = category.id === 'all' ? resources.length : collectionItems('', category.id).length
-          const description = category.description ?? 'Curated portfolio notes and developer resources.'
           const active = state.collectionCategory === category.id
           return <button type="button" key={category.id} aria-pressed={active} className={active ? 'is-active' : ''} onClick={() => dispatch({ type: 'collection/category', id: category.id })}>
-            <span><strong>{category.name}</strong><small>{description}</small></span><b>{count}</b>
+            <span><strong>{category.name}</strong><small>{category.description}</small></span><b>{count}</b>
           </button>
         })}</div>
       </div>
@@ -76,21 +80,27 @@ function CollectionPage() {
         <div>{items.length > 0 ? items.map((resource) => {
           const category = categories.find(({ id }) => id === resource.categoryId)
           const active = resource.id === selectedResource?.id
+          const sourceBadge = resource.source === 'Official documentation' ? 'Docs' : 'Portfolio'
           return <button type="button" key={resource.id} aria-pressed={active} className={active ? 'is-active' : ''} onClick={() => dispatch({ type: 'collection/select', id: resource.id })}>
-            <span className="collection-marketplace__meta">{category?.name}</span><strong>{resource.name}</strong><small>{resource.description}</small><em>{resource.source}</em>
+            <span className="collection-marketplace__meta">{category?.name}</span><strong>{resource.name}</strong><small>{resource.description}</small><em>{sourceBadge}</em>
           </button>
         }) : <div className="collection-browser__empty"><strong>No matching resources</strong><p>Try a different search term or reset the collection filters.</p></div>}</div>
       </div>
 
       <article className="collection-browser__column collection-detail" aria-live="polite">
         <h2>Detail</h2>
-        {selectedResource ? <div className="collection-detail__body">
-          <p className="page-kicker">{categories.find(({ id }) => id === selectedResource.categoryId)?.name}</p>
-          <h3>{selectedResource.name}</h3>
-          <p>{selectedResource.description}</p>
-          {selectedResource.tags?.length ? <ul aria-label={`${selectedResource.name} tags`}>{selectedResource.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul> : null}
-          <div className="collection-detail__destination"><span>Source</span><strong>{selectedResource.source}</strong><span>Destination</span><code>{selectedResource.destination}</code></div>
-          <ResourceAction resource={selectedResource} />
+        {selectedResource ? <div className="collection-detail__card">
+          <div className="collection-detail__intro">
+            <p className="page-kicker">{categories.find(({ id }) => id === selectedResource.categoryId)?.name}</p>
+            <h3>{selectedResource.name}</h3>
+            <p>{selectedResource.description}</p>
+            {selectedResource.tags?.length ? <ul aria-label={`${selectedResource.name} tags`}>{selectedResource.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul> : null}
+            <ResourceAction resource={selectedResource} />
+          </div>
+          <div className="collection-detail__lower">
+            <div className="collection-detail__source"><span>Source</span><strong>{selectedResource.source}</strong></div>
+            <div className="collection-detail__destination"><span>Destination</span><ResourceDestination resource={selectedResource} /></div>
+          </div>
         </div> : <div className="collection-detail__placeholder"><strong>Select a resource</strong><p>Choose an item from Marketplace to inspect its source, tags, and destination.</p></div>}
       </article>
     </section>

@@ -20,7 +20,7 @@ export function collectionItems(query = '', categoryId = 'all') {
   const category = portfolio.collection.categories.find((item) => item.id === categoryId)
   return portfolio.collection.resources.filter((item) => (
     (categoryId === 'all' || item.categoryId === categoryId)
-    && (!needle || `${item.name} ${item.description} ${item.tags.join(' ')} ${item.source ?? ''} ${category?.name ?? ''}`.toLowerCase().includes(needle))
+    && (!needle || `${item.name} ${item.description} ${(item.tags ?? []).join(' ')} ${item.source ?? ''} ${category?.name ?? ''}`.toLowerCase().includes(needle))
   ))
 }
 

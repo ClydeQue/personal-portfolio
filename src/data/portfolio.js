@@ -136,10 +136,11 @@ const experiencePhases = [
 ]
 
 const collection = {
+  allCategory: { id: 'all', name: 'All resources', description: 'Browse the complete local collection.' },
   categories: [
-    { id: 'ai-development', name: 'AI & Development' },
-    { id: 'learning-references', name: 'Learning & References' },
-    { id: 'tools-libraries', name: 'Tools & Libraries' },
+    { id: 'ai-development', name: 'AI & Development', description: 'QA sandbox and access-control reference notes.' },
+    { id: 'learning-references', name: 'Learning & References', description: 'Local-first and multi-office architecture notes.' },
+    { id: 'tools-libraries', name: 'Tools & Libraries', description: 'React server-state and interface documentation.' },
   ],
   resources: [
     { id: 'scorm-package-testing', name: 'SCORM package testing', description: 'A local QA sandbox approach for testing SCORM packages exported from Articulate 360.', categoryId: 'ai-development', source: 'Portfolio case-study note', destination: '/blog/capytech-scorm-qa-sandbox', actionLabel: 'Open case study', tags: ['SCORM', 'C#', 'ASP.NET Core', 'SQLite'] },

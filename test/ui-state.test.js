@@ -8,6 +8,7 @@ import {
   writePortfolioView,
 } from '../src/app/uiState.js'
 import { getExperienceKeyboardIndex } from '../src/app/interaction.js'
+import { collectionSelection } from '../src/data/selectors.js'
 
 test('view storage accepts only Personal and Professional', () => {
   assert.equal(readPortfolioView({ getItem: () => 'professional' }), 'professional')
@@ -38,6 +39,23 @@ test('collection search can clear a stale detail selection', () => {
   const selected = { ...initialUiState, collectionSelection: 'scorm-package-testing' }
 
   assert.equal(uiReducer(selected, { type: 'collection/clear-selection' }).collectionSelection, null)
+})
+
+test('collection category change preserves selection when the resource remains visible', () => {
+  const selected = uiReducer(initialUiState, { type: 'collection/select', id: 'tanstack-query' })
+  const next = uiReducer(selected, { type: 'collection/category', id: 'all' })
+
+  assert.equal(next.collectionCategory, 'all')
+  assert.equal(next.collectionSelection, 'tanstack-query')
+})
+
+test('collection reset clears explicit state so detail returns the first resource', () => {
+  const selected = { ...initialUiState, collectionCategory: 'tools-libraries', collectionSelection: 'figma-first-interface-work' }
+  const reset = uiReducer(selected, { type: 'collection/reset' })
+
+  assert.equal(reset.collectionCategory, 'all')
+  assert.equal(reset.collectionSelection, null)
+  assert.equal(collectionSelection('', reset.collectionCategory, reset.collectionSelection)?.id, 'scorm-package-testing')
 })
 
 test('experience keyboard navigation wraps and supports phase endpoints', () => {
