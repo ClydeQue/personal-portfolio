@@ -39,7 +39,8 @@ captured live contract includes:
 - `#1342ff` as the main interaction accent
 - Geist Sans and Geist Mono typography
 - a 1,074px centered desktop content canvas at 1440px viewport width
-- a 36px status strip followed by an approximately 66px sticky navigation bar
+- a 36px status strip followed by an approximately 66px navigation bar that
+  scrolls away with the document in the observed live runtime
 - thin gray rules, square editorial panels, and restrained radii
 - large, tightly tracked black headings
 - dotted and orthographic-grid section backgrounds
@@ -135,8 +136,12 @@ items, but the page itself must not overflow.
 
 ### Header and navigation
 
-The sticky header reproduces the reference proportions, active underline,
-Personal/Professional segmented control, contact indicator, and primary action.
+The header reproduces the reference proportions, translucent/blurred treatment,
+bottom rule, active underline, Personal/Professional segmented control, contact
+indicator, and primary action. Although the source markup includes a sticky
+class, the captured live runtime scrolls both the status strip and navigation
+away with the document. The local implementation follows that observed behavior
+and does not pin either row to the viewport.
 The brand becomes a local Clyde mark and wordmark. It must not reuse the JSTN
 identity. The desktop header exposes About, Projects, Experience, and Collection.
 Writing remains discoverable from Experience/About and the footer, matching the
@@ -177,9 +182,10 @@ must not hotlink or reuse Justine's avatar model.
 
 The footer matches the source's logo/resources/social grouping and small legal
 row. It links to the local license page and identifies the public JSTN reference
-and GPL-derived history. A circular back-to-top control appears after meaningful
-scroll, scrolls smoothly when motion is allowed, and jumps immediately under
-reduced motion.
+and GPL-derived history. A fixed dark circular back-to-top control appears after
+meaningful scroll. It is approximately 42-44px on desktop, meets the 44px minimum
+touch target, scrolls smoothly when motion is allowed, and jumps immediately
+under reduced motion.
 
 ## Page designs
 
@@ -272,10 +278,13 @@ dark orbital/learning panel. Clyde's phases are:
 3. Web Development Intern, JP Consulting and Services
 4. Computer Science foundation, Ateneo de Zamboanga University
 
-The remainder matches the source composition: activity, proof of work, writing,
-recognition, awards, community leadership, and education/certificates where
-verified. Phase buttons support keyboard navigation and expose the active panel
-to assistive technology.
+The active phase row matches the captured source state: a blue status dot,
+right-facing indicator, and dark framed/focused treatment. Selecting a phase
+updates the orbital graphic, phase heading, date line, summary, and associated
+skills without navigating away. The remainder matches the source composition:
+activity, proof of work, writing, recognition, awards, community leadership,
+and education/certificates where verified. Phase buttons support keyboard
+navigation and expose the active panel to assistive technology.
 
 ### Collection
 
@@ -329,7 +338,7 @@ path, or other remote image/font URL may appear in production source.
 
 Motion follows the live site instead of preserving the old GSAP choreography:
 
-- sticky shared header
+- status strip and shared header scrolling away with the document
 - subtle reveal transitions where captured
 - portrait particle movement
 - cursor follow and hover response
@@ -415,8 +424,8 @@ At 1440x1000 and 390x844:
 Visual QA is required after functional verification. For every representative
 route and key state, place the live source screenshot and local screenshot
 together at the same viewport and scroll position. Compare typography, layout,
-spacing, borders, radii, image crop, colors, sticky behavior, and responsive
-ordering.
+spacing, borders, radii, image crop, colors, header scroll behavior, and
+responsive ordering.
 
 The project-root `design-qa.md` records every comparison and must end with:
 
