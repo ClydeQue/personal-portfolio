@@ -10,7 +10,7 @@ function ProjectCard({ project, variant = 'feature' }) {
       <article className="project-card project-card--index">
         <button className="project-card__media" type="button" onClick={() => navigate(detailPath)} aria-label={`View ${project.title}`}>
           <ImageWithFallback sources={imageSources} alt="" loading="lazy" />
-          <span className="project-card__index-copy"><small>{project.category}</small><strong>{project.title}</strong><em>{project.summary}</em><b>{project.technologies.slice(0, 3).join(' · ')}</b></span>
+          <span className="project-card__index-copy"><strong>{project.title}</strong><em>{project.summary}</em><b>{project.technologies.slice(0, 3).join(' · ')}</b></span>
           <span className="project-card__view">View</span>
         </button>
       </article>

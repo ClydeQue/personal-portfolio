@@ -6,6 +6,8 @@ const icons = Object.freeze({
   info: '/icons/info.svg',
   mapPin: '/icons/map-pin.svg',
   arrow: '/icons/arrowdiagonal.svg',
+  calendar: '/icons/calendar.svg',
+  share: '/icons/share.svg',
 })
 
 function Icon({ name, label, size = 18 }) {

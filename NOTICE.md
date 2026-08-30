@@ -28,6 +28,6 @@ license text and retain this notice in redistributed modified versions.
 
 ## Lucide icons
 
-`public/icons/mail.svg`, `public/icons/info.svg`, and
-`public/icons/map-pin.svg` are unmodified icons from
+`public/icons/mail.svg`, `public/icons/info.svg`, `public/icons/map-pin.svg`,
+`public/icons/calendar.svg`, and `public/icons/share.svg` are unmodified icons from
 [Lucide](https://lucide.dev/), licensed under the ISC License.

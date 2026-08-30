@@ -43,8 +43,8 @@ function ProjectDetailPage({ slug }) {
           <p>{project.summary}</p>
           <div className="project-detail-page__actions">
             {project.externalUrl && <a href={project.externalUrl} target="_blank" rel="noreferrer"><Icon name="arrow" size={16} />Visit project</a>}
-            <a href="mailto:kennethque101@gmail.com?subject=Project%20discussion"><Icon name="mail" size={16} />Schedule a call</a>
-            <button type="button" onClick={handleShare}>Share project</button>
+            <a href="mailto:kennethque101@gmail.com?subject=Project%20discussion"><Icon name="calendar" size={16} />Schedule a call</a>
+            <button type="button" onClick={handleShare}><Icon name="share" size={16} />Share project</button>
           </div>
           {shareState && <p className="project-detail-page__share" role="status">{shareState}</p>}
         </header>

@@ -45,3 +45,15 @@ test('Professional Home uses reusable mail, info, and location icons', () => {
     assert.match(homeSource, new RegExp(`name="${name}"`))
   }
 })
+
+test('Task 5 mobile action and index-card semantics use local schedule and share icons', () => {
+  const detailSource = read('src/pages/ProjectDetailPage.jsx')
+  const cardSource = read('src/components/ui/ProjectCard.jsx')
+  const iconSource = read('src/components/ui/Icon.jsx')
+
+  assert.match(iconSource, /calendar: '\/icons\/calendar\.svg'/)
+  assert.match(iconSource, /share: '\/icons\/share\.svg'/)
+  assert.match(detailSource, /name="calendar"/)
+  assert.match(detailSource, /name="share"/)
+  assert.doesNotMatch(cardSource, /project-card__index-copy"><small>/)
+})
