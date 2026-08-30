@@ -17,8 +17,14 @@ export function relatedPosts(slug, count = 2) {
 
 export function collectionItems(query = '', categoryId = 'all') {
   const needle = query.trim().toLowerCase()
+  const category = portfolio.collection.categories.find((item) => item.id === categoryId)
   return portfolio.collection.resources.filter((item) => (
     (categoryId === 'all' || item.categoryId === categoryId)
-    && (!needle || `${item.name} ${item.description} ${item.tags.join(' ')}`.toLowerCase().includes(needle))
+    && (!needle || `${item.name} ${item.description} ${item.tags.join(' ')} ${item.source ?? ''} ${category?.name ?? ''}`.toLowerCase().includes(needle))
   ))
+}
+
+export function collectionSelection(query = '', categoryId = 'all', selectionId = null) {
+  const visibleItems = collectionItems(query, categoryId)
+  return visibleItems.find(({ id }) => id === selectionId) ?? visibleItems[0] ?? null
 }

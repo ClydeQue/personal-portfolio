@@ -26,6 +26,20 @@ test('the reducer resets an invalid experience phase to the first phase', () => 
   assert.equal(uiReducer(initialUiState, { type: 'experience/select', index: 99 }).experienceIndex, 0)
 })
 
+test('collection selection keeps a real resource selected when a stale id is requested', () => {
+  const selected = uiReducer(initialUiState, { type: 'collection/select', id: 'scorm-package-testing' })
+  const next = uiReducer(selected, { type: 'collection/select', id: 'removed-resource' })
+
+  assert.equal(selected.collectionSelection, 'scorm-package-testing')
+  assert.equal(next.collectionSelection, 'scorm-package-testing')
+})
+
+test('collection search can clear a stale detail selection', () => {
+  const selected = { ...initialUiState, collectionSelection: 'scorm-package-testing' }
+
+  assert.equal(uiReducer(selected, { type: 'collection/clear-selection' }).collectionSelection, null)
+})
+
 test('experience keyboard navigation wraps and supports phase endpoints', () => {
   assert.equal(getExperienceKeyboardIndex('ArrowDown', 3, 4), 0)
   assert.equal(getExperienceKeyboardIndex('ArrowUp', 0, 4), 3)

@@ -36,7 +36,14 @@ export function uiReducer(state, action) {
       : 0
     return { ...state, experienceIndex: index }
   }
-  if (action.type === 'collection/category') return { ...state, collectionCategory: action.id, collectionSelection: null }
-  if (action.type === 'collection/select') return { ...state, collectionSelection: action.id }
+  if (action.type === 'collection/category') {
+    const categoryExists = action.id === 'all' || portfolio.collection.categories.some(({ id }) => id === action.id)
+    return categoryExists ? { ...state, collectionCategory: action.id, collectionSelection: null } : state
+  }
+  if (action.type === 'collection/select') {
+    const resourceExists = portfolio.collection.resources.some(({ id }) => id === action.id)
+    return resourceExists ? { ...state, collectionSelection: action.id } : state
+  }
+  if (action.type === 'collection/clear-selection') return { ...state, collectionSelection: null }
   return state
 }

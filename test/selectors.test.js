@@ -7,6 +7,7 @@ import {
   relatedPosts,
   relatedProjects,
 } from '../src/data/selectors.js'
+import * as selectors from '../src/data/selectors.js'
 import { portfolio } from '../src/data/portfolio.js'
 
 test('every published project resolves to a complete detail record', () => {
@@ -40,4 +41,20 @@ test('collection filtering is case-insensitive and does not mutate the source', 
   assert.deepEqual(firstSearch.map(({ name }) => name), ['SCORM package testing'])
   assert.notEqual(firstSearch, secondSearch)
   assert.deepEqual(collectionItems('not-present', 'all'), [])
+})
+
+test('collection search finds a named category and source within that category', () => {
+  const categoryMatches = collectionItems('learning & references', 'learning-references')
+  const sourceMatches = collectionItems('official documentation', 'tools-libraries')
+
+  assert.ok(categoryMatches.length > 0)
+  assert.ok(categoryMatches.every((item) => item.categoryId === 'learning-references'))
+  assert.ok(sourceMatches.length > 0)
+  assert.ok(sourceMatches.every((item) => item.source === 'Official documentation'))
+})
+
+test('collection detail defaults to the first visible resource and clears for empty results', () => {
+  assert.equal(selectors.collectionSelection('', 'all')?.id, 'scorm-package-testing')
+  assert.equal(selectors.collectionSelection('learning & references', 'learning-references', 'scorm-package-testing')?.id, 'local-first-business-workflows')
+  assert.equal(selectors.collectionSelection('a-query-that-does-not-exist', 'all', 'scorm-package-testing'), null)
 })
