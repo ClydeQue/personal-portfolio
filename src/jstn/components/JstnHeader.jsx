@@ -5,7 +5,7 @@ const navigation = [
   { label: 'Collection', to: '/collection' },
 ]
 
-function JstnHeader({ path, onNavigate, onExit }) {
+function JstnHeader({ path, onNavigate }) {
   const isActive = (to) => path === to || (to === '/projects' && path.startsWith('/projects/'))
 
   return (
@@ -33,11 +33,6 @@ function JstnHeader({ path, onNavigate, onExit }) {
           </button>
         ))}
       </nav>
-
-      <button className="jstn-header__exit" type="button" onClick={onExit}>
-        <span aria-hidden="true">↗</span>
-        Original mode
-      </button>
     </header>
   )
 }

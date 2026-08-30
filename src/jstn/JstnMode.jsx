@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
-import { normalizeJstnPath } from '../modes/modeRouting'
+import { matchRoute } from '../app/router'
 import JstnFooter from './components/JstnFooter'
 import JstnHeader from './components/JstnHeader'
 import AboutPage from './pages/AboutPage'
@@ -11,10 +11,9 @@ import ProjectDetailPage from './pages/ProjectDetailPage'
 import ProjectsPage from './pages/ProjectsPage'
 import './jstn.css'
 
-function JstnMode({ pathname = '/', onExit, onNavigate }) {
+function JstnMode({ pathname = '/', route = matchRoute(pathname), onNavigate }) {
   const rootRef = useRef(null)
-  const path = normalizeJstnPath(pathname)
-  const projectSlug = path.startsWith('/projects/') ? path.slice('/projects/'.length) : undefined
+  const { name, params, path } = route
 
   useLayoutEffect(() => {
     const root = rootRef.current
@@ -35,15 +34,15 @@ function JstnMode({ pathname = '/', onExit, onNavigate }) {
 
   let page = <HomePage onNavigate={onNavigate} />
 
-  if (path === '/about') page = <AboutPage onNavigate={onNavigate} />
-  if (path === '/projects') page = <ProjectsPage onNavigate={onNavigate} />
-  if (projectSlug) page = <ProjectDetailPage slug={projectSlug} onNavigate={onNavigate} />
-  if (path === '/experience') page = <ExperiencePage onNavigate={onNavigate} />
-  if (path === '/collection') page = <CollectionPage onNavigate={onNavigate} />
+  if (name === 'about') page = <AboutPage onNavigate={onNavigate} />
+  if (name === 'projects') page = <ProjectsPage onNavigate={onNavigate} />
+  if (name === 'projectDetail') page = <ProjectDetailPage slug={params.slug} onNavigate={onNavigate} />
+  if (name === 'experience') page = <ExperiencePage onNavigate={onNavigate} />
+  if (name === 'collection') page = <CollectionPage onNavigate={onNavigate} />
 
   return (
     <main className="jstn-mode" ref={rootRef} aria-label="Clyde Que editorial portfolio">
-      <JstnHeader path={path} onNavigate={onNavigate} onExit={onExit} />
+      <JstnHeader path={path} onNavigate={onNavigate} />
       <div className="jstn-shell">
         {page}
         <JstnFooter onNavigate={onNavigate} />
