@@ -3,6 +3,9 @@ import { matchRoute, navigate, subscribeToRoute } from './app/router'
 import { readPortfolioView } from './app/uiState.js'
 import PortfolioShell from './components/shell/PortfolioShell.jsx'
 import HomePage from './pages/HomePage.jsx'
+import AboutPage from './pages/AboutPage.jsx'
+import ProjectsPage from './pages/ProjectsPage.jsx'
+import ProjectDetailPage from './pages/ProjectDetailPage.jsx'
 import JstnMode from './jstn/JstnMode'
 
 function App() {
@@ -17,9 +20,16 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'auto' })
   }, [route.path])
 
-  if (route.name === 'home') {
+  let page
+
+  if (route.name === 'home') page = <HomePage view={view} onViewChange={setView} />
+  if (route.name === 'about') page = <AboutPage />
+  if (route.name === 'projects') page = <ProjectsPage />
+  if (route.name === 'projectDetail') page = <ProjectDetailPage slug={route.params.slug} />
+
+  if (page) {
     return <PortfolioShell route={route} view={view} onViewChange={setView}>
-      <HomePage view={view} onViewChange={setView} />
+      {page}
     </PortfolioShell>
   }
 

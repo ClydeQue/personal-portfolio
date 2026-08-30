@@ -7,6 +7,16 @@ import {
   relatedPosts,
   relatedProjects,
 } from '../src/data/selectors.js'
+import { portfolio } from '../src/data/portfolio.js'
+
+test('every published project resolves to a complete detail record', () => {
+  for (const project of portfolio.projects) {
+    const resolved = projectBySlug(project.slug)
+    assert.ok(resolved.bodySections.length >= 2)
+    assert.ok(resolved.gallery.length >= 1)
+    assert.equal(relatedProjects(project.slug, 2).length, 2)
+  }
+})
 
 test('selectors return deterministic related records', () => {
   assert.equal(projectBySlug('waiveright').title, 'WaiveRight')

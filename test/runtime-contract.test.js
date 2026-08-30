@@ -19,6 +19,11 @@ test('Home presentation content is supplied by the canonical portfolio record', 
   assert.ok(portfolio.home.professional.about.length >= 1)
 })
 
+test('App registers About, Projects, and project detail pages', () => {
+  const source = read('src/App.jsx')
+  for (const page of ['AboutPage', 'ProjectsPage', 'ProjectDetailPage']) assert.match(source, new RegExp(page))
+})
+
 test('Home keeps truthful tech icons and a cached, top-biased particle portrait', () => {
   const homeSource = read('src/pages/HomePage.jsx')
   const portraitSource = read('src/components/ui/ParticlePortrait.jsx')
