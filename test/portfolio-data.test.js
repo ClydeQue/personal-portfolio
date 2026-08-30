@@ -38,4 +38,15 @@ test('the temporary JSTN facade derives page-compatible project records', () => 
   assert.equal(project, jstnProjects[0])
   assert.equal(project.image, '/images/waiveright1.webp')
   assert.deepEqual(project.detail, portfolio.projects[0].bodySections.map(({ body }) => body))
+  assert.ok(Object.isFrozen(project.detail))
+  assert.throws(() => project.detail.push('mutable facade detail'), TypeError)
+})
+
+test('activity metrics agree with the preserved repository snapshot', () => {
+  const { activity } = portfolio
+
+  assert.equal(activity.totalCommits, activity.commitsByDate.reduce((total, day) => total + day.commits, 0))
+  assert.equal(activity.activeDays, activity.commitsByDate.length)
+  assert.equal(activity.currentStreak, 2)
+  assert.equal(activity.longestStreak, 2)
 })

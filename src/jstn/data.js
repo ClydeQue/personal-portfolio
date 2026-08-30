@@ -6,7 +6,7 @@ export const projects = freeze(portfolio.projects.map((project) => freeze({
   ...project,
   image: project.cover,
   tags: project.technologies,
-  detail: project.bodySections.map(({ body }) => body),
+  detail: freeze(project.bodySections.map(({ body }) => body)),
   externalLabel: project.externalUrl ? 'View project' : undefined,
 })))
 
