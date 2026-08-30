@@ -20,6 +20,13 @@ test('contains six truthful project case studies and four writing entries', () =
   ])
 })
 
+test('experience skills do not turn generic cloud learning into an AWS qualification', () => {
+  const universityPhase = portfolio.experiencePhases.at(-1)
+
+  assert.equal(universityPhase.skills.find(({ label }) => label === 'Cloud computing').icon, undefined)
+  assert.ok(portfolio.experiencePhases.flatMap(({ skills }) => skills).every(({ icon }) => icon !== 'aws'))
+})
+
 test('all production media references are local', () => {
   for (const path of collectMediaPaths(portfolio)) assert.match(path, /^\//)
 })

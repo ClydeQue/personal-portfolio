@@ -116,7 +116,7 @@ const experiencePhases = [
   {
     organization: 'Ngnair Brice Holding', role: 'Software Engineer Intern', period: 'Jul 2026–Present',
     summary: 'Contributing to payment-product engineering through frontend and QA collaboration with documented verification.',
-    skills: [{ label: 'React', icon: 'react' }, { label: 'TypeScript', icon: 'typescript' }, { label: 'Figma', icon: 'figma' }, { label: 'Product QA' }],
+    skills: [{ label: 'React', icon: 'experience-react' }, { label: 'TypeScript', icon: 'experience-typescript' }, { label: 'Figma', icon: 'experience-figma' }, { label: 'Product QA' }],
   },
   {
     organization: 'Capytech E-Learning Solutions', role: 'Solutions Developer Intern', period: 'Jun 2026',
@@ -126,12 +126,12 @@ const experiencePhases = [
   {
     organization: 'JP Consulting and Services', role: 'Web Development Intern', period: 'Apr–May 2026',
     summary: 'Contributed to full-stack JavaScript and TypeScript work for Australian clients under a senior developer.',
-    skills: [{ label: 'JavaScript', icon: 'javascript' }, { label: 'TypeScript', icon: 'typescript' }, { label: 'Web development' }],
+    skills: [{ label: 'JavaScript', icon: 'experience-javascript' }, { label: 'TypeScript', icon: 'experience-typescript' }, { label: 'Web development' }],
   },
   {
     organization: 'Ateneo de Zamboanga University', role: 'BS Computer Science foundation', period: '2023–Present',
     summary: 'Building foundations in web development, cloud computing, and systems architecture.',
-    skills: [{ label: 'Web development' }, { label: 'Cloud computing', icon: 'aws' }, { label: 'Systems architecture' }],
+    skills: [{ label: 'Web development' }, { label: 'Cloud computing' }, { label: 'Systems architecture' }],
   },
 ]
 

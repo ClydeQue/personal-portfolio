@@ -32,6 +32,7 @@ test('experience keyboard navigation wraps and supports phase endpoints', () => 
   assert.equal(getExperienceKeyboardIndex('Home', 2, 4), 0)
   assert.equal(getExperienceKeyboardIndex('End', 0, 4), 3)
   assert.equal(getExperienceKeyboardIndex('Enter', 1, 4), null)
+  assert.equal(getExperienceKeyboardIndex('ArrowDown', 0, 0), null)
 })
 
 test('view persistence normalizes writes and tolerates unavailable storage', () => {

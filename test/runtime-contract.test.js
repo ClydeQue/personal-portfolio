@@ -69,3 +69,8 @@ test('Experience writing entries open their local case-study route without a pro
   assert.match(source, /navigate\(`\/blog\/\$\{post\.slug\}`\)/)
   assert.doesNotMatch(source, /post\.readingTime/)
 })
+
+test('Experience preserves the mobile text space after the Career Path ampersand', () => {
+  const source = read('src/pages/ExperiencePage.jsx')
+  assert.match(source, /Career Path &amp;<br \/>\{' '\}Milestones/)
+})

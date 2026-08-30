@@ -37,7 +37,7 @@ function ExperiencePage() {
     <section className="experience-hero" aria-labelledby="experience-title">
       <h1 id="experience-title">The<br />Journey</h1>
       <div className="experience-hero__path">
-        <h2>Career Path &amp;<br />Milestones</h2>
+        <h2>Career Path &amp;<br />{' '}Milestones</h2>
         <div className="experience-hero__values" aria-label="Working values">
           {journeyValues.map((value, index) => <span key={value}>{value}<i>{`{0${index + 1}}`}</i></span>)}
         </div>

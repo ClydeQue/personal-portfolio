@@ -31,3 +31,12 @@ license text and retain this notice in redistributed modified versions.
 `public/icons/mail.svg`, `public/icons/info.svg`, `public/icons/map-pin.svg`,
 `public/icons/calendar.svg`, and `public/icons/share.svg` are unmodified icons from
 [Lucide](https://lucide.dev/), licensed under the ISC License.
+
+## Experience technology icons
+
+`public/techstack/experience-react.svg`,
+`public/techstack/experience-typescript.svg`,
+`public/techstack/experience-javascript.svg`, and
+`public/techstack/experience-figma.svg` are unmodified technology marks from
+[Simple Icons](https://simpleicons.org/). Simple Icons is released under
+[CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
