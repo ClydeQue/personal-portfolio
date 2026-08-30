@@ -13,6 +13,7 @@ captures must use the same Browser surface, CSS viewport, route and state.
 | Files | Source route | State |
 | --- | --- | --- |
 | home-desktop.png, home-mobile.png | `/` | Personal, top |
+| home-panels-desktop.png | `/` | Personal, scrollY700 |
 | professional-desktop.png, professional-mobile.png | `/` | Professional, top |
 | menu-mobile.png | `/` | Personal, menu expanded |
 | footer-desktop.png, footer-mobile.png | `/` | Personal, document bottom |
