@@ -30,6 +30,12 @@ test('writing entries keep unpublished case-study metadata and do not invent rea
   }
 })
 
+test('writing case-study copy stays factual about the work instead of publication rationale', () => {
+  const copy = portfolio.posts.flatMap(({ sections }) => sections.map(({ body }) => body)).join(' ')
+
+  assert.doesNotMatch(copy, /previously published|unsupported outcomes|rather than presenting/i)
+})
+
 test('experience skills do not turn generic cloud learning into an AWS qualification', () => {
   const universityPhase = portfolio.experiencePhases.at(-1)
 

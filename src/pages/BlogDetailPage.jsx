@@ -21,9 +21,9 @@ function BlogDetailPage({ slug }) {
     <article className="blog-detail-page portfolio-frame">
       <button className="blog-detail-page__back" type="button" onClick={() => navigate('/blog')}>← Back to writing</button>
       <header>
-        <p className="blog-detail-page__meta">{post.category}</p>
         <h1>{post.title}</h1>
         <p className="blog-detail-page__dek">{post.dek}</p>
+        <p className="blog-detail-page__meta">{post.category}</p>
       </header>
       <div className="blog-detail-page__body">
         {post.sections.map((section) => (

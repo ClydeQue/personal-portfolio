@@ -37,6 +37,12 @@ test('writing detail stays text-focused without unsupported article chrome', () 
   assert.match(source, /postBySlug/)
 })
 
+test('writing detail places its case-study label after the title and lede', () => {
+  const source = read('src/pages/BlogDetailPage.jsx')
+
+  assert.ok(source.indexOf('blog-detail-page__dek') < source.indexOf('blog-detail-page__meta'))
+})
+
 test('Home keeps truthful tech icons and a cached, top-biased particle portrait', () => {
   const homeSource = read('src/pages/HomePage.jsx')
   const portraitSource = read('src/components/ui/ParticlePortrait.jsx')

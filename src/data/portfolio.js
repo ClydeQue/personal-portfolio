@@ -160,7 +160,7 @@ const posts = [
     sections: [
       { heading: 'Context', body: 'At Capytech E-Learning Solutions, the sandbox supported local testing and debugging of SCORM packages exported from Articulate 360.' },
       { heading: 'Implementation', body: 'The native Photino.NET application used C# and ASP.NET Core for manifest parsing and SCORM 1.2/2004 playback simulation, with SQLite telemetry.' },
-      { heading: 'Boundary', body: 'This is a portfolio case-study note, not a previously published article; it records the work without adding unsupported outcomes.' },
+      { heading: 'Boundary', body: 'This case study documents local SCORM package testing and debugging, including manifest parsing, playback simulation, and SQLite telemetry.' },
     ],
   },
   {
@@ -180,7 +180,7 @@ const posts = [
     sections: [
       { heading: 'Two portals', body: 'WaiveRight separates student submission work from administrator review work for academic waivers.' },
       { heading: 'Authentication', body: 'The system uses Supabase RPC functions, Row-Level Security, pgcrypto, and session management for custom role-based access.' },
-      { heading: 'Case-study scope', body: 'This portfolio case-study note describes the implementation approach rather than presenting it as a previously published article.' },
+      { heading: 'Case-study scope', body: 'This note documents WaiveRight’s two portals and the custom role-based access model used by the workflow.' },
     ],
   },
   {
@@ -190,7 +190,7 @@ const posts = [
     sections: [
       { heading: 'Offline POS', body: 'The original mini-grocery system used Java, JavaFX, and SQLite for local checkout, inventory, and product-movement workflows.' },
       { heading: 'Separate systems', body: 'The later IMS application uses an ASP.NET Core and Next.js web architecture and is not represented here as offline-first.' },
-      { heading: 'Learning carried forward', body: 'The earlier project informed practical thinking about local-business workflows while keeping the two systems’ claims separate.' },
+      { heading: 'Learning carried forward', body: 'The earlier project brought local-business checkout, inventory, and product-movement workflows into a desktop setting before later web-system work.' },
     ],
   },
 ]
