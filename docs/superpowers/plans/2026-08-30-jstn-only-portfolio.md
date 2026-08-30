@@ -222,7 +222,7 @@ git commit -m "refactor: replace portfolio mode routing"
 - Create: `src/data/selectors.js`
 - Create: `test/portfolio-data.test.js`
 - Create: `test/selectors.test.js`
-- Delete: `src/jstn/data.js`
+- Modify: `src/jstn/data.js` into a temporary compatibility facade until Task 10 removes the adapter
 - Delete: `test/jstn-data.test.js`
 - Delete: `test/jstn-project-data.test.js`
 
@@ -257,7 +257,7 @@ test('all production media references are local', () => {
 test('selectors return deterministic related records', () => {
   assert.equal(projectBySlug('waiveright').title, 'WaiveRight')
   assert.equal(relatedProjects('waiveright', 2).length, 2)
-  assert.equal(postBySlug('learning-in-public').slug, 'learning-in-public')
+  assert.equal(postBySlug('capytech-scorm-qa-sandbox').slug, 'capytech-scorm-qa-sandbox')
 })
 ```
 
@@ -307,7 +307,7 @@ export const portfolio = deepFreeze({
 })
 ```
 
-Define `projects`, `experiencePhases`, `collection`, `posts`, and `activity` above the exported object. Migrate all six current project records (`waiveright`, `social-development-unit`, `leo-rent-a-car`, `offline-pos`, `mujer-lgbtq`, `orsem-family-feud`) with their existing truthful local media and contribution notes. Define the four phases as Ngnair Software Engineer Intern (Jul 2026-Present), Capytech AI/.NET Intern (Jun 2026), JP Consulting Software Development Intern (Apr-May 2026), and Ateneo Computer Science foundation. Define four Clyde writing records with the stable slugs `learning-in-public`, `designing-before-building`, `offline-first-for-local-business`, and `evidence-before-claims`. Define three collection categories and deterministic activity values. Each project contains `slug`, `title`, `period`, `category`, `summary`, `role`, `responsibilities`, `technologies`, `bodySections`, `cover`, `gallery`, optional `externalUrl`, and `relatedSlugs`. Each post contains `slug`, `title`, `dek`, `published`, `readingTime`, `category`, `cover`, and at least three non-empty `sections`.
+Define `projects`, `experiencePhases`, `collection`, `posts`, and `activity` above the exported object. Migrate all six current project records (`waiveright`, `social-development-unit`, `leo-rent-a-car`, `offline-pos`, `mujer-lgbtq`, `orsem-family-feud`) with their existing truthful local media and contribution notes. Define the four phases as Ngnair Software Engineer Intern (Jul 2026-Present), Capytech AI/.NET Intern (Jun 2026), JP Consulting Software Development Intern (Apr-May 2026), and Ateneo Computer Science foundation. The four writing records must follow the approved spec: `capytech-scorm-qa-sandbox`, `sdu-multi-office-dashboard`, `waiveright-role-based-workflow`, and `offline-first-pos-ims`. Label them portfolio case-study notes, not previously published articles, and do not invent historical publication dates. Define the collection categories as AI & Development, Learning & References, and Tools & Libraries. Activity values must be a deterministic snapshot of actual local repository commit dates, labeled Portfolio repository activity, rather than invented GitHub contributions. Each project contains `slug`, `title`, `period`, `category`, `summary`, `role`, `responsibilities`, `technologies`, `bodySections`, `cover`, `gallery`, optional `externalUrl`, and `relatedSlugs`. Each post contains `slug`, `title`, `dek`, `published` (null unless evidenced), `readingTime`, `category`, `cover`, and at least three non-empty `sections`. Keep `src/jstn/data.js` as a thin derived compatibility facade for the temporary adapter; it must not duplicate the source records.
 
 - [ ] **Step 4: Implement selectors without mutation**
 
@@ -569,9 +569,9 @@ Run: `node --test test/selectors.test.js test/runtime-contract.test.js`
 
 Expected: FAIL until the records and page registrations are complete.
 
-- [ ] **Step 3: Build About in the reference split-document layout**
+- [ ] **Step 3: Build About in the reference editorial-builder layout**
 
-Implement Clyde's portrait, name/location/role/social actions, About narrative, grouped tech stack, Work Experience, and Recent Projects. Desktop uses a ruled two-column document; mobile stacks profile, About, stack, experience, then projects.
+Follow the approved About spec, not the Professional Home composition: section eyebrow, builder title, short positioning statement, banner/portrait media, two-column process and principles section, then a three-column learning/under-the-hood/north-star section. Mobile becomes one column while preserving rule spacing and type hierarchy. Clyde's copy stays grounded in verified full-stack engineering, design, AI-assisted execution with verification, systems architecture, institutional work, internships, and local client products.
 
 - [ ] **Step 4: Build Projects index with the captured intro and card rail**
 
@@ -716,6 +716,7 @@ git commit -m "feat: add searchable portfolio collection"
 - Create: `src/pages/BlogDetailPage.jsx`
 - Create: `src/pages/LicensePage.jsx`
 - Create: `src/pages/NotFoundPage.jsx`
+- Create: `public/LICENSE.txt` as an unchanged copy of the repository-root `LICENSE`
 - Modify: `src/App.jsx`
 - Modify: `src/styles/pages.css`
 - Modify: `src/styles/responsive.css`
@@ -755,7 +756,7 @@ The index mirrors the source editorial list with four Clyde-authored entries. Ar
 
 - [ ] **Step 4: Build visible license and global not-found routes**
 
-`LicensePage` presents Clyde's modification notice, GPL-3.0-only identifier, no-warranty statement, source availability statement, link to the public source repository, and visible summaries of the repository-root `NOTICE.md` and `LICENSE`. `NotFoundPage` states the requested path was not found and offers working Home and Projects actions.
+`LicensePage` presents Clyde's modification notice, GPL-3.0-only identifier, no-warranty statement, source availability statement, link to the public source repository, link to the local `/LICENSE.txt`, link to the GNU GPL text, and the attribution retained in repository-root `NOTICE.md`. `NotFoundPage` states the requested path was not found and offers working Home and Projects actions.
 
 - [ ] **Step 5: Run checks and commit**
 
@@ -764,7 +765,7 @@ Run: `node --test test/portfolio-data.test.js test/runtime-contract.test.js && n
 Expected: focused tests, lint, and build PASS.
 
 ```bash
-git add src/pages src/App.jsx src/styles src/data/portfolio.js test
+git add src/pages src/App.jsx src/styles src/data/portfolio.js public/LICENSE.txt test
 git commit -m "feat: add writing and license routes"
 ```
 
@@ -945,7 +946,7 @@ Expected: FAIL because `scripts/audit-build.mjs` does not exist.
 
 - [ ] **Step 3: Implement the deterministic audit**
 
-The script imports `routeTable` and `portfolio`, recursively gathers paths beginning with `/images/`, `/fonts/`, `/icons/`, `/favicon/`, `/portfolio/`, `/LICENSE`, or `/NOTICE.md`, verifies each source file exists under `public/`, reads production source and built HTML/CSS/JS, rejects forbidden remote asset hosts, and verifies every internal content link matches `matchRoute`.
+The script imports `routeTable` and `portfolio`, recursively gathers paths beginning with `/images/`, `/fonts/`, `/icons/`, `/favicon/`, `/portfolio/`, or `/LICENSE.txt`, verifies each source file exists under `public/`, reads production source and built HTML/CSS/JS, rejects forbidden remote asset hosts, and verifies every internal content link matches `matchRoute` or a verified local static asset.
 
 Add:
 
