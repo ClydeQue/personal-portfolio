@@ -121,3 +121,47 @@ dist/assets/index-BVcpaOPL.js   262.17 kB │ gzip: 78.81 kB
 
 - `package-lock.json` was already dirty before this task and was intentionally left untouched.
 - The full test run prints the existing `baseline-browser-mapping` staleness notice from toolchain dependencies, but it does not fail the suite and was not introduced by this task.
+
+## Review Fix 1
+
+### What I changed
+
+- Fixed the Task 9 P1 integration defect in `src/components/ui/ActivityHeatmap.jsx` by mapping normalized year records with `entry` instead of the nonexistent `value` field before calling `activityYear(...)`.
+- Added component-boundary regression coverage in `test/interaction-contract.test.js`:
+  - a rendered-markup test that proves unordered string input `['2025', '2026']` initially selects the numerically newest year, `2026`,
+  - a boundary wiring test that verifies the selected-year summary/stats and the year-button `aria-pressed` / `setRequestedYear(candidateYear)` path remain connected in the component source.
+- Kept the existing Task 9 implementation intact outside this focused integration fix.
+
+### Fix verification
+
+- Focused regression:
+
+```bash
+/Users/clyde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --test test/interaction-contract.test.js
+```
+
+Result: 7 tests passed, 0 failed.
+
+- Full suite:
+
+```bash
+/Users/clyde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --test
+```
+
+Result: 52 tests passed, 0 failed.
+
+- Lint:
+
+```bash
+PATH=/Users/clyde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH npm run lint
+```
+
+Result: passed.
+
+- Build:
+
+```bash
+PATH=/Users/clyde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH npm run build
+```
+
+Result: passed.

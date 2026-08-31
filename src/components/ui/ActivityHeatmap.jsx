@@ -86,7 +86,7 @@ const buildYearGrid = (year, commitsByDate) => {
 function ActivityHeatmap({ years }) {
   const { activity } = portfolio
   const yearOptions = useMemo(() => normalizeYears(years, activity.commitsByDate), [years, activity.commitsByDate])
-  const normalizedEntries = yearOptions.map(({ value }) => value)
+  const normalizedEntries = yearOptions.map(({ entry }) => entry)
   const [requestedYear, setRequestedYear] = useState(() => activityYear(normalizedEntries, null)?.year ?? null)
   const selectedEntry = activityYear(normalizedEntries, requestedYear)
   const selectedYear = selectedEntry?.year ?? null
