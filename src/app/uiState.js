@@ -26,6 +26,11 @@ export function writePortfolioView(storage, view) {
   return true
 }
 
+export function shouldNavigateHomeForViewChange(routeName, currentView, nextView) {
+  const normalizedView = nextView === 'professional' ? 'professional' : 'personal'
+  return routeName !== 'home' && normalizedView !== currentView
+}
+
 export function uiReducer(state, action) {
   if (action.type === 'menu/open') return { ...state, menuOpen: true }
   if (action.type === 'menu/toggle') return { ...state, menuOpen: !state.menuOpen }

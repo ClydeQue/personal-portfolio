@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import {
   initialUiState,
   readPortfolioView,
+  shouldNavigateHomeForViewChange,
   uiReducer,
   VIEW_STORAGE_KEY,
   writePortfolioView,
@@ -72,4 +73,11 @@ test('view persistence normalizes writes and tolerates unavailable storage', () 
   assert.equal(writePortfolioView({ setItem: (...args) => writes.push(args) }, 'professional'), true)
   assert.deepEqual(writes, [['portfolio-view', 'professional']])
   assert.equal(writePortfolioView({ setItem: () => { throw new Error('blocked') } }, 'personal'), false)
+})
+
+test('view selection only returns to Home when the active view changes off Home', () => {
+  assert.equal(shouldNavigateHomeForViewChange('projects', 'personal', 'professional'), true)
+  assert.equal(shouldNavigateHomeForViewChange('projectDetail', 'professional', 'professional'), false)
+  assert.equal(shouldNavigateHomeForViewChange('experience', 'personal', 'personal'), false)
+  assert.equal(shouldNavigateHomeForViewChange('home', 'personal', 'professional'), false)
 })

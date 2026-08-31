@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef } from 'react'
 import { navigate } from '../../app/router.js'
-import { readPortfolioView, initialUiState, uiReducer, writePortfolioView } from '../../app/uiState.js'
+import { readPortfolioView, initialUiState, shouldNavigateHomeForViewChange, uiReducer, writePortfolioView } from '../../app/uiState.js'
 import AmbientCanvas from './AmbientCanvas.jsx'
 import BackToTop from './BackToTop.jsx'
 import CustomCursor from './CustomCursor.jsx'
@@ -18,14 +18,14 @@ function PortfolioShell({ route, view, onViewChange, children }) {
 
   useEffect(() => { dispatch({ type: 'navigation/complete' }) }, [route.path])
 
+  const selectedView = view ?? readPortfolioView(storage)
+
   const selectView = (nextView) => {
     const normalized = nextView === 'professional' ? 'professional' : 'personal'
     writePortfolioView(storage, normalized)
     onViewChange?.(normalized)
-    if (route.name !== 'home') navigate('/')
+    if (shouldNavigateHomeForViewChange(route.name, selectedView, normalized)) navigate('/')
   }
-
-  const selectedView = view ?? readPortfolioView(storage)
 
   return (
     <div className="portfolio-shell" data-route={route.name}>
