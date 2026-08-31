@@ -52,6 +52,8 @@ test('rejects empty and malformed contribution calendar responses', () => {
   assert.throws(() => normalizeContributionCalendar({}, { year: 2024, snapshotDate: '2024-01-04' }), /contributionCalendar/)
   assert.throws(() => normalizeContributionCalendar({ totalContributions: 0, weeks: [{}] }, { year: 2024, snapshotDate: '2024-01-04' }), /contributionDays/)
   assert.throws(() => normalizeContributionCalendar({ totalContributions: 1, weeks: [{ contributionDays: [{ date: 'not-a-date', contributionCount: 1 }] }] }, { year: 2024, snapshotDate: '2024-01-04' }), /ISO date/)
+  assert.throws(() => normalizeContributionCalendar({ totalContributions: 1, weeks: [{ contributionDays: [{ date: '2026-02-30', contributionCount: 1 }] }] }, { year: 2026, snapshotDate: '2026-08-31' }), /ISO date/)
+  assert.throws(() => buildSnapshot({ years: [2024], calendars: new Map([[2024, calendar]]), snapshotDate: '2024-02-30' }), /ISO snapshot date/)
 })
 
 test('generates a deterministic public module with calendar-year data', () => {

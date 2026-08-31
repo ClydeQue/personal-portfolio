@@ -9,6 +9,11 @@ const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/
 
 const dayIndex = (date) => Date.parse(`${date}T00:00:00Z`) / 86_400_000
 const toUtcDate = (value = new Date()) => value.toISOString().slice(0, 10)
+const isCanonicalIsoDate = (date) => {
+  if (typeof date !== 'string' || !isoDatePattern.test(date)) return false
+  const parsed = new Date(`${date}T00:00:00Z`)
+  return !Number.isNaN(parsed.valueOf()) && parsed.toISOString().slice(0, 10) === date
+}
 
 export const calendarBounds = (year) => ({
   from: `${year}-01-01T00:00:00Z`,
@@ -16,7 +21,7 @@ export const calendarBounds = (year) => ({
 })
 
 const assertIsoDate = (date) => {
-  if (typeof date !== 'string' || !isoDatePattern.test(date) || Number.isNaN(dayIndex(date))) throw new Error('GitHub contribution day must contain an ISO date')
+  if (!isCanonicalIsoDate(date)) throw new Error('GitHub contribution day must contain an ISO date')
 }
 
 const nonNegativeInteger = (value) => Number.isInteger(value) && value >= 0
@@ -75,7 +80,7 @@ export function normalizeContributionCalendar(contributionCalendar, { year, snap
 
 export function buildSnapshot({ years, calendars, snapshotDate }) {
   if (!Array.isArray(years) || !calendars || typeof calendars.get !== 'function') throw new Error('GitHub snapshot requires contribution years and calendars')
-  if (typeof snapshotDate !== 'string' || !isoDatePattern.test(snapshotDate)) throw new Error('GitHub snapshot requires an ISO snapshot date')
+  if (!isCanonicalIsoDate(snapshotDate)) throw new Error('GitHub snapshot requires an ISO snapshot date')
 
   const supportedYears = [...new Set(years.filter((year) => Number.isInteger(year)))].filter((year) => year >= 2024).sort((left, right) => left - right)
   if (supportedYears.length === 0) throw new Error('GitHub returned no supported contribution years')
