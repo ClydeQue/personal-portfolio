@@ -9,7 +9,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "sync:github-activity": "node scripts/github-activity-sync.mjs"
+    "sync:github-activity": "node scripts/github-activity-sync.mjs",
+    "audit:build": "node scripts/audit-build.mjs"
   },
   "dependencies": {
     "react": "19.1.1",
