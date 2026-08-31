@@ -14,6 +14,7 @@ const publicStaticExtension = /\.(?:avif|gif|ico|jpe?g|pdf|png|svg|txt|webmanife
 const uniqueSorted = (values) => [...new Set(values)].sort()
 const toPosixPath = (value) => value.replace(/\\/g, '/')
 const stripSearchAndHash = (value) => value.split(/[?#]/, 1)[0]
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 function filesRecursively(directory) {
   if (!existsSync(directory)) return []
@@ -96,6 +97,16 @@ function collectIconMapReferences(text, report) {
   }
 }
 
+function collectBoundMediaMapReferences(text, report) {
+  const bindings = new Set([...text.matchAll(/\b(?:src|poster)\s*:\s*([a-z_$][\w$]*)\s*\[/gi)].map((match) => match[1]))
+  for (const binding of bindings) {
+    const declaration = new RegExp(`\\b(?:const|let|var)\\s+${escapeRegExp(binding)}\\s*=\\s*(?:Object\\.freeze\\()?\\{([\\s\\S]*?)\\}`, 'g')
+    for (const map of text.matchAll(declaration)) {
+      for (const entry of map[1].matchAll(/:\s*['"]([^'"]+)['"]/g)) collectMediaReference(entry[1], report)
+    }
+  }
+}
+
 function collectStaticReferences(text, report) {
   const assetPattern = /['"`]((?:\/images|\/fonts|\/icons|\/favicon|\/portfolio|\/techstack)(?:\/[^'"`\s)]+)?|\/LICENSE\.txt)(?:[?#][^'"`\s)]*)?['"`]/g
   for (const match of text.matchAll(assetPattern)) {
@@ -122,6 +133,7 @@ function collectStaticReferences(text, report) {
   for (const match of text.matchAll(/\bnavigate\(\s*["']([^"']+)["']/gi)) report.internalLinks.push(match[1])
 
   collectIconMapReferences(text, report)
+  collectBoundMediaMapReferences(text, report)
 }
 
 function normalizeRoute(value) {

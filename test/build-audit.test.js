@@ -105,6 +105,17 @@ test('build audit rejects source and compiled media hotlinks while preserving or
   assert.ok(report.checkedLinks.includes('https://www.gnu.org/licenses/gpl-3.0.html'))
 })
 
+test('build audit detects a minified media map only when its renamed binding feeds src', async (t) => {
+  const root = createFixture()
+  t.after(() => rmSync(root, { recursive: true, force: true }))
+  writeFileSync(join(root, 'dist', 'assets', 'minified.js'), 'const n=Object.freeze({hero:"https://cdn.example/unapproved.svg"});jsx("img",{src:n[e]});const l={legal:"https://www.gnu.org/licenses/gpl-3.0.html"};jsx("a",{href:l.legal})')
+
+  const report = await auditBuild({ root, dist: 'dist', routeTable: fixtureRouteTable, portfolio: fixturePortfolio() })
+
+  assert.deepEqual(report.forbiddenUrls, ['https://cdn.example/unapproved.svg'])
+  assert.equal(report.forbiddenUrls.includes('https://www.gnu.org/licenses/gpl-3.0.html'), false)
+})
+
 test('build audit validates every local static href in public and dist', async (t) => {
   const root = createFixture()
   t.after(() => rmSync(root, { recursive: true, force: true }))
