@@ -8,6 +8,7 @@ function AmbientCanvas() {
     const context = canvas?.getContext('2d')
     if (!canvas || !context) return undefined
 
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
     let frame
     const dots = Array.from({ length: 30 }, (_, index) => ({ x: (index * 97) % 1000, y: (index * 53) % 800, speed: 0.08 + (index % 4) * 0.025 }))
     const resize = () => {
@@ -29,7 +30,8 @@ function AmbientCanvas() {
       frame = window.requestAnimationFrame(draw)
     }
     const start = () => {
-      if (frame === undefined) frame = window.requestAnimationFrame(draw)
+      if (reducedMotion.matches || document.hidden || frame !== undefined) return
+      frame = window.requestAnimationFrame(draw)
     }
     const stop = () => {
       if (frame !== undefined) window.cancelAnimationFrame(frame)
@@ -39,14 +41,20 @@ function AmbientCanvas() {
       if (document.hidden) stop()
       else start()
     }
+    const syncMotion = () => {
+      if (reducedMotion.matches) stop()
+      else start()
+    }
     resize()
     window.addEventListener('resize', resize)
     document.addEventListener('visibilitychange', visibility)
+    reducedMotion.addEventListener('change', syncMotion)
     if (!document.hidden) start()
     return () => {
       stop()
       window.removeEventListener('resize', resize)
       document.removeEventListener('visibilitychange', visibility)
+      reducedMotion.removeEventListener('change', syncMotion)
     }
   }, [])
 

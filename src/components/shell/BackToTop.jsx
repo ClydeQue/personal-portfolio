@@ -11,7 +11,8 @@ function BackToTop() {
   }, [])
 
   if (!visible) return null
-  return <button className="portfolio-back-to-top" type="button" aria-label="Back to top" onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}>↑</button>
+  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+  return <button className="portfolio-back-to-top" type="button" aria-label="Back to top" onClick={() => window.scrollTo({ top: 0, behavior })}>↑</button>
 }
 
 export default BackToTop

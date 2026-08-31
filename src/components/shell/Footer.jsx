@@ -21,14 +21,14 @@ function Footer() {
           <div className="portfolio-footer__socials">
             <a href={portfolio.socials.github} aria-label="GitHub"><Icon name="github" /></a>
             <a href={portfolio.socials.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a>
-            <a href={portfolio.socials.email} aria-label="Email"><span aria-hidden="true">@</span></a>
+            <a href={portfolio.socials.email} aria-label="Email"><Icon name="mail" /></a>
           </div>
         </section>
       </div>
       <div className="portfolio-frame portfolio-footer__legal">
         <span>© 2026 {portfolio.identity.shortName}. All rights reserved.</span>
         <button type="button" onClick={() => navigate(portfolio.license.route)}>{portfolio.license.identifier}</button>
-        <span>JSTN public interface reference. Modified GPL-derived work.</span>
+        <span>Built on a JSTN public interface reference and adapted as a modified GPL-derived work.</span>
       </div>
     </footer>
   )

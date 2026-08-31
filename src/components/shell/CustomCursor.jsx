@@ -17,13 +17,22 @@ function CustomCursor() {
   }, [])
 
   useEffect(() => {
-    if (!enabled) return undefined
+    if (!enabled) {
+      document.documentElement.classList.remove('portfolio-cursor-enabled')
+      return undefined
+    }
+
+    document.documentElement.classList.add('portfolio-cursor-enabled')
     const onMove = ({ clientX, clientY }) => {
       document.documentElement.style.setProperty('--cursor-x', `${clientX}px`)
       document.documentElement.style.setProperty('--cursor-y', `${clientY}px`)
     }
+
     window.addEventListener('pointermove', onMove, { passive: true })
-    return () => window.removeEventListener('pointermove', onMove)
+    return () => {
+      document.documentElement.classList.remove('portfolio-cursor-enabled')
+      window.removeEventListener('pointermove', onMove)
+    }
   }, [enabled])
 
   if (!enabled) return null

@@ -47,7 +47,7 @@ function ExperiencePage() {
     <section className="experience-phase" aria-labelledby="experience-phase-title">
       <div className="experience-phase__selector">
         <h2 id="experience-phase-title" className="sr-only">Career Path phases</h2>
-        <div role="tablist" aria-label="Career Path phases">
+        <div role="tablist" aria-label="Career Path phases" aria-orientation="vertical">
           {phases.map((phase, index) => <button
             key={phase.organization}
             ref={(node) => { phaseButtons.current[index] = node }}
