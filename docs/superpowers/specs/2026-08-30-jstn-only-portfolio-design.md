@@ -154,9 +154,16 @@ and a second menu-button press close the menu. Focus returns to the menu button.
 
 ### Personal/Professional state
 
-The switch changes only the Home content and persists under a new
-`portfolio-view` key. It never changes the route and is unrelated to the removed
-Original/JSTN implementation switch.
+The switch changes the Home content and persists under a new `portfolio-view`
+key. It remains available in shared navigation like the live reference. When
+selected from another page, it navigates to Home with the selected view; when
+already on Home, it changes the view without changing the route. It is unrelated
+to the removed Original/JSTN implementation switch.
+
+Reference correction (2026-09-01): a live Browser check of Professional from
+`/projects` navigated to `/` and rendered the professional profile. This
+supersedes the earlier Home-only/no-route-change assumption, following the
+user's instruction to prioritize the live site's navigation.
 
 - Personal is the visual portfolio view.
 - Professional is the structured resume/profile view.

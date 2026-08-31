@@ -15,7 +15,7 @@
 - The live `https://www.jstn.site` experience is the sole visual and interaction reference; do not copy its GitHub implementation.
 - The only portfolio experience is Clyde's personalized JSTN-style site; there is no Original/JSTN mode or mode button.
 - Required public routes are `/`, `/about`, `/projects`, `/projects/:slug`, `/experience`, `/collection`, `/blog`, `/blog/:slug`, and `/license`.
-- Home alone owns the Personal/Professional switch; it persists under `portfolio-view` and never changes the route.
+- The Personal/Professional switch persists under `portfolio-view` and is available in shared navigation. Selecting a view from another route navigates to Home; selecting it on Home changes only content. Live-reference correction2026-09-01 supersedes Task3's earlier Home-only rendering instruction.
 - The captured desktop viewport is 1440x1000; the captured mobile viewport is 390x844.
 - Core tokens are `#f8f8f8` canvas, `#383838` primary text, `#424242` dark surface, `#1342ff` accent, Geist Sans, and Geist Mono.
 - The desktop content canvas is 1,074px wide at 1440px, with a 36px status strip and approximately 66px navigation row that scroll away with the document.
