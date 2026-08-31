@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { portfolio } from '../../data/portfolio.js'
 import { navigate } from '../../app/router.js'
 
-function MobileMenu({ open, route, view, onViewChange, onClose, triggerRef }) {
+function MobileMenu({ open, view, onViewChange, onClose, triggerRef }) {
   const wasOpen = useRef(false)
 
   useEffect(() => {
@@ -22,17 +22,20 @@ function MobileMenu({ open, route, view, onViewChange, onClose, triggerRef }) {
     navigate(path)
   }
 
+  const selectView = (nextView) => {
+    onClose()
+    onViewChange(nextView)
+  }
+
   return (
     <section id="portfolio-mobile-menu" className="portfolio-mobile-menu" role="dialog" aria-label="Navigation menu">
       <nav aria-label="Mobile navigation">
         {portfolio.navigation.map(({ label, path }) => <button key={path} type="button" onClick={() => goTo(path)}>{label}</button>)}
       </nav>
-      {route.name === 'home' && (
-        <div className="portfolio-view-switch" aria-label="Portfolio view">
-          <button type="button" aria-pressed={view === 'personal'} onClick={() => onViewChange('personal')}>Personal</button>
-          <button type="button" aria-pressed={view === 'professional'} onClick={() => onViewChange('professional')}>Professional</button>
-        </div>
-      )}
+      <div className="portfolio-view-switch" aria-label="Portfolio view">
+        <button type="button" aria-pressed={view === 'personal'} onClick={() => selectView('personal')}>Personal</button>
+        <button type="button" aria-pressed={view === 'professional'} onClick={() => selectView('professional')}>Professional</button>
+      </div>
       <a className="portfolio-mobile-menu__primary" href={`${portfolio.socials.email}?subject=Portfolio%20call%20request`} onClick={onClose}>Schedule a Call</a>
       <a className="portfolio-mobile-menu__secondary" href={portfolio.socials.email} onClick={onClose}>Send a Message</a>
     </section>

@@ -18,7 +18,7 @@
 .portfolio-view-switch button[aria-pressed='true'] { background: var(--ink-strong); color: #fff; }
 .portfolio-header__message { display: inline-flex; gap: 8px; align-items: center; text-decoration: none; white-space: nowrap; font-size: 12px; }
 .portfolio-header__schedule, .portfolio-mobile-menu__primary { display: inline-flex; min-height: 38px; gap: 8px; align-items: center; justify-content: center; padding: 0 17px; border-radius: 5px; background: var(--ink-strong); color: #fff; text-decoration: none; font-size: 12px; font-weight: 650; white-space: nowrap; }
-.portfolio-header__schedule img { filter: invert(1); }
+.portfolio-header__schedule img { filter: none; }
 .portfolio-header__menu { display: none; width: 44px; min-height: 44px; padding: 10px; border: 0; background: transparent; }
 .portfolio-header__menu span { display: block; height: 2px; margin: 4px 0; background: var(--ink); transition: transform 160ms ease; }
 .portfolio-mobile-menu { position: relative; z-index: 9; width: min(calc(100% - 32px), var(--canvas)); margin: 0 auto; padding: 20px 15px 16px; border: 1px solid var(--rule); border-top: 0; background: var(--paper); }
@@ -31,8 +31,8 @@
 .portfolio-ambient { position: fixed; z-index: 0; inset: 0; pointer-events: none; opacity: 0.26; }
 .portfolio-cursor { position: fixed; z-index: 100; left: var(--cursor-x); top: var(--cursor-y); width: 0; height: 0; pointer-events: none; }
 .portfolio-cursor i, .portfolio-cursor b { position: absolute; display: block; width: 12px; height: 12px; transform: translate(-50%, -50%); }
-.portfolio-cursor i { border: 1px solid var(--ink); background: rgba(248, 248, 248, 0.7); }
-.portfolio-cursor b { margin: 4px 0 0 4px; border: 1px solid var(--accent); }
+.portfolio-cursor i { z-index: 2; background: #858585; border: 0; }
+.portfolio-cursor b { z-index: 1; margin: 0; background: #858585; border: 0; opacity: .38; }
 .portfolio-footer { position: relative; z-index: 1; margin-top: 72px; border-top: 1px solid var(--rule); }
 .portfolio-footer__panel { display: grid; min-height: 246px; grid-template-columns: 1fr minmax(130px, .4fr) minmax(210px, .65fr); gap: 30px; align-items: center; padding: 34px 20px; border: 1px solid var(--rule); border-top: 0; }
 .portfolio-footer__brand { justify-self: center; font-size: clamp(31px, 4vw, 50px); }

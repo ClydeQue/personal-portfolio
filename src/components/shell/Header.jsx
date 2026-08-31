@@ -21,12 +21,10 @@ function Header({ route, view, onViewChange, menuOpen, onMenuToggle, menuTrigger
           ))}
         </nav>
 
-        {route.name === 'home' && (
-          <div className="portfolio-view-switch" aria-label="Portfolio view">
-            <button type="button" aria-pressed={view === 'personal'} onClick={() => onViewChange('personal')}>Personal</button>
-            <button type="button" aria-pressed={view === 'professional'} onClick={() => onViewChange('professional')}>Professional</button>
-          </div>
-        )}
+        <div className="portfolio-view-switch" aria-label="Portfolio view">
+          <button type="button" aria-pressed={view === 'personal'} onClick={() => onViewChange('personal')}>Personal</button>
+          <button type="button" aria-pressed={view === 'professional'} onClick={() => onViewChange('professional')}>Professional</button>
+        </div>
 
         <a className="portfolio-header__message" href={portfolio.socials.email}><i aria-hidden="true" /> Shoot a DM</a>
         <a className="portfolio-header__schedule" href={`${portfolio.socials.email}?subject=Portfolio%20call%20request`}>
