@@ -33,3 +33,17 @@ export function activityYear(years, requested) {
   return normalizedYears.find(({ year }) => year === requestedYear)
     ?? normalizedYears.reduce((latest, current) => (current.year > latest.year ? current : latest))
 }
+
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
+
+export function particlePointerOffset(pointer, bounds) {
+  if (!pointer?.active || !bounds?.width || !bounds?.height) return { x: 0, y: 0 }
+
+  const normalizedX = clamp((pointer.x - bounds.width / 2) / (bounds.width / 2), -1, 1)
+  const normalizedY = clamp((pointer.y - bounds.height / 2) / (bounds.height / 2), -1, 1)
+
+  return {
+    x: Math.round(normalizedX * 18),
+    y: Math.round(normalizedY * 14),
+  }
+}

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { particlePointerOffset } from '../../app/interaction.js'
 import ImageWithFallback from './ImageWithFallback.jsx'
 import { portraitSampleKey, shouldRefreshPortraitSample } from './portraitSampleCache.js'
 
@@ -8,8 +9,7 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
   const canvasRef = useRef(null)
   const frameRef = useRef(null)
   const samplePixelsRef = useRef(null)
-  const sourceRef = useRef(null)
-  const motionQueryRef = useRef(null)
+  const pointerRef = useRef({ active: false, x: 0, y: 0 })
   const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
@@ -21,8 +21,6 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
 
     const source = new Image()
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    motionQueryRef.current = reducedMotion
-    sourceRef.current = source
 
     let cancelled = false
 
@@ -81,6 +79,7 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       const { pixels, sampleWidth, sampleHeight } = prepareSamples(bounds)
       const step = Math.max(1.55, bounds.width / 205)
       const time = reducedMotion.matches ? 0 : performance.now() / 850
+      const pointerOffset = reducedMotion.matches ? { x: 0, y: 0 } : particlePointerOffset(pointerRef.current, bounds)
       context.globalCompositeOperation = 'screen'
 
       for (let y = 0; y < sampleHeight; y += 1) {
@@ -98,9 +97,11 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
           const size = step * (0.22 + (brightness / 255) * 0.6)
           const jitterX = (jitterRandom - 0.5) * 1.5
           const jitterY = (random - 0.5) * 1.5
+          const orbitX = (x / sampleWidth - 0.5) * pointerOffset.x * 1.8
+          const orbitY = (y / sampleHeight - 0.5) * pointerOffset.y * 1.8
 
           context.fillStyle = `rgba(${120 + Math.round(brightness * 0.5)}, ${170 + Math.round(brightness * 0.32)}, 255, ${alpha})`
-          context.fillRect((x / sampleWidth) * bounds.width + drift + jitterX, (y / sampleHeight) * bounds.height + jitterY, size, size)
+          context.fillRect((x / sampleWidth) * bounds.width + drift + jitterX + orbitX, (y / sampleHeight) * bounds.height + jitterY + orbitY, size, size)
         }
       }
 
@@ -155,6 +156,20 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
     resizeObserver.observe(canvas)
     document.addEventListener('visibilitychange', onVisibility)
     reducedMotion.addEventListener('change', onMotionChange)
+    const onPointerMove = (event) => {
+      if (reducedMotion.matches) return
+      const bounds = canvas.getBoundingClientRect()
+      pointerRef.current = {
+        active: true,
+        x: event.clientX - bounds.left,
+        y: event.clientY - bounds.top,
+      }
+    }
+    const onPointerLeave = () => {
+      pointerRef.current = { active: false, x: 0, y: 0 }
+    }
+    canvas.addEventListener('pointermove', onPointerMove, { passive: true })
+    canvas.addEventListener('pointerleave', onPointerLeave)
 
     return () => {
       cancelled = true
@@ -162,6 +177,8 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       resizeObserver.disconnect()
       document.removeEventListener('visibilitychange', onVisibility)
       reducedMotion.removeEventListener('change', onMotionChange)
+      canvas.removeEventListener('pointermove', onPointerMove)
+      canvas.removeEventListener('pointerleave', onPointerLeave)
     }
   }, [])
 
