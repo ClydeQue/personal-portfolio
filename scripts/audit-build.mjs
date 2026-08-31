@@ -7,7 +7,7 @@ import { portfolio as productionPortfolio } from '../src/data/portfolio.js'
 const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 const defaultRoot = resolve(scriptDirectory, '..')
 const assetPrefixes = Object.freeze(['/images/', '/fonts/', '/icons/', '/favicon/', '/portfolio/', '/techstack/', '/LICENSE.txt'])
-const mediaField = /(?:image|media|portrait|cover|gallery|asset|thumbnail|avatar|brandmark|icon)/i
+const mediaField = /(?:image|media|portrait|cover|gallery|asset|thumbnail|avatar|brandmark|icon|fallback)/i
 const linkField = /(?:path|route|destination|href|url)$/i
 const publicStaticExtension = /\.(?:avif|gif|ico|jpe?g|pdf|png|svg|txt|webmanifest|webp|woff2?|ttf|otf)$/i
 
@@ -37,7 +37,7 @@ function readTextFiles(directory) {
 
 function isLocalAsset(value) {
   const path = stripSearchAndHash(value)
-  return assetPrefixes.some((prefix) => path.startsWith(prefix)) || (path.startsWith('/') && publicStaticExtension.test(path))
+  return !isExternal(path) && (assetPrefixes.some((prefix) => path.startsWith(prefix)) || (path.startsWith('/') && publicStaticExtension.test(path)))
 }
 
 function isBuiltAsset(value) {
@@ -45,7 +45,7 @@ function isBuiltAsset(value) {
 }
 
 function isExternal(value) {
-  return /^https?:\/\//i.test(value)
+  return /^(?:https?:)?\/\//i.test(value)
 }
 
 function isAllowedNonRoute(value) {
@@ -60,7 +60,20 @@ function publicFileExists(root, value, directory = 'public') {
   return !containment.startsWith('..') && !containment.startsWith(`..${toPosixPath('/')}`) && existsSync(target)
 }
 
+function collectMediaReference(value, report) {
+  if (isExternal(value)) report.forbiddenUrls.push(value)
+  else if (isLocalAsset(value)) report.assetReferences.push(stripSearchAndHash(value))
+}
+
 function collectPortfolioReferences(value, report, key = '') {
+  if (typeof value === 'string') {
+    if (mediaField.test(key)) collectMediaReference(value, report)
+    if (key === 'icon' && /^[a-z0-9-]+$/i.test(value)) report.assetReferences.push(`/techstack/${value}.svg`)
+    if (isLocalAsset(value)) report.assetReferences.push(stripSearchAndHash(value))
+    if (linkField.test(key) && (value.startsWith('/') || isAllowedNonRoute(value))) report.internalLinks.push(value)
+    return
+  }
+
   if (Array.isArray(value)) {
     value.forEach((item) => collectPortfolioReferences(item, report, key))
     return
@@ -68,13 +81,18 @@ function collectPortfolioReferences(value, report, key = '') {
 
   if (!value || typeof value !== 'object') return
   for (const [property, item] of Object.entries(value)) {
-    if (typeof item === 'string') {
-      if (mediaField.test(property) && isExternal(item)) report.forbiddenUrls.push(item)
-      if (isLocalAsset(item)) report.assetReferences.push(stripSearchAndHash(item))
-      if (linkField.test(property) && (item.startsWith('/') || isAllowedNonRoute(item))) report.internalLinks.push(item)
-      continue
-    }
     collectPortfolioReferences(item, report, property)
+  }
+}
+
+function collectIconMapReferences(text, report) {
+  for (const match of text.matchAll(/\b(?:const|let|var)?\s*(icons|iconFor|techIconMap)\s*=\s*(?:Object\.freeze\()?\{([\s\S]*?)\}/g)) {
+    const [, mapName, entries] = match
+    for (const entry of entries.matchAll(/:\s*['"]([^'"]+)['"]/g)) {
+      const value = entry[1]
+      if (isExternal(value) || value.startsWith('/')) collectMediaReference(value, report)
+      else if (mapName !== 'icons' && /^[a-z0-9-]+$/i.test(value)) report.assetReferences.push(`/techstack/${value}.svg`)
+    }
   }
 }
 
@@ -85,26 +103,25 @@ function collectStaticReferences(text, report) {
   }
 
   for (const match of text.matchAll(/\b(?:src|poster)\s*=\s*["']([^"']+)["']/gi)) {
-    const value = match[1]
-    if (isExternal(value)) report.forbiddenUrls.push(value)
-    else if (isLocalAsset(value)) report.assetReferences.push(stripSearchAndHash(value))
+    collectMediaReference(match[1], report)
+  }
+
+  for (const match of text.matchAll(/\b(?:src|poster)\s*=\s*\{\s*["']([^"']+)["']\s*\}/gi)) {
+    collectMediaReference(match[1], report)
+  }
+
+  for (const match of text.matchAll(/\b(?:src|poster)\s*:\s*["']([^"']+)["']/gi)) {
+    collectMediaReference(match[1], report)
   }
 
   for (const match of text.matchAll(/url\(\s*["']?([^\s'"()]+)["']?\s*\)/gi)) {
-    const value = match[1]
-    if (isExternal(value)) report.forbiddenUrls.push(value)
-    else if (isLocalAsset(value)) report.assetReferences.push(stripSearchAndHash(value))
+    collectMediaReference(match[1], report)
   }
 
   for (const match of text.matchAll(/\bhref\s*=\s*["']([^"']+)["']/gi)) report.internalLinks.push(match[1])
   for (const match of text.matchAll(/\bnavigate\(\s*["']([^"']+)["']/gi)) report.internalLinks.push(match[1])
 
-  const usesDynamicTechstack = /\/techstack\/\$\{[^}]+\}\.svg/.test(text)
-  if (!usesDynamicTechstack) return
-  for (const match of text.matchAll(/\bicon\s*:\s*['"]([a-z0-9-]+)['"]/gi)) report.assetReferences.push(`/techstack/${match[1]}.svg`)
-  for (const match of text.matchAll(/\b(?:iconFor|techIconMap)\s*=\s*\{([\s\S]*?)\}/g)) {
-    for (const value of match[1].matchAll(/:\s*['"]([a-z0-9-]+)['"]/gi)) report.assetReferences.push(`/techstack/${value[1]}.svg`)
-  }
+  collectIconMapReferences(text, report)
 }
 
 function normalizeRoute(value) {
@@ -128,7 +145,6 @@ function matchTable(pathname, table) {
 
 function isRegisteredRoute(value, table, portfolio, useProductionMatcher) {
   if (isAllowedNonRoute(value) || isExternal(value)) return true
-  if (isLocalAsset(value) || isBuiltAsset(value)) return true
   if (!value.startsWith('/')) return false
 
   const match = useProductionMatcher ? matchRoute(value) : matchTable(value, table)
@@ -183,7 +199,12 @@ export async function auditBuild({
 
   const useProductionMatcher = routeTable === productionRouteTable
   for (const link of uniqueSorted(references.internalLinks)) {
-    if (!isRegisteredRoute(link, routeTable, portfolio, useProductionMatcher)) report.unregisteredLinks.push(link)
+    if (isLocalAsset(link) || isBuiltAsset(link)) {
+      const sourceExists = isBuiltAsset(link) || publicFileExists(root, link)
+      const distExists = publicFileExists(root, link, dist)
+      if (!sourceExists || !distExists) report.missingAssets.push(stripSearchAndHash(link))
+      else report.checkedLinks.push(link)
+    } else if (!isRegisteredRoute(link, routeTable, portfolio, useProductionMatcher)) report.unregisteredLinks.push(link)
     else report.checkedLinks.push(link)
   }
 
