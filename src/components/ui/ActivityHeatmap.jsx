@@ -6,47 +6,9 @@ const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 const keyFor = (date) => date.toISOString().slice(0, 10)
-const dayIndex = (date) => Date.parse(`${date}T00:00:00Z`) / 86_400_000
 
-const normalizeYears = (years, commitsByDate) => {
-  const explicitYears = Array.isArray(years) ? years : []
-  const derivedYears = explicitYears.length ? explicitYears : [...new Set(commitsByDate.map(({ date }) => date.slice(0, 4)))]
-  return derivedYears
-    .map((entry) => {
-      const value = typeof entry === 'object' && entry !== null ? entry.year : entry
-      const year = Number.parseInt(value, 10)
-      return Number.isFinite(year) ? { entry, year } : null
-    })
-    .filter(Boolean)
-}
-
-const metricsForCommits = (snapshotDate, commitsByDate) => {
-  const activeDays = [...new Set(commitsByDate.map(({ date }) => dayIndex(date)))].sort((left, right) => left - right)
-  const activeDaySet = new Set(activeDays)
-  let longestStreak = 0
-  let streak = 0
-  let previousDay
-
-  for (const currentDay of activeDays) {
-    streak = currentDay === previousDay + 1 ? streak + 1 : 1
-    longestStreak = Math.max(longestStreak, streak)
-    previousDay = currentDay
-  }
-
-  const currentSnapshotDay = dayIndex(snapshotDate)
-  let currentStreak = 0
-  for (let currentDay = currentSnapshotDay; activeDaySet.has(currentDay); currentDay -= 1) currentStreak += 1
-
-  return {
-    totalCommits: commitsByDate.reduce((total, { commits }) => total + commits, 0),
-    activeDays: activeDays.length,
-    currentStreak,
-    longestStreak,
-  }
-}
-
-const buildYearGrid = (year, commitsByDate) => {
-  const commits = new Map(commitsByDate.map(({ date, commits: count }) => [date, count]))
+const buildYearGrid = (year, contributionsByDate) => {
+  const contributions = new Map(contributionsByDate.map(({ date, contributions: count }) => [date, count]))
   const start = new Date(Date.UTC(year, 0, 1))
   const end = new Date(Date.UTC(year, 11, 31))
   const firstMonday = new Date(start)
@@ -60,7 +22,7 @@ const buildYearGrid = (year, commitsByDate) => {
     date.setUTCDate(firstMonday.getUTCDate() + index)
     const dateKey = keyFor(date)
     const inYear = date.getUTCFullYear() === year
-    const count = inYear ? commits.get(dateKey) ?? 0 : 0
+    const count = inYear ? contributions.get(dateKey) ?? 0 : 0
     const week = Math.floor(index / 7) + 1
     const weekdayIndex = (date.getUTCDay() + 6) % 7
 
@@ -76,54 +38,42 @@ const buildYearGrid = (year, commitsByDate) => {
       weekdayIndex,
       inYear,
       level: Math.min(count, 4),
-      label: count ? `${dateKey}: ${count} commits` : `${dateKey}: no commits`,
+      label: count ? `${dateKey}: ${count} ${count === 1 ? 'contribution' : 'contributions'}` : `${dateKey}: no contributions`,
     }
   })
 
   return { cells, monthLabels, weeks: totalWeeks }
 }
 
-function ActivityHeatmap({ years }) {
+function ActivityHeatmap() {
   const { activity } = portfolio
-  const yearOptions = useMemo(() => normalizeYears(years, activity.commitsByDate), [years, activity.commitsByDate])
-  const normalizedEntries = yearOptions.map(({ entry }) => entry)
-  const [requestedYear, setRequestedYear] = useState(() => activityYear(normalizedEntries, null)?.year ?? null)
-  const selectedEntry = activityYear(normalizedEntries, requestedYear)
-  const selectedYear = selectedEntry?.year ?? null
-  const fallbackYear = yearOptions[0]?.year ?? null
-  const year = Number.isFinite(selectedYear) ? selectedYear : fallbackYear
-
-  const yearCommits = useMemo(
-    () => activity.commitsByDate.filter(({ date }) => Number.parseInt(date.slice(0, 4), 10) === year),
-    [activity.commitsByDate, year],
-  )
-  const yearMetrics = useMemo(
-    () => metricsForCommits(activity.snapshotDate, yearCommits),
-    [activity.snapshotDate, yearCommits],
-  )
+  const [requestedYear, setRequestedYear] = useState(() => activityYear(activity.years, null)?.year ?? null)
+  const selectedEntry = activityYear(activity.years, requestedYear)
+  const year = selectedEntry?.year ?? null
+  const yearData = selectedEntry?.value ?? null
   const { cells, monthLabels, weeks } = useMemo(
-    () => buildYearGrid(year, yearCommits),
-    [year, yearCommits],
+    () => buildYearGrid(year, yearData?.contributionsByDate ?? []),
+    [year, yearData],
   )
 
-  if (!year) return null
+  if (!year || !yearData) return null
 
   return (
     <section className="activity-heatmap" aria-labelledby="activity-title">
       <h2 className="activity-heatmap__section-title">Activity</h2>
       <div className="activity-heatmap__heading">
         <div>
-          <h3 id="activity-title">Heatmap</h3>
-          <p className="page-kicker">Repository snapshot</p>
+          <h3 id="activity-title">GitHub contribution activity</h3>
+          <p className="page-kicker">Generated snapshot</p>
         </div>
         <p>{activity.label} · {activity.snapshotDate}</p>
       </div>
-      <p className="activity-heatmap__summary">{portfolio.identity.shortName}&apos;s contribution activity for {year}. {yearMetrics.totalCommits} contributions tracked.</p>
-      <div className="activity-heatmap__stats" aria-label={`${year} repository activity summary`}>
-        <span><small>Total contributions</small><strong>{yearMetrics.totalCommits}</strong></span>
-        <span><small>Active days</small><strong>{yearMetrics.activeDays}</strong></span>
-        <span><small>Current streak</small><strong>{yearMetrics.currentStreak} {yearMetrics.currentStreak === 1 ? 'day' : 'days'}</strong></span>
-        <span><small>Longest streak</small><strong>{yearMetrics.longestStreak} {yearMetrics.longestStreak === 1 ? 'day' : 'days'}</strong></span>
+      <p className="activity-heatmap__summary">{portfolio.identity.shortName}&apos;s GitHub contribution activity for {year}. {yearData.totalContributions} contributions tracked.</p>
+      <div className="activity-heatmap__stats" aria-label={`${year} GitHub contribution activity summary`}>
+        <span><small>Total contributions</small><strong>{yearData.totalContributions}</strong></span>
+        <span><small>Active days</small><strong>{yearData.activeDays}</strong></span>
+        <span><small>Current streak</small><strong>{yearData.currentStreak} {yearData.currentStreak === 1 ? 'day' : 'days'}</strong></span>
+        <span><small>Longest streak</small><strong>{yearData.longestStreak} {yearData.longestStreak === 1 ? 'day' : 'days'}</strong></span>
       </div>
       <div className="activity-heatmap__body">
         <div className="activity-heatmap__rail">
@@ -160,7 +110,7 @@ function ActivityHeatmap({ years }) {
           </div>
         </div>
         <div className="activity-heatmap__years" aria-label="Select activity year">
-          {yearOptions.map(({ year: candidateYear }) => (
+          {activity.years.map(({ year: candidateYear }) => (
             <button
               type="button"
               key={candidateYear}

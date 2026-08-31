@@ -8,7 +8,6 @@ import ProjectCard from '../components/ui/ProjectCard.jsx'
 import Icon from '../components/ui/Icon.jsx'
 
 const portraitSources = ['/images/me.webp', '/images/me.png']
-const activityYears = [...new Set(portfolio.activity.commitsByDate.map(({ date }) => date.slice(0, 4)))]
 const iconFor = { React: 'react', TypeScript: 'typescript', JavaScript: 'javascript', HTML: 'html', CSS: 'css', 'Tailwind CSS': 'tailwind', MUI: 'mui', 'Node.js': 'nodejs', Express: 'express', PostgreSQL: 'postgre', Supabase: 'supabase', Figma: 'figma', Git: 'git', Docker: 'docker', Cloudflare: 'cloudflare', OpenAI: 'openai' }
 
 function TechList({ compact = false }) {
@@ -72,7 +71,7 @@ function PersonalHome() {
         <div className="recognition-list">{portfolio.recognition.map(({ title, label }) => <span key={title}><b>{title}</b>{label}</span>)}</div>
       </section>
     </section>
-    <ActivityHeatmap years={activityYears} />
+    <ActivityHeatmap />
   </div>
 }
 
@@ -92,7 +91,7 @@ function ProfessionalHome() {
       <section className="professional-tech" aria-labelledby="professional-stack-title"><h2 id="professional-stack-title">Tech stack</h2><TechList compact /></section>
       <section className="professional-projects" aria-labelledby="professional-project-title"><div><h2 id="professional-project-title">Recent projects</h2><button type="button" onClick={() => navigate('/projects')}>All projects ↗</button></div><div>{portfolio.projects.slice(0, 2).map((project) => <ProjectCard project={project} variant="professional" key={project.slug} />)}</div></section>
       <section className="professional-education" aria-labelledby="education-title"><h2 id="education-title">Education & recognition</h2><p><b>BS Computer Science</b> · Ateneo de Zamboanga University</p><div>{portfolio.recognition.map((item) => <span key={item.title}><b>{item.title}</b>{item.detail}</span>)}</div></section>
-      <ActivityHeatmap years={activityYears} />
+      <ActivityHeatmap />
     </section>
   </div>
 }

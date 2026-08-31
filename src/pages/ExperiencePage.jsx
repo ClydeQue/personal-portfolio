@@ -6,7 +6,6 @@ import ActivityHeatmap from '../components/ui/ActivityHeatmap.jsx'
 import { portfolio } from '../data/portfolio.js'
 
 const journeyValues = ['Build', 'Verify', 'Learn', 'Contribute']
-const activityYears = [...new Set(portfolio.activity.commitsByDate.map(({ date }) => date.slice(0, 4)))]
 
 function Skill({ skill, className = '', style }) {
   return <span className={className} style={style} title={skill.label} aria-label={skill.label}>
@@ -89,7 +88,7 @@ function ExperiencePage() {
       </article>
     </section>
 
-    <ActivityHeatmap years={activityYears} />
+    <ActivityHeatmap />
 
     <section className="experience-evidence" aria-label="Experience evidence">
       <section>

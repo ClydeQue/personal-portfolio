@@ -54,11 +54,18 @@ test('recursively freezes the portfolio content domain', () => {
   assert.ok(Object.isFrozen(portfolio.posts[0].sections))
 })
 
-test('activity metrics agree with the preserved repository snapshot', () => {
+test('activity uses the generated GitHub contribution calendar snapshot', () => {
   const { activity } = portfolio
 
-  assert.equal(activity.totalCommits, activity.commitsByDate.reduce((total, day) => total + day.commits, 0))
-  assert.equal(activity.activeDays, activity.commitsByDate.length)
-  assert.equal(activity.currentStreak, 2)
-  assert.equal(activity.longestStreak, 2)
+  assert.equal(activity.label, 'GitHub contribution activity')
+  assert.match(activity.snapshotDate, /^\d{4}-\d{2}-\d{2}$/)
+  assert.ok(activity.years.length > 0)
+  assert.equal(activity.years[0].year, 2024)
+  assert.deepEqual(activity.years.map(({ year }) => year), [...activity.years.map(({ year }) => year)].sort((left, right) => left - right))
+  for (const year of activity.years) {
+    assert.equal(year.totalContributions, year.contributionsByDate.reduce((total, day) => total + day.contributions, 0))
+    assert.equal(year.activeDays, year.contributionsByDate.length)
+    assert.equal(typeof year.currentStreak, 'number')
+    assert.equal(typeof year.longestStreak, 'number')
+  }
 })

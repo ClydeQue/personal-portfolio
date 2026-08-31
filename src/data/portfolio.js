@@ -1,3 +1,5 @@
+import { githubActivity } from './githubActivity.js'
+
 const deepFreeze = (value) => {
   if (value && typeof value === 'object' && !Object.isFrozen(value)) {
     Object.freeze(value)
@@ -195,43 +197,7 @@ const posts = [
   },
 ]
 
-const dayIndex = (date) => Date.parse(`${date}T00:00:00Z`) / 86_400_000
-
-const activityMetrics = ({ snapshotDate, commitsByDate }) => {
-  const activeDays = [...new Set(commitsByDate.map(({ date }) => dayIndex(date)))].sort((left, right) => left - right)
-  const activeDaySet = new Set(activeDays)
-  let longestStreak = 0
-  let streak = 0
-  let previousDay
-
-  for (const currentDay of activeDays) {
-    streak = currentDay === previousDay + 1 ? streak + 1 : 1
-    longestStreak = Math.max(longestStreak, streak)
-    previousDay = currentDay
-  }
-
-  let currentStreak = 0
-  for (let currentDay = dayIndex(snapshotDate); activeDaySet.has(currentDay); currentDay -= 1) currentStreak += 1
-
-  return {
-    totalCommits: commitsByDate.reduce((total, { commits }) => total + commits, 0),
-    activeDays: activeDays.length,
-    currentStreak,
-    longestStreak,
-  }
-}
-
-const activitySnapshot = {
-  label: 'Portfolio repository activity', snapshotDate: '2026-08-31',
-  description: 'A deterministic snapshot of this local repository, not a complete GitHub contribution history.',
-  commitsByDate: [
-    { date: '2025-09-23', commits: 1 }, { date: '2025-09-26', commits: 2 }, { date: '2025-10-04', commits: 1 }, { date: '2025-10-08', commits: 1 }, { date: '2025-10-12', commits: 2 }, { date: '2025-10-13', commits: 2 }, { date: '2025-10-28', commits: 1 },
-    { date: '2026-01-04', commits: 2 }, { date: '2026-01-07', commits: 3 }, { date: '2026-01-08', commits: 1 }, { date: '2026-01-18', commits: 1 }, { date: '2026-01-20', commits: 3 }, { date: '2026-01-21', commits: 1 }, { date: '2026-01-23', commits: 1 }, { date: '2026-01-26', commits: 1 },
-    { date: '2026-02-04', commits: 2 }, { date: '2026-02-25', commits: 7 }, { date: '2026-03-09', commits: 2 }, { date: '2026-04-12', commits: 1 }, { date: '2026-04-16', commits: 3 }, { date: '2026-05-24', commits: 1 }, { date: '2026-08-30', commits: 17 }, { date: '2026-08-31', commits: 2 },
-  ],
-}
-
-const activity = { ...activitySnapshot, ...activityMetrics(activitySnapshot) }
+const activity = githubActivity
 
 const recognition = [
   { title: 'Weaveable', label: 'Build with AI Hackathon 2026', detail: '1st Runner-Up; frontend developer and project co-lead.' },

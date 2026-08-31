@@ -38,6 +38,17 @@ test('Home presentation content is supplied by the canonical portfolio record', 
   assert.ok(portfolio.home.professional.about.length >= 1)
 })
 
+test('activity consumers present GitHub contributions, not local repository commits', () => {
+  for (const path of ['src/pages/HomePage.jsx', 'src/pages/ExperiencePage.jsx', 'src/components/ui/ActivityHeatmap.jsx']) {
+    const source = read(path)
+    assert.doesNotMatch(source, /commitsByDate|totalCommits|repository snapshot/i)
+  }
+
+  const heatmap = read('src/components/ui/ActivityHeatmap.jsx')
+  assert.match(heatmap, /GitHub contribution activity/)
+  assert.match(heatmap, /contributions/)
+})
+
 test('App registers About, Projects, and project detail pages', () => {
   const source = read('src/App.jsx')
   for (const page of ['AboutPage', 'ProjectsPage', 'ProjectDetailPage']) assert.match(source, new RegExp(page))

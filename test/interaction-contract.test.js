@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { buildSync } from 'esbuild'
 import { activityYear, nextImageSource, particlePointerOffset } from '../src/app/interaction.js'
+import { portfolio } from '../src/data/portfolio.js'
 
 const repoRoot = new URL('..', import.meta.url).pathname
 
@@ -117,21 +118,28 @@ test('ActivityHeatmap updates pressed state, summary, and stats after clicking a
   try {
     const loaded = await loadHarness('../src/components/ui/ActivityHeatmap.jsx', 'ActivityHeatmapHarness')
     cleanup = loaded.cleanup
-    const { initial, afterClick } = loaded.exercise({ years: ['2025', '2026'] }, 2025)
+    const activityYears = portfolio.activity.years
+    const newestYear = activityYears.at(-1)
+    const historicalYear = activityYears.find(({ year }) => year < newestYear.year)
+    const metricValues = ({ totalContributions, activeDays, currentStreak, longestStreak }) => [
+      String(totalContributions),
+      String(activeDays),
+      `${currentStreak} ${currentStreak === 1 ? 'day' : 'days'}`,
+      `${longestStreak} ${longestStreak === 1 ? 'day' : 'days'}`,
+    ]
+    const { initial, afterClick } = loaded.exercise({}, historicalYear.year)
 
     assert.deepEqual(initial.buttons.map(({ year, pressed }) => ({ year, pressed })), [
-      { year: '2025', pressed: false },
-      { year: '2026', pressed: true },
+      ...activityYears.map(({ year }) => ({ year: String(year), pressed: year === newestYear.year })),
     ])
-    assert.match(initial.summary, /2026.*48 contributions tracked/)
-    assert.deepEqual(initial.metrics, ['48', '16', '2 days', '2 days'])
+    assert.match(initial.summary, new RegExp(`${newestYear.year}.*${newestYear.totalContributions} contributions tracked`))
+    assert.deepEqual(initial.metrics, metricValues(newestYear))
 
     assert.deepEqual(afterClick.buttons.map(({ year, pressed }) => ({ year, pressed })), [
-      { year: '2025', pressed: true },
-      { year: '2026', pressed: false },
+      ...activityYears.map(({ year }) => ({ year: String(year), pressed: year === historicalYear.year })),
     ])
-    assert.match(afterClick.summary, /2025.*10 contributions tracked/)
-    assert.deepEqual(afterClick.metrics, ['10', '7', '0 days', '2 days'])
+    assert.match(afterClick.summary, new RegExp(`${historicalYear.year}.*${historicalYear.totalContributions} contributions tracked`))
+    assert.deepEqual(afterClick.metrics, metricValues(historicalYear))
   } finally {
     await cleanup()
   }
