@@ -1,7 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { portfolio } from '../src/data/portfolio.js'
-import { projectBySlug as jstnProjectBySlug, projects as jstnProjects } from '../src/jstn/data.js'
 
 const collectMediaPaths = (value, found = []) => {
   if (typeof value === 'string' && /^\/(images|icons|fonts|favicon|portfolio)\//.test(value)) found.push(value)
@@ -53,16 +52,6 @@ test('recursively freezes the portfolio content domain', () => {
   assert.ok(Object.isFrozen(portfolio.projects[0]))
   assert.ok(Object.isFrozen(portfolio.projects[0].responsibilities))
   assert.ok(Object.isFrozen(portfolio.posts[0].sections))
-})
-
-test('the temporary JSTN facade derives page-compatible project records', () => {
-  const project = jstnProjectBySlug('waiveright')
-
-  assert.equal(project, jstnProjects[0])
-  assert.equal(project.image, '/images/waiveright1.webp')
-  assert.deepEqual(project.detail, portfolio.projects[0].bodySections.map(({ body }) => body))
-  assert.ok(Object.isFrozen(project.detail))
-  assert.throws(() => project.detail.push('mutable facade detail'), TypeError)
 })
 
 test('activity metrics agree with the preserved repository snapshot', () => {

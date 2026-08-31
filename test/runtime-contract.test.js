@@ -1,9 +1,28 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
+import { join } from 'node:path'
 import { portfolio } from '../src/data/portfolio.js'
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8')
+const productionFiles = (directory) => readdirSync(directory).flatMap((name) => {
+  const path = join(directory, name)
+  return statSync(path).isDirectory() ? productionFiles(path) : [path]
+})
+const readProductionSources = () => productionFiles('src').map((path) => readFileSync(path, 'utf8')).join('\n')
+
+test('legacy mode, GSAP, Lenis, and analytics sources are absent', () => {
+  for (const path of ['src/modes', 'src/layouts', 'src/jstn', 'src/components/ModeSwitcher.jsx']) {
+    assert.equal(existsSync(path), false, `${path} must be removed`)
+  }
+
+  const production = readProductionSources()
+  assert.doesNotMatch(production, /\bgsap\b|\blenis\b|@vercel\/analytics|Original mode|JSTN mode/i)
+})
+
+test('production media and fonts contain no remote hotlinks', () => {
+  assert.doesNotMatch(readProductionSources(), /raw\.githubusercontent\.com|pbs\.twimg\.com|media\.licdn\.com|jstn\.site\//i)
+})
 
 test('Home registers both persisted views without a mode switch', () => {
   const source = read('src/pages/HomePage.jsx')

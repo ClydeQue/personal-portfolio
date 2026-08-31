@@ -7,9 +7,12 @@ test('Vite serves the SPA entry for the case-colliding /license route', async (c
     root: new URL('..', import.meta.url).pathname,
     logLevel: 'error',
     server: { host: '127.0.0.1', port: 0 },
+    optimizeDeps: { noDiscovery: true },
   })
 
-  context.after(() => server.close())
+  context.after(async () => {
+    await server.close()
+  })
   await server.listen()
   const port = server.httpServer.address().port
 
