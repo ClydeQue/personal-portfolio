@@ -249,3 +249,67 @@ Result: passed.
 
 - `package.json` and `package-lock.json` are now Task 9-owned for the added `react-test-renderer` dependency needed for the stateful regression.
 - I limited lockfile churn to the install required to reconcile that dependency under the Node 24 runtime.
+
+## Review Fix 3
+
+### What I changed
+
+- Pinned the Task 9 renderer dependency and the runtime React pair to exact `19.1.1` versions in `package.json`:
+  - `react`
+  - `react-dom`
+  - `react-test-renderer`
+- Corrected `package-lock.json` so the installed graph aligns with that exact runtime:
+  - `react@19.1.1`
+  - `react-dom@19.1.1`
+  - `react-test-renderer@19.1.1`
+  - `react-is@19.1.1`
+  - renderer dependency on the existing `scheduler@^0.26.0`
+- Removed the unrelated top-level lock metadata churn introduced during the earlier broad install attempt while preserving the rest of the preexisting lock normalization.
+
+### Verification
+
+- Dependency graph:
+
+```bash
+npm ls react react-dom react-test-renderer
+```
+
+Result: one aligned tree rooted at `react@19.1.1`, `react-dom@19.1.1`, and `react-test-renderer@19.1.1`.
+
+- Focused regression:
+
+```bash
+/Users/clyde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --test test/interaction-contract.test.js
+```
+
+Result: 8 tests passed, 0 failed. Process exited normally.
+
+- Full suite, single bounded rerun in the clean no-dev-server condition:
+
+```bash
+/Users/clyde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --test
+```
+
+Result: 52 tests passed, 0 assertion failures, then the existing `test/vite-license-route.test.js` process remained pending and had to be interrupted after the bounded wait. Final Node output remained:
+
+```text
+Promise resolution is still pending but the event loop has already resolved
+```
+
+This reproduces outside the Task 9 focused file and outside the dependency-alignment change itself.
+
+- Lint:
+
+```bash
+PATH=/Users/clyde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH npm run lint
+```
+
+Result: passed.
+
+- Build:
+
+```bash
+PATH=/Users/clyde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH npm run build
+```
+
+Result: passed.
