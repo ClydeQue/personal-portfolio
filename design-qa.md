@@ -95,6 +95,6 @@ There are no open P0, P1, or P2 findings. Identity/content/asset differences lis
 
 ## License and source boundaries
 
-All production media and fonts are local and were checked in both source and compiled output. The project retains the GPL license at `LICENSE.txt`, `public/LICENSE.txt`, and `/license`, includes the Geist OFL notice at `public/fonts/OFL.txt`, and records the modified-work attribution in `NOTICE.md`. The original GSAP/Original mode, legacy layouts, Lenis/analytics dependencies, and obsolete mode-routing tree were removed. The user's unrelated checkout changes were preserved by doing the implementation in the isolated worktree; nothing was merged, pushed, deployed, or connected to private CMS/auth/database/analytics/scheduling services.
+All production media and fonts are local and were checked in both source and compiled output. The project retains the GPL license at `LICENSE`, `public/LICENSE.txt`, and `/license`, includes the Geist OFL notice at `public/fonts/OFL.txt`, and records the modified-work attribution in `NOTICE.md`. The original GSAP/Original mode, legacy layouts, Lenis/analytics dependencies, and obsolete mode-routing tree were removed. The user's unrelated checkout changes were preserved by doing the implementation in the isolated worktree; nothing was merged, pushed, deployed, or connected to private CMS/auth/database/analytics/scheduling services.
 
 final result: passed
