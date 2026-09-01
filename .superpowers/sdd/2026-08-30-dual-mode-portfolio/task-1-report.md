@@ -2,15 +2,15 @@
 
 ## Scope
 
-Implemented the pure JSTN mode/route contract in `src/modes/modeRouting.js` and
+Implemented the pure Reference mode/route contract in `src/modes/modeRouting.js` and
 focused coverage in `test/mode-routing.test.js`.
 
-The contract exports `modeStorageKey`, `jstnPathStorageKey`, and the six public
+The contract exports `modeStorageKey`, `referencePathStorageKey`, and the six public
 route families. It normalizes static routes and valid lowercase kebab-case
 project slugs, strips query/hash/trailing-slash formatting, and safely falls
 back to `/`. A valid saved mode takes precedence over deep-link inference;
 without one, root `/` defaults to `original`, every non-root path infers
-`jstn`, and unknown non-root paths normalize to the JSTN home route.
+`reference`, and unknown non-root paths normalize to the Reference home route.
 
 ## TDD evidence
 

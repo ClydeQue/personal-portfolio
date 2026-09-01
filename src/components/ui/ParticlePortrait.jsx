@@ -26,6 +26,8 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
     let cancelled = false
     let failed = false
     let loaded = false
+    let inViewport = true
+    let ready = false
     let lastTime = null
     let pose = { x: 0, y: 0, active: 0 }
     let bounds = canvas.getBoundingClientRect()
@@ -73,7 +75,7 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
 
     const draw = (time) => {
       frameRef.current = null
-      if (cancelled || failed || !loaded || reducedMotion.matches || document.hidden || !bounds.width || !bounds.height) return
+      if (cancelled || failed || !loaded || reducedMotion.matches || document.hidden || !inViewport || !bounds.width || !bounds.height) return
 
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
       const width = Math.round(bounds.width * pixelRatio)
@@ -120,12 +122,15 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       }
 
       context.globalCompositeOperation = 'source-over'
-      setIsReady(true)
-      frameRef.current = requestAnimationFrame(draw)
+      if (!ready) { ready = true; setIsReady(true) }
+      // Redraw only until the pointer target is reached. A resting canvas costs no frames.
+      if (pose.x !== target.x || pose.y !== target.y || pose.active !== target.active) {
+        frameRef.current = requestAnimationFrame(draw)
+      } else lastTime = null
     }
 
     const start = () => {
-      if (cancelled || failed || !loaded || reducedMotion.matches || document.hidden || frameRef.current !== null) return
+      if (cancelled || failed || !loaded || reducedMotion.matches || document.hidden || !inViewport || frameRef.current !== null) return
       frameRef.current = requestAnimationFrame(draw)
     }
 
@@ -144,6 +149,7 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       pointerRef.current = { active: false, x: 0, y: 0 }
       if (reducedMotion.matches) showFallback()
       else start()
+      ready = false
     }
 
     const resizeObserver = new ResizeObserver(() => {
@@ -151,6 +157,15 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       stop()
       start()
     })
+    const intersectionObserver = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(([entry]) => {
+      inViewport = entry.isIntersecting
+      if (inViewport) start()
+      else {
+        stop()
+        pointerRef.current = { active: false, x: 0, y: 0 }
+      }
+    })
+    intersectionObserver?.observe(canvas)
 
     source.onload = () => {
       if (cancelled) return
@@ -176,9 +191,11 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
         x: event.clientX - bounds.left,
         y: event.clientY - bounds.top,
       }
+      start()
     }
     const onPointerLeave = () => {
       pointerRef.current = { active: false, x: 0, y: 0 }
+      start()
     }
     canvas.addEventListener('pointermove', onPointerMove, { passive: true })
     canvas.addEventListener('pointerleave', onPointerLeave)
@@ -191,6 +208,7 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       source.onerror = null
       samplePixelsRef.current = null
       resizeObserver.disconnect()
+      intersectionObserver?.disconnect()
       document.removeEventListener('visibilitychange', onVisibility)
       reducedMotion.removeEventListener('change', onMotionChange)
       canvas.removeEventListener('pointermove', onPointerMove)

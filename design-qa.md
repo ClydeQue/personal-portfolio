@@ -1,8 +1,39 @@
-# JSTN reference clone design QA
+# Clyde portfolio design QA
 
-Status: blocking visual QA passed on 2026-09-01 (Asia/Manila).
+Status: motion refinement verified locally; exact portrait fidelity blocked on a personalized 3D asset (2026-09-01, Asia/Manila).
 
-The audited implementation commit is `140e226` (`fix: avoid redirect for active portfolio view`). The evidence-only commit that adds this report and the captured QA artifacts follows that implementation commit. The live visual reference was the rendered public site at [jstn.site](https://www.jstn.site/), not its GitHub repository or upstream application source.
+## Current motion refinement
+
+This section supersedes the earlier overall pass below. The earlier route/layout checks remain historical evidence, not proof that the current portrait is a 1:1 match.
+
+- Source: the public reference identified in `NOTICE.md`, inspected through the in-app Browser, not its GitHub source.
+- The rendered title has three clipped letter layers and a top-half flap rotating from approximately -90 degrees to rest. Hover scrambles letters/digits, temporarily fades the dark tiles, and resolves characters from left to right. The page loads Framer Motion and GSAP chunks, but that alone does not establish which library owns this specific effect.
+- The portrait canvas identifies `three.js r182`; the observed asset inventory includes `/assets/avatar.glb` and the Draco decoder. It is a real 3D avatar, not just a filtered photograph.
+- Evidence: `docs/motion-captures/reference-title-00.jpg` through `reference-title-11.jpg` and `local-title-00.jpg` through `local-title-21.jpg` are time-sequenced screenshot samples, not a screen recording. The browser API has no recording capability.
+- Full-view comparison: `docs/motion-captures/title-comparison.png` combines both hover sequences at 1280 x 720 CSS pixels. Source bitmap 1272 x 716 is normalized to 1280 x 720; local bitmap is 1280 x 720. This is a sampled visual comparison, not frame-synchronized video or a frame-perfect timing measurement.
+- `docs/motion-captures/rest-comparison.png` and paired `reference-portrait-left/right.jpg`, `local-portrait-left/right.jpg` record the asset/geometry difference. Typography and flap states are readable in the combined view, so no additional crop was needed.
+- Local mobile evidence: `docs/motion-captures/local-mobile.jpg`, 390 x 844 CSS pixels, no horizontal overflow. Desktop console warnings/errors: none observed.
+
+### Findings and implementation
+
+- Closed: static name tiles. `SplitFlapName.jsx` now runs a finite scramble/resolve sequence on mount and hover. Native CSS rotates the clipped flap, while a time-derived letter sequence settles left to right. The accessible name stays CLYDE. No animation dependency was added.
+- Closed: unnecessary continuous portrait drawing. The portrait now schedules zero frames once its pose reaches the pointer target, wakes on pointer input, settles after pointer exit, and pauses outside the viewport or in a hidden document. Existing reduced-motion and fallback paths remain.
+- Open P1: portrait asset and geometry. Clyde's single photograph supplies only a shallow relief. It cannot show the real side surfaces or reproduce the reference avatar's turning geometry. A Clyde GLB/GLTF scan/model is required for an exact personalized 3D implementation. No reference person's avatar was copied or represented as Clyde.
+- Typography/colors: tile proportions, central seam, dark rest state, translucent scramble state, and flap geometry follow the observed reference. The sequence uses approximate measured timing, not a verified upstream library implementation.
+- Layout/copy: existing layout and truthful Clyde content are preserved; the five-letter name intentionally occupies less width than the reference's seven-letter name.
+- Image quality: the local photo point cloud is visibly brighter/flatter and is not approved as a 1:1 replacement for the 3D reference.
+
+### Fresh verification
+
+`node --test test/*.test.js`: 86 passed, 0 failed. `npm run lint`, `npm run build`, `npm run audit:build`, and `git diff --check` passed. Build output retains the existing Node 22.11 compatibility warning. Lifecycle regression coverage confirms idle sleep, input wake, exit settling, reduced-motion fallback, and cleanup. No browser performance benchmark or mobile reduced-motion emulation was performed.
+
+Markdown source-brand mentions were removed from tracked project documentation except the retained attribution in `NOTICE.md`. Reference capture and plan/spec paths were renamed with their links updated. Historical terminology was normalized for presentation; old implementation examples remain historical, not current code instructions. Git history, the worktree name, and ignored scratch history were not rewritten.
+
+Next: obtain Clyde's 3D asset, implement the corresponding point-cloud renderer, then repeat reference/local pointer-state comparisons. No merge, push, or deployment occurred.
+
+## Earlier route and layout QA (historical)
+
+The audited implementation commit is `140e226` (`fix: avoid redirect for active portfolio view`). The evidence-only commit that adds this report and the captured QA artifacts follows that implementation commit. The live visual reference was the rendered public site identified in NOTICE.md, not its GitHub repository or upstream application source.
 
 Local preview used for every local capture:
 
@@ -11,7 +42,7 @@ npm run build && npm run preview -- --host 127.0.0.1 --port 5174 --strictPort
 http://127.0.0.1:5174/
 ```
 
-The in-app Browser was used for source inspection, local interaction, screenshots, navigation, and console checks. Comparison canvases were generated with `.superpowers/sdd/2026-08-30-jstn-only-portfolio/compare-captures.mjs`; each puts the live capture on the left and the local capture on the right at the same CSS viewport.
+The in-app Browser was used for source inspection, local interaction, screenshots, navigation, and console checks. Comparison canvases were generated with `.superpowers/sdd/*/compare-captures.mjs`; each puts the live capture on the left and the local capture on the right at the same CSS viewport.
 
 ## Automated gates
 
@@ -29,26 +60,26 @@ The desktop viewport was 1440 x 1000 CSS pixels and the mobile viewport was 390 
 
 | Reference state | Live capture | Local capture | Result |
 | --- | --- | --- | --- |
-| Home, Personal, desktop | `docs/reference-captures/jstn/source-home-personal-desktop.png` | `docs/reference-captures/jstn/local-home-personal-desktop.png` | Composition, grid, header, portrait slot, associated row, and scroll behavior matched; Clyde identity, portrait, copy, and metrics are intentionally different. |
-| Home, Professional, desktop | `docs/reference-captures/jstn/source-home-professional-desktop.png` | `docs/reference-captures/jstn/local-home-professional-desktop.png` | Two-column profile/stack/projects composition and white professional surface matched; content is truthful Clyde content. |
-| Home, Personal, mobile | `docs/reference-captures/jstn/source-home-mobile.png` | `docs/reference-captures/jstn/local-home-mobile.png` | Mobile ordering, compact header, portrait slot, and CTA treatment matched. The source file is the settled live particle capture because a fresh source animation can be blank during its first frames. |
-| Home, Professional, mobile | `docs/reference-captures/jstn/source-home-professional-mobile.png` | `docs/reference-captures/jstn/local-home-professional-mobile.png` | Profile card, stack groups, actions, and responsive ordering matched with personalized data. |
-| Mobile menu, Personal | `docs/reference-captures/jstn/source-menu-mobile.png` | `docs/reference-captures/jstn/local-menu-mobile.png` | In-flow menu, nav links, view switch, actions, Escape close, and focus return verified. |
-| About, desktop | `docs/reference-captures/jstn/source-about-desktop.png` | `docs/reference-captures/jstn/local-about-desktop.png` | Editorial grid/sidebar, heading scale, dotted background, and content rhythm matched. |
-| Projects index, desktop | `docs/reference-captures/jstn/source-projects-desktop.png` | `docs/reference-captures/jstn/local-projects-desktop.png` | Heading, intro block, two-column card composition, overlay controls, and shared header matched. |
-| Representative project detail, desktop | `docs/reference-captures/jstn/source-project-detail-desktop.png` (`/projects/mirofish`) | `docs/reference-captures/jstn/local-project-detail-desktop.png` (`/projects/waiveright`) | Detail shell, breadcrumb, hero, metadata, actions, and wider source detail frame matched; project imagery and copy are intentionally Clyde-specific. |
-| Representative project detail, mobile | `docs/reference-captures/jstn/source-project-detail-mobile-final.png` | `docs/reference-captures/jstn/local-project-detail-mobile-final.png` | Mobile breadcrumb, hero crop, metadata, stacked actions, and detail continuation matched. |
-| Experience, desktop | `docs/reference-captures/jstn/source-experience-desktop.png` | `docs/reference-captures/jstn/local-experience-desktop.png` | Career Path/Journey grid, dotted background, phase list, panel, and learning path matched. |
-| Experience, Foundation phase | `docs/reference-captures/jstn/experience-phase-desktop.png` | Browser interaction selected the fourth local phase and verified the matching panel and focus state. | All four phase selections, Home/End keyboard endpoints, and panel updates passed. |
-| Collection, initial desktop | `docs/reference-captures/jstn/source-collection-desktop.png` | `docs/reference-captures/jstn/local-collection-desktop.png` | Source-like three-column browser, compact source strip, stats, search, categories, marketplace, and detail card matched. |
+| Home, Personal, desktop | `docs/reference-captures/reference/source-home-personal-desktop.png` | `docs/reference-captures/reference/local-home-personal-desktop.png` | Composition, grid, header, portrait slot, associated row, and scroll behavior matched; Clyde identity, portrait, copy, and metrics are intentionally different. |
+| Home, Professional, desktop | `docs/reference-captures/reference/source-home-professional-desktop.png` | `docs/reference-captures/reference/local-home-professional-desktop.png` | Two-column profile/stack/projects composition and white professional surface matched; content is truthful Clyde content. |
+| Home, Personal, mobile | `docs/reference-captures/reference/source-home-mobile.png` | `docs/reference-captures/reference/local-home-mobile.png` | Mobile ordering, compact header, portrait slot, and CTA treatment matched. The source file is the settled live particle capture because a fresh source animation can be blank during its first frames. |
+| Home, Professional, mobile | `docs/reference-captures/reference/source-home-professional-mobile.png` | `docs/reference-captures/reference/local-home-professional-mobile.png` | Profile card, stack groups, actions, and responsive ordering matched with personalized data. |
+| Mobile menu, Personal | `docs/reference-captures/reference/source-menu-mobile.png` | `docs/reference-captures/reference/local-menu-mobile.png` | In-flow menu, nav links, view switch, actions, Escape close, and focus return verified. |
+| About, desktop | `docs/reference-captures/reference/source-about-desktop.png` | `docs/reference-captures/reference/local-about-desktop.png` | Editorial grid/sidebar, heading scale, dotted background, and content rhythm matched. |
+| Projects index, desktop | `docs/reference-captures/reference/source-projects-desktop.png` | `docs/reference-captures/reference/local-projects-desktop.png` | Heading, intro block, two-column card composition, overlay controls, and shared header matched. |
+| Representative project detail, desktop | `docs/reference-captures/reference/source-project-detail-desktop.png` (`/projects/mirofish`) | `docs/reference-captures/reference/local-project-detail-desktop.png` (`/projects/waiveright`) | Detail shell, breadcrumb, hero, metadata, actions, and wider source detail frame matched; project imagery and copy are intentionally Clyde-specific. |
+| Representative project detail, mobile | `docs/reference-captures/reference/source-project-detail-mobile-final.png` | `docs/reference-captures/reference/local-project-detail-mobile-final.png` | Mobile breadcrumb, hero crop, metadata, stacked actions, and detail continuation matched. |
+| Experience, desktop | `docs/reference-captures/reference/source-experience-desktop.png` | `docs/reference-captures/reference/local-experience-desktop.png` | Career Path/Journey grid, dotted background, phase list, panel, and learning path matched. |
+| Experience, Foundation phase | `docs/reference-captures/reference/experience-phase-desktop.png` | Browser interaction selected the fourth local phase and verified the matching panel and focus state. | All four phase selections, Home/End keyboard endpoints, and panel updates passed. |
+| Collection, initial desktop | `docs/reference-captures/reference/source-collection-desktop.png` | `docs/reference-captures/reference/local-collection-desktop.png` | Source-like three-column browser, compact source strip, stats, search, categories, marketplace, and detail card matched. |
 | Collection, search/selection | Source initial state above | Local search `SCORM`, resource selection, unmatched search, and Reset | Search narrowed to the SCORM resource, selected detail destination opened correctly, empty results cleared detail, and Reset restored All/first resource. |
-| Writing index, desktop | `docs/reference-captures/jstn/source-blog-desktop.png` | `docs/reference-captures/jstn/local-blog-desktop.png` | Intro, list/card rhythm, tags, and footer path matched with four factual Clyde case studies. |
-| Writing article, desktop | `docs/reference-captures/jstn/source-article-desktop-final.png` (`/blog/founder-school`) | `docs/reference-captures/jstn/local-article-desktop-final.png` (`/blog/capytech-scorm-qa-sandbox`) | Back link, title/lede, case-study label placement, readable body, and continuation link matched. |
-| Writing article, mobile | `docs/reference-captures/jstn/source-article-mobile-final.png` | `docs/reference-captures/jstn/local-article-mobile-final.png` | Mobile title wrapping, body spacing, and navigation matched. |
-| License, desktop | `docs/reference-captures/jstn/source-license-desktop.png` | `docs/reference-captures/jstn/local-license-desktop.png` | License surface and footer path matched; local page exposes the unchanged GPL text through local files. |
-| Footer/back-to-top | `docs/reference-captures/jstn/footer-desktop.png`, `footer-mobile.png` | `docs/reference-captures/jstn/local-footer-desktop.png`, `local-footer-mobile.png` | Footer grouping, resources/social areas, attribution, and scroll-to-top control matched. |
+| Writing index, desktop | `docs/reference-captures/reference/source-blog-desktop.png` | `docs/reference-captures/reference/local-blog-desktop.png` | Intro, list/card rhythm, tags, and footer path matched with four factual Clyde case studies. |
+| Writing article, desktop | `docs/reference-captures/reference/source-article-desktop-final.png` (`/blog/founder-school`) | `docs/reference-captures/reference/local-article-desktop-final.png` (`/blog/capytech-scorm-qa-sandbox`) | Back link, title/lede, case-study label placement, readable body, and continuation link matched. |
+| Writing article, mobile | `docs/reference-captures/reference/source-article-mobile-final.png` | `docs/reference-captures/reference/local-article-mobile-final.png` | Mobile title wrapping, body spacing, and navigation matched. |
+| License, desktop | `docs/reference-captures/reference/source-license-desktop.png` | `docs/reference-captures/reference/local-license-desktop.png` | License surface and footer path matched; local page exposes the unchanged GPL text through local files. |
+| Footer/back-to-top | `docs/reference-captures/reference/footer-desktop.png`, `footer-mobile.png` | `docs/reference-captures/reference/local-footer-desktop.png`, `local-footer-mobile.png` | Footer grouping, resources/social areas, attribution, and scroll-to-top control matched. |
 
-Expected visual differences are limited to the requested personalization: Clyde's name/mark, truthful biography and career history, six Clyde projects, four case-study notes, local portrait, GitHub activity snapshot, social/contact links, and local assets. No live JSTN asset was hotlinked or copied into the production bundle.
+Expected visual differences are limited to the requested personalization: Clyde's name/mark, truthful biography and career history, six Clyde projects, four case-study notes, local portrait, GitHub activity snapshot, social/contact links, and local assets. No live Reference asset was hotlinked or copied into the production bundle.
 
 ## Browser interaction and route audit
 
@@ -62,7 +93,7 @@ Experience selected all four phases (`Software Engineer Intern`, `Solutions Deve
 
 ## Particle portrait evidence
 
-The local Clyde portrait is a real sampled point cloud, not a static dotted placeholder. At 1440 x 1000, Browser captures in `.superpowers/sdd/2026-08-30-jstn-only-portfolio/` include `particle-final-outside.png`, `particle-final-left.png`, `particle-final-center.png`, `particle-final-right.png`, and `particle-final-return.png`.
+The local Clyde portrait is a real sampled point cloud, not a static dotted placeholder. At 1440 x 1000, Browser captures in `.superpowers/sdd/*/` include `particle-final-outside.png`, `particle-final-left.png`, `particle-final-center.png`, `particle-final-right.png`, and `particle-final-return.png`.
 
 - Left versus right pointer states changed the portrait crop by mean absolute RGB difference 124.68 with 54.19% of crop pixels changed.
 - Center versus left changed 55.23% of crop pixels; center versus right changed 56.02%.
@@ -91,10 +122,10 @@ The 2026 value was independently checked with the same UTC calendar-year GraphQL
 - P2 CTA arrow contrast: local arrow assets remain native white on dark actions instead of being inverted to black.
 - P2 Collection density and Professional surface: the source notice/control strip is compact again and the Professional surface is white like the live reference.
 
-There are no open P0, P1, or P2 findings. Identity/content/asset differences listed above are intentional personalization requirements, not fidelity defects.
+This earlier pass did not detect the static title or establish 3D portrait parity. The current motion findings above supersede its overall verdict.
 
 ## License and source boundaries
 
 All production media and fonts are local and were checked in both source and compiled output. The project retains the GPL license at `LICENSE`, `public/LICENSE.txt`, and `/license`, includes the Geist OFL notice at `public/fonts/OFL.txt`, and records the modified-work attribution in `NOTICE.md`. The original GSAP/Original mode, legacy layouts, Lenis/analytics dependencies, and obsolete mode-routing tree were removed. The user's unrelated checkout changes were preserved by doing the implementation in the isolated worktree; nothing was merged, pushed, deployed, or connected to private CMS/auth/database/analytics/scheduling services.
 
-final result: passed
+final result: blocked

@@ -3,28 +3,28 @@
 ## Delivered
 
 - Added the complete GPL-3.0 license text in `LICENSE`.
-- Added `NOTICE.md`, identifying `JustineDevs/Portfolio` as the JSTN upstream
-  and documenting the adapted JSTN boundary.
+- Added `NOTICE.md`, identifying `JustineDevs/Portfolio` as the Reference upstream
+  and documenting the adapted Reference boundary.
 - Added a fixed `ModeSwitcher` with native buttons, accessible mode labels,
   `aria-pressed` state, keyboard focus styling, and 44 px minimum targets.
 - Refactored `App` so it owns the active mode, safe browser storage access,
   History API transitions, and back/forward synchronization. It renders only
-  the JSTN lazy seam or the pre-existing Original desktop/mobile layout.
-- Added the intentionally minimal lazy `src/jstn/JstnMode.jsx` mount seam for
+  the Reference lazy seam or the pre-existing Original desktop/mobile layout.
+- Added the intentionally minimal lazy `src/reference/ReferenceMode.jsx` mount seam for
   Task 3 to replace with the full visual implementation.
 - Extended the pure routing contract and its Node tests for unavailable or
   throwing storage, stored route restoration, deep-link preservation when
-  returning to Original, and JSTN route restoration.
+  returning to Original, and Reference route restoration.
 
 ## Behavior
 
 - The root defaults to Original mode.
-- A public JSTN path is inferred as JSTN when no saved mode is present.
-- Mode changes persist `portfolio-mode` and `portfolio-jstn-path` when
+- A public Reference path is inferred as Reference when no saved mode is present.
+- Mode changes persist `portfolio-mode` and `portfolio-reference-path` when
   storage is available, without failing in privacy-restricted contexts.
 - Changing modes uses `history.pushState`, never a full page reload.
-- Switching from a JSTN deep path to Original preserves that path and restores
-  it when the user switches back to JSTN.
+- Switching from a Reference deep path to Original preserves that path and restores
+  it when the user switches back to Reference.
 
 ## Verification evidence
 
@@ -35,13 +35,13 @@
   `npm run build` exited 0; `git diff --check` exited 0.
 - Browser smoke check: Vite served both `/` and
   `/projects/suntastic-solar-ims` with HTTP 200. In a real browser, the
-  Original and JSTN buttons exposed the expected accessible labels and pressed
+  Original and Reference buttons exposed the expected accessible labels and pressed
   state; switching back restored the original portfolio DOM.
 
 ## Boundaries and concerns
 
-- This task deliberately leaves the JSTN visual content as a small mount seam;
-  Task 3 owns the replacement implementation in `src/jstn/JstnMode.jsx`.
+- This task deliberately leaves the Reference visual content as a small mount seam;
+  Task 3 owns the replacement implementation in `src/reference/ReferenceMode.jsx`.
 - Vite emitted its existing advisory that Node 22.11.0 is below its stated
   22.12.0 patch requirement, plus its large-chunk advisory. The production
   build still completed successfully.
@@ -52,12 +52,12 @@
 
 ### Changes
 
-- Unknown non-root paths now infer JSTN mode while `normalizeJstnPath` maps
-  them to the JSTN home route. `/` remains the only no-storage default for
+- Unknown non-root paths now infer Reference mode while `normalizeReferencePath` maps
+  them to the Reference home route. `/` remains the only no-storage default for
   Original mode.
-- `Analytics` mounts only while Original mode is active, so the JSTN branch
+- `Analytics` mounts only while Original mode is active, so the Reference branch
   does not mount the Vercel analytics integration.
-- A saved JSTN deep path restored from `/` replaces the browser URL with that
+- A saved Reference deep path restored from `/` replaces the browser URL with that
   path using `history.replaceState`; this avoids a duplicate history entry.
 - Added the package metadata field `"license": "GPL-3.0-only"`.
 
@@ -83,13 +83,13 @@ build completed successfully.
 ### Changes
 
 - Added the pure `modeStateFromHistory` contract. Valid `portfolioMode` and
-  `portfolioJstnPath` history data takes precedence during back/forward
+  `portfolioReferencePath` history data takes precedence during back/forward
   navigation; absent or invalid state keeps the pathname and storage fallback.
-- A JSTN-root history entry now resolves to mode `jstn` with path `/`, even
-  when storage contains an older JSTN deep path.
-- Mode history entries now record both the selected mode and JSTN path. A mode
+- A Reference-root history entry now resolves to mode `reference` with path `/`, even
+  when storage contains an older Reference deep path.
+- Mode history entries now record both the selected mode and Reference path. A mode
   switch at the same `/` URL still pushes a distinct history entry.
-- The URL-restoration `replaceState` now records the corresponding JSTN path.
+- The URL-restoration `replaceState` now records the corresponding Reference path.
 
 ### Verification evidence
 
@@ -108,13 +108,13 @@ build completed successfully.
 ### Changes
 
 - Added `historyStateForMode`, a pure state builder that retains enumerable
-  fields from an existing object history state and normalizes the JSTN path.
+  fields from an existing object history state and normalizes the Reference path.
 - `App` now seeds the active browser entry through `replaceState` with the
-  resolved mode and JSTN path. This applies to `/` and initial deep routes
+  resolved mode and Reference path. This applies to `/` and initial deep routes
   without changing their URLs.
-- The existing saved-JSTN deep-path behavior remains the only case that
+- The existing saved-Reference deep-path behavior remains the only case that
   replaces `/` with a different URL.
-- Mode transitions use the same builder for `pushState`, so a same-URL JSTN
+- Mode transitions use the same builder for `pushState`, so a same-URL Reference
   root entry can return to the seeded Original root entry on Back.
 
 ### Verification evidence

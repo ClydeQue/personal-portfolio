@@ -69,7 +69,7 @@ function harness({ reduce = false, sampleError = false } = {}) {
       pending.forEach((callback) => callback(time))
     }),
     resize: () => act(() => resize()),
-    emit: (target, name) => act(() => target.handlers.get(name)?.()),
+    emit: (target, name, event) => act(() => target.handlers.get(name)?.(event)),
     cleanup: () => {
       act(() => renderer.unmount())
       for (const [key, descriptor] of previous) {
@@ -119,7 +119,7 @@ test('visibility and preference changes stop work; unmount removes listeners and
     assert.equal(h.metrics.draws, draws)
     h.document.hidden = false
     h.emit(h.document, 'visibilitychange'); h.frame()
-    assert.equal(h.frames.size, 1)
+    assert.equal(h.frames.size, 0)
     h.motion.matches = true
     h.emit(h.motion, 'change')
     assert.equal(h.ready(), false)
@@ -131,6 +131,22 @@ test('visibility and preference changes stop work; unmount removes listeners and
   assert.equal(h.metrics.disconnected, true)
   assert.equal(h.image.onload, null)
   assert.equal(h.image.onerror, null)
+})
+
+test('settled portrait sleeps, pointer motion wakes it, and leaving returns it to sleep', () => {
+  const h = harness()
+  try {
+    h.load(); h.frame()
+    assert.equal(h.frames.size, 0)
+    h.emit(h.canvas, 'pointermove', { clientX: 480, clientY: 240 })
+    assert.equal(h.frames.size, 1)
+    for (let i = 0; i < 100; i++) h.frame()
+    assert.equal(h.frames.size, 0)
+    h.emit(h.canvas, 'pointerleave')
+    assert.equal(h.frames.size, 1)
+    for (let i = 0; i < 100; i++) h.frame()
+    assert.equal(h.frames.size, 0)
+  } finally { h.cleanup() }
 })
 
 test('image or sample failure retains the local fallback without scheduling a failing loop', () => {

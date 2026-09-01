@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Preserve the existing Clyde portfolio as `Original` and add a Clyde-branded, GPL-compliant JSTN-derived public portfolio mode with persistent switching and verified routes.
+**Goal:** Preserve the existing Clyde portfolio as `Original` and add a Clyde-branded, GPL-compliant Reference-derived public portfolio mode with persistent switching and verified routes.
 
-**Architecture:** Keep the existing Vite entrypoint and layouts intact behind an app-level mode boundary. Add a small history-api router and a self-contained `src/jstn` component/data/style boundary so the new mode cannot destabilize the current layout. Use GSAP for lightweight entrance/reveal motion, with native CSS and reduced-motion fallbacks.
+**Architecture:** Keep the existing Vite entrypoint and layouts intact behind an app-level mode boundary. Add a small history-api router and a self-contained `src/reference` component/data/style boundary so the new mode cannot destabilize the current layout. Use GSAP for lightweight entrance/reveal motion, with native CSS and reduced-motion fallbacks.
 
 **Tech Stack:** React 19, Vite 7, GSAP 3, existing Lenis/asset stack, Node test runner, Playwright CLI.
 
@@ -25,9 +25,9 @@
 - Create: `src/modes/modeRouting.js`
 
 **Interfaces:**
-- `normalizeJstnPath(pathname)` returns one of the six public JSTN paths.
-- `modeFromLocation({ pathname, savedMode })` returns `original` or `jstn`.
-- `modeStorageKey`, `jstnPathStorageKey`, and `jstnRoutes` are exported constants.
+- `normalizeReferencePath(pathname)` returns one of the six public Reference paths.
+- `modeFromLocation({ pathname, savedMode })` returns `original` or `reference`.
+- `modeStorageKey`, `referencePathStorageKey`, and `referenceRoutes` are exported constants.
 
 - [ ] Write tests for root/default mode, saved mode, deep-link inference, valid project slugs, and unknown-path fallback.
 - [ ] Run `node --test test/mode-routing.test.js` and observe the expected missing-module failure.
@@ -48,28 +48,28 @@
 - `ModeSwitcher({ mode, onChange, compact })` renders two buttons and emits the selected mode.
 - `App` owns mode persistence and renders exactly one active experience.
 
-- [ ] Add the full GPL-3.0 text and a notice identifying the JSTN-derived files and upstream repository.
+- [ ] Add the full GPL-3.0 text and a notice identifying the Reference-derived files and upstream repository.
 - [ ] Write/extend tests for storage-safe mode initialization and switch behavior through the pure contract.
 - [ ] Add the switcher with `aria-label`, `aria-pressed`, keyboard-native buttons, and touch-safe dimensions.
-- [ ] Refactor `App` so Original continues to select desktop/mobile layouts and JSTN mounts through a lazy boundary.
+- [ ] Refactor `App` so Original continues to select desktop/mobile layouts and Reference mounts through a lazy boundary.
 - [ ] Run lint/build and manually verify Original remains visually unchanged.
 - [ ] Commit compliance and mode shell.
 
-### Task 3: Build the JSTN shared shell, data, and home route
+### Task 3: Build the Reference shared shell, data, and home route
 
 **Files:**
-- Create: `src/jstn/data.js`
-- Create: `src/jstn/JstnMode.jsx`
-- Create: `src/jstn/jstn.css`
-- Create: `src/jstn/components/JstnHeader.jsx`
-- Create: `src/jstn/components/JstnFooter.jsx`
-- Create: `src/jstn/components/EditorialPanel.jsx`
-- Create: `src/jstn/pages/HomePage.jsx`
+- Create: `src/reference/data.js`
+- Create: `src/reference/ReferenceMode.jsx`
+- Create: `src/reference/reference.css`
+- Create: `src/reference/components/ReferenceHeader.jsx`
+- Create: `src/reference/components/ReferenceFooter.jsx`
+- Create: `src/reference/components/EditorialPanel.jsx`
+- Create: `src/reference/pages/HomePage.jsx`
 
 **Interfaces:**
-- `JstnMode` receives `onExit` and renders the active route.
-- `JstnHeader` receives `{ path, onNavigate, onExit }`.
-- `JstnFooter` receives `{ onNavigate }` and includes GPL attribution.
+- `ReferenceMode` receives `onExit` and renders the active route.
+- `ReferenceHeader` receives `{ path, onNavigate, onExit }`.
+- `ReferenceFooter` receives `{ onNavigate }` and includes GPL attribution.
 - `projects`, `experience`, and `techStack` are immutable exported data.
 
 - [ ] Add data mapped to Clyde's existing local images and verified career/project facts.
@@ -77,16 +77,16 @@
 - [ ] Add a GSAP context hook for one-time reveal classes and a no-animation branch for reduced motion.
 - [ ] Add internal-link handling through the router callback.
 - [ ] Run lint/build and inspect the route at desktop/mobile widths.
-- [ ] Commit the JSTN shell/home.
+- [ ] Commit the Reference shell/home.
 
 ### Task 4: Add public subroutes and project detail views
 
 **Files:**
-- Create: `src/jstn/pages/AboutPage.jsx`
-- Create: `src/jstn/pages/ProjectsPage.jsx`
-- Create: `src/jstn/pages/ProjectDetailPage.jsx`
-- Create: `src/jstn/pages/ExperiencePage.jsx`
-- Create: `src/jstn/pages/CollectionPage.jsx`
+- Create: `src/reference/pages/AboutPage.jsx`
+- Create: `src/reference/pages/ProjectsPage.jsx`
+- Create: `src/reference/pages/ProjectDetailPage.jsx`
+- Create: `src/reference/pages/ExperiencePage.jsx`
+- Create: `src/reference/pages/CollectionPage.jsx`
 
 **Interfaces:**
 - Each page receives `{ onNavigate }` and uses shared data/primitives.
@@ -107,5 +107,5 @@
 - [ ] Add pure assertions for all route slugs and mode persistence keys.
 - [ ] Run `npm run lint` and `npm run build` from a clean working tree state.
 - [ ] Start `npm run dev -- --host 127.0.0.1` and use Playwright at 1440x1000 and 390x844.
-- [ ] Verify Original and JSTN mode switching, reload persistence, all public routes, one project detail, keyboard focus, reduced-motion media, no horizontal overflow, no blocking console errors, and no broken internal links.
+- [ ] Verify Original and Reference mode switching, reload persistence, all public routes, one project detail, keyboard focus, reduced-motion media, no horizontal overflow, no blocking console errors, and no broken internal links.
 - [ ] Review `git diff`, license/notice, and source attribution; commit the verified implementation.

@@ -207,7 +207,7 @@ const recognition = [
 
 export const portfolio = deepFreeze({
   identity: {
-    name: 'Kenneth Clyde Que', shortName: 'Clyde Que', initials: 'CQ', location: 'Zamboanga City, Philippines',
+    name: 'Kenneth Clyde Que', shortName: 'Clyde Que', initials: 'CQ',
     role: 'Software engineer, product builder, and interface designer', portrait: '/images/me.webp', brandMark: '/images/brand/clyde-mark.png',
   },
   navigation: [
@@ -223,21 +223,29 @@ export const portfolio = deepFreeze({
       statement: 'I’m a software engineer building practical full-stack products and thoughtful interfaces for real teams, local businesses, and institutional work.',
       associations: ['Ngnair Brice Holding', 'Ateneo de Zamboanga University', 'Capytech E-Learning Solutions'],
       techGroups: [
-        { title: 'Frontend', items: ['React', 'TypeScript', 'JavaScript', 'HTML', 'CSS', 'Tailwind CSS', 'MUI'] },
-        { title: 'Backend & data', items: ['Node.js', 'Express', 'ASP.NET Core', 'PostgreSQL', 'Supabase', 'SQLite'] },
-        { title: 'Tools & delivery', items: ['Figma', 'Git', 'Docker', 'Vite', 'Cloudflare', 'OpenAI'] },
+        { title: 'Application engineering', items: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'C#', 'ASP.NET Core', 'Node.js'] },
+        { title: 'Data & cloud', items: ['PostgreSQL', 'CockroachDB', 'Supabase', 'Neon', 'SQLite', 'GCP', 'AWS', 'Cloudflare', 'Docker'] },
+        { title: 'AI & workflow', items: ['Codex CLI', 'Claude Code CLI', 'OpenAI API', 'Neovim', 'lazy.nvim', 'LazyGit', 'Figma'] },
       ],
       description: [
-        'I work from a practical product question through interface design and full-stack implementation. Recent work spans payment-product QA, institutional reporting, custom workflows, and local-business systems.',
-        'I use AI-assisted execution with verification, keeping the claim as careful as the implementation.',
+        'I work from a practical product question through interface design and full-stack implementation. I have contributed to microservices and microfrontends alongside institutional platforms, custom workflows, payment-product engineering, and local-business systems.',
+        'My workflow combines GitHub-backed engineering, cloud delivery, AI-assisted development, and careful verification. I use Codex and Claude from the CLI, plus a custom Neovim setup, to move quickly without treating generated output as finished evidence.',
       ],
       recognitionLabel: 'Recognition from project work and hackathons',
     },
     professional: {
-      title: 'Kenneth Clyde Que', location: 'Zamboanga City, Philippines',
+      title: 'Kenneth Clyde Que',
+      techGroups: [
+        { title: 'Languages & frontend', items: ['C#', 'TypeScript', 'JavaScript', 'Python', 'SQL', 'Shell', 'HTML', 'CSS', 'React', 'Next.js', 'Tailwind CSS', 'MUI', 'TanStack Query'] },
+        { title: 'Services & application architecture', items: ['ASP.NET Core', 'Node.js', 'Express', 'REST APIs', 'Microservices', 'Microfrontends', 'SCORM'] },
+        { title: 'Data & security', items: ['PostgreSQL', 'CockroachDB', 'Supabase', 'Neon', 'SQLite', 'EF Core', 'JWT', 'Row-Level Security'] },
+        { title: 'Cloud & delivery', items: ['GCP', 'Cloud Run', 'Cloud Build', 'Cloud Storage', 'Compute Engine', 'Secret Manager', 'AWS', 'EC2', 'S3', 'Cloudflare Workers', 'Cloudflare R2', 'Cloudflare WAF', 'Turnstile', 'Docker', 'GitHub Actions', 'Vercel'] },
+        { title: 'AI engineering', items: ['Codex CLI', 'Claude Code CLI', 'OpenAI API', 'AI-assisted QA', 'Context engineering', 'Prompt engineering'] },
+        { title: 'Developer tooling', items: ['Neovim', 'lazy.nvim', 'Custom Lua modules', 'LazyGit', 'Git', 'GitHub CLI', 'Figma', 'Vite'] },
+      ],
       about: [
-        'I am a software engineer and product builder based in Zamboanga City. I work across frontend design, full-stack web systems, QA, and systems architecture, using evidence and iteration to keep products understandable and useful.',
-        'My experience includes payment-product engineering with Ngnair Brice Holding, e-learning work at Capytech, institutional reporting systems, and freelance products for real organizations.',
+        'I am a software engineer and product builder working across frontend design, full-stack systems, QA, microservices, microfrontends, and cloud delivery. I use evidence and iteration to keep products understandable and useful.',
+        'My experience includes payment-product engineering with Ngnair Brice Holding, e-learning work at Capytech, institutional reporting systems, cloud-hosted business platforms, and freelance products for real organizations.',
       ],
     },
   },

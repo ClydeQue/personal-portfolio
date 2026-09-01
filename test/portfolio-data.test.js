@@ -35,11 +35,29 @@ test('writing case-study copy stays factual about the work instead of publicatio
   assert.doesNotMatch(copy, /previously published|unsupported outcomes|rather than presenting/i)
 })
 
-test('experience skills do not turn generic cloud learning into an AWS qualification', () => {
-  const universityPhase = portfolio.experiencePhases.at(-1)
+test('tech stack reflects project, GitHub, cloud, AI, and editor evidence without mixing categories', () => {
+  const groups = new Map(portfolio.home.professional.techGroups.map(({ title, items }) => [title, items]))
 
-  assert.equal(universityPhase.skills.find(({ label }) => label === 'Cloud computing').icon, undefined)
-  assert.ok(portfolio.experiencePhases.flatMap(({ skills }) => skills).every(({ icon }) => icon !== 'aws'))
+  assert.deepEqual([...groups.keys()], [
+    'Languages & frontend', 'Services & application architecture', 'Data & security',
+    'Cloud & delivery', 'AI engineering', 'Developer tooling',
+  ])
+  assert.deepEqual(groups.get('Data & security'), [
+    'PostgreSQL', 'CockroachDB', 'Supabase', 'Neon', 'SQLite', 'EF Core', 'JWT', 'Row-Level Security',
+  ])
+  for (const item of ['GCP', 'Cloud Run', 'Cloud Build', 'Cloud Storage', 'AWS', 'EC2', 'S3', 'Cloudflare Workers', 'Cloudflare R2', 'Docker']) {
+    assert.ok(groups.get('Cloud & delivery').includes(item), `${item} is categorized under Cloud & delivery`)
+  }
+  for (const item of ['Codex CLI', 'Claude Code CLI', 'OpenAI API', 'AI-assisted QA', 'Context engineering']) {
+    assert.ok(groups.get('AI engineering').includes(item), `${item} is categorized under AI engineering`)
+  }
+  for (const item of ['Neovim', 'lazy.nvim', 'Custom Lua modules', 'LazyGit']) {
+    assert.ok(groups.get('Developer tooling').includes(item), `${item} is categorized under Developer tooling`)
+  }
+  assert.ok(groups.get('Services & application architecture').includes('Microservices'))
+  assert.ok(groups.get('Services & application architecture').includes('Microfrontends'))
+  assert.equal(portfolio.identity.location, undefined)
+  assert.match(portfolio.home.personal.description.join(' '), /microservices and microfrontends/i)
 })
 
 test('all production media references are local', () => {

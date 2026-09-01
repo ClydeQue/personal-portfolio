@@ -2,8 +2,8 @@
 
 ## Scope
 
-Removed the verified legacy GSAP/Original/JSTN source trees and packages from
-the isolated `codex/jstn-only-implementation` worktree. The current single-mode
+Removed the verified legacy GSAP/Original/Reference source trees and packages from
+the isolated `codex/reference-only-implementation` worktree. The current single-mode
 shell, UI components, pages, app/data/style modules, local assets, fonts, GPL
 license, and Task 9 React renderer dependency were preserved.
 
@@ -26,7 +26,7 @@ crawl remained pending after the `main.jsx` fetch. The old after hook started
 observed as a completed test lifecycle.
 
 The initial full suite after source deletion also failed as expected because
-`test/portfolio-data.test.js` still imported the deleted `src/jstn/data.js`.
+`test/portfolio-data.test.js` still imported the deleted `src/reference/data.js`.
 That obsolete facade assertion was removed; the file continues to test the
 canonical `src/data/portfolio.js` record.
 
@@ -41,7 +41,7 @@ PATH="$TASK_NODE_BIN:$PATH" npm ci --ignore-scripts --no-audit
   --test test/vite-license-route.test.js
 /Users/clyde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node \
   --test test/portfolio-data.test.js
-! rg -n "ModeSwitcher|Original mode|JSTN mode|portfolio-mode|portfolio-jstn-path|gsap|lenis|@vercel/analytics" src package.json
+! rg -n "ModeSwitcher|Original mode|Reference mode|portfolio-mode|portfolio-reference-path|gsap|lenis|@vercel/analytics" src package.json
 ! rg -n "https?://[^'\") ]+\.(png|jpe?g|webp|svg|woff2?)" src public index.html
 /Users/clyde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node \
   --test test/*.test.js
@@ -74,7 +74,7 @@ Results:
 
 ## Files and deletions
 
-- Removed `src/App.css`, `src/index.css`, all tracked files in `src/jstn/`,
+- Removed `src/App.css`, `src/index.css`, all tracked files in `src/reference/`,
   `src/layouts/`, `src/hooks/`, and the exact preflight legacy component trees:
   `animations`, `global`, `panels`, `section2`, `sections`, plus
   `ContentOverlay.jsx`, `ContinuousBackground.jsx`, `ModeSwitcher.jsx`, and
@@ -88,7 +88,7 @@ Results:
   interface study notice, local Geist/SIL OFL attribution, and Clyde content
   and asset attribution.
 - Extended the runtime deletion/no-hotlink contract and removed the obsolete
-  JSTN facade test coupling.
+  Reference facade test coupling.
 
 ## Concerns and boundaries
 

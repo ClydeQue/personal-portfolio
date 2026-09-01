@@ -1,25 +1,25 @@
-# JSTN-Only Personalized Portfolio Implementation Plan
+# Reference-Only Personalized Portfolio Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace the dual-mode portfolio with one personalized, GPL-compliant, high-fidelity recreation of the public `jstn.site` experience using Clyde's truthful content and local assets.
+**Goal:** Replace the dual-mode portfolio with one personalized, GPL-compliant, high-fidelity recreation of the public `reference site` experience using Clyde's truthful content and local assets.
 
 **Architecture:** Keep the existing React 19 and Vite 7 application, but replace the mode router and legacy page trees with a small History API route contract, a single immutable content domain, a shared shell, and focused route components. Interactive state is expressed through pure reducers and browser-native APIs so it remains testable with Node's built-in test runner and does not require GSAP, Lenis, analytics, a CMS, or a private service.
 
 **Tech Stack:** React 19, Vite 7, JavaScript modules, CSS, Canvas 2D, Node `node:test`, in-app Browser visual QA.
 
-**Spec:** `docs/superpowers/specs/2026-08-30-jstn-only-portfolio-design.md`
+**Spec:** `docs/superpowers/specs/2026-08-30-reference-only-portfolio-design.md`
 
 ## Global Constraints
 
-- The live `https://www.jstn.site` experience is the sole visual and interaction reference; do not copy its GitHub implementation.
-- The only portfolio experience is Clyde's personalized JSTN-style site; there is no Original/JSTN mode or mode button.
+- The live public reference (see NOTICE.md) experience is the sole visual and interaction reference; do not copy its GitHub implementation.
+- The only portfolio experience is Clyde's personalized Reference-style site; there is no Original/Reference mode or mode button.
 - Required public routes are `/`, `/about`, `/projects`, `/projects/:slug`, `/experience`, `/collection`, `/blog`, `/blog/:slug`, and `/license`.
 - The Personal/Professional switch persists under `portfolio-view` and is available in shared navigation. Selecting a view from another route navigates to Home; selecting it on Home changes only content. Live-reference correction2026-09-01 supersedes Task3's earlier Home-only rendering instruction.
 - The captured desktop viewport is 1440x1000; the captured mobile viewport is 390x844.
 - Core tokens are `#f8f8f8` canvas, `#383838` primary text, `#424242` dark surface, `#1342ff` accent, Geist Sans, and Geist Mono.
 - The desktop content canvas is 1,074px wide at 1440px, with a 36px status strip and approximately 66px navigation row that scroll away with the document.
-- Images, icons, fonts, and marks are local; production source contains no JSTN asset URL or remote image/font hotlink.
+- Images, icons, fonts, and marks are local; production source contains no Reference asset URL or remote image/font hotlink.
 - Clyde's identity, employers, dates, project contribution boundaries, links, and metrics remain truthful; missing optional facts are omitted.
 - Preserve `LICENSE` as GPL-3.0-only and update `NOTICE.md` plus the visible `/license` route for the modified work.
 - No deployment, push, merge, private CMS, authentication, database, analytics, scheduling integration, or production API is part of this plan.
@@ -82,7 +82,7 @@
 - `public/fonts/geist-sans.woff2`, `public/fonts/geist-mono.woff2`: locally bundled captured font resources.
 - `public/fonts/OFL.txt`: Geist font license.
 - `public/images/brand/clyde-mark.png`: existing local K mark copied from the favicon family and rendered monochrome by CSS.
-- `docs/reference-captures/jstn/`: authoritative source screenshots used only for QA evidence, never shipped in the application build.
+- `docs/reference-captures/reference/`: authoritative source screenshots used only for QA evidence, never shipped in the application build.
 
 ### Tests and verification
 
@@ -96,7 +96,7 @@
 ### Removed legacy files
 
 - Delete `src/modes/`, `src/layouts/`, `src/hooks/`, `src/components/animations/`, `src/components/panels/`, `src/components/section2/`, `src/components/sections/`, and obsolete files directly under `src/components/` and `src/components/global/`.
-- Delete `src/jstn/` after its verified content is migrated into the new single-mode structure.
+- Delete `src/reference/` after its verified content is migrated into the new single-mode structure.
 - Delete `src/App.css`, replace `src/index.css`, and delete the old mode/routing tests.
 
 ---
@@ -200,7 +200,7 @@ export function subscribeToRoute(listener) {
 
 - [ ] **Step 4: Replace App mode selection with route selection**
 
-Use `useState(() => matchRoute(window.location.pathname))`, subscribe with `subscribeToRoute`, render the route by `route.name`, and call `window.scrollTo({ top: 0, behavior: 'auto' })` after the path changes. Remove `ModeSwitcher`, `Analytics`, `DesktopLayout`, `MobileLayout`, `JstnMode`, loading-delay, saved mode, and mode history imports. `src/main.jsx` should only import the new styles and render `<App />` under `StrictMode`.
+Use `useState(() => matchRoute(window.location.pathname))`, subscribe with `subscribeToRoute`, render the route by `route.name`, and call `window.scrollTo({ top: 0, behavior: 'auto' })` after the path changes. Remove `ModeSwitcher`, `Analytics`, `DesktopLayout`, `MobileLayout`, `ReferenceMode`, loading-delay, saved mode, and mode history imports. `src/main.jsx` should only import the new styles and render `<App />` under `StrictMode`.
 
 - [ ] **Step 5: Run focused and baseline checks**
 
@@ -222,9 +222,9 @@ git commit -m "refactor: replace portfolio mode routing"
 - Create: `src/data/selectors.js`
 - Create: `test/portfolio-data.test.js`
 - Create: `test/selectors.test.js`
-- Modify: `src/jstn/data.js` into a temporary compatibility facade until Task 10 removes the adapter
-- Delete: `test/jstn-data.test.js`
-- Delete: `test/jstn-project-data.test.js`
+- Modify: `src/reference/data.js` into a temporary compatibility facade until Task 10 removes the adapter
+- Delete: `test/reference-data.test.js`
+- Delete: `test/reference-project-data.test.js`
 
 **Interfaces:**
 - Produces: `portfolio`, a recursively frozen object containing `identity`, `navigation`, `socials`, `home`, `projects`, `experiencePhases`, `collection`, `posts`, `activity`, and `license`.
@@ -307,7 +307,7 @@ export const portfolio = deepFreeze({
 })
 ```
 
-Define `projects`, `experiencePhases`, `collection`, `posts`, and `activity` above the exported object. Migrate all six current project records (`waiveright`, `social-development-unit`, `leo-rent-a-car`, `offline-pos`, `mujer-lgbtq`, `orsem-family-feud`) with their existing truthful local media and contribution notes. Define the four phases as Ngnair Brice Holding Software Engineer Intern (Jul 2026-Present), Capytech Solutions Developer Intern (Jun 2026), JP Consulting Web Development Intern (Apr-May 2026), and Ateneo Computer Science foundation. The four writing records must follow the approved spec: `capytech-scorm-qa-sandbox`, `sdu-multi-office-dashboard`, `waiveright-role-based-workflow`, and `offline-first-pos-ims`. Label them portfolio case-study notes, not previously published articles, and do not invent historical publication dates. Define the collection categories as AI & Development, Learning & References, and Tools & Libraries. Activity values must be a deterministic snapshot of actual local repository commit dates, labeled Portfolio repository activity, rather than invented GitHub contributions. Each project contains `slug`, `title`, `period`, `category`, `summary`, `role`, `responsibilities`, `technologies`, `bodySections`, `cover`, `gallery`, optional `externalUrl`, and `relatedSlugs`. Each post contains `slug`, `title`, `dek`, `published` (null unless evidenced), `readingTime`, `category`, `cover`, and at least three non-empty `sections`. Keep `src/jstn/data.js` as a thin derived compatibility facade for the temporary adapter; it must not duplicate the source records.
+Define `projects`, `experiencePhases`, `collection`, `posts`, and `activity` above the exported object. Migrate all six current project records (`waiveright`, `social-development-unit`, `leo-rent-a-car`, `offline-pos`, `mujer-lgbtq`, `orsem-family-feud`) with their existing truthful local media and contribution notes. Define the four phases as Ngnair Brice Holding Software Engineer Intern (Jul 2026-Present), Capytech Solutions Developer Intern (Jun 2026), JP Consulting Web Development Intern (Apr-May 2026), and Ateneo Computer Science foundation. The four writing records must follow the approved spec: `capytech-scorm-qa-sandbox`, `sdu-multi-office-dashboard`, `waiveright-role-based-workflow`, and `offline-first-pos-ims`. Label them portfolio case-study notes, not previously published articles, and do not invent historical publication dates. Define the collection categories as AI & Development, Learning & References, and Tools & Libraries. Activity values must be a deterministic snapshot of actual local repository commit dates, labeled Portfolio repository activity, rather than invented GitHub contributions. Each project contains `slug`, `title`, `period`, `category`, `summary`, `role`, `responsibilities`, `technologies`, `bodySections`, `cover`, `gallery`, optional `externalUrl`, and `relatedSlugs`. Each post contains `slug`, `title`, `dek`, `published` (null unless evidenced), `readingTime`, `category`, `cover`, and at least three non-empty `sections`. Keep `src/reference/data.js` as a thin derived compatibility facade for the temporary adapter; it must not duplicate the source records.
 
 - [ ] **Step 4: Implement selectors without mutation**
 
@@ -342,7 +342,7 @@ Run: `node --test test/portfolio-data.test.js test/selectors.test.js`
 Expected: all content and selector tests PASS.
 
 ```bash
-git add src/data src/jstn/data.js test/portfolio-data.test.js test/selectors.test.js test/jstn-data.test.js test/jstn-project-data.test.js
+git add src/data src/reference/data.js test/portfolio-data.test.js test/selectors.test.js test/reference-data.test.js test/reference-project-data.test.js
 git commit -m "feat: define personalized portfolio content"
 ```
 
@@ -425,7 +425,7 @@ export function uiReducer(state, action) {
 
 - [ ] **Step 4: Bundle and license the captured Geist fonts and brand mark**
 
-Use the in-app Browser `pageAssets` bundle operation for font asset IDs `35542ddb6cdf734e` and `f9db1d6f4f2eee77`. Copy the two WOFF2 files into the exact paths above, record their source URLs in `NOTICE.md`, and add the SIL Open Font License as `public/fonts/OFL.txt`. Copy `public/favicon/android-chrome-512x512.png` to `public/images/brand/clyde-mark.png`; do not use a JSTN logo asset.
+Use the in-app Browser `pageAssets` bundle operation for font asset IDs `35542ddb6cdf734e` and `f9db1d6f4f2eee77`. Copy the two WOFF2 files into the exact paths above, record their source URLs in `NOTICE.md`, and add the SIL Open Font License as `public/fonts/OFL.txt`. Copy `public/favicon/android-chrome-512x512.png` to `public/images/brand/clyde-mark.png`; do not use a Reference logo asset.
 
 - [ ] **Step 5: Build the shared shell**
 
@@ -465,7 +465,7 @@ Expected: state tests PASS and lint reports zero errors.
 
 ```bash
 git add src/app/uiState.js test/ui-state.test.js src/components/shell src/components/ui/Icon.jsx src/styles src/main.jsx public/fonts public/images/brand NOTICE.md
-git commit -m "feat: build JSTN-style portfolio shell"
+git commit -m "feat: build Reference-style portfolio shell"
 ```
 
 ### Task 4: Implement the Personal and Professional Home Views
@@ -496,7 +496,7 @@ test('Home registers both persisted views without a mode switch', () => {
   const source = read('src/pages/HomePage.jsx')
   assert.match(source, /personal/i)
   assert.match(source, /professional/i)
-  assert.doesNotMatch(source, /Original mode|JSTN mode|ModeSwitcher/)
+  assert.doesNotMatch(source, /Original mode|Reference mode|ModeSwitcher/)
 })
 ```
 
@@ -692,7 +692,7 @@ Expected: FAIL until the collection resources and selection behavior exist.
 
 - [ ] **Step 3: Build the full Collection header and control strip**
 
-Render the `Curated repositories and developer resources` hierarchy, truthful categories/resources/live-file counts, local-source notice, search field, and reset action. Do not call GitHub or the live JSTN API.
+Render the `Curated repositories and developer resources` hierarchy, truthful categories/resources/live-file counts, local-source notice, search field, and reset action. Do not call GitHub or the live Reference API.
 
 - [ ] **Step 4: Build Categories, Marketplace, and Detail columns**
 
@@ -846,7 +846,7 @@ git commit -m "feat: finish portfolio interactions and activity"
 - Modify: `test/runtime-contract.test.js`
 - Delete: `src/App.css`
 - Delete: `src/index.css`
-- Delete: all files under `src/jstn/`
+- Delete: all files under `src/reference/`
 - Delete: all files under `src/layouts/`
 - Delete: all files under `src/hooks/`
 - Delete: legacy files under `src/components/` listed in the File Map
@@ -868,15 +868,15 @@ const productionFiles = (directory) => readdirSync(directory).flatMap((name) => 
 const readProductionSources = () => productionFiles('src').map((path) => readFileSync(path, 'utf8')).join('\n')
 
 test('legacy mode, GSAP, Lenis, and analytics sources are absent', () => {
-  for (const path of ['src/modes', 'src/layouts', 'src/jstn', 'src/components/ModeSwitcher.jsx']) {
+  for (const path of ['src/modes', 'src/layouts', 'src/reference', 'src/components/ModeSwitcher.jsx']) {
     assert.equal(exists(path), false, `${path} must be removed`)
   }
   const production = readProductionSources()
-  assert.doesNotMatch(production, /\bgsap\b|\blenis\b|@vercel\/analytics|Original mode|JSTN mode/i)
+  assert.doesNotMatch(production, /\bgsap\b|\blenis\b|@vercel\/analytics|Original mode|Reference mode/i)
 })
 
 test('production media and fonts contain no remote hotlinks', () => {
-  assert.doesNotMatch(readProductionSources(), /raw\.githubusercontent\.com|pbs\.twimg\.com|media\.licdn\.com|jstn\.site\//i)
+  assert.doesNotMatch(readProductionSources(), /raw\.githubusercontent\.com|pbs\.twimg\.com|media\.licdn\.com|reference\.site\//i)
 })
 ```
 
@@ -901,7 +901,7 @@ Change document title, description, theme color, Open Graph copy, and canonical 
 Run:
 
 ```bash
-rg -n "ModeSwitcher|Original mode|JSTN mode|portfolio-mode|portfolio-jstn-path|gsap|lenis|@vercel/analytics" src package.json
+rg -n "ModeSwitcher|Original mode|Reference mode|portfolio-mode|portfolio-reference-path|gsap|lenis|@vercel/analytics" src package.json
 rg -n "https?://[^'\") ]+\.(png|jpe?g|webp|svg|woff2?)" src public index.html
 node --test test/runtime-contract.test.js
 npm run lint
@@ -978,17 +978,17 @@ git commit -m "test: audit portfolio routes and assets"
 ### Task 12: Complete Blocking In-App Browser Design QA
 
 **Files:**
-- Create: `docs/reference-captures/jstn/source-home-personal-desktop.png`
-- Create: `docs/reference-captures/jstn/source-home-professional-desktop.png`
-- Create: `docs/reference-captures/jstn/source-home-mobile.png`
-- Create: `docs/reference-captures/jstn/source-menu-mobile.png`
-- Create: `docs/reference-captures/jstn/source-about-desktop.png`
-- Create: `docs/reference-captures/jstn/source-projects-desktop.png`
-- Create: `docs/reference-captures/jstn/source-project-detail-desktop.png`
-- Create: `docs/reference-captures/jstn/source-experience-desktop.png`
-- Create: `docs/reference-captures/jstn/source-collection-desktop.png`
-- Create: `docs/reference-captures/jstn/source-blog-desktop.png`
-- Create: `docs/reference-captures/jstn/source-license-desktop.png`
+- Create: `docs/reference-captures/reference/source-home-personal-desktop.png`
+- Create: `docs/reference-captures/reference/source-home-professional-desktop.png`
+- Create: `docs/reference-captures/reference/source-home-mobile.png`
+- Create: `docs/reference-captures/reference/source-menu-mobile.png`
+- Create: `docs/reference-captures/reference/source-about-desktop.png`
+- Create: `docs/reference-captures/reference/source-projects-desktop.png`
+- Create: `docs/reference-captures/reference/source-project-detail-desktop.png`
+- Create: `docs/reference-captures/reference/source-experience-desktop.png`
+- Create: `docs/reference-captures/reference/source-collection-desktop.png`
+- Create: `docs/reference-captures/reference/source-blog-desktop.png`
+- Create: `docs/reference-captures/reference/source-license-desktop.png`
 - Create: `design-qa.md`
 - Modify: application files only to fix observed mismatches.
 
@@ -1059,8 +1059,8 @@ git status --short
 Expected: all gates exit 0; only known unrelated untracked/dirty files remain outside the committed implementation; `design-qa.md` has no open P0/P1/P2.
 
 ```bash
-git add docs/reference-captures/jstn design-qa.md
-git commit -m "test: complete JSTN portfolio design QA"
+git add docs/reference-captures/reference design-qa.md
+git commit -m "test: complete Reference portfolio design QA"
 ```
 
 ---

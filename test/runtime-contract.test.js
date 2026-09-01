@@ -85,14 +85,19 @@ test('Home keeps truthful tech icons and a cached, top-biased particle portrait'
   assert.match(portraitSource, /sourceY = \(source\.naturalHeight - sourceHeight\) \* 0\.08/)
 })
 
-test('Professional Home uses reusable mail, info, and location icons', () => {
+test('Professional Home uses reusable mail and info icons without exposing home location', () => {
   const homeSource = read('src/pages/HomePage.jsx')
   const iconSource = read('src/components/ui/Icon.jsx')
+  const documentSource = read('index.html')
 
-  for (const name of ['mail', 'info', 'mapPin']) {
+  for (const name of ['mail', 'info']) {
     assert.match(iconSource, new RegExp(`${name}: '/icons/`))
     assert.match(homeSource, new RegExp(`name="${name}"`))
   }
+  for (const source of [homeSource, read('src/pages/AboutPage.jsx'), read('src/components/shell/StatusBar.jsx')]) {
+    assert.doesNotMatch(source, /identity\.location|professional\.location|Based in/)
+  }
+  assert.doesNotMatch(documentSource, /based in Zamboanga City|Zamboanga City, Philippines/i)
 })
 
 test('Task 5 mobile action and index-card semantics use local schedule and share icons', () => {

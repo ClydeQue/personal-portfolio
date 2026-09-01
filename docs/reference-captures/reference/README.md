@@ -1,7 +1,7 @@
-# Live JSTN reference captures
+# Live reference captures
 
 Captured through the in-app Browser on 2026-08-31 from the rendered public
-`https://www.jstn.site` UI. These files are QA evidence, not production assets.
+public reference (see NOTICE.md) UI. These files are QA evidence, not production assets.
 No upstream GitHub application source was used for this capture set.
 
 Desktop CSS viewport: 1440 × 1000. Mobile CSS viewport: 390 × 844.

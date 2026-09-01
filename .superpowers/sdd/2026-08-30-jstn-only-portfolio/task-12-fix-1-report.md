@@ -32,7 +32,7 @@ All checks were run after the implementation change, before commit:
 - `npm run audit:build` — passed with no missing assets, forbidden URLs, unregistered links, or overflow-risk markers.
 - `git diff --check` — passed.
 
-No Browser work or final QA capture changes were made in this fix round. The existing untracked `docs/reference-captures/jstn` controller captures were preserved and are not part of this change.
+No Browser work or final QA capture changes were made in this fix round. The existing untracked `docs/reference-captures/reference` controller captures were preserved and are not part of this change.
 
 ## Remaining concern
 

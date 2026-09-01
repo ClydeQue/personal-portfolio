@@ -1,18 +1,18 @@
-# JSTN-Only Clyde Portfolio Design
+# Clyde Portfolio Design
 
 ## Status
 
 Approved in chat on 2026-08-30. Clyde confirmed permission to recreate the
-public `jstn.site` interface and approved a faithful Clyde-personalized design.
+public `reference site` interface and approved a faithful Clyde-personalized design.
 The live website is the sole visual and interaction authority. The upstream
 GitHub implementation is not a design reference.
 
 ## Goal
 
 Replace the current dual-mode React/Vite portfolio with one public portfolio
-that matches the live JSTN experience at high visual fidelity while presenting
+that matches the live Reference experience at high visual fidelity while presenting
 only truthful Clyde content. The finished site has no legacy Original/GSAP
-experience and no Original/JSTN mode switch. The reference site's
+experience and no Original/Reference mode switch. The reference site's
 Personal/Professional switch remains because it changes the content view inside
 the single approved portfolio.
 
@@ -142,7 +142,7 @@ indicator, and primary action. Although the source markup includes a sticky
 class, the captured live runtime scrolls both the status strip and navigation
 away with the document. The local implementation follows that observed behavior
 and does not pin either row to the viewport.
-The brand becomes a local Clyde mark and wordmark. It must not reuse the JSTN
+The brand becomes a local Clyde mark and wordmark. It must not reuse the Reference
 identity. The desktop header exposes About, Projects, Experience, and Collection.
 Writing remains discoverable from Experience/About and the footer, matching the
 reference information architecture.
@@ -158,7 +158,7 @@ The switch changes the Home content and persists under a new `portfolio-view`
 key. It remains available in shared navigation like the live reference. When
 selected from another page, it navigates to Home with the selected view; when
 already on Home, it changes the view without changing the route. It is unrelated
-to the removed Original/JSTN implementation switch.
+to the removed Original/Reference implementation switch.
 
 Reference correction (2026-09-01): a live Browser check of Professional from
 `/projects` navigated to `/` and rendered the professional profile. This
@@ -188,7 +188,7 @@ must not hotlink or reuse Justine's avatar model.
 ### Footer and scroll control
 
 The footer matches the source's logo/resources/social grouping and small legal
-row. It links to the local license page and identifies the public JSTN reference
+row. It links to the local license page and identifies the public reference
 and GPL-derived history. A fixed dark circular back-to-top control appears after
 meaningful scroll. It is approximately 42-44px on desktop, meets the 44px minimum
 touch target, scrolls smoothly when motion is allowed, and jumps immediately
@@ -338,7 +338,7 @@ not available, create one through the approved image-generation workflow rather
 than drawing a temporary CSS or handmade SVG substitute. Icons come from the
 closest matching open-source icon set and are bundled locally.
 
-No `raw.githubusercontent.com`, `pbs.twimg.com`, `media.licdn.com`, JSTN asset
+No `raw.githubusercontent.com`, `pbs.twimg.com`, `media.licdn.com`, Reference asset
 path, or other remote image/font URL may appear in production source.
 
 ## Motion and interaction behavior
@@ -400,7 +400,7 @@ and notice are retained unless replaced by a verified local asset.
 - unknown-route behavior
 - immutable content records and stable slugs
 - truthful employer periods and project metadata
-- no obsolete Original/JSTN storage or route contracts
+- no obsolete Original/Reference storage or route contracts
 - no hotlinked image, font, logo, or icon assets
 
 ### Runtime browser checks
@@ -447,7 +447,7 @@ prototype capture, or combined comparison evidence produces
 
 The work is complete only when:
 
-1. The legacy GSAP/Original experience and Original/JSTN switch are absent from
+1. The legacy GSAP/Original experience and Original/Reference switch are absent from
    runtime and source.
 2. Every route and key state in this specification works with Clyde content.
 3. The Personal/Professional switch behaves like the live reference.

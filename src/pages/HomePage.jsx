@@ -4,6 +4,7 @@ import { navigate } from '../app/router.js'
 import ActivityHeatmap from '../components/ui/ActivityHeatmap.jsx'
 import ImageWithFallback from '../components/ui/ImageWithFallback.jsx'
 import ParticlePortrait from '../components/ui/ParticlePortrait.jsx'
+import SplitFlapName from '../components/ui/SplitFlapName.jsx'
 import ProjectCard from '../components/ui/ProjectCard.jsx'
 import Icon from '../components/ui/Icon.jsx'
 
@@ -11,9 +12,10 @@ const portraitSources = ['/images/me.webp', '/images/me.png']
 const iconFor = { React: 'react', TypeScript: 'typescript', JavaScript: 'javascript', HTML: 'html', CSS: 'css', 'Tailwind CSS': 'tailwind', MUI: 'mui', 'Node.js': 'nodejs', Express: 'express', PostgreSQL: 'postgre', Supabase: 'supabase', Figma: 'figma', Git: 'git', Docker: 'docker', Cloudflare: 'cloudflare', OpenAI: 'openai' }
 
 function TechList({ compact = false }) {
+  const groups = compact ? portfolio.home.professional.techGroups : portfolio.home.personal.techGroups
   return (
     <div className={compact ? 'tech-list tech-list--compact' : 'tech-list'}>
-      {portfolio.home.personal.techGroups.map((group) => <section key={group.title}>
+      {groups.map((group) => <section key={group.title}>
         <h3>{group.title}</h3>
         <div>{group.items.map((item) => {
           if (compact) return <span key={item}>{item}</span>
@@ -32,7 +34,7 @@ function PersonalHome() {
     <section className="home-hero" aria-labelledby="personal-home-title">
       <ParticlePortrait alt={portfolio.identity.name} />
       <div className="home-hero__copy">
-        <h1 id="personal-home-title"><span>{portfolio.home.personal.greeting}</span><b aria-label={portfolio.home.personal.displayName}>{[...portfolio.home.personal.displayName].map((letter, index) => <i key={`${letter}-${index}`} aria-hidden="true">{letter}</i>)}</b></h1>
+        <h1 id="personal-home-title"><span>{portfolio.home.personal.greeting}</span><SplitFlapName name={portfolio.home.personal.displayName} /></h1>
         <p>{portfolio.home.personal.statement}</p>
       </div>
       <section className="home-associations" aria-label="Associated organizations">
@@ -81,7 +83,7 @@ function ProfessionalHome() {
       <div className="professional-profile">
         <div className="professional-profile__intro">
           <ImageWithFallback sources={portraitSources} alt={portfolio.identity.name} />
-          <div className="professional-profile__identity"><h1 id="professional-home-title"><span>{portfolio.home.professional.title}</span><i aria-label="Verified local portfolio identity">✓</i></h1><p><Icon name="mapPin" size={15} />{portfolio.home.professional.location}</p><strong>{portfolio.identity.role}</strong></div>
+          <div className="professional-profile__identity"><h1 id="professional-home-title"><span>{portfolio.home.professional.title}</span><i aria-label="Verified local portfolio identity">✓</i></h1><strong>{portfolio.identity.role}</strong></div>
         </div>
         <div className="professional-profile__actions"><a href={portfolio.socials.github} aria-label="GitHub"><Icon name="github" /></a><a href={portfolio.socials.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a><a href={portfolio.socials.email} aria-label="Email"><Icon name="mail" /></a></div>
         <div className="professional-profile__cta"><a href={`${portfolio.socials.email}?subject=Portfolio%20call%20request`}>Schedule a Call</a><button type="button" onClick={() => navigate('/experience')}>Experience</button></div>

@@ -10,7 +10,7 @@ function AboutPage() {
       <aside className="about-page__aside" aria-label="About page metadata and writing">
         <div>
           <p className="page-kicker">Builder note</p>
-          <p>Based in {portfolio.identity.location}.</p>
+          <p>Full-stack engineering, product systems, and AI-assisted delivery.</p>
           <p className="about-page__aside-note">A working map of how I learn, build, and move through technical work.</p>
         </div>
         <div className="about-page__writing">
