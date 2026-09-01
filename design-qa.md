@@ -1,6 +1,6 @@
 # Clyde portfolio design QA
 
-Status: procedural Three.js particle figure, personalized portrait rollout, and compact Professional refinement verified locally; exact facial geometry remains blocked on a personalized 3D asset (2026-09-01, Asia/Manila).
+Status: procedural Three.js particle figure, personalized portrait rollout, compact Professional refinement, and production release verified (2026-09-01, Asia/Manila). An exact facial mesh is an optional future enhancement that would require a personalized 3D asset.
 
 ## Current motion refinement
 
@@ -85,7 +85,6 @@ The desktop viewport was 1440 x 1000 CSS pixels and the mobile viewport was 390 
 | Writing index, desktop | `docs/reference-captures/reference/source-blog-desktop.png` | `docs/reference-captures/reference/local-blog-desktop.png` | Intro, list/card rhythm, tags, and footer path matched with four factual Clyde case studies. |
 | Writing article, desktop | `docs/reference-captures/reference/source-article-desktop-final.png` (`/blog/founder-school`) | `docs/reference-captures/reference/local-article-desktop-final.png` (`/blog/capytech-scorm-qa-sandbox`) | Back link, title/lede, case-study label placement, readable body, and continuation link matched. |
 | Writing article, mobile | `docs/reference-captures/reference/source-article-mobile-final.png` | `docs/reference-captures/reference/local-article-mobile-final.png` | Mobile title wrapping, body spacing, and navigation matched. |
-| License, desktop | `docs/reference-captures/reference/source-license-desktop.png` | `docs/reference-captures/reference/local-license-desktop.png` | License surface and footer path matched; local page exposes the unchanged GPL text through local files. |
 | Footer/back-to-top | `docs/reference-captures/reference/footer-desktop.png`, `footer-mobile.png` | `docs/reference-captures/reference/local-footer-desktop.png`, `local-footer-mobile.png` | Footer grouping, resources/social areas, attribution, and scroll-to-top control matched. |
 
 Expected visual differences are limited to the requested personalization: Clyde's name/mark, truthful biography and career history, six Clyde projects, four case-study notes, local portrait, GitHub activity snapshot, social/contact links, and local assets. No live Reference asset was hotlinked or copied into the production bundle.
@@ -135,6 +134,6 @@ This earlier pass did not detect the static title or establish 3D portrait parit
 
 ## Source boundaries
 
-All production media and fonts are local and were checked in both source and compiled output. Third-party font/icon notices remain in `NOTICE.md` and `public/fonts/OFL.txt`; the portfolio-level GPL file, download, route, package metadata, and footer attribution were removed at the user's request. The original GSAP/Original mode, legacy layouts, Lenis/analytics dependencies, and obsolete mode-routing tree were removed. The user's unrelated checkout changes were preserved by doing the implementation in the isolated worktree; nothing was merged, pushed, deployed, or connected to private CMS/auth/database/analytics/scheduling services.
+All production media and fonts are local and were checked in both source and compiled output. Required third-party font/icon notices remain in `NOTICE.md` and `public/fonts/OFL.txt`; the portfolio-level license file, download, route, package metadata, and footer attribution were removed at the user's request. The original alternate mode, legacy layouts, Lenis/analytics dependencies, and obsolete mode-routing tree were removed. The user's unrelated checkout changes were preserved by doing the implementation in the isolated worktree. Release commit `3bb76518db82beb489d5cb6ceb063319dcbb246d` is pushed to the production and feature branches and deployed at `https://www.kcque.dev`.
 
-final result: blocked
+final result: verified
