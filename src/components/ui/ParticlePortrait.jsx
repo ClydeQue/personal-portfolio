@@ -1,15 +1,51 @@
 import { useEffect, useRef, useState } from 'react'
-import { particlePointerOffset } from '../../app/interaction.js'
+import * as THREE from 'three'
 import ImageWithFallback from './ImageWithFallback.jsx'
-import { portraitSampleKey, shouldRefreshPortraitSample } from './portraitSampleCache.js'
-import { createPortraitParticles, createPortraitProjection, projectPortraitParticle, smoothPortraitPose } from './portraitParticles.js'
+import { createProceduralPortrait, portraitFrameEnabled, portraitPose } from './proceduralPortrait.js'
 
-const PORTRAIT_SOURCES = ['/images/me.webp', '/images/me.png']
+const PORTRAIT_SOURCES = ['/images/profme.webp', '/images/profme.png']
+
+const vertexShader = `
+  attribute float aRandom;
+  uniform float uTime;
+  uniform float uActive;
+  uniform float uPixelRatio;
+  uniform vec2 uPointer;
+  varying float vGlow;
+
+  void main() {
+    vec3 transformed = position;
+    float shimmer = sin(uTime * 0.0014 + aRandom * 18.0) * 0.012;
+    transformed.z += shimmer;
+
+    float distanceToPointer = distance(transformed.xy, uPointer);
+    float influence = smoothstep(0.82, 0.0, distanceToPointer) * uActive;
+    vec2 direction = normalize(transformed.xy - uPointer + vec2(0.001));
+    transformed.xy += direction * influence * (0.08 + aRandom * 0.1);
+    transformed.z += influence * (0.14 + aRandom * 0.18);
+
+    vec4 viewPosition = modelViewMatrix * vec4(transformed, 1.0);
+    gl_Position = projectionMatrix * viewPosition;
+    gl_PointSize = (1.25 + aRandom * 1.45 + influence * 1.1) * uPixelRatio * (5.2 / -viewPosition.z);
+    vGlow = 0.56 + aRandom * 0.44 + influence * 0.38;
+  }
+`
+
+const fragmentShader = `
+  varying float vGlow;
+
+  void main() {
+    float distanceToCenter = distance(gl_PointCoord, vec2(0.5));
+    if (distanceToCenter > 0.5) discard;
+    float edge = smoothstep(0.5, 0.08, distanceToCenter);
+    vec3 blue = mix(vec3(0.36, 0.58, 1.0), vec3(0.86, 0.93, 1.0), vGlow);
+    gl_FragColor = vec4(blue, edge * min(vGlow, 1.0));
+  }
+`
 
 function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
   const canvasRef = useRef(null)
   const frameRef = useRef(null)
-  const samplePixelsRef = useRef(null)
   const pointerRef = useRef({ active: false, x: 0, y: 0 })
   const [isReady, setIsReady] = useState(false)
 
@@ -17,179 +53,124 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
     const canvas = canvasRef.current
     if (!canvas) return undefined
 
-    const context = canvas.getContext('2d')
-    if (!context) return undefined
-
-    const source = new Image()
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(34, 1, .1, 20)
+    const group = new THREE.Group()
+    const { positions, randomness } = createProceduralPortrait({ pointBudget: 22000 })
+    const geometry = new THREE.BufferGeometry()
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    geometry.setAttribute('aRandom', new THREE.BufferAttribute(randomness, 1))
+    geometry.computeBoundingSphere()
 
-    let cancelled = false
+    const material = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      uniforms: {
+        uTime: { value: 0 },
+        uActive: { value: 0 },
+        uPixelRatio: { value: 1 },
+        uPointer: { value: new THREE.Vector2(0, 0) },
+      },
+    })
+    const points = new THREE.Points(geometry, material)
+    group.add(points)
+    scene.add(group)
+    camera.position.set(0, -.08, 5.25)
+
+    let renderer
     let failed = false
-    let loaded = false
     let inViewport = true
-    let ready = false
-    let lastTime = null
-    let pose = { x: 0, y: 0, active: 0 }
+    let disposed = false
     let bounds = canvas.getBoundingClientRect()
+    let currentYaw = 0
+    let currentPitch = 0
+    let lastPaint = 0
+    let ready = false
+    const pointerTarget = new THREE.Vector2()
 
-    const prepareSamples = (bounds) => {
-      if (samplePixelsRef.current && !shouldRefreshPortraitSample(samplePixelsRef.current.cacheKey, bounds)) return samplePixelsRef.current
+    const enabled = () => portraitFrameEnabled({
+      reducedMotion: reducedMotion.matches,
+      hidden: document.hidden,
+      inViewport,
+      failed,
+    })
 
-      const sampleCanvas = document.createElement('canvas')
-      // Fixed work budget, including unusually tall layouts: at most 102,400 samples.
-      const sampleWidth = Math.max(1, Math.round(320 * Math.min(1, bounds.width / bounds.height)))
-      const sampleHeight = Math.max(1, Math.round(sampleWidth * (bounds.height / bounds.width)))
-      sampleCanvas.width = sampleWidth
-      sampleCanvas.height = sampleHeight
-
-      const sampleContext = sampleCanvas.getContext('2d', { willReadFrequently: true })
-      if (!sampleContext) throw new Error('Portrait sampling unavailable')
-      const sourceRatio = source.naturalWidth / source.naturalHeight
-      const sampleRatio = sampleWidth / sampleHeight
-      const sourceWidth = sourceRatio > sampleRatio ? source.naturalHeight * sampleRatio : source.naturalWidth
-      const sourceHeight = sourceRatio > sampleRatio ? source.naturalHeight : source.naturalWidth / sampleRatio
-      const sourceX = (source.naturalWidth - sourceWidth) / 2
-      const sourceY = (source.naturalHeight - sourceHeight) * 0.08
-
-      sampleContext.drawImage(source, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, sampleWidth, sampleHeight)
-      samplePixelsRef.current = {
-        particles: createPortraitParticles(sampleContext.getImageData(0, 0, sampleWidth, sampleHeight).data, sampleWidth, sampleHeight),
-        sampleWidth,
-        sampleHeight,
-        cacheKey: portraitSampleKey(bounds),
-      }
-      return samplePixelsRef.current
+    const resize = () => {
+      bounds = canvas.getBoundingClientRect()
+      if (!renderer || !bounds.width || !bounds.height) return
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
+      renderer.setPixelRatio(pixelRatio)
+      renderer.setSize(bounds.width, bounds.height, false)
+      camera.aspect = bounds.width / bounds.height
+      camera.updateProjectionMatrix()
+      material.uniforms.uPixelRatio.value = pixelRatio
     }
 
     const stop = () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
       frameRef.current = null
-      lastTime = null
     }
 
-    const showFallback = () => {
-      stop()
-      context.clearRect(0, 0, bounds.width, bounds.height)
-      setIsReady(false)
-    }
-
-    const draw = (time) => {
+    const render = (time) => {
       frameRef.current = null
-      if (cancelled || failed || !loaded || reducedMotion.matches || document.hidden || !inViewport || !bounds.width || !bounds.height) return
+      if (!enabled() || !renderer || disposed) return
 
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
-      const width = Math.round(bounds.width * pixelRatio)
-      const height = Math.round(bounds.height * pixelRatio)
-      if (canvas.width !== width) canvas.width = width
-      if (canvas.height !== height) canvas.height = height
-      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0)
-
-      let sample
-      try {
-        sample = prepareSamples(bounds)
-      } catch {
-        failed = true
-        showFallback()
+      const interactive = pointerRef.current.active
+      if (!interactive && time - lastPaint < 32) {
+        frameRef.current = requestAnimationFrame(render)
         return
       }
+      lastPaint = time
 
-      context.fillStyle = '#27323b'
-      context.fillRect(0, 0, bounds.width, bounds.height)
-
-      for (let y = 18; y < bounds.height; y += 37) {
-        for (let x = 18; x < bounds.width; x += 37) {
-          context.fillStyle = 'rgb(167 184 221 / 34%)'
-          context.fillRect(x, y, 2, 2)
-        }
+      const target = portraitPose({ time, pointer: pointerRef.current })
+      currentYaw += (target.yaw - currentYaw) * .075
+      currentPitch += (target.pitch - currentPitch) * .075
+      group.rotation.y = currentYaw
+      group.rotation.x = currentPitch
+      group.position.y = -.05 + Math.sin(time * .0008) * .015
+      material.uniforms.uTime.value = time
+      material.uniforms.uActive.value += ((interactive ? 1 : 0) - material.uniforms.uActive.value) * .11
+      pointerTarget.set(pointerRef.current.x * 1.48, -pointerRef.current.y * 1.88 - .05)
+      material.uniforms.uPointer.value.lerp(pointerTarget, .14)
+      renderer.render(scene, camera)
+      if (!ready) {
+        ready = true
+        setIsReady(true)
       }
-
-      const pointerOffset = particlePointerOffset(pointerRef.current, bounds)
-      const target = { x: pointerOffset.x / 18, y: pointerOffset.y / 14, active: pointerRef.current.active ? 1 : 0 }
-      pose = smoothPortraitPose(pose, target, lastTime === null ? 16 : time - lastTime)
-      lastTime = time
-      const projection = createPortraitProjection(pose, bounds)
-      const step = bounds.width / sample.sampleWidth
-      context.globalCompositeOperation = 'lighter'
-
-      for (const particle of sample.particles) {
-        const { x, y } = projectPortraitParticle(particle, pose, bounds, false, projection)
-        const size = Math.min(2, step * particle.size)
-        // A restrained blue halo plus a crisp white-blue core retains point texture.
-        context.fillStyle = 'rgba(63, 103, 255, 0.055)'
-        context.fillRect(x - size, y - size, size * 2, size * 2)
-        context.fillStyle = particle.color
-        context.fillRect(x - size / 2, y - size / 2, size, size)
-      }
-
-      context.globalCompositeOperation = 'source-over'
-      if (!ready) { ready = true; setIsReady(true) }
-      // Redraw only until the pointer target is reached. A resting canvas costs no frames.
-      if (pose.x !== target.x || pose.y !== target.y || pose.active !== target.active) {
-        frameRef.current = requestAnimationFrame(draw)
-      } else lastTime = null
+      frameRef.current = requestAnimationFrame(render)
     }
 
     const start = () => {
-      if (cancelled || failed || !loaded || reducedMotion.matches || document.hidden || !inViewport || frameRef.current !== null) return
-      frameRef.current = requestAnimationFrame(draw)
-    }
-
-    const onVisibility = () => {
-      if (document.hidden) {
-        stop()
-        pointerRef.current = { active: false, x: 0, y: 0 }
-        return
+      if (frameRef.current === null && enabled() && renderer && !disposed) {
+        frameRef.current = requestAnimationFrame(render)
       }
-
-      start()
     }
 
-    const onMotionChange = () => {
-      pose = { x: 0, y: 0, active: 0 }
-      pointerRef.current = { active: false, x: 0, y: 0 }
-      if (reducedMotion.matches) showFallback()
-      else start()
-      ready = false
-    }
-
-    const resizeObserver = new ResizeObserver(() => {
-      bounds = canvas.getBoundingClientRect()
-      stop()
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance',
+      })
+      renderer.setClearColor(0x27323b, 1)
+      resize()
       start()
-    })
-    const intersectionObserver = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(([entry]) => {
-      inViewport = entry.isIntersecting
-      if (inViewport) start()
-      else {
-        stop()
-        pointerRef.current = { active: false, x: 0, y: 0 }
-      }
-    })
-    intersectionObserver?.observe(canvas)
-
-    source.onload = () => {
-      if (cancelled) return
-      loaded = true
-      samplePixelsRef.current = null
-      start()
-    }
-    source.onerror = () => {
-      if (cancelled) return
+    } catch {
       failed = true
-      showFallback()
     }
-    source.src = PORTRAIT_SOURCES[0]
 
-    resizeObserver.observe(canvas)
-    document.addEventListener('visibilitychange', onVisibility)
-    reducedMotion.addEventListener('change', onMotionChange)
     const onPointerMove = (event) => {
       if (reducedMotion.matches) return
-      const bounds = canvas.getBoundingClientRect()
+      const rect = canvas.getBoundingClientRect()
       pointerRef.current = {
         active: true,
-        x: event.clientX - bounds.left,
-        y: event.clientY - bounds.top,
+        x: ((event.clientX - rect.left) / rect.width) * 2 - 1,
+        y: ((event.clientY - rect.top) / rect.height) * 2 - 1,
       }
       start()
     }
@@ -197,16 +178,34 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       pointerRef.current = { active: false, x: 0, y: 0 }
       start()
     }
+    const onVisibility = () => document.hidden ? stop() : start()
+    const onMotionChange = () => {
+      pointerRef.current = { active: false, x: 0, y: 0 }
+      if (reducedMotion.matches) {
+        stop()
+        ready = false
+        setIsReady(false)
+      } else start()
+    }
+
+    const resizeObserver = new ResizeObserver(resize)
+    const intersectionObserver = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(([entry]) => {
+      inViewport = entry.isIntersecting
+      if (inViewport) start()
+      else stop()
+    })
+
+    resizeObserver.observe(canvas)
+    intersectionObserver?.observe(canvas)
+    document.addEventListener('visibilitychange', onVisibility)
+    reducedMotion.addEventListener('change', onMotionChange)
     canvas.addEventListener('pointermove', onPointerMove, { passive: true })
     canvas.addEventListener('pointerleave', onPointerLeave)
     canvas.addEventListener('pointercancel', onPointerLeave)
 
     return () => {
-      cancelled = true
+      disposed = true
       stop()
-      source.onload = null
-      source.onerror = null
-      samplePixelsRef.current = null
       resizeObserver.disconnect()
       intersectionObserver?.disconnect()
       document.removeEventListener('visibilitychange', onVisibility)
@@ -214,6 +213,9 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       canvas.removeEventListener('pointermove', onPointerMove)
       canvas.removeEventListener('pointerleave', onPointerLeave)
       canvas.removeEventListener('pointercancel', onPointerLeave)
+      geometry.dispose()
+      material.dispose()
+      renderer?.dispose()
     }
   }, [])
 

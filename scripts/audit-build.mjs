@@ -6,7 +6,7 @@ import { portfolio as productionPortfolio } from '../src/data/portfolio.js'
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 const defaultRoot = resolve(scriptDirectory, '..')
-const assetPrefixes = Object.freeze(['/images/', '/fonts/', '/icons/', '/favicon/', '/portfolio/', '/techstack/', '/LICENSE.txt'])
+const assetPrefixes = Object.freeze(['/images/', '/fonts/', '/icons/', '/favicon/', '/portfolio/', '/techstack/'])
 const mediaField = /(?:image|media|portrait|cover|gallery|asset|thumbnail|avatar|brandmark|icon|fallback)/i
 const linkField = /(?:path|route|destination|href|url)$/i
 const publicStaticExtension = /\.(?:avif|gif|ico|jpe?g|pdf|png|svg|txt|webmanifest|webp|woff2?|ttf|otf)$/i
@@ -108,7 +108,7 @@ function collectBoundMediaMapReferences(text, report) {
 }
 
 function collectStaticReferences(text, report) {
-  const assetPattern = /['"`]((?:\/images|\/fonts|\/icons|\/favicon|\/portfolio|\/techstack)(?:\/[^'"`\s)]+)?|\/LICENSE\.txt)(?:[?#][^'"`\s)]*)?['"`]/g
+  const assetPattern = /['"`]((?:\/images|\/fonts|\/icons|\/favicon|\/portfolio|\/techstack)(?:\/[^'"`\s)]+)?)(?:[?#][^'"`\s)]*)?['"`]/g
   for (const match of text.matchAll(assetPattern)) {
     if (!match[1].includes('${')) report.assetReferences.push(stripSearchAndHash(match[1]))
   }

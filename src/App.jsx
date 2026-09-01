@@ -10,7 +10,6 @@ import ExperiencePage from './pages/ExperiencePage.jsx'
 import CollectionPage from './pages/CollectionPage.jsx'
 import BlogPage from './pages/BlogPage.jsx'
 import BlogDetailPage from './pages/BlogDetailPage.jsx'
-import LicensePage from './pages/LicensePage.jsx'
 import NotFoundPage from './pages/NotFoundPage.jsx'
 
 function App() {
@@ -35,7 +34,6 @@ function App() {
   if (route.name === 'collection') page = <CollectionPage />
   if (route.name === 'blog') page = <BlogPage />
   if (route.name === 'blogDetail') page = <BlogDetailPage slug={route.params.slug} />
-  if (route.name === 'license') page = <LicensePage />
   if (route.name === 'notFound') page = <NotFoundPage path={route.path} />
 
   if (page) {

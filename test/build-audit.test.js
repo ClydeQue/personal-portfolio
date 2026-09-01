@@ -26,7 +26,6 @@ const fixtureRouteTable = Object.freeze([
   { name: 'home', pattern: '/' },
   { name: 'projectDetail', pattern: '/projects/:slug' },
   { name: 'blogDetail', pattern: '/blog/:slug' },
-  { name: 'license', pattern: '/license' },
 ])
 
 const fixturePortfolio = (overrides = {}) => ({
@@ -34,7 +33,6 @@ const fixturePortfolio = (overrides = {}) => ({
   projects: [{ slug: 'present-project', cover: '/images/present.webp', gallery: ['/images/present.webp'] }],
   posts: [{ slug: 'present-post', cover: '/images/present.webp' }],
   navigation: [{ path: '/projects/present-project' }],
-  license: { route: '/license' },
   ...overrides,
 })
 
@@ -91,7 +89,7 @@ test('build audit preserves media field meaning for gallery and fallback array m
 test('build audit rejects source and compiled media hotlinks while preserving ordinary external links', async (t) => {
   const root = createFixture()
   t.after(() => rmSync(root, { recursive: true, force: true }))
-  writeFileSync(join(root, 'src', 'Media.jsx'), "export const source = <img src={'https://cdn.example/source.webp'} />; export const links = <a href=\"https://www.gnu.org/licenses/gpl-3.0.html\">License</a>; const icons = { hero: '//cdn.example/source-icon.svg' }")
+  writeFileSync(join(root, 'src', 'Media.jsx'), "export const source = <img src={'https://cdn.example/source.webp'} />; export const links = <a href=\"https://example.com/docs\">Documentation</a>; const icons = { hero: '//cdn.example/source-icon.svg' }")
   writeFileSync(join(root, 'dist', 'assets', 'media.js'), "jsx('img',{src:'//cdn.example/built.webp'}); const icons = { hero: 'https://cdn.example/built-icon.svg' }")
 
   const report = await auditBuild({ root, dist: 'dist', routeTable: fixtureRouteTable, portfolio: fixturePortfolio() })
@@ -102,18 +100,18 @@ test('build audit rejects source and compiled media hotlinks while preserving or
     'https://cdn.example/built-icon.svg',
     'https://cdn.example/source.webp',
   ])
-  assert.ok(report.checkedLinks.includes('https://www.gnu.org/licenses/gpl-3.0.html'))
+  assert.ok(report.checkedLinks.includes('https://example.com/docs'))
 })
 
 test('build audit detects a minified media map only when its renamed binding feeds src', async (t) => {
   const root = createFixture()
   t.after(() => rmSync(root, { recursive: true, force: true }))
-  writeFileSync(join(root, 'dist', 'assets', 'minified.js'), 'const n=Object.freeze({hero:"https://cdn.example/unapproved.svg"});jsx("img",{src:n[e]});const l={legal:"https://www.gnu.org/licenses/gpl-3.0.html"};jsx("a",{href:l.legal})')
+  writeFileSync(join(root, 'dist', 'assets', 'minified.js'), 'const n=Object.freeze({hero:"https://cdn.example/unapproved.svg"});jsx("img",{src:n[e]});const l={docs:"https://example.com/docs"};jsx("a",{href:l.docs})')
 
   const report = await auditBuild({ root, dist: 'dist', routeTable: fixtureRouteTable, portfolio: fixturePortfolio() })
 
   assert.deepEqual(report.forbiddenUrls, ['https://cdn.example/unapproved.svg'])
-  assert.equal(report.forbiddenUrls.includes('https://www.gnu.org/licenses/gpl-3.0.html'), false)
+  assert.equal(report.forbiddenUrls.includes('https://example.com/docs'), false)
 })
 
 test('build audit validates every local static href in public and dist', async (t) => {
@@ -155,7 +153,7 @@ test('build audit resolves dynamic tech-stack icon fields across split source an
   assert.ok(report.checkedAssets.includes('/techstack/react.svg'))
 })
 
-test('build audit accepts registered slugs, local legal files, hash, mailto, and SVG icon paths', async (t) => {
+test('build audit accepts registered slugs, hash, mailto, and SVG icon paths', async (t) => {
   const root = createFixture()
   t.after(() => rmSync(root, { recursive: true, force: true }))
   mkdirSync(join(root, 'public', 'icons'), { recursive: true })
@@ -164,11 +162,9 @@ test('build audit accepts registered slugs, local legal files, hash, mailto, and
   mkdirSync(join(root, 'dist', 'techstack'), { recursive: true })
   writeFileSync(join(root, 'public', 'icons', 'github.svg'), '<svg/>')
   writeFileSync(join(root, 'public', 'techstack', 'react.svg'), '<svg/>')
-  writeFileSync(join(root, 'public', 'LICENSE.txt'), 'license')
   writeFileSync(join(root, 'dist', 'icons', 'github.svg'), '<svg/>')
   writeFileSync(join(root, 'dist', 'techstack', 'react.svg'), '<svg/>')
-  writeFileSync(join(root, 'dist', 'LICENSE.txt'), 'license')
-  writeFileSync(join(root, 'src', 'Icon.jsx'), "const iconFor = { React: 'react' }; export const icon = '/icons/github.svg'; export const tech = `/techstack/${iconFor.React}.svg`; export const legal = '/LICENSE.txt'")
+  writeFileSync(join(root, 'src', 'Icon.jsx'), "const iconFor = { React: 'react' }; export const icon = '/icons/github.svg'; export const tech = `/techstack/${iconFor.React}.svg`")
 
   const report = await auditBuild({
     root,
@@ -178,7 +174,6 @@ test('build audit accepts registered slugs, local legal files, hash, mailto, and
       navigation: [
         { path: '/projects/present-project' },
         { path: '/blog/present-post' },
-        { path: '/LICENSE.txt' },
         { path: 'mailto:hello@example.com' },
         { path: '#footer' },
       ],

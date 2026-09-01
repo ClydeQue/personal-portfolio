@@ -57,7 +57,33 @@ test('tech stack reflects project, GitHub, cloud, AI, and editor evidence withou
   assert.ok(groups.get('Services & application architecture').includes('Microservices'))
   assert.ok(groups.get('Services & application architecture').includes('Microfrontends'))
   assert.equal(portfolio.identity.location, undefined)
-  assert.match(portfolio.home.personal.description.join(' '), /microservices and microfrontends/i)
+  const descriptionCopy = portfolio.home.personal.description
+    .flatMap(({ segments }) => segments.map(({ text }) => text))
+    .join(' ')
+  assert.match(descriptionCopy, /microservices and microfrontends/i)
+})
+
+test('home associations render as meaningful local organization marks', () => {
+  assert.deepEqual(portfolio.home.personal.associations.map(({ name }) => name), [
+    'Ngnair Brice Holding',
+    'Ateneo de Zamboanga University',
+    'Capytech E-Learning Solutions',
+  ])
+  for (const association of portfolio.home.personal.associations) {
+    assert.match(association.logo, /^\/images\/(?:associations\/[a-z0-9-]+\.svg|adzu_logo\.png)$/)
+    assert.equal(association.alt, association.name)
+  }
+})
+
+test('home and professional descriptions expose accessible emphasized phrases', () => {
+  for (const paragraphs of [portfolio.home.personal.description, portfolio.home.professional.about]) {
+    assert.ok(paragraphs.length >= 2)
+    for (const paragraph of paragraphs) {
+      assert.ok(paragraph.segments.length >= 2)
+      assert.ok(paragraph.segments.every(({ text }) => typeof text === 'string' && text.length > 0))
+    }
+    assert.ok(paragraphs.flatMap(({ segments }) => segments).some(({ emphasis }) => emphasis === true))
+  }
 })
 
 test('all production media references are local', () => {

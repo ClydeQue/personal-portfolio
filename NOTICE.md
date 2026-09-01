@@ -1,10 +1,4 @@
-# Portfolio notice
-
-This entire current interface is a modified GPL-3.0-only portfolio study based
-on the public visual experience of [jstn.site](https://www.jstn.site/). The
-study is distributed under the GNU General Public License, version 3.0 only.
-See `LICENSE` for the complete license text and retain this notice in
-redistributed modified versions.
+# Third-party notices
 
 ## Clyde’s original content and assets
 

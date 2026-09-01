@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "targets": {
+    "/:professional": {
+      "targetKind": "existing-ui",
+      "projectId": "a57130eb-aeb4-4a7e-9ac1-dece25091e84",
+      "activeDraftId": "4efd9bd8-23c7-47a7-93d4-317bf1bf742b",
+      "designSystemPath": ".superdesign/init/theme.md",
+      "contextFiles": [
+        ".superdesign/init/theme.md",
+        "src/pages/HomePage.jsx",
+        "src/styles/pages.css",
+        "src/data/portfolio.js"
+      ],
+      "fingerprints": {
+        ".superdesign/init/theme.md": "759738d223cc2a741b8717bc4cb5abb9a32f712f3da4b4d2453a9de2e17728a1",
+        "src/pages/HomePage.jsx": "0f96fd2d3838fa9451ea3269ff2eff7a113c383a656c2352ea2751d048cb2397",
+        "src/styles/pages.css": "24728f40902a31b02d66234a573c80bbfbe438f7ae39eef4ccd7fe982793d56f",
+        "src/data/portfolio.js": "f6e58b63b169c3124854f0150b88b5dc64317b9e89f649924e1ad1b5d587cf2c"
+      },
+      "drafts": {
+        "4efd9bd8-23c7-47a7-93d4-317bf1bf742b": {
+          "title": "Professional Home Compact Refinement",
+          "visualDirection": "compact two-column editorial portfolio",
+          "currentVersion": 1
+        }
+      },
+      "updatedAt": "2026-09-01T09:14:00Z"
+    }
+  }
+}

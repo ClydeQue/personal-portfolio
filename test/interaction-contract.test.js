@@ -172,11 +172,13 @@ test('particle pointer offset scales with pointer position and disables under in
   assert.deepEqual(particlePointerOffset({ active: true, x: 400, y: 200 }, { width: 400, height: 200 }), { x: 18, y: 14 })
 })
 
-test('ParticlePortrait registers pointer-driven interaction with reduced-motion-safe guards', async () => {
+test('ParticlePortrait registers Three.js pointer interaction with reduced-motion-safe guards', async () => {
   const source = await readFile(new URL('../src/components/ui/ParticlePortrait.jsx', import.meta.url), 'utf8')
 
-  assert.match(source, /particlePointerOffset/)
+  assert.match(source, /WebGLRenderer/)
+  assert.match(source, /new THREE\.Points/)
   assert.match(source, /pointermove/)
   assert.match(source, /pointerleave/)
-  assert.match(source, /if \(reducedMotion\.matches\) return/)
+  assert.match(source, /prefers-reduced-motion/)
+  assert.doesNotMatch(source, /getImageData|drawImage|createPortraitParticles/)
 })

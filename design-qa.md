@@ -1,6 +1,6 @@
 # Clyde portfolio design QA
 
-Status: motion refinement verified locally; exact portrait fidelity blocked on a personalized 3D asset (2026-09-01, Asia/Manila).
+Status: procedural Three.js particle figure, personalized portrait rollout, and compact Professional refinement verified locally; exact facial geometry remains blocked on a personalized 3D asset (2026-09-01, Asia/Manila).
 
 ## Current motion refinement
 
@@ -17,19 +17,28 @@ This section supersedes the earlier overall pass below. The earlier route/layout
 ### Findings and implementation
 
 - Closed: static name tiles. `SplitFlapName.jsx` now runs a finite scramble/resolve sequence on mount and hover. Native CSS rotates the clipped flap, while a time-derived letter sequence settles left to right. The accessible name stays CLYDE. No animation dependency was added.
-- Closed: unnecessary continuous portrait drawing. The portrait now schedules zero frames once its pose reaches the pointer target, wakes on pointer input, settles after pointer exit, and pauses outside the viewport or in a hidden document. Existing reduced-motion and fallback paths remain.
-- Open P1: portrait asset and geometry. Clyde's single photograph supplies only a shallow relief. It cannot show the real side surfaces or reproduce the reference avatar's turning geometry. A Clyde GLB/GLTF scan/model is required for an exact personalized 3D implementation. No reference person's avatar was copied or represented as Clyde.
+- Closed: photo-derived particle sampling. Personal Home now lazy-loads a real Three.js `Points` scene built from 22,000 deterministic procedural points. The custom shader supplies continuous low-cadence idle motion, pointer-driven yaw/pitch, and local particle displacement without reading pixels from a photograph. Rendering pauses outside the viewport or in a hidden document; reduced-motion and WebGL-failure paths show Clyde's supplied portrait instead.
+- Closed: inconsistent portrait assets. Clyde's supplied `profme.png` is retained as the source, delivered through a 54KB WebP primary plus PNG fallback, and used across Personal fallback, Professional, About, social metadata, and the local portfolio case-study cover. CSS crops preserve the original file while presenting a half-body composition.
+- Closed: text-only association strip. Personal Home now uses local image-backed Ngnair, Ateneo de Zamboanga University, and Capytech marks with meaningful alternative text.
+- Closed: flat description hierarchy. Personal and Professional descriptions now render structured segments with evidence-backed phrases emphasized in blue and bold, without injected HTML.
+- Closed: oversized Professional layout. Desktop gutters are reduced, the real name wraps safely, tech groups use a dense two-column tag layout, and long values use explicit min-width/wrapping containment. At 1200 x 720, the Professional grid measured 2021px tall versus the prior 3017px checkpoint; the tech section measured 597px versus 968px.
+- Closed: static section entrances. Motion for React `13.1.1` supplies viewport-once fade/translate entrances with `useReducedMotion`; GSAP remains absent.
+- Open P1: exact facial geometry. The procedural bust has real 3D volume and interaction but is intentionally a custom human silhouette, not a reconstruction of Clyde's face. A Clyde GLB/GLTF scan/model is still required for exact personalized facial and side-surface fidelity. No reference person's avatar was copied or represented as Clyde.
 - Typography/colors: tile proportions, central seam, dark rest state, translucent scramble state, and flap geometry follow the observed reference. The sequence uses approximate measured timing, not a verified upstream library implementation.
 - Layout/copy: existing layout and truthful Clyde content are preserved; the five-letter name intentionally occupies less width than the reference's seven-letter name.
 - Image quality: the local photo point cloud is visibly brighter/flatter and is not approved as a 1:1 replacement for the 3D reference.
 
 ### Fresh verification
 
-`node --test test/*.test.js`: 86 passed, 0 failed. `npm run lint`, `npm run build`, `npm run audit:build`, and `git diff --check` passed. Build output retains the existing Node 22.11 compatibility warning. Lifecycle regression coverage confirms idle sleep, input wake, exit settling, reduced-motion fallback, and cleanup. No browser performance benchmark or mobile reduced-motion emulation was performed.
+`npm test`: 81 passed, 0 failed. `npm run lint`, `npm run build`, and `npm run audit:build` passed under Node 22.23.1. The audit found zero missing assets, forbidden URLs, unregistered links, or overflow-risk markers. Regression coverage confirms deterministic procedural geometry, bounded idle/pointer pose, visibility pausing, reduced-motion fallback, WebGL cleanup, the absence of production image sampling, and removal of the portfolio license route/surface.
+
+Real-browser checks passed at 1280 x 633/800 and 390 x 844. The hero reported an active WebGL context and `.is-ready`; before/after pointer screenshots produced different SHA-256 hashes. Reduced-motion emulation reported `canvasDisplay: none`, `ready: false`, and a visible personalized fallback. Desktop and mobile Professional views both reported `document.documentElement.scrollWidth === window.innerWidth`; the compact desktop grid measured about 2014px tall. The page had meaningful content, no Vite overlay, and no document-level horizontal overflow.
+
+Superdesign canvas direction: `Professional Home Compact Refinement`, draft `4efd9bd8-23c7-47a7-93d4-317bf1bf742b`. The durable target state is stored in `.superdesign/resume.json`.
 
 Markdown source-brand mentions were removed from tracked project documentation except the retained attribution in `NOTICE.md`. Reference capture and plan/spec paths were renamed with their links updated. Historical terminology was normalized for presentation; old implementation examples remain historical, not current code instructions. Git history, the worktree name, and ignored scratch history were not rewritten.
 
-Next: obtain Clyde's 3D asset, implement the corresponding point-cloud renderer, then repeat reference/local pointer-state comparisons. No merge, push, or deployment occurred.
+Next for exact 3D facial parity: obtain Clyde's personalized GLB/GLTF asset, feed that geometry through the existing Three.js point-cloud renderer, then repeat reference/local pointer-state comparisons. The current procedural figure intentionally claims interaction and volume, not Clyde's exact facial mesh.
 
 ## Earlier route and layout QA (historical)
 
@@ -85,22 +94,22 @@ Expected visual differences are limited to the requested personalization: Clyde'
 
 At both 1440 x 1000 and 390 x 844, the following 20 paths were loaded and checked for the expected heading, local image failures, document width, and route recovery:
 
-`/`, `/about`, `/projects`, `/projects/waiveright`, `/projects/social-development-unit`, `/projects/leo-rent-a-car`, `/projects/offline-pos`, `/projects/mujer-lgbtq`, `/projects/orsem-family-feud`, `/experience`, `/collection`, `/blog`, `/blog/capytech-scorm-qa-sandbox`, `/blog/sdu-multi-office-dashboard`, `/blog/waiveright-role-based-workflow`, `/blog/offline-first-pos-ims`, `/license`, `/missing-route`, `/projects/not-a-real-project`, and `/blog/not-a-real-post`.
+`/`, `/about`, `/projects`, `/projects/waiveright`, `/projects/social-development-unit`, `/projects/leo-rent-a-car`, `/projects/offline-pos`, `/projects/mujer-lgbtq`, `/projects/orsem-family-feud`, `/experience`, `/collection`, `/blog`, `/blog/capytech-scorm-qa-sandbox`, `/blog/sdu-multi-office-dashboard`, `/blog/waiveright-role-based-workflow`, `/blog/offline-first-pos-ims`, `/missing-route`, `/projects/not-a-real-project`, and `/blog/not-a-real-post`.
 
 Every route reported `horizontalOverflow: false`, zero failed local images, and the local Browser error/warning log was `[]` at both viewports. Header links, footer Writing, project View, article back links, mailto actions, browser Back/Forward, mobile menu Escape, and global not-found recovery were exercised. The shared Personal/Professional switch was checked on Home, Projects, project detail, and mobile: selecting the active view is a no-op; selecting the other view persists it and returns to Home, matching the live behavior.
 
 Experience selected all four phases (`Software Engineer Intern`, `Solutions Developer Intern`, `Web Development Intern`, and `BS Computer Science foundation`), including keyboard Home/End focus. Collection verified category changes, case-insensitive search, source/resource selection, empty results, and Reset. Share behavior was covered by Web Share, clipboard fallback, and final URL fallback tests. Back-to-top returned the document to scrollY 0.
 
-## Particle portrait evidence
+## Historical photo-derived particle evidence (superseded)
 
-The local Clyde portrait is a real sampled point cloud, not a static dotted placeholder. At 1440 x 1000, Browser captures in `.superpowers/sdd/*/` include `particle-final-outside.png`, `particle-final-left.png`, `particle-final-center.png`, `particle-final-right.png`, and `particle-final-return.png`.
+The following evidence belongs to the removed Canvas2D photo-sampling implementation and is retained only as historical QA context. It is not evidence for the current procedural Three.js renderer. At 1440 x 1000, archived Browser captures in `.superpowers/sdd/*/` include `particle-final-outside.png`, `particle-final-left.png`, `particle-final-center.png`, `particle-final-right.png`, and `particle-final-return.png`.
 
 - Left versus right pointer states changed the portrait crop by mean absolute RGB difference 124.68 with 54.19% of crop pixels changed.
 - Center versus left changed 55.23% of crop pixels; center versus right changed 56.02%.
 - Outside versus center changed 12.82% of crop pixels, showing the local radial response.
 - Outside versus the settled return state was an exact pixel match (`meanAbsRgb: 0`, `changedFraction: 0`).
 
-The point cloud uses luminous blue-white cores and depth-based yaw/pitch/parallax. Reduced-motion, visibility pause, resize cache invalidation, image fallback, and unmount cleanup are covered by the portrait lifecycle tests and leave the accessible local image available.
+That removed point cloud used luminous blue-white cores and photo-derived depth. Current behavior is documented in the motion refinement and verification sections above.
 
 ## GitHub contribution calendar
 
@@ -124,8 +133,8 @@ The 2026 value was independently checked with the same UTC calendar-year GraphQL
 
 This earlier pass did not detect the static title or establish 3D portrait parity. The current motion findings above supersede its overall verdict.
 
-## License and source boundaries
+## Source boundaries
 
-All production media and fonts are local and were checked in both source and compiled output. The project retains the GPL license at `LICENSE`, `public/LICENSE.txt`, and `/license`, includes the Geist OFL notice at `public/fonts/OFL.txt`, and records the modified-work attribution in `NOTICE.md`. The original GSAP/Original mode, legacy layouts, Lenis/analytics dependencies, and obsolete mode-routing tree were removed. The user's unrelated checkout changes were preserved by doing the implementation in the isolated worktree; nothing was merged, pushed, deployed, or connected to private CMS/auth/database/analytics/scheduling services.
+All production media and fonts are local and were checked in both source and compiled output. Third-party font/icon notices remain in `NOTICE.md` and `public/fonts/OFL.txt`; the portfolio-level GPL file, download, route, package metadata, and footer attribution were removed at the user's request. The original GSAP/Original mode, legacy layouts, Lenis/analytics dependencies, and obsolete mode-routing tree were removed. The user's unrelated checkout changes were preserved by doing the implementation in the isolated worktree; nothing was merged, pushed, deployed, or connected to private CMS/auth/database/analytics/scheduling services.
 
 final result: blocked

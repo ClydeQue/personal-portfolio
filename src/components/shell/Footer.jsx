@@ -14,7 +14,6 @@ function Footer() {
           <h2 id="footer-resources">Resources</h2>
           <button type="button" onClick={() => navigate('/collection')}>Collection</button>
           <button type="button" onClick={() => navigate('/blog')}>Writing</button>
-          <button type="button" onClick={() => navigate('/license')}>License</button>
         </section>
         <section aria-labelledby="footer-social">
           <h2 id="footer-social">Social</h2>
@@ -27,8 +26,6 @@ function Footer() {
       </div>
       <div className="portfolio-frame portfolio-footer__legal">
         <span>© 2026 {portfolio.identity.shortName}. All rights reserved.</span>
-        <button type="button" onClick={() => navigate(portfolio.license.route)}>{portfolio.license.identifier}</button>
-        <span>Built on a JSTN public interface reference and adapted as a modified GPL-derived work.</span>
       </div>
     </footer>
   )

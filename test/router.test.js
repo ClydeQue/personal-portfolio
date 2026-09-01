@@ -5,7 +5,7 @@ import { matchRoute, normalizePath, routeTable } from '../src/app/router.js'
 test('publishes the complete single-mode route family', () => {
   assert.deepEqual(routeTable.map(({ pattern }) => pattern), [
     '/', '/about', '/projects', '/projects/:slug', '/experience',
-    '/collection', '/blog', '/blog/:slug', '/license',
+    '/collection', '/blog', '/blog/:slug',
   ])
 })
 
@@ -18,4 +18,5 @@ test('matches detail routes and returns notFound for unknown paths', () => {
     name: 'projectDetail', path: '/projects/waiveright', params: { slug: 'waiveright' },
   })
   assert.equal(matchRoute('/missing').name, 'notFound')
+  assert.equal(matchRoute('/license').name, 'notFound')
 })

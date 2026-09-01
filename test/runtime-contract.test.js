@@ -69,9 +69,17 @@ test('App registers About, Projects, and project detail pages', () => {
   for (const page of ['AboutPage', 'ProjectsPage', 'ProjectDetailPage']) assert.match(source, new RegExp(page))
 })
 
-test('App registers writing, license, and not-found surfaces', () => {
+test('App registers writing and not-found surfaces without a public license page', () => {
   const source = read('src/App.jsx')
-  for (const page of ['BlogPage', 'BlogDetailPage', 'LicensePage', 'NotFoundPage']) assert.match(source, new RegExp(page))
+  for (const page of ['BlogPage', 'BlogDetailPage', 'NotFoundPage']) assert.match(source, new RegExp(page))
+  assert.doesNotMatch(source, /LicensePage/)
+  assert.equal(existsSync('src/pages/LicensePage.jsx'), false)
+  assert.equal(existsSync('LICENSE'), false)
+  assert.equal(existsSync('public/LICENSE.txt'), false)
+  assert.equal(JSON.parse(read('package.json')).license, undefined)
+
+  const footer = read('src/components/shell/Footer.jsx')
+  assert.doesNotMatch(footer, /JSTN|GPL|license/i)
 })
 
 test('writing detail stays text-focused without unsupported article chrome', () => {
@@ -88,16 +96,16 @@ test('writing detail places its case-study label after the title and lede', () =
   assert.ok(source.indexOf('blog-detail-page__dek') < source.indexOf('blog-detail-page__meta'))
 })
 
-test('Home keeps truthful tech icons and a cached, top-biased particle portrait', () => {
+test('Home keeps truthful tech icons and a procedural Three.js particle portrait', () => {
   const homeSource = read('src/pages/HomePage.jsx')
   const portraitSource = read('src/components/ui/ParticlePortrait.jsx')
 
   assert.doesNotMatch(homeSource, /'ASP\.NET Core': 'c\+\+'/)
   assert.doesNotMatch(homeSource, /SQLite: 'mysql'/)
   assert.doesNotMatch(homeSource, /Vite: 'vercel'/)
-  assert.match(portraitSource, /samplePixelsRef/)
-  assert.match(portraitSource, /portraitSampleKey/)
-  assert.match(portraitSource, /sourceY = \(source\.naturalHeight - sourceHeight\) \* 0\.08/)
+  assert.match(portraitSource, /createProceduralPortrait/)
+  assert.match(portraitSource, /THREE\.Points/)
+  assert.doesNotMatch(portraitSource, /getImageData|drawImage|samplePixelsRef/)
 })
 
 test('Professional Home uses reusable mail and info icons without exposing home location', () => {

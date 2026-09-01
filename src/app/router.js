@@ -7,7 +7,6 @@ export const routeTable = Object.freeze([
   { name: 'collection', pattern: '/collection' },
   { name: 'blog', pattern: '/blog' },
   { name: 'blogDetail', pattern: '/blog/:slug' },
-  { name: 'license', pattern: '/license' },
 ])
 
 export function normalizePath(pathname = '/') {

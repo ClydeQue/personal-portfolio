@@ -158,7 +158,7 @@ const posts = [
   {
     slug: 'capytech-scorm-qa-sandbox', title: 'A local SCORM QA sandbox for instructional-design workflows',
     dek: 'Portfolio case-study note on a native desktop sandbox for testing SCORM packages locally.', published: null,
-    category: 'Portfolio case-study note', cover: '/images/me.webp', context: { label: 'View experience context', path: '/experience' },
+    category: 'Portfolio case-study note', cover: '/images/profme.webp', context: { label: 'View experience context', path: '/experience' },
     sections: [
       { heading: 'Context', body: 'At Capytech E-Learning Solutions, the sandbox supported local testing and debugging of SCORM packages exported from Articulate 360.' },
       { heading: 'Implementation', body: 'The native Photino.NET application used C# and ASP.NET Core for manifest parsing and SCORM 1.2/2004 playback simulation, with SQLite telemetry.' },
@@ -208,7 +208,7 @@ const recognition = [
 export const portfolio = deepFreeze({
   identity: {
     name: 'Kenneth Clyde Que', shortName: 'Clyde Que', initials: 'CQ',
-    role: 'Software engineer, product builder, and interface designer', portrait: '/images/me.webp', brandMark: '/images/brand/clyde-mark.png',
+    role: 'Software engineer, product builder, and interface designer', portrait: '/images/profme.webp', brandMark: '/images/brand/clyde-mark.png',
   },
   navigation: [
     { label: 'About', path: '/about' }, { label: 'Projects', path: '/projects' },
@@ -221,15 +221,29 @@ export const portfolio = deepFreeze({
     personal: {
       eyebrow: 'Software engineer / product builder', title: 'Clyde Que', greeting: 'I’m', displayName: 'CLYDE',
       statement: 'I’m a software engineer building practical full-stack products and thoughtful interfaces for real teams, local businesses, and institutional work.',
-      associations: ['Ngnair Brice Holding', 'Ateneo de Zamboanga University', 'Capytech E-Learning Solutions'],
+      associations: [
+        { name: 'Ngnair Brice Holding', logo: '/images/associations/ngnair.svg', alt: 'Ngnair Brice Holding' },
+        { name: 'Ateneo de Zamboanga University', logo: '/images/adzu_logo.png', alt: 'Ateneo de Zamboanga University' },
+        { name: 'Capytech E-Learning Solutions', logo: '/images/associations/capytech.svg', alt: 'Capytech E-Learning Solutions' },
+      ],
       techGroups: [
         { title: 'Application engineering', items: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'C#', 'ASP.NET Core', 'Node.js'] },
         { title: 'Data & cloud', items: ['PostgreSQL', 'CockroachDB', 'Supabase', 'Neon', 'SQLite', 'GCP', 'AWS', 'Cloudflare', 'Docker'] },
         { title: 'AI & workflow', items: ['Codex CLI', 'Claude Code CLI', 'OpenAI API', 'Neovim', 'lazy.nvim', 'LazyGit', 'Figma'] },
       ],
       description: [
-        'I work from a practical product question through interface design and full-stack implementation. I have contributed to microservices and microfrontends alongside institutional platforms, custom workflows, payment-product engineering, and local-business systems.',
-        'My workflow combines GitHub-backed engineering, cloud delivery, AI-assisted development, and careful verification. I use Codex and Claude from the CLI, plus a custom Neovim setup, to move quickly without treating generated output as finished evidence.',
+        { segments: [
+          { text: 'I work from a practical product question through ' },
+          { text: 'interface design and full-stack implementation', emphasis: true },
+          { text: '. I have contributed to ' },
+          { text: 'microservices and microfrontends', emphasis: true },
+          { text: ' alongside institutional platforms, custom workflows, payment-product engineering, and local-business systems.' },
+        ] },
+        { segments: [
+          { text: 'My workflow combines ' },
+          { text: 'GitHub-backed engineering, cloud delivery, and careful verification', emphasis: true },
+          { text: '. I use Codex and Claude from the CLI, plus a custom Neovim setup, to move quickly without treating generated output as finished evidence.' },
+        ] },
       ],
       recognitionLabel: 'Recognition from project work and hackathons',
     },
@@ -244,11 +258,18 @@ export const portfolio = deepFreeze({
         { title: 'Developer tooling', items: ['Neovim', 'lazy.nvim', 'Custom Lua modules', 'LazyGit', 'Git', 'GitHub CLI', 'Figma', 'Vite'] },
       ],
       about: [
-        'I am a software engineer and product builder working across frontend design, full-stack systems, QA, microservices, microfrontends, and cloud delivery. I use evidence and iteration to keep products understandable and useful.',
-        'My experience includes payment-product engineering with Ngnair Brice Holding, e-learning work at Capytech, institutional reporting systems, cloud-hosted business platforms, and freelance products for real organizations.',
+        { segments: [
+          { text: 'I am a software engineer and product builder working across ' },
+          { text: 'frontend design, full-stack systems, microservices, and microfrontends', emphasis: true },
+          { text: ', plus QA and cloud delivery. I use evidence and iteration to keep products understandable and useful.' },
+        ] },
+        { segments: [
+          { text: 'My experience includes ' },
+          { text: 'payment-product engineering with Ngnair Brice Holding', emphasis: true },
+          { text: ', e-learning work at Capytech, institutional reporting systems, cloud-hosted business platforms, and freelance products for real organizations.' },
+        ] },
       ],
     },
   },
   projects, experiencePhases, collection, posts, activity, recognition,
-  license: { identifier: 'GPL-3.0-only', route: '/license', sourceUrl: 'https://github.com/ClydeQue/personal-portfolio' },
 })

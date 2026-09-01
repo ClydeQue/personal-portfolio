@@ -1,7 +1,7 @@
 # Live reference captures
 
 Captured through the in-app Browser on 2026-08-31 from the rendered public
-public reference (see NOTICE.md) UI. These files are QA evidence, not production assets.
+reference UI. These files are QA evidence, not production assets.
 No upstream GitHub application source was used for this capture set.
 
 Desktop CSS viewport: 1440 × 1000. Mobile CSS viewport: 390 × 844.
@@ -25,7 +25,6 @@ captures must use the same Browser surface, CSS viewport, route and state.
 | collection-desktop.png, collection-mobile.png | `/collection` | Top, initial selection |
 | blog-desktop.png, blog-mobile.png | `/blog` | Top |
 | article-desktop.png, article-mobile.png | `/blog/founder-school` | Top |
-| license-desktop.png, license-mobile.png | `/license` | Top |
 
 ## Observed exceptions and content boundaries
 
