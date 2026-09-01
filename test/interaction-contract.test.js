@@ -4,6 +4,7 @@ import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { JSDOM } from 'jsdom'
 import { buildSync } from 'esbuild'
 import { activityYear, nextImageSource, particlePointerOffset } from '../src/app/interaction.js'
 import { portfolio } from '../src/data/portfolio.js'
@@ -15,33 +16,32 @@ const loadHarness = async (relativeComponentPath, exportedName) => {
   const bundlePath = join(tempDir, `${exportedName}.mjs`)
   const entryFile = new URL(relativeComponentPath, import.meta.url).pathname
   const source = `
-    import React from 'react'
-    import TestRenderer, { act } from 'react-test-renderer'
+    import React, { act } from 'react'
+    import { render } from '@testing-library/react'
     import Component from ${JSON.stringify(entryFile)}
 
     globalThis.IS_REACT_ACT_ENVIRONMENT = true
 
-    const summaryOf = (root) => {
-      const buttons = root.findAll((node) => node.type === 'button')
-        .filter((node) => node.parent?.props?.className === 'activity-heatmap__years')
-        .map((node) => ({ year: node.children.join(''), pressed: node.props['aria-pressed'], click: node.props.onClick }))
-      const metricValues = root.findAll((node) => node.type === 'strong').map((node) => node.children.join(''))
-      const summaryNode = root.find((node) => node.props?.className === 'activity-heatmap__summary')
+    const summaryOf = (container) => {
+      const buttons = [...container.querySelectorAll('.activity-heatmap__years button')]
+        .map((node) => ({ year: node.textContent, pressed: node.getAttribute('aria-pressed') === 'true', click: () => node.click() }))
+      const metricValues = [...container.querySelectorAll('strong')].map((node) => node.textContent)
+      const summaryNode = container.querySelector('.activity-heatmap__summary')
 
       return {
         buttons,
-        summary: summaryNode.children.join(''),
+        summary: summaryNode?.textContent ?? '',
         metrics: metricValues.slice(0, 4),
       }
     }
 
     export function exercise(props = {}, clickedYear) {
-      let renderer
+      let view
       act(() => {
-        renderer = TestRenderer.create(React.createElement(Component, props))
+        view = render(React.createElement(Component, props))
       })
 
-      const initial = summaryOf(renderer.root)
+      const initial = summaryOf(view.container)
       const target = initial.buttons.find((button) => button.year === String(clickedYear))
 
       if (target?.click) {
@@ -50,10 +50,10 @@ const loadHarness = async (relativeComponentPath, exportedName) => {
         })
       }
 
-      const afterClick = summaryOf(renderer.root)
+      const afterClick = summaryOf(view.container)
 
       act(() => {
-        renderer.unmount()
+        view.unmount()
       })
 
       return { initial, afterClick }
@@ -75,10 +75,31 @@ const loadHarness = async (relativeComponentPath, exportedName) => {
   })
 
   await writeFile(bundlePath, result.outputFiles[0].text, 'utf8')
+  const dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'http://localhost/' })
+  const globalKeys = ['window', 'document', 'navigator', 'HTMLElement', 'Node', 'IS_REACT_ACT_ENVIRONMENT']
+  const previous = new Map(globalKeys.map((key) => [key, Object.getOwnPropertyDescriptor(globalThis, key)]))
+  const replacements = {
+    window: dom.window,
+    document: dom.window.document,
+    navigator: dom.window.navigator,
+    HTMLElement: dom.window.HTMLElement,
+    Node: dom.window.Node,
+    IS_REACT_ACT_ENVIRONMENT: true,
+  }
+  for (const [key, value] of Object.entries(replacements)) {
+    Object.defineProperty(globalThis, key, { configurable: true, writable: true, value })
+  }
   const module = await import(pathToFileURL(bundlePath).href)
   return {
     ...module,
-    cleanup: async () => rm(tempDir, { recursive: true, force: true }),
+    cleanup: async () => {
+      for (const [key, descriptor] of previous) {
+        if (descriptor) Object.defineProperty(globalThis, key, descriptor)
+        else delete globalThis[key]
+      }
+      dom.window.close()
+      await rm(tempDir, { recursive: true, force: true })
+    },
   }
 }
 

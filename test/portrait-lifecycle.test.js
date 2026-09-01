@@ -2,14 +2,27 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { Buffer } from 'node:buffer'
 import { buildSync } from 'esbuild'
+import { JSDOM } from 'jsdom'
+
+const dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'http://localhost/' })
+const globalKeys = ['window', 'document', 'navigator', 'HTMLElement', 'Node', 'IS_REACT_ACT_ENVIRONMENT']
+const initialGlobals = new Map(globalKeys.map((key) => [key, Object.getOwnPropertyDescriptor(globalThis, key)]))
+for (const [key, value] of Object.entries({
+  window: dom.window,
+  document: dom.window.document,
+  navigator: dom.window.navigator,
+  HTMLElement: dom.window.HTMLElement,
+  Node: dom.window.Node,
+  IS_REACT_ACT_ENVIRONMENT: true,
+})) {
+  Object.defineProperty(globalThis, key, { configurable: true, writable: true, value })
+}
 
 const bundle = buildSync({
   stdin: {
-    contents: `import React from 'react'; import TestRenderer, { act } from 'react-test-renderer';
+    contents: `import React, { act } from 'react'; import { render } from '@testing-library/react';
       import ParticlePortrait from './src/components/ui/ParticlePortrait.jsx';
-      export { act }; export const mount = canvas => TestRenderer.create(React.createElement(ParticlePortrait), {
-        createNodeMock: node => node.type === 'canvas' ? canvas : null
-      });`,
+      export { act }; export const mount = () => render(React.createElement(ParticlePortrait));`,
     resolveDir: new URL('..', import.meta.url).pathname,
   },
   bundle: true, format: 'esm', platform: 'browser', jsx: 'automatic', write: false,
@@ -25,13 +38,7 @@ function harness({ reduce = false, sampleError = false } = {}) {
   const metrics = { dimensions: 0, reads: 0, draws: 0, disconnected: false }
   const bounds = { width: 560, height: 600, left: 0, top: 0 }
   const context = { setTransform() {}, clearRect() {}, fillRect() { metrics.draws += 1 } }
-  const canvas = { ...events(), getContext: () => context, getBoundingClientRect: () => bounds }
-  for (const property of ['width', 'height']) {
-    let value = 0
-    Object.defineProperty(canvas, property, { get: () => value, set: (next) => { metrics.dimensions += 1; value = next } })
-  }
-  const motion = { ...events(), matches: reduce }
-  const document = { ...events(), hidden: false, createElement: () => ({ getContext: () => ({
+  const sampleContext = {
     drawImage() {},
     getImageData(_x, _y, width, height) {
       metrics.reads += 1
@@ -40,13 +47,49 @@ function harness({ reduce = false, sampleError = false } = {}) {
       data.fill(160)
       return { data }
     },
-  }) }) }
+  }
+  const canvasPrototype = dom.window.HTMLCanvasElement.prototype
+  const canvasHandlersByElement = new WeakMap()
+  const previousCanvasMethods = {
+    getContext: canvasPrototype.getContext,
+    getBoundingClientRect: canvasPrototype.getBoundingClientRect,
+    addEventListener: canvasPrototype.addEventListener,
+    removeEventListener: canvasPrototype.removeEventListener,
+  }
+  let canvas
+  canvasPrototype.getContext = function getContext() {
+    return this === canvas || !canvas ? context : sampleContext
+  }
+  canvasPrototype.getBoundingClientRect = () => bounds
+  canvasPrototype.addEventListener = function addEventListener(name, handler, options) {
+    const handlers = canvasHandlersByElement.get(this) ?? new Map()
+    handlers.set(name, handler)
+    canvasHandlersByElement.set(this, handlers)
+    return previousCanvasMethods.addEventListener.call(this, name, handler, options)
+  }
+  canvasPrototype.removeEventListener = function removeEventListener(name, handler, options) {
+    canvasHandlersByElement.get(this)?.delete(name)
+    return previousCanvasMethods.removeEventListener.call(this, name, handler, options)
+  }
+  const motion = { ...events(), matches: reduce }
+  const documentRef = dom.window.document
+  const previousDocumentHidden = Object.getOwnPropertyDescriptor(documentRef, 'hidden')
+  const previousDocumentHandlers = {
+    addEventListener: documentRef.addEventListener,
+    removeEventListener: documentRef.removeEventListener,
+  }
+  const documentHandlers = new Map()
+  let hidden = false
+  Object.defineProperty(documentRef, 'hidden', { configurable: true, get: () => hidden, set: (value) => { hidden = value } })
+  documentRef.addEventListener = (name, handler) => { documentHandlers.set(name, handler) }
+  documentRef.removeEventListener = (name) => { documentHandlers.delete(name) }
+  documentRef.handlers = documentHandlers
   let image
   let resize
   let frameId = 0
   const replacements = {
     IS_REACT_ACT_ENVIRONMENT: true,
-    window: { matchMedia: () => motion, devicePixelRatio: 1 }, document,
+    window: dom.window, document: documentRef,
     Image: class { constructor() { image = this; this.naturalWidth = 600; this.naturalHeight = 900 } },
     ResizeObserver: class { constructor(callback) { resize = callback } observe() {} disconnect() { metrics.disconnected = true } },
     requestAnimationFrame: (callback) => { frames.set(++frameId, callback); return frameId },
@@ -54,12 +97,21 @@ function harness({ reduce = false, sampleError = false } = {}) {
   }
   const previous = new Map(Object.keys(replacements).map((key) => [key, Object.getOwnPropertyDescriptor(globalThis, key)]))
   Object.assign(globalThis, replacements)
-  let renderer
-  act(() => { renderer = mount(canvas) })
+  dom.window.matchMedia = () => motion
+  dom.window.devicePixelRatio = 1
+  dom.window.Image = replacements.Image
+  let view
+  act(() => { view = mount() })
+  canvas = view.container.querySelector('canvas')
+  canvas.handlers = canvasHandlersByElement.get(canvas)
+  for (const property of ['width', 'height']) {
+    let value = 0
+    Object.defineProperty(canvas, property, { configurable: true, get: () => value, set: (next) => { metrics.dimensions += 1; value = next } })
+  }
   let time = 0
   return {
-    metrics, frames, canvas, image, motion, document, bounds,
-    ready: () => renderer.root.findAllByType('div')[0].props.className.includes('is-ready'),
+    metrics, frames, canvas, image, motion, document: documentRef, bounds,
+    ready: () => view.container.querySelector('.particle-portrait')?.className.includes('is-ready') ?? false,
     load: () => act(() => image.onload?.()),
     error: () => act(() => image.onerror?.()),
     frame: () => act(() => {
@@ -69,9 +121,25 @@ function harness({ reduce = false, sampleError = false } = {}) {
       pending.forEach((callback) => callback(time))
     }),
     resize: () => act(() => resize()),
-    emit: (target, name, event) => act(() => target.handlers.get(name)?.(event)),
+    emit: (target, name, event = {}) => act(() => {
+      if (target?.handlers instanceof Map) {
+        target.handlers.get(name)?.(event)
+        return
+      }
+      const browserEvent = new dom.window.Event(name)
+      for (const [key, value] of Object.entries(event)) Object.defineProperty(browserEvent, key, { configurable: true, value })
+      target.dispatchEvent(browserEvent)
+    }),
     cleanup: () => {
-      act(() => renderer.unmount())
+      act(() => view.unmount())
+      canvasPrototype.getContext = previousCanvasMethods.getContext
+      canvasPrototype.getBoundingClientRect = previousCanvasMethods.getBoundingClientRect
+      canvasPrototype.addEventListener = previousCanvasMethods.addEventListener
+      canvasPrototype.removeEventListener = previousCanvasMethods.removeEventListener
+      documentRef.addEventListener = previousDocumentHandlers.addEventListener
+      documentRef.removeEventListener = previousDocumentHandlers.removeEventListener
+      if (previousDocumentHidden) Object.defineProperty(documentRef, 'hidden', previousDocumentHidden)
+      else delete documentRef.hidden
       for (const [key, descriptor] of previous) {
         if (descriptor) Object.defineProperty(globalThis, key, descriptor)
         else delete globalThis[key]
@@ -79,6 +147,14 @@ function harness({ reduce = false, sampleError = false } = {}) {
     },
   }
 }
+
+test.after(() => {
+  for (const [key, descriptor] of initialGlobals) {
+    if (descriptor) Object.defineProperty(globalThis, key, descriptor)
+    else delete globalThis[key]
+  }
+  dom.window.close()
+})
 
 test('animation reuses dimensions and samples until the actual canvas bounds change', () => {
   const h = harness()

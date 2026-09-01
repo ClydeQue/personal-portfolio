@@ -1,16 +1,14 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { nextImageSource } from '../../app/interaction.js'
 
 function ImageWithFallback({ sources, alt, className = '', ...props }) {
-  const availableSources = useMemo(
-    () => (Array.isArray(sources) ? sources.filter((source) => typeof source === 'string' && source.trim()) : []),
-    [sources],
-  )
-  const [currentSource, setCurrentSource] = useState(() => nextImageSource(availableSources, -1))
-
-  useEffect(() => {
-    setCurrentSource(nextImageSource(availableSources, -1))
-  }, [availableSources])
+  const availableSources = Array.isArray(sources)
+    ? sources.filter((source) => typeof source === 'string' && source.trim())
+    : []
+  const sourceKey = availableSources.join('\u0000')
+  const [fallbackState, setFallbackState] = useState({ sourceKey: '', failedIndex: -1 })
+  const failedIndex = fallbackState.sourceKey === sourceKey ? fallbackState.failedIndex : -1
+  const currentSource = nextImageSource(availableSources, failedIndex)
 
   if (!currentSource) {
     return (
@@ -29,7 +27,7 @@ function ImageWithFallback({ sources, alt, className = '', ...props }) {
       alt={alt}
       onError={() => {
         const failedIndex = availableSources.indexOf(currentSource)
-        setCurrentSource(nextImageSource(availableSources, failedIndex))
+        setFallbackState({ sourceKey, failedIndex })
       }}
     />
   )

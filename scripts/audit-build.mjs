@@ -129,7 +129,12 @@ function collectStaticReferences(text, report) {
     collectMediaReference(match[1], report)
   }
 
-  for (const match of text.matchAll(/\bhref\s*=\s*["']([^"']+)["']/gi)) report.internalLinks.push(match[1])
+  for (const match of text.matchAll(/\bhref\s*=\s*["']([^"']+)["']/gi)) {
+    // React's production runtime builds selector strings such as
+    // `href="`+value+`"`. They are not rendered links and should not be
+    // treated as portfolio routes by the static audit.
+    if (!match[1].includes('`')) report.internalLinks.push(match[1])
+  }
   for (const match of text.matchAll(/\bnavigate\(\s*["']([^"']+)["']/gi)) report.internalLinks.push(match[1])
 
   collectIconMapReferences(text, report)

@@ -24,6 +24,15 @@ test('production media and fonts contain no remote hotlinks', () => {
   assert.doesNotMatch(readProductionSources(), /raw\.githubusercontent\.com|pbs\.twimg\.com|media\.licdn\.com|jstn\.site\//i)
 })
 
+test('test dependencies avoid the deprecated React test renderer', () => {
+  const packageJson = JSON.parse(read('package.json'))
+
+  assert.equal(packageJson.devDependencies['react-test-renderer'], undefined)
+  assert.ok(packageJson.devDependencies['@testing-library/react'])
+  assert.ok(packageJson.devDependencies.jsdom)
+  assert.equal(packageJson.engines.node, '>=22.22.2')
+})
+
 test('Home registers both persisted views without a mode switch', () => {
   const source = read('src/pages/HomePage.jsx')
   assert.match(source, /personal/i)
