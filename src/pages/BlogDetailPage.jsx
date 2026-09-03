@@ -6,7 +6,7 @@ function MissingArticle() {
     <section className="blog-detail__missing portfolio-frame" aria-labelledby="missing-writing-title">
       <p className="page-kicker">Writing</p>
       <h1 id="missing-writing-title">That case-study note is not in this archive.</h1>
-      <p>The link does not match one of Clyde’s local writing entries. Return to the Writing index to continue exploring the published portfolio context.</p>
+      <p>I couldn’t find a note at this link. You can head back to my writing to read the notes I’ve shared.</p>
       <button type="button" onClick={() => navigate('/blog')}>Return to writing <span aria-hidden="true">↗</span></button>
     </section>
   )

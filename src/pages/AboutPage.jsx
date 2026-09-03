@@ -9,9 +9,9 @@ function AboutPage() {
     <div className="about-page portfolio-frame">
       <aside className="about-page__aside" aria-label="About page metadata and writing">
         <div>
-          <p className="page-kicker">Builder note</p>
-          <p>Full-stack engineering, product systems, and AI-assisted delivery.</p>
-          <p className="about-page__aside-note">A working map of how I learn, build, and move through technical work.</p>
+          <p className="page-kicker">A little about me</p>
+          <p>I work on web applications, interfaces, and business systems.</p>
+          <p className="about-page__aside-note">Here’s how I approach my work and what I’m learning along the way.</p>
         </div>
         <div className="about-page__writing">
           <p className="page-kicker">Writing</p>
@@ -23,33 +23,33 @@ function AboutPage() {
       <article className="about-page__content">
         <header className="about-page__intro">
           <p className="page-kicker">About</p>
-          <h1>About the Builder</h1>
-          <p className="about-page__dek">Behind the code: a practical engineer, designer, and systems-minded builder.</p>
-          <h2>Systems, clear execution, and long-term thinking.</h2>
-          <h3>I build tools that reduce friction between ideas and execution.</h3>
-          <blockquote>I work across full-stack engineering, interface design, and practical AI-assisted execution. The goal is to turn rough ideas into useful systems, verify the important details, and keep improving what real people use.</blockquote>
+          <h1>A little about me</h1>
+          <p className="about-page__dek">I’m Clyde, a software engineer and Computer Science student.</p>
+          <h2>I like understanding how things work.</h2>
+          <h3>Then figuring out how to make them easier to use.</h3>
+          <blockquote>Basically, I work on both the interface people see and the system behind it. That includes frontend and backend development, microservices, microfrontends, QA, and cloud deployment. I like seeing how these parts come together to solve a problem.</blockquote>
           <ImageWithFallback sources={[portfolio.identity.portrait]} alt="Kenneth Clyde Que" className="about-page__portrait" />
         </header>
 
         <section className="about-page__split" aria-label="Process and principles">
           <div>
             <h2>How I actually work</h2>
-            <blockquote>I move quickly, but not carelessly. I look for the workflow, the gap, or the part of a system that is harder to use than it should be, then turn that into a first version people can react to.</blockquote>
-            <p>I start with the workflow: who needs to do what, what information they need, and where the current process creates friction. From there, I can make the design and technical choices easier to explain.</p>
-            <p>I use prototypes and AI assistance to move quickly, then verify behavior, content, and edge cases before treating work as done.</p>
+            <blockquote>I start by asking what the person using the system needs to do. What information do they need? Which steps are taking too much time? So before jumping into the code, I try to understand the process first.</blockquote>
+            <p>From there, I work on a design or a first version, get feedback, and make adjustments. It helps me check whether I’m solving the right problem, not just adding more features.</p>
+            <p>I use Claude Code, Codex, and a custom Neovim setup with lazy.nvim, LazyGit, and my own Lua modules. AI helps me explore ideas and work through code, but I still need to understand the changes and test them myself.</p>
           </div>
           <div>
-            <h2>Principles, not poses</h2>
-            <blockquote>I care about structure more than surface polish alone. If a system looks finished but hides unclear ownership, missing validation, or fragile handoffs, it still needs work.</blockquote>
-            <p>A system should be understandable to the next person who maintains it, and a product claim should match the evidence behind it.</p>
-            <p>That is why I keep scope practical, distinguish team work from individual contribution, and favor foundations that can grow deliberately.</p>
+            <h2>What matters to me</h2>
+            <blockquote>A good-looking page is only one part of the work. I also care about what happens when someone submits the wrong information, loses their connection, or needs help using the system.</blockquote>
+            <p>I try to keep the code understandable and explain my decisions clearly, especially when I’m working with other developers. There’s always something I can learn from their approach.</p>
+            <p>I’m grateful for the teams and clients who have trusted me to contribute. Those experiences help me grow as a developer and as a teammate.</p>
           </div>
         </section>
 
         <section className="about-page__columns" aria-label="Working perspective">
-          <div><p className="page-kicker">Learning</p><h2>Build, document, repeat.</h2><p>Institutional platforms, internships, local client products, and hackathon work keep expanding the kinds of systems I can reason about.</p></div>
-          <div><p className="page-kicker">Under the hood</p><h2>Full-stack with product context.</h2><p>I work across React, TypeScript, backend services, PostgreSQL, Supabase, cloud delivery, and Figma without treating them as separate conversations.</p></div>
-          <div><p className="page-kicker">North star</p><h2>Useful systems for real teams.</h2><p>I want each project to make a process clearer for the people relying on it, whether the scale is a university office, a client, or a local business.</p></div>
+          <div><p className="page-kicker">Learning</p><h2>Learning through building.</h2><p>My internships, university projects, freelance work, and hackathons give me different problems to work through. I learn from building, getting feedback, and trying again.</p></div>
+          <div><p className="page-kicker">My tools</p><h2>From design to deployment.</h2><p>I use Figma, React, TypeScript, backend services, and databases like PostgreSQL and Supabase. I also work with Docker and cloud platforms to get applications running beyond my own machine.</p></div>
+          <div><p className="page-kicker">What I aim for</p><h2>Make everyday work easier.</h2><p>Whether I’m building for a university office, a client, or a local business, I want the result to be something people can understand and use in their day-to-day work.</p></div>
         </section>
       </article>
     </div>

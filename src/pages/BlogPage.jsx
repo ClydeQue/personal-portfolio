@@ -5,9 +5,9 @@ function BlogPage() {
   return (
     <div className="blog-page portfolio-frame">
       <header className="blog-page__intro">
-        <p className="page-kicker">Writing &amp; signals</p>
-        <h1>Notes, proof points, and implementation context behind the work.</h1>
-        <p>A running index of case-study notes that explain how I approach product work, interface decisions, and technical systems in practice.</p>
+        <p className="page-kicker">Writing</p>
+        <h1>What I built and what I learned.</h1>
+        <p>I use these notes to explain the projects I’ve worked on, the decisions I made, and what I learned while building them.</p>
         <div className="blog-page__intro-actions">
           <button type="button" onClick={() => navigate('/projects')}>Browse projects</button>
           <a href={portfolio.socials.github} target="_blank" rel="noreferrer">Open GitHub</a>

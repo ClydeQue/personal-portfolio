@@ -46,7 +46,7 @@ function CollectionPage() {
     <section className="collection-page__intro" aria-labelledby="collection-title">
       <p className="page-kicker">Collection</p>
       <h1 id="collection-title">Curated repositories and developer resources</h1>
-      <p>A structured index of local portfolio notes and developer documentation worth keeping within reach. Browse a category, then inspect each resource and its destination.</p>
+      <p>These are project notes, tools, and documentation I use while building. Pick a category to explore the resources and see how they connect to my work.</p>
       <div className="collection-page__stats" aria-label="Collection statistics">
         <div><span>Categories</span><strong>{categories.length}</strong></div>
         <div><span>Resources</span><strong>{resources.length}</strong></div>
@@ -57,7 +57,7 @@ function CollectionPage() {
     <section className="collection-page__controls" aria-label="Collection controls">
       <div className="collection-page__source">
         <p className="page-kicker">Local collection</p>
-        <p>Resource metadata is bundled with this portfolio. No remote collection API is requested at runtime.</p>
+        <p>I keep my project notes and useful documentation together here.</p>
         <button type="button" onClick={resetFilters}>Reset</button>
       </div>
       <label className="collection-page__search"><span className="sr-only">Search collection</span><input value={query} onChange={(event) => updateQuery(event.target.value)} type="search" placeholder="Search resources, tools, categories…" /></label>

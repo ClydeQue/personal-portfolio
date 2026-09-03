@@ -13,7 +13,7 @@ function MissingProject() {
     <section className="project-detail__missing portfolio-frame" aria-labelledby="missing-project-title">
       <p className="page-kicker">Project note</p>
       <h1 id="missing-project-title">That project is not in this archive.</h1>
-      <p>The link does not match one of Clyde’s published project slugs. Return to the current project collection to continue exploring.</p>
+      <p>I couldn’t find a project at this link. You can head back to my projects to see the work I’ve shared.</p>
       <button type="button" onClick={() => navigate('/projects')}>Return to projects <span aria-hidden="true">↗</span></button>
     </section>
   )
@@ -52,7 +52,7 @@ function ProjectDetailPage({ slug }) {
         <section className="project-detail-page__metadata" aria-label={`${project.title} metadata`}>
           <div><p className="page-kicker">Category</p><strong>{project.category}</strong></div>
           <div><p className="page-kicker">Tags</p><ul className="project-detail-page__tags">{project.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul></div>
-          <div><p className="page-kicker">Author</p><strong>{portfolio.identity.name}</strong><span>{project.role}</span></div>
+          <div><p className="page-kicker">My role</p><strong>{portfolio.identity.name}</strong><span>{project.role}</span></div>
           <div><p className="page-kicker">Official site</p>{project.externalUrl ? <a href={project.externalUrl} target="_blank" rel="noreferrer">Visit project ↗</a> : <span>No public link</span>}</div>
         </section>
 

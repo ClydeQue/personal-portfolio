@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
-import ImageWithFallback from './ImageWithFallback.jsx'
 import { createProceduralPortrait, portraitFrameEnabled, portraitPose } from './proceduralPortrait.js'
-
-const PORTRAIT_SOURCES = ['/images/profme.webp', '/images/profme.png']
 
 const vertexShader = `
   attribute float aRandom;
@@ -115,17 +112,8 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       frameRef.current = null
     }
 
-    const render = (time) => {
-      frameRef.current = null
-      if (!enabled() || !renderer || disposed) return
-
-      const interactive = pointerRef.current.active
-      if (!interactive && time - lastPaint < 32) {
-        frameRef.current = requestAnimationFrame(render)
-        return
-      }
-      lastPaint = time
-
+    const paint = (time) => {
+      const interactive = pointerRef.current.active && !reducedMotion.matches
       const target = portraitPose({ time, pointer: pointerRef.current })
       currentYaw += (target.yaw - currentYaw) * .075
       currentPitch += (target.pitch - currentPitch) * .075
@@ -141,7 +129,28 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
         ready = true
         setIsReady(true)
       }
+    }
+
+    const render = (time) => {
+      frameRef.current = null
+      if (!enabled() || !renderer || disposed) return
+
+      const interactive = pointerRef.current.active
+      if (!interactive && time - lastPaint < 32) {
+        frameRef.current = requestAnimationFrame(render)
+        return
+      }
+      lastPaint = time
+      paint(time)
       frameRef.current = requestAnimationFrame(render)
+    }
+
+    const renderStatic = () => {
+      if (!renderer || disposed) return
+      pointerRef.current = { active: false, x: 0, y: 0 }
+      currentYaw = 0
+      currentPitch = 0
+      paint(0)
     }
 
     const start = () => {
@@ -159,7 +168,8 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       })
       renderer.setClearColor(0x27323b, 1)
       resize()
-      start()
+      if (reducedMotion.matches) renderStatic()
+      else start()
     } catch {
       failed = true
     }
@@ -183,8 +193,7 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
       pointerRef.current = { active: false, x: 0, y: 0 }
       if (reducedMotion.matches) {
         stop()
-        ready = false
-        setIsReady(false)
+        renderStatic()
       } else start()
     }
 
@@ -220,7 +229,7 @@ function ParticlePortrait({ alt = 'Kenneth Clyde Que', className = '' }) {
   }, [])
 
   return <div className={`particle-portrait ${isReady ? 'is-ready' : ''} ${className}`.trim()}>
-    <ImageWithFallback className="particle-portrait__fallback" sources={PORTRAIT_SOURCES} alt={alt} />
+    <span className="sr-only">{alt}</span>
     <canvas className="particle-portrait__canvas" ref={canvasRef} aria-hidden="true" />
   </div>
 }

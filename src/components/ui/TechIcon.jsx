@@ -11,6 +11,14 @@ const techIconMap = {
   'lazy.nvim': 'lua', 'Custom Lua modules': 'lua', LazyGit: 'git', Git: 'git', Figma: 'figma', Vite: 'vite',
 }
 
+// Single-color marks can be normalized safely. Multicolor badges need their
+// internal light/dark detail, so flattening every SVG would hide their lettering.
+const monochromeIcons = new Set([
+  'react', 'nextdotjs', 'mui', 'tanstack', 'dotnet', 'express', 'cockroachlabs',
+  'neon', 'sqlite', 'jsonwebtokens', 'googlecloud', 'googlecloudstorage',
+  'cloudflareworkers', 'githubactions', 'vercel', 'claude', 'neovim', 'lua', 'vite',
+])
+
 // Architecture and practices have semantic pictograms, not invented company marks.
 const practicePaths = {
   SQL: 'M4 6c0-4 16-4 16 0s-16 4-16 0v12c0 4 16 4 16 0V6M4 12c0 4 16 4 16 0',
@@ -28,7 +36,7 @@ const practicePaths = {
 
 export default function TechIcon({ name }) {
   const icon = techIconMap[name]
-  return <span className="tech-list__icon" role="img" aria-label={name} title={name} data-label={name} tabIndex={0}>
+  return <span className={`tech-list__icon${monochromeIcons.has(icon) ? ' tech-list__icon--mono' : ''}`} role="img" aria-label={name} title={name} data-label={name} tabIndex={0}>
     {icon
       ? <img src={`/techstack/${icon}.svg`} alt="" loading="lazy" />
       : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={practicePaths[name] ?? practicePaths['REST APIs']} /></svg>}

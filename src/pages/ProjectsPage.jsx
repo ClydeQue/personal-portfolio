@@ -7,7 +7,7 @@ function ProjectsPage() {
     <div className="projects-page portfolio-frame">
       <header className="projects-page__intro">
         <h1>Project Featured Showcase</h1>
-        <p>Explore client, institutional, local-business, and event projects. Each note explains the work without overstating my contribution.</p>
+        <p>Here are some projects I’ve worked on for clients, university offices, local businesses, and events. I explain what each one does, how it works, and the part I contributed.</p>
         <div className="projects-page__socials" aria-label="Portfolio links">
           <a href={portfolio.socials.github} aria-label="GitHub"><Icon name="github" /></a>
           <a href={portfolio.socials.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a>

@@ -52,6 +52,6 @@ html.portfolio-cursor-enabled, html.portfolio-cursor-enabled body, html.portfoli
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .portfolio-cursor, .portfolio-ambient, .particle-portrait__canvas { display: none !important; }
+  .portfolio-cursor, .portfolio-ambient { display: none !important; }
   .project-card__media img, .portfolio-header__menu span { transition: none !important; }
 }

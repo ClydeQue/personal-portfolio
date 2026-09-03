@@ -1,5 +1,13 @@
 # Clyde portfolio design QA
 
+## Voice and icon-contrast refinement (2026-09-03)
+
+- Clyde reviewed and approved the first-person writing direction before implementation. Personal/Professional Home, About, experience summaries, project contributions, writing, and supporting copy now use that voice. Technical facts, dates, shared authorship, and project boundaries remain intact. `VOICE.md` plus root `AGENTS.md` make the writing rule apply across the portfolio.
+- Root cause of pale icons: single-color SVGs such as TanStack and Cloud Storage retain their light source colors through grayscale, and the old contrast filter further washed them out. Single-color marks now use a dark monochrome treatment in default, hover, and focus states. Multicolor badges keep their internal detail; their old contrast boost was removed.
+- A rendered-component/CSS regression test failed on the original TanStack filter and passed after the fix. A second regression test reproduced the photo layer behind the Three.js canvas and now confirms the particle hero renders no `img` or `picture`. Fresh build, all 85 tests, lint, and build asset audit pass. The existing lazy Three.js chunk-size warning remains.
+- Browser checks confirmed the updated first-person descriptions, dark TanStack/React/Cloud Storage marks, preserved C#/OpenAI badge detail, all 58 Personal icons, and no horizontal overflow or failed loaded images at desktop and 390px Personal widths. Deployment verification is recorded separately against the release SHA.
+- Closed: the Personal dashboard previously mounted Clyde’s profile photo below the Three.js canvas until the first painted frame. The hero now contains only the procedural canvas plus accessible text. Reduced motion renders one static particle frame rather than showing the portrait; Clyde’s supplied photo remains on About, Professional, and other intentionally personalized surfaces.
+
 ## Local update verified 2026-09-03
 
 This section records the September 3 pre-release implementation checks. Deployment success must be verified separately against the release commit and live assets. The September 1 production evidence below describes the previous release.
