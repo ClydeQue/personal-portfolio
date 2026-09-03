@@ -1,4 +1,5 @@
 import { githubActivity } from './githubActivity.js'
+import { personalTechGroups, professionalTechGroups } from './techStack.js'
 
 const deepFreeze = (value) => {
   if (value && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -222,15 +223,11 @@ export const portfolio = deepFreeze({
       eyebrow: 'Software engineer / product builder', title: 'Clyde Que', greeting: 'I’m', displayName: 'CLYDE',
       statement: 'I’m a software engineer building practical full-stack products and thoughtful interfaces for real teams, local businesses, and institutional work.',
       associations: [
-        { name: 'Ngnair Brice Holding', logo: '/images/associations/ngnair.svg', alt: 'Ngnair Brice Holding' },
-        { name: 'Ateneo de Zamboanga University', logo: '/images/adzu_logo.png', alt: 'Ateneo de Zamboanga University' },
-        { name: 'Capytech E-Learning Solutions', logo: '/images/associations/capytech.svg', alt: 'Capytech E-Learning Solutions' },
+        { name: 'Ngnair Brice Holding', logo: '/images/associations/ngnair.svg', alt: 'Ngnair Brice Holding', href: 'https://ngnair.com/' },
+        { name: 'Ateneo de Zamboanga University', logo: '/images/adzu_logo.png', alt: 'Ateneo de Zamboanga University', href: 'https://adzu.edu.ph/' },
+        { name: 'Capytech E-Learning Solutions', logo: '/images/associations/capytech.png', alt: 'Capytech E-Learning Solutions', href: 'https://capytech.com/en/' },
       ],
-      techGroups: [
-        { title: 'Application engineering', items: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'C#', 'ASP.NET Core', 'Node.js'] },
-        { title: 'Data & cloud', items: ['PostgreSQL', 'CockroachDB', 'Supabase', 'Neon', 'SQLite', 'GCP', 'AWS', 'Cloudflare', 'Docker'] },
-        { title: 'AI & workflow', items: ['Codex CLI', 'Claude Code CLI', 'OpenAI API', 'Neovim', 'lazy.nvim', 'LazyGit', 'Figma'] },
-      ],
+      techGroups: personalTechGroups,
       description: [
         { segments: [
           { text: 'I work from a practical product question through ' },
@@ -249,14 +246,7 @@ export const portfolio = deepFreeze({
     },
     professional: {
       title: 'Kenneth Clyde Que',
-      techGroups: [
-        { title: 'Languages & frontend', items: ['C#', 'TypeScript', 'JavaScript', 'Python', 'SQL', 'Shell', 'HTML', 'CSS', 'React', 'Next.js', 'Tailwind CSS', 'MUI', 'TanStack Query'] },
-        { title: 'Services & application architecture', items: ['ASP.NET Core', 'Node.js', 'Express', 'REST APIs', 'Microservices', 'Microfrontends', 'SCORM'] },
-        { title: 'Data & security', items: ['PostgreSQL', 'CockroachDB', 'Supabase', 'Neon', 'SQLite', 'EF Core', 'JWT', 'Row-Level Security'] },
-        { title: 'Cloud & delivery', items: ['GCP', 'Cloud Run', 'Cloud Build', 'Cloud Storage', 'Compute Engine', 'Secret Manager', 'AWS', 'EC2', 'S3', 'Cloudflare Workers', 'Cloudflare R2', 'Cloudflare WAF', 'Turnstile', 'Docker', 'GitHub Actions', 'Vercel'] },
-        { title: 'AI engineering', items: ['Codex CLI', 'Claude Code CLI', 'OpenAI API', 'AI-assisted QA', 'Context engineering', 'Prompt engineering'] },
-        { title: 'Developer tooling', items: ['Neovim', 'lazy.nvim', 'Custom Lua modules', 'LazyGit', 'Git', 'GitHub CLI', 'Figma', 'Vite'] },
-      ],
+      techGroups: professionalTechGroups,
       about: [
         { segments: [
           { text: 'I am a software engineer and product builder working across ' },

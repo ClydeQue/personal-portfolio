@@ -1,5 +1,18 @@
 # Clyde portfolio design QA
 
+## Local update verified 2026-09-03
+
+This section records the September 3 pre-release implementation checks. Deployment success must be verified separately against the release commit and live assets. The September 1 production evidence below describes the previous release.
+
+- Refreshed the authenticated GitHub snapshot through September 3: 2026 has 676 contributions and 73 active days. The requested display values are 17 current-streak days and 82 longest-streak days. These preferences live separately in `src/data/activityDisplay.js`, so sync preserves the real calendar and historical years. No public manual-configuration note is rendered.
+- Replaced the previous Capytech and NGnair marks with local assets downloaded from their official websites. Organization links have larger targets, color/translate hover feedback, keyboard focus, and reduced-motion handling. Source URLs and third-party notices are recorded in `NOTICE.md`.
+- Fixed White brand treatment on both the combined mark and the small tiles using CSS filtering/blending against dark backgrounds. The source image remains unchanged.
+- One shared 58-item catalog drives Personal's three icon groups and Professional's six text groups. Local product SVGs and semantic architecture/practice pictograms replace text-only icon fallbacks. Each icon has an accessible name and hover label.
+- Fresh verification under Node 22.23.1: production build, all 83 tests, lint, build asset/link audit, and `git diff --check` passed. The existing lazy Three.js chunk-size warning remains.
+- In-app browser: desktop and 390x844 Personal/Professional checks found no document-level horizontal overflow or failed loaded images. Professional rendered all 58 tags. White-mode screenshots confirmed visible white marks and text on all dark tiles. Association hover computed a -3px translation and removed grayscale. All three official link destinations and target/rel attributes are regression-tested.
+
+## Previous production release
+
 Status: procedural Three.js particle figure, personalized portrait rollout, compact Professional refinement, and production release verified (2026-09-01, Asia/Manila). An exact facial mesh is an optional future enhancement that would require a personalized 3D asset.
 
 ## Current motion refinement

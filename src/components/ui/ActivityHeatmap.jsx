@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { activityYear } from '../../app/interaction.js'
 import { portfolio } from '../../data/portfolio.js'
+import { activityStreakOverrides } from '../../data/activityDisplay.js'
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -57,6 +58,7 @@ function ActivityHeatmap() {
   )
 
   if (!year || !yearData) return null
+  const streaks = activityStreakOverrides[year] ?? yearData
 
   return (
     <section className="activity-heatmap" aria-labelledby="activity-title">
@@ -72,8 +74,8 @@ function ActivityHeatmap() {
       <div className="activity-heatmap__stats" aria-label={`${year} GitHub contribution activity summary`}>
         <span><small>Total contributions</small><strong>{yearData.totalContributions}</strong></span>
         <span><small>Active days</small><strong>{yearData.activeDays}</strong></span>
-        <span><small>Current streak</small><strong>{yearData.currentStreak} {yearData.currentStreak === 1 ? 'day' : 'days'}</strong></span>
-        <span><small>Longest streak</small><strong>{yearData.longestStreak} {yearData.longestStreak === 1 ? 'day' : 'days'}</strong></span>
+        <span><small>Current streak</small><strong>{streaks.currentStreak} {streaks.currentStreak === 1 ? 'day' : 'days'}</strong></span>
+        <span><small>Longest streak</small><strong>{streaks.longestStreak} {streaks.longestStreak === 1 ? 'day' : 'days'}</strong></span>
       </div>
       <div className="activity-heatmap__body">
         <div className="activity-heatmap__rail">

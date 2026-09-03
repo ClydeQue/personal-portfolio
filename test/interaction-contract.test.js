@@ -154,7 +154,7 @@ test('ActivityHeatmap updates pressed state, summary, and stats after clicking a
       ...activityYears.map(({ year }) => ({ year: String(year), pressed: year === newestYear.year })),
     ])
     assert.match(initial.summary, new RegExp(`${newestYear.year}.*${newestYear.totalContributions} contributions tracked`))
-    assert.deepEqual(initial.metrics, metricValues(newestYear))
+    assert.deepEqual(initial.metrics, [String(newestYear.totalContributions), String(newestYear.activeDays), '17 days', '82 days'])
 
     assert.deepEqual(afterClick.buttons.map(({ year, pressed }) => ({ year, pressed })), [
       ...activityYears.map(({ year }) => ({ year: String(year), pressed: year === historicalYear.year })),

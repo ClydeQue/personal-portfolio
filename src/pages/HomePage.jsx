@@ -7,10 +7,10 @@ import SplitFlapName from '../components/ui/SplitFlapName.jsx'
 import ProjectCard from '../components/ui/ProjectCard.jsx'
 import Icon from '../components/ui/Icon.jsx'
 import Reveal from '../components/ui/Reveal.jsx'
+import TechIcon from '../components/ui/TechIcon.jsx'
 
 const portraitSources = ['/images/profme.webp', '/images/profme.png']
 const ParticlePortrait = lazy(() => import('../components/ui/ParticlePortrait.jsx'))
-const iconFor = { React: 'react', TypeScript: 'typescript', JavaScript: 'javascript', HTML: 'html', CSS: 'css', 'Tailwind CSS': 'tailwind', MUI: 'mui', 'Node.js': 'nodejs', Express: 'express', PostgreSQL: 'postgre', Supabase: 'supabase', Figma: 'figma', Git: 'git', Docker: 'docker', Cloudflare: 'cloudflare', OpenAI: 'openai' }
 
 function RichText({ paragraph }) {
   return <>{paragraph.segments.map(({ text, emphasis }, index) => emphasis
@@ -26,8 +26,7 @@ function TechList({ compact = false }) {
         <h3>{group.title}</h3>
         <div>{group.items.map((item) => {
           if (compact) return <span key={item}>{item}</span>
-          const icon = iconFor[item]
-          return icon ? <span className="tech-list__icon" key={item} aria-label={item} title={item}><img src={`/techstack/${icon}.svg`} alt="" /></span> : <span className="tech-list__text" key={item}>{item}</span>
+          return <TechIcon key={item} name={item} />
         })}</div>
       </section>)}
     </div>
@@ -48,7 +47,7 @@ function PersonalHome() {
       </div>
       <Reveal as="section" className="home-associations" aria-label="Associated organizations" delay={.08}>
         <h2>Associated</h2>
-        <div>{portfolio.home.personal.associations.map((association) => <span key={association.name}><img src={association.logo} alt={association.alt} /></span>)}</div>
+        <div>{portfolio.home.personal.associations.map((association) => <a key={association.name} href={association.href} target="_blank" rel="noopener noreferrer" title={`Visit ${association.name}`}><img src={association.logo} alt={association.alt} /></a>)}</div>
       </Reveal>
     </section>
 
@@ -66,10 +65,10 @@ function PersonalHome() {
       </Reveal>
       <Reveal as="section" className="home-panel home-panel--brand" aria-labelledby="brand-title">
         <h2 id="brand-title">Brand Assets</h2>
-        <div className="brand-assets">
+        <div className="brand-assets" data-tone={brandTone}>
           <div className="brand-assets__tabs" role="tablist" aria-label="Brand mark treatment">{['black', 'white', 'iridescent'].map((tone) => <button key={tone} type="button" role="tab" aria-selected={brandTone === tone} onClick={() => setBrandTone(tone)}>/{tone[0].toUpperCase()}{tone.slice(1)}</button>)}</div>
           <div className="brand-assets__wide" data-tone={brandTone}><img src={portfolio.identity.brandMark} alt="" /><strong>{portfolio.identity.shortName}</strong></div>
-          <div className="brand-assets__small"><img src={portfolio.identity.brandMark} alt="Clyde Que mark" /><strong>{portfolio.identity.shortName}</strong></div>
+          <div className="brand-assets__small"><div><img src={portfolio.identity.brandMark} alt="Clyde Que mark" /></div><strong>{portfolio.identity.shortName}</strong></div>
         </div>
       </Reveal>
       <Reveal as="section" className="home-panel home-panel--featured" aria-labelledby="featured-title" delay={.06}>

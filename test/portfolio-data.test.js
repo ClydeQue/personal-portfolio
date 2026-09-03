@@ -70,7 +70,7 @@ test('home associations render as meaningful local organization marks', () => {
     'Capytech E-Learning Solutions',
   ])
   for (const association of portfolio.home.personal.associations) {
-    assert.match(association.logo, /^\/images\/(?:associations\/[a-z0-9-]+\.svg|adzu_logo\.png)$/)
+    assert.match(association.logo, /^\/images\/(?:associations\/[a-z0-9-]+\.(?:svg|png)|adzu_logo\.png)$/)
     assert.equal(association.alt, association.name)
   }
 })
