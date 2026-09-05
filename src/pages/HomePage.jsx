@@ -25,7 +25,7 @@ function TechList({ compact = false }) {
       {groups.map((group) => <section key={group.title}>
         <h3>{group.title}</h3>
         <div>{group.items.map((item) => {
-          if (compact) return <span key={item}>{item}</span>
+          if (compact) return <TechIcon key={item} name={item} label focusable={false} />
           return <TechIcon key={item} name={item} />
         })}</div>
       </section>)}
@@ -38,7 +38,7 @@ function PersonalHome() {
   const featuredProjects = portfolio.projects.slice(0, 2)
   return <div className="home-page home-page--personal">
     <section className="home-hero" aria-labelledby="personal-home-title">
-      <Suspense fallback={<div className="particle-portrait"><ImageWithFallback className="particle-portrait__fallback" sources={portraitSources} alt={portfolio.identity.name} /></div>}>
+      <Suspense fallback={<div className="particle-portrait" aria-label="Loading particle portrait" />}>
         <ParticlePortrait alt={portfolio.identity.name} />
       </Suspense>
       <div className="home-hero__copy">
@@ -91,7 +91,7 @@ function ProfessionalHome() {
       <Reveal className="professional-profile">
         <div className="professional-profile__intro">
           <ImageWithFallback sources={portraitSources} alt={portfolio.identity.name} />
-          <div className="professional-profile__identity"><h1 id="professional-home-title"><span>{portfolio.home.professional.title}</span><i aria-label="Verified local portfolio identity">✓</i></h1><strong>{portfolio.identity.role}</strong></div>
+          <div className="professional-profile__identity"><h1 id="professional-home-title"><span>{portfolio.home.professional.title}</span><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 12 4 4 8-8" /></svg></i></h1><strong>{portfolio.identity.role}</strong></div>
         </div>
         <div className="professional-profile__actions"><a href={portfolio.socials.github} aria-label="GitHub"><Icon name="github" /></a><a href={portfolio.socials.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a><a href={portfolio.socials.email} aria-label="Email"><Icon name="mail" /></a></div>
         <div className="professional-profile__cta"><a href={`${portfolio.socials.email}?subject=Portfolio%20call%20request`}>Schedule a Call</a><button type="button" onClick={() => navigate('/experience')}>Experience</button></div>

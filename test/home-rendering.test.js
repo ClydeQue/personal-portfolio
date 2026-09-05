@@ -94,3 +94,36 @@ test('particle hero never renders the profile photo behind the Three.js canvas',
     assert.equal(portrait.querySelector('.sr-only')?.textContent, 'Kenneth Clyde Que')
   } finally { dom.window.close() }
 })
+
+test('both portfolio views expose the same technology groups and accessible icons', async () => {
+  const views = await Promise.all(['personal', 'professional'].map(renderHome))
+  const doms = views.map((html) => new JSDOM(html))
+  try {
+    const entries = doms.map(({ window }) => [...window.document.querySelectorAll('.tech-list section')].map((section) => ({
+      title: section.querySelector('h3').textContent,
+      items: [...section.querySelectorAll('.tech-list__icon')].map((icon) => icon.getAttribute('aria-label')),
+    })))
+    assert.deepEqual(entries[0], entries[1])
+    for (const icon of doms[1].window.document.querySelectorAll('.tech-list__icon')) {
+      assert.ok(icon.querySelector('img, svg'))
+      assert.equal(icon.querySelector('.tech-list__label').textContent, icon.getAttribute('aria-label'))
+    }
+  } finally { doms.forEach((dom) => dom.window.close()) }
+})
+
+test('IMS feature renders infrastructure and labeled placeholders without a client destination', async () => {
+  const server = await createServer({ appType: 'custom', plugins: [react()], server: { middlewareMode: true } })
+  try {
+    const { default: Page } = await server.ssrLoadModule('/src/pages/ProjectDetailPage.jsx')
+    const dom = new JSDOM(renderToStaticMarkup(React.createElement(Page, { slug: 'ims' })))
+    try {
+      assert.equal(portfolio.projects[0].slug, 'ims')
+      assert.equal(portfolio.projects[0].externalUrl, undefined)
+      assert.ok(dom.window.document.querySelector('.project-placeholder'))
+      assert.equal(dom.window.document.querySelectorAll('.project-infrastructure li').length, 5)
+      assert.match(dom.window.document.body.textContent, /Cloud Run/)
+      assert.match(dom.window.document.body.textContent, /Cloudflare R2/)
+      assert.doesNotMatch(dom.window.document.body.innerHTML, /ims\.suntasticzc|github\.com\/.*Suntastic/)
+    } finally { dom.window.close() }
+  } finally { await server.close() }
+})

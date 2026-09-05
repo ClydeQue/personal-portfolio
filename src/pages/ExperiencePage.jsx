@@ -4,14 +4,14 @@ import { uiReducer, initialUiState } from '../app/uiState.js'
 import { navigate } from '../app/router.js'
 import ActivityHeatmap from '../components/ui/ActivityHeatmap.jsx'
 import { portfolio } from '../data/portfolio.js'
+import TechIcon from '../components/ui/TechIcon.jsx'
 
 const journeyValues = ['Build', 'Verify', 'Learn', 'Contribute']
 
 function Skill({ skill, className = '', style }) {
-  return <span className={className} style={style} title={skill.label} aria-label={skill.label}>
-    {skill.icon ? <img src={`/techstack/${skill.icon}.svg`} alt="" /> : <b>{skill.label}</b>}
-    {className.includes('experience-orbit') ? <small>{skill.label}</small> : null}
-    {className.includes('experience-phase__skill') ? <small>{skill.label}</small> : null}
+  return <span className={`experience-skill ${className}`} style={style}>
+    <TechIcon name={skill.label} focusable={false} />
+    {!className.includes('experience-orbit') && <small>{skill.label}</small>}
   </span>
 }
 

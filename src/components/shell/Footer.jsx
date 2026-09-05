@@ -25,7 +25,7 @@ function Footer() {
         </section>
       </div>
       <div className="portfolio-frame portfolio-footer__legal">
-        <span>© 2026 {portfolio.identity.shortName}. All rights reserved.</span>
+        <span>© {new Date().getFullYear()} {portfolio.identity.shortName}</span>
       </div>
     </footer>
   )

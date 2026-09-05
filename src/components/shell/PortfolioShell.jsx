@@ -7,7 +7,6 @@ import CustomCursor from './CustomCursor.jsx'
 import Footer from './Footer.jsx'
 import Header from './Header.jsx'
 import MobileMenu from './MobileMenu.jsx'
-import StatusBar from './StatusBar.jsx'
 
 function PortfolioShell({ route, view, onViewChange, children }) {
   const [ui, dispatch] = useReducer(uiReducer, initialUiState)
@@ -31,7 +30,6 @@ function PortfolioShell({ route, view, onViewChange, children }) {
     <div className="portfolio-shell" data-route={route.name}>
       <AmbientCanvas />
       <CustomCursor />
-      {route.name !== 'projectDetail' && <StatusBar />}
       <Header route={route} view={selectedView} onViewChange={selectView} menuOpen={ui.menuOpen} onMenuToggle={() => dispatch({ type: 'menu/toggle' })} menuTriggerRef={menuTriggerRef} />
       <MobileMenu open={ui.menuOpen} view={selectedView} onViewChange={selectView} onClose={() => dispatch({ type: 'menu/close' })} triggerRef={menuTriggerRef} />
       <main className="portfolio-main">{children}</main>

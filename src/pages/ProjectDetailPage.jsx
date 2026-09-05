@@ -7,6 +7,7 @@ import ActivityHeatmap from '../components/ui/ActivityHeatmap.jsx'
 import Icon from '../components/ui/Icon.jsx'
 import ImageWithFallback from '../components/ui/ImageWithFallback.jsx'
 import ProjectCard from '../components/ui/ProjectCard.jsx'
+import ProjectPlaceholder from '../components/ui/ProjectPlaceholder.jsx'
 
 function MissingProject() {
   return (
@@ -36,7 +37,7 @@ function ProjectDetailPage({ slug }) {
         <button type="button" onClick={() => navigate('/')}>Home</button><span>/</span><button type="button" onClick={() => navigate('/projects')}>Projects</button><span>/</span><strong>{project.title}</strong>
       </div>
       <article className="project-detail-page__frame">
-        <ImageWithFallback sources={[project.cover, ...project.gallery]} alt={`${project.title} project cover`} className="project-detail-page__cover" />
+        {project.placeholder ? <ProjectPlaceholder project={project} className="project-detail-page__cover" /> : <ImageWithFallback sources={[project.cover, ...project.gallery]} alt={`${project.title} project cover`} className="project-detail-page__cover" />}
         <header className="project-detail-page__heading">
           <p className="page-kicker"><i aria-hidden="true" />{project.category} · {project.period}</p>
           <h1>{project.title}</h1>
@@ -53,7 +54,7 @@ function ProjectDetailPage({ slug }) {
           <div><p className="page-kicker">Category</p><strong>{project.category}</strong></div>
           <div><p className="page-kicker">Tags</p><ul className="project-detail-page__tags">{project.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul></div>
           <div><p className="page-kicker">My role</p><strong>{portfolio.identity.name}</strong><span>{project.role}</span></div>
-          <div><p className="page-kicker">Official site</p>{project.externalUrl ? <a href={project.externalUrl} target="_blank" rel="noreferrer">Visit project ↗</a> : <span>No public link</span>}</div>
+          <div><p className="page-kicker">{project.company ? 'Company' : 'Official site'}</p>{project.company ? <strong>{project.company}</strong> : project.externalUrl ? <a href={project.externalUrl} target="_blank" rel="noreferrer">Visit project ↗</a> : <span>No public link</span>}</div>
         </section>
 
         <section className="project-detail-page__delivery" aria-label={`${project.title} responsibilities and technologies`}>
@@ -65,10 +66,11 @@ function ProjectDetailPage({ slug }) {
           <div className="project-detail-page__description">
             <header><p className="page-kicker">Case study</p><h2>Description</h2></header>
             {project.bodySections.map((section) => <section key={section.heading}><h3>{section.heading}</h3><p>{section.body}</p></section>)}
-            <section className="project-detail-page__gallery" aria-labelledby="project-gallery-title">
+            {project.infrastructure && <section className="project-infrastructure" aria-label="IMS infrastructure"><h3>Infrastructure</h3><ol>{project.infrastructure.map(({ name, detail }) => <li key={name}><strong>{name}</strong><span>{detail}</span></li>)}</ol></section>}
+            {project.placeholder ? <section className="project-detail-page__gallery"><h3>Project visuals</h3><p>Application screenshots are coming soon.</p></section> : <section className="project-detail-page__gallery" aria-labelledby="project-gallery-title">
               <div><p className="page-kicker">Local media</p><h3 id="project-gallery-title">Inside the work</h3></div>
               <div>{project.gallery.map((image, index) => <ImageWithFallback sources={[image, project.cover]} alt={`${project.title} screenshot ${index + 1}`} key={image} loading="lazy" />)}</div>
-            </section>
+            </section>}
           </div>
           <aside className="project-detail-page__related" aria-labelledby="related-projects-title">
             <header><p className="page-kicker">Continue exploring</p><h2 id="related-projects-title">Other projects</h2></header>

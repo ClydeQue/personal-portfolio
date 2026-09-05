@@ -9,8 +9,8 @@ const collectMediaPaths = (value, found = []) => {
   return found
 }
 
-test('contains six truthful project case studies and four writing entries', () => {
-  assert.equal(portfolio.projects.length, 6)
+test('contains seven project case studies and four writing entries', () => {
+  assert.equal(portfolio.projects.length, 7)
   assert.equal(portfolio.posts.length, 4)
   assert.equal(portfolio.experiencePhases.length, 4)
   assert.deepEqual(portfolio.experiencePhases.map(({ organization }) => organization), [

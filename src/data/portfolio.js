@@ -11,6 +11,34 @@ const deepFreeze = (value) => {
 
 const projects = [
   {
+    slug: 'ims', title: 'IMS · Suntastic ZC', period: '2026–Present', category: 'Business application',
+    company: 'Suntastic ZC', placeholder: true,
+    summary: 'A Solar inventory, sales, and collections system that connects the stockroom, branch operations, suppliers, and customer projects.',
+    role: 'Full-stack developer',
+    responsibilities: [
+      'I build the Admin and Clerk workflows, from receiving stock to recording sales and collections.',
+      'I implement the API rules that keep inventory movements, payments, and role permissions consistent.',
+      'I work on the cloud infrastructure, private media, automated checks, and deployment workflows.',
+    ],
+    technologies: ['C#', 'ASP.NET Core', 'EF Core', 'Next.js', 'React', 'TypeScript', 'TanStack Query', 'PostgreSQL', 'CockroachDB', 'Cloud Run', 'Cloudflare Workers', 'Cloudflare R2', 'Docker', 'GitHub Actions'],
+    bodySections: [
+      { heading: 'Purpose and company', body: 'I’m building IMS for Suntastic ZC to bring its Solar inventory, sales, supplier balances, and customer collections into one application. The goal is to make daily operations easier to follow, with a clear record of where stock moved and how each balance changed.' },
+      { heading: 'How people use it', body: 'The Admin manages Solar Items, Inverters, Solar Panels, Batteries, supplier receipts, and customer or installer projects. Clerks work with inventory allocated to their branch and use dedicated sales and collection screens. The API decides what each role can access.' },
+      { heading: 'Keeping stock and money consistent', body: 'I keep one global inventory record, with branch allocations traced back to receipt lots. Customer collections and supplier payments have separate ledgers. Payments, reversals, and stock movements preserve their history, and repeated requests use operation IDs so a retry does not record the same transaction twice.' },
+      { heading: 'Application architecture', body: 'IMS uses a modular ASP.NET Core API with EF Core as the database writer. The Next.js dashboard communicates through a same-origin backend-for-frontend. This gives the interface a single access point while the API owns authorization and business rules.' },
+      { heading: 'Infrastructure and delivery', body: 'The dashboard runs on Cloudflare Workers through OpenNext, and the API runs on Google Cloud Run. CockroachDB provides the hosted PostgreSQL-compatible database, while PostgreSQL and Docker support local development. Private media uses Cloudflare R2. GitHub Actions and Cloud Build support checks and releases across staging and production.' },
+      { heading: 'Reports and everyday performance', body: 'I use bounded server queries, cursor pagination, and on-demand detail views so the dashboard loads the information a person needs. Reports and exports use the same server-side rules as the screens. TanStack Query updates related views after a change without continuous polling.' },
+    ],
+    infrastructure: [
+      { name: 'Web application', detail: 'Next.js + React on Cloudflare Workers, deployed with OpenNext. The same-origin BFF handles browser requests.' },
+      { name: 'Business API', detail: 'ASP.NET Core + EF Core on Google Cloud Run. Authenticated service access and API-enforced roles protect business operations.' },
+      { name: 'Data', detail: 'CockroachDB for hosted PostgreSQL-compatible storage; PostgreSQL for local development. The API is the only database writer.' },
+      { name: 'Private media', detail: 'Cloudflare R2 stores images with API-authorized upload and retrieval. Database records retain metadata and audit history.' },
+      { name: 'Delivery', detail: 'Docker, GitHub Actions, and Cloud Build support testing and versioned staging and production releases.' },
+    ],
+    cover: null, gallery: [], relatedSlugs: ['offline-pos', 'waiveright'],
+  },
+  {
     slug: 'waiveright', title: 'WaiveRight', period: 'Nov–Dec 2025', category: 'Web system',
     summary: 'A dual-portal academic waiver workflow for students and administrators.',
     role: 'Freelance full-stack developer',

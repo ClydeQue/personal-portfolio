@@ -49,3 +49,7 @@ Product names and marks remain the property of their respective owners.
 The C# icon is from [Devicon](https://devicon.dev/), distributed under the
 MIT terms included in `docs/third-party/devicon-MIT.txt`.
 Architecture and workflow concepts use original line pictograms.
+
+`public/techstack/tailwind-mark.svg` is an icon-only adaptation of the existing
+local Tailwind CSS wordmark. The mark identifies the technology, not ownership
+of the Tailwind CSS brand.

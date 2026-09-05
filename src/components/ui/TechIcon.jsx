@@ -1,6 +1,6 @@
 const techIconMap = {
-  React: 'react', 'Next.js': 'nextdotjs', TypeScript: 'typescript', JavaScript: 'javascript',
-  Python: 'python', HTML: 'html', CSS: 'css', 'Tailwind CSS': 'tailwind', MUI: 'mui',
+  React: 'experience-react', 'Next.js': 'nextdotjs', TypeScript: 'typescript', JavaScript: 'javascript',
+  Python: 'python', HTML: 'html', CSS: 'css', 'Tailwind CSS': 'tailwind-mark', MUI: 'mui',
   'TanStack Query': 'tanstack', 'C#': 'csharp', 'ASP.NET Core': 'dotnet', 'Node.js': 'nodejs', Express: 'express',
   PostgreSQL: 'postgre', CockroachDB: 'cockroachlabs', Supabase: 'supabase', Neon: 'neon', SQLite: 'sqlite', 'EF Core': 'dotnet',
   JWT: 'jsonwebtokens', GCP: 'googlecloud', 'Cloud Run': 'googlecloud', 'Cloud Build': 'googlecloud',
@@ -14,9 +14,9 @@ const techIconMap = {
 // Single-color marks can be normalized safely. Multicolor badges need their
 // internal light/dark detail, so flattening every SVG would hide their lettering.
 const monochromeIcons = new Set([
-  'react', 'nextdotjs', 'mui', 'tanstack', 'dotnet', 'express', 'cockroachlabs',
+  'react', 'experience-react', 'nextdotjs', 'mui', 'tanstack', 'dotnet', 'express', 'cockroachlabs',
   'neon', 'sqlite', 'jsonwebtokens', 'googlecloud', 'googlecloudstorage',
-  'cloudflareworkers', 'githubactions', 'vercel', 'claude', 'neovim', 'lua', 'vite',
+  'cloudflareworkers', 'cloudflare', 'githubactions', 'vercel', 'claude', 'neovim', 'lua', 'vite',
 ])
 
 // Architecture and practices have semantic pictograms, not invented company marks.
@@ -32,13 +32,18 @@ const practicePaths = {
   'AI-assisted QA': 'M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5zM18 17l2 2 3-4',
   'Context engineering': 'M3 4h12v12H3zM8 8h12v12H8M6 8h5M6 12h5',
   'Prompt engineering': 'M3 3h18v14H8l-5 4zM7 7l3 3-3 3m6 0h4',
+  'Product QA': 'M5 3h14v18H5zM8 12l3 3 5-6',
+  'Web development': 'M2 3h20v18H2zM2 8h20M9 11l-3 3 3 3m6-6 3 3-3 3',
+  'Cloud computing': 'M7 18a5 5 0 1 1 0-10 6 6 0 0 1 11-2 6 6 0 0 1 0 12H7',
+  'Systems architecture': 'M9 2h6v6H9zM2 16h6v6H2zM16 16h6v6h-6zM12 8v4M5 16v-4h14v4',
 }
 
-export default function TechIcon({ name }) {
+export default function TechIcon({ name, label = false, focusable = true }) {
   const icon = techIconMap[name]
-  return <span className={`tech-list__icon${monochromeIcons.has(icon) ? ' tech-list__icon--mono' : ''}`} role="img" aria-label={name} title={name} data-label={name} tabIndex={0}>
+  return <span className={`tech-list__icon${monochromeIcons.has(icon) ? ' tech-list__icon--mono' : ''}${label ? ' tech-list__icon--labeled' : ''}`} role="img" aria-label={name} title={name} data-label={name} tabIndex={focusable ? 0 : undefined}>
     {icon
       ? <img src={`/techstack/${icon}.svg`} alt="" loading="lazy" />
       : <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={practicePaths[name] ?? practicePaths['REST APIs']} /></svg>}
+    {label && <span className="tech-list__label" aria-hidden="true">{name}</span>}
   </span>
 }

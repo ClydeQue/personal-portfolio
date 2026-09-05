@@ -1,5 +1,6 @@
 import { navigate } from '../../app/router.js'
 import ImageWithFallback from './ImageWithFallback.jsx'
+import ProjectPlaceholder from './ProjectPlaceholder.jsx'
 
 function ProjectCard({ project, variant = 'feature' }) {
   const imageSources = [project.cover, ...project.gallery.filter((image) => image !== project.cover)]
@@ -9,7 +10,7 @@ function ProjectCard({ project, variant = 'feature' }) {
     return (
       <article className="project-card project-card--index">
         <button className="project-card__media" type="button" onClick={() => navigate(detailPath)} aria-label={`View ${project.title}`}>
-          <ImageWithFallback sources={imageSources} alt="" loading="lazy" />
+          {project.placeholder ? <ProjectPlaceholder project={project} /> : <ImageWithFallback sources={imageSources} alt="" loading="lazy" />}
           <span className="project-card__index-copy"><strong>{project.title}</strong><em>{project.summary}</em><b>{project.technologies.slice(0, 3).join(' · ')}</b></span>
           <span className="project-card__view">View</span>
         </button>
@@ -20,7 +21,7 @@ function ProjectCard({ project, variant = 'feature' }) {
   return (
     <article className={`project-card project-card--${variant}`}>
       <button className="project-card__media" type="button" onClick={() => navigate(detailPath)} aria-label={`View ${project.title}`}>
-        <ImageWithFallback sources={imageSources} alt="" loading="lazy" />
+        {project.placeholder ? <ProjectPlaceholder project={project} /> : <ImageWithFallback sources={imageSources} alt="" loading="lazy" />}
         {variant === 'home' ? <span className="project-card__view">&lt; View</span> : <span>{project.category}</span>}
       </button>
       {variant !== 'home' && <div className="project-card__body">
