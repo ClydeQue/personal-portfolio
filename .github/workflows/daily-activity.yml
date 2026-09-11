@@ -1,4 +1,4 @@
-name: Automated daily activity
+name: Refresh GitHub contribution graph
 
 on:
   schedule:
@@ -14,20 +14,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  activity:
-    if: github.repository == 'ClydeQue/personal-portfolio' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-        with:
-          ref: main
-          fetch-depth: 0
-      - name: Record transparent automated activity
-        run: python3 .github/scripts/daily-activity.py
-
   refresh-graph:
-    needs: activity
+    if: github.repository == 'ClydeQue/personal-portfolio' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

@@ -2,27 +2,20 @@
 
 React and Vite portfolio with Personal and Professional views.
 
-## Automated activity
+## Automatic contribution refresh
 
-GitHub Actions runs `.github/workflows/daily-activity.yml` daily at 15:39
-Asia/Manila, with a second attempt at 21:39 and a manual run option. Each daily batch creates 10–15 explicitly
-labeled automated empty commits. These represent scheduled automation, not
-manual development, and do not change any portfolio files. The count varies;
-the schedule is fixed and GitHub may delay or miss a run.
+GitHub Actions refreshes the real contribution calendar daily at 15:39 and
+21:39 Asia/Manila, with a manual run option. The workflow uses GitHub's API
+and built-in repository token, so no Mac or AI API key is required.
 
-The workflow uses the repository's built-in token, needs no AI API key, and
-works while the owner's computer is off. A date marker prevents duplicate
-batches on retries. Normal push rules apply; it never force-pushes or backdates.
-GitHub profile contribution visibility must be checked separately. Disable the
-workflow in Actions to stop it. The previous local maintenance schedule is
-superseded by this workflow.
+The calendar remains a generated snapshot, refreshed automatically rather than
+hardcoded by hand. Counts and streaks come from that snapshot; there are no
+fixed streak overrides. GitHub indexing and scheduling can delay updates.
 
-After the activity batch, a separate job refreshes the actual GitHub contribution
-calendar, runs build/tests/lint/asset checks, and commits changed snapshot data.
-The second daily attempt catches delayed contribution indexing without creating
-another empty-commit batch. The snapshot can lag recent commits, including its
-own publication; it never invents counts. Illustration and application code are
-not randomly edited by this workflow.
+Each refresh runs build, tests, lint, and the asset audit before committing
+changed snapshot data. Unchanged output produces no commit. Empty commits and
+commit-count targets have been removed. Disable the workflow in Actions to stop
+refreshes. The previous local maintenance task remains paused.
 
 ## Local setup
 
