@@ -2,8 +2,8 @@ name: Automated daily activity
 
 on:
   schedule:
-    # 15:39 Asia/Manila. GitHub may delay scheduled runs.
-    - cron: '39 7 * * *'
+    # 15:39 and 21:39 Asia/Manila; second attempt also refreshes delayed data.
+    - cron: '39 7,13 * * *'
   workflow_dispatch:
 
 permissions:
@@ -25,3 +25,40 @@ jobs:
           fetch-depth: 0
       - name: Record transparent automated activity
         run: python3 .github/scripts/daily-activity.py
+
+  refresh-graph:
+    needs: activity
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22.23.1'
+          cache: npm
+      - run: npm ci
+      - name: Refresh real contribution data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: npm run sync:github-activity
+      - name: Validate graph and portfolio
+        run: |
+          npm run build
+          npm test
+          npm run lint
+          npm run audit:build
+          git diff --check
+      - name: Publish changed graph data
+        run: |
+          if git diff --quiet -- src/data/githubActivity.js; then
+            echo 'Contribution snapshot unchanged.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name 'Clydefois'
+          git config user.email 'kennethque101@gmail.com'
+          git add src/data/githubActivity.js
+          git commit -m 'data: refresh actual GitHub contribution calendar'
+          git push origin HEAD:main

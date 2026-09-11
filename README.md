@@ -5,7 +5,7 @@ React and Vite portfolio with Personal and Professional views.
 ## Automated activity
 
 GitHub Actions runs `.github/workflows/daily-activity.yml` daily at 15:39
-Asia/Manila, with a manual run option. Each daily batch creates 10–15 explicitly
+Asia/Manila, with a second attempt at 21:39 and a manual run option. Each daily batch creates 10–15 explicitly
 labeled automated empty commits. These represent scheduled automation, not
 manual development, and do not change any portfolio files. The count varies;
 the schedule is fixed and GitHub may delay or miss a run.
@@ -16,6 +16,13 @@ batches on retries. Normal push rules apply; it never force-pushes or backdates.
 GitHub profile contribution visibility must be checked separately. Disable the
 workflow in Actions to stop it. The previous local maintenance schedule is
 superseded by this workflow.
+
+After the activity batch, a separate job refreshes the actual GitHub contribution
+calendar, runs build/tests/lint/asset checks, and commits changed snapshot data.
+The second daily attempt catches delayed contribution indexing without creating
+another empty-commit batch. The snapshot can lag recent commits, including its
+own publication; it never invents counts. Illustration and application code are
+not randomly edited by this workflow.
 
 ## Local setup
 
