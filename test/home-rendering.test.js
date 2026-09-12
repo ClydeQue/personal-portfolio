@@ -35,6 +35,7 @@ test('personal home renders organization marks and emphasized description copy',
   assert.match(html, /<img[^>]+alt="Ateneo de Zamboanga University"/)
   assert.match(html, /<img[^>]+alt="Capytech E-Learning Solutions"/)
   assert.match(html, /<strong[^>]*>microservices and microfrontends<\/strong>/)
+  assert.match(html, /href="\/portfolio\/KennethClydeQue_Resume\.pdf"[^>]*>View Resume/)
 })
 
 test('professional home renders compact rich copy without exposing a location', async () => {
@@ -44,6 +45,8 @@ test('professional home renders compact rich copy without exposing a location', 
   assert.doesNotMatch(html, /Metro Manila|Philippines/)
   assert.match(html, /Tech stack/)
   assert.match(html, /Codex CLI/)
+  assert.match(html, /Software Engineer, working closely with the lead software engineer/)
+  assert.match(html, /href="\/portfolio\/KennethClydeQue_Resume\.pdf"[^>]*>View Resume/)
 })
 
 test('associated organizations are keyboard-accessible links to their official sites', async () => {

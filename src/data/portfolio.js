@@ -65,7 +65,7 @@ const projects = [
       'I built separate views for each office and the Unit Director.',
       'I added SDG-alignment tracking to the reporting workflow.',
     ],
-    technologies: ['React', 'Vite', 'MUI', 'TanStack Query', 'Express', 'Supabase', 'PostgreSQL', 'JWT'],
+    technologies: ['React', 'Vite', 'MUI', 'TanStack Query', 'Axios', 'React PDF', 'Express', 'Supabase', 'PostgreSQL', 'JWT'],
     bodySections: [
       { heading: 'Problem', body: 'The Social Development Unit needed one place to keep track of projects and reports from six offices. Basically, the goal was to bring those updates together so they were easier to manage.' },
       { heading: 'System', body: 'Each office can submit its reports in the system. The Unit Director has a separate view to see the updates in one place, including how the projects align with the SDGs.' },
@@ -83,7 +83,7 @@ const projects = [
       'I built the responsive site with lazy-loaded images and scroll interactions.',
       'I connected booking inquiries to email. The site does not take online payments.',
     ],
-    technologies: ['Figma', 'Tailwind CSS', 'React', 'Vite', 'Resend'],
+    technologies: ['Figma', 'Tailwind CSS', 'React', 'Vite', 'React Router', 'Resend'],
     bodySections: [
       { heading: 'Customer journey', body: 'I built this site so visitors can browse the cars and services, then send a booking inquiry. That includes trips like airport transfers and corporate travel.' },
       { heading: 'Design and performance', body: 'I started with the design in Figma, then built the responsive pages. I used lazy-loaded images and IntersectionObserver for the scroll interactions.' },
@@ -145,9 +145,9 @@ const projects = [
 
 const experiencePhases = [
   {
-    organization: 'Ngnair Brice Holding', role: 'Software Engineer Intern', period: 'Jul 2026–Present',
-    summary: 'I work with the team on payment products, contributing to frontend development and QA. I test workflows, document issues, and check fixes with the developers.',
-    skills: [{ label: 'React', icon: 'experience-react' }, { label: 'TypeScript', icon: 'experience-typescript' }, { label: 'Figma', icon: 'experience-figma' }, { label: 'Product QA' }],
+    organization: 'Ngnair Brice Holding', role: 'Software Engineer', period: 'Jul 2026–Present',
+    summary: 'I worked closely with the lead software engineer on frontend development and QA for payment products. I tested merchant onboarding, role-based navigation, and review workflows across microservices and microfrontends, then reproduced issues and verified fixes through regression testing.',
+    skills: [{ label: 'Next.js', icon: 'experience-react' }, { label: 'TypeScript', icon: 'experience-typescript' }, { label: 'GraphQL' }, { label: 'QA & regression' }, { label: 'Microfrontends' }],
   },
   {
     organization: 'Capytech E-Learning Solutions', role: 'Solutions Developer Intern', period: 'Jun 2026',
@@ -284,7 +284,7 @@ export const portfolio = deepFreeze({
         { segments: [
           { text: 'I’m currently contributing to ' },
           { text: 'payment-product engineering with Ngnair Brice Holding', emphasis: true },
-          { text: ' as a Software Engineer Intern. Before that, I worked on e-learning tools at Capytech. I’ve also built university reporting systems and freelance client projects. Each experience helps me learn more about building software and working with a team.' },
+          { text: ' as a Software Engineer, working closely with the lead software engineer on frontend development and QA across payment-product microservices and microfrontends. Before that, I worked on e-learning tools at Capytech. I’ve also built university reporting systems and freelance client projects. Each experience helps me learn more about building software and working with a team.' },
         ] },
         { segments: [
           { text: 'I use ' },
