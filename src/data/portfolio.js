@@ -145,9 +145,9 @@ const projects = [
 
 const experiencePhases = [
   {
-    organization: 'Ngnair Brice Holding', role: 'Software Engineer', period: 'Jul 2026–Present',
-    summary: 'I worked closely with the lead software engineer on frontend development and QA for payment products. I tested merchant onboarding, role-based navigation, and review workflows across microservices and microfrontends, then reproduced issues and verified fixes through regression testing.',
-    skills: [{ label: 'Next.js', icon: 'experience-react' }, { label: 'TypeScript', icon: 'experience-typescript' }, { label: 'GraphQL' }, { label: 'QA & regression' }, { label: 'Microfrontends' }],
+    organization: 'Ngnair Brice Holding', role: 'Software Engineer · AI Automation', period: 'Jul 2026–Present',
+    summary: 'I worked closely with the lead software engineer on frontend development, QA, and AI-assisted automation for payment products. I tested merchant onboarding, role-based navigation, and review workflows across microservices and microfrontends, then reproduced issues and verified fixes through regression testing.',
+    skills: [{ label: 'Next.js', icon: 'experience-react' }, { label: 'TypeScript', icon: 'experience-typescript' }, { label: 'GraphQL' }, { label: 'QA & regression' }, { label: 'AI automation' }, { label: 'Microfrontends' }],
   },
   {
     organization: 'Capytech E-Learning Solutions', role: 'Solutions Developer Intern', period: 'Jun 2026',
@@ -284,7 +284,7 @@ export const portfolio = deepFreeze({
         { segments: [
           { text: 'I’m currently contributing to ' },
           { text: 'payment-product engineering with Ngnair Brice Holding', emphasis: true },
-          { text: ' as a Software Engineer, working closely with the lead software engineer on frontend development and QA across payment-product microservices and microfrontends. Before that, I worked on e-learning tools at Capytech. I’ve also built university reporting systems and freelance client projects. Each experience helps me learn more about building software and working with a team.' },
+          { text: ' as a Software Engineer focused on frontend development, QA, and AI-assisted automation, working closely with the lead software engineer across payment-product microservices and microfrontends. Before that, I worked on e-learning tools at Capytech. I’ve also built university reporting systems and freelance client projects. Each experience helps me learn more about building software and working with a team.' },
         ] },
         { segments: [
           { text: 'I use ' },

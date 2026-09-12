@@ -17,7 +17,7 @@ test('contains seven project case studies and four writing entries', () => {
     'Ngnair Brice Holding', 'Capytech E-Learning Solutions',
     'JP Consulting and Services', 'Ateneo de Zamboanga University',
   ])
-  assert.equal(portfolio.experiencePhases[0].role, 'Software Engineer')
+  assert.match(portfolio.experiencePhases[0].role, /Software Engineer.*AI Automation/)
   assert.match(portfolio.experiencePhases[0].summary, /microservices and microfrontends/)
   assert.ok(portfolio.projects.find(({ slug }) => slug === 'ims').technologies.includes('Cloudflare R2'))
   assert.ok(portfolio.projects.find(({ slug }) => slug === 'social-development-unit').technologies.includes('React PDF'))
