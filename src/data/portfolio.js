@@ -123,34 +123,6 @@ const projects = [
     externalUrl: 'https://casadelenteszc.com', relatedSlugs: ['court-avenue', 'ims'],
   },
   {
-    slug: 'waiveright', title: 'WaiveRight', period: 'Nov–Dec 2025', category: 'Web system',
-    summary: 'A dual-portal academic waiver workflow for students and administrators.',
-    role: 'Freelance full-stack developer',
-    responsibilities: [
-      'I built separate portals for students submitting waivers and administrators reviewing them.',
-      'I implemented role-based authentication and session handling.',
-      'I used Supabase RPC functions and Row-Level Security to control access to the data.',
-    ],
-    technologies: ['Next.js 16', 'Supabase', 'TanStack Query', 'TypeScript'],
-    bodySections: [
-      { heading: 'The problem', points: [
-        'Accountancy students filed academic waivers on paper.',
-        'Administrators had no single place to track status or approve.',
-      ] },
-      { heading: 'Workflow', points: [
-        'Student portal: upload documents, submit the waiver, track its status.',
-        'Admin portal: review submissions and approve or return them.',
-      ] },
-      { heading: 'Access model', points: [
-        'Custom authentication with Supabase RPC functions and pgcrypto.',
-        'Row-Level Security controls what each role can read and change.',
-        'Full-stack, freelance: flow, interface, and backend.',
-      ] },
-    ],
-    cover: '/images/waiveright1.webp', gallery: ['/images/waiveright1.webp', '/images/waiveright2.webp'],
-    externalUrl: 'https://waiveright.vercel.app', relatedSlugs: ['social-development-unit', 'offline-pos'],
-  },
-  {
     slug: 'social-development-unit', title: 'Social Development Unit', period: 'Sept–Dec 2025', category: 'Full-stack platform',
     summary: 'A centralized project-monitoring and reporting platform for six university offices.',
     role: 'Full-stack developer and project manager',
@@ -176,10 +148,11 @@ const projects = [
       ] },
     ],
     cover: '/images/sdu1.webp', gallery: ['/images/sdu1.webp', '/images/sdu2.webp'],
-    externalUrl: 'https://ateneo-sdu.vercel.app', relatedSlugs: ['waiveright', 'orsem-family-feud'],
+    externalUrl: 'https://ateneo-sdu.vercel.app', relatedSlugs: ['orsem-family-feud', 'ims'],
   },
   {
     slug: 'leo-rent-a-car', title: 'LeoRentACar', period: 'Jul–Aug 2025', category: 'Client website',
+    notice: 'Client production site under maintenance. The link below opens the preview build.',
     summary: 'A responsive fleet and services website with email-based booking inquiries.',
     role: 'Freelance web developer and interface designer',
     responsibilities: [
@@ -203,32 +176,7 @@ const projects = [
       ] },
     ],
     cover: '/images/leo1.webp', gallery: ['/images/leo1.webp', '/images/leo2.webp'],
-    externalUrl: 'https://leorentacar-git-main-clydefois-projects.vercel.app', relatedSlugs: ['waiveright', 'mujer-lgbtq'],
-  },
-  {
-    slug: 'offline-pos', title: 'Offline POS', period: '2025', category: 'Desktop system',
-    summary: 'A Java desktop point-of-sale and inventory system for a local mini grocery store.', role: 'Developer',
-    responsibilities: [
-      'I built checkout, inventory, and product-movement workflows for a mini grocery store.',
-      'I used SQLite to store data locally so daily work could continue without internet.',
-      'I built the desktop application with Java and JavaFX.',
-    ],
-    technologies: ['Java', 'JavaFX', 'SQLite'],
-    bodySections: [
-      { heading: 'Local-first workflow', points: [
-        'Checkout and stock run on a local database.',
-        'The store keeps selling when the internet is down.',
-      ] },
-      { heading: 'How it was built', points: [
-        'Java and JavaFX desktop app with SQLite storage.',
-        'Separate from my later Inventory Management System, which is a web app.',
-      ] },
-      { heading: 'What I learned', points: [
-        'How a small store actually moves stock day to day.',
-        'Those lessons shaped the batch and ledger design in later inventory work.',
-      ] },
-    ],
-    cover: '/images/pos.webp', gallery: ['/images/pos.webp', '/images/pos1.webp'], relatedSlugs: ['waiveright', 'social-development-unit'],
+    externalUrl: 'https://leorentacar-git-main-clydefois-projects.vercel.app', relatedSlugs: ['court-avenue', 'mujer-lgbtq'],
   },
   {
     slug: 'mujer-lgbtq', title: 'Mujer LGBTQ+', period: '2024', category: 'Informational website',
@@ -307,14 +255,12 @@ const education = {
 const collection = {
   allCategory: { id: 'all', name: 'All resources', description: 'Browse the complete local collection.' },
   categories: [
-    { id: 'ai-development', name: 'AI & Development', description: 'QA sandbox and access-control reference notes.' },
-    { id: 'learning-references', name: 'Learning & References', description: 'Local-first and multi-office architecture notes.' },
+    { id: 'ai-development', name: 'AI & Development', description: 'QA sandbox reference notes.' },
+    { id: 'learning-references', name: 'Learning & References', description: 'Multi-office architecture notes.' },
     { id: 'tools-libraries', name: 'Tools & Libraries', description: 'React server-state and interface documentation.' },
   ],
   resources: [
     { id: 'scorm-package-testing', name: 'SCORM package testing', description: 'A local QA sandbox approach for testing SCORM packages exported from Articulate 360.', categoryId: 'ai-development', source: 'Portfolio case-study note', destination: '/blog/capytech-scorm-qa-sandbox', actionLabel: 'Open case study', tags: ['SCORM', 'C#', 'ASP.NET Core', 'SQLite'] },
-    { id: 'role-based-data-access', name: 'Role-based data access', description: 'A reference pattern for custom authentication with Supabase RPC, Row-Level Security, and pgcrypto.', categoryId: 'ai-development', source: 'Portfolio case-study note', destination: '/blog/waiveright-role-based-workflow', actionLabel: 'Open case study', tags: ['Supabase', 'RLS', 'pgcrypto', 'authentication'] },
-    { id: 'local-first-business-workflows', name: 'Local-first business workflows', description: 'Notes from designing offline point-of-sale and inventory workflows for a local mini grocery store.', categoryId: 'learning-references', source: 'Portfolio case-study note', destination: '/blog/offline-first-pos-ims', actionLabel: 'Open case study', tags: ['JavaFX', 'SQLite', 'inventory', 'POS'] },
     { id: 'multi-office-reporting', name: 'Multi-office reporting', description: 'Patterns for consolidating submissions and visibility across six offices with role-specific views.', categoryId: 'learning-references', source: 'Portfolio case-study note', destination: '/blog/sdu-multi-office-dashboard', actionLabel: 'Open case study', tags: ['reporting', 'roles', 'SDG alignment', 'dashboard'] },
     { id: 'tanstack-query', name: 'TanStack Query', description: 'A client-side data-fetching library used in portfolio projects for server-state workflows.', categoryId: 'tools-libraries', source: 'Official documentation', destination: 'https://tanstack.com/query/latest', actionLabel: 'Open documentation', tags: ['React', 'Next.js', 'data fetching'] },
     { id: 'figma-first-interface-work', name: 'Figma-first interface work', description: 'A design-to-implementation workflow used for the LeoRentACar client website.', categoryId: 'tools-libraries', source: 'Official documentation', destination: 'https://help.figma.com/hc/en-us', actionLabel: 'Open documentation', tags: ['Figma', 'Tailwind CSS', 'responsive design'] },
@@ -340,26 +286,6 @@ const posts = [
       { heading: 'The need', body: 'The Social Development Unit needed to collect project updates and reports from six offices. I worked on bringing that process into one system.' },
       { heading: 'How it works', body: 'Each office submits its updates through its own view. The Unit Director can see the reports together, including SDG-alignment tracking. I used React, Express, and Supabase for the platform.' },
       { heading: 'My contribution', body: 'I worked as a full-stack developer and project manager from September to December 2025. The work connected office submissions, access rules, and the director’s reporting view.' },
-    ],
-  },
-  {
-    slug: 'waiveright-role-based-workflow', title: 'Role-based waiver handling with custom Supabase authentication',
-    dek: 'How I connected student submissions, administrator reviews, and role-based access in WaiveRight.', published: null,
-    category: 'Portfolio case-study note', cover: '/images/waiveright1.webp', context: { label: 'View WaiveRight project', path: '/projects/waiveright' },
-    sections: [
-      { heading: 'Two portals', body: 'I separated WaiveRight into a student portal and an administrator portal. Students submit their academic waivers, while administrators review those submissions.' },
-      { heading: 'Authentication', body: 'I used Supabase RPC functions, Row-Level Security, pgcrypto, and session management for custom role-based access. So the permissions are part of the data access flow, not just what the interface shows.' },
-      { heading: 'Putting it together', body: 'The two portals share the same workflow, but each role has a different job. I worked on both sides and the access rules that connect them.' },
-    ],
-  },
-  {
-    slug: 'offline-first-pos-ims', title: 'What an offline POS project taught me before a separate IMS web architecture',
-    dek: 'What I learned from building a Java desktop POS, and how it differs from my later IMS web project.', published: null,
-    category: 'Portfolio case-study note', cover: '/images/pos.webp', context: { label: 'View Offline POS project', path: '/projects/offline-pos' },
-    sections: [
-      { heading: 'Offline POS', body: 'I built the mini-grocery POS with Java, JavaFX, and SQLite. It handled checkout, inventory, and product movements locally, without needing an internet connection for those tasks.' },
-      { heading: 'Separate systems', body: 'My later IMS project uses ASP.NET Core and Next.js as a web application. It is a different system, so the offline behavior of the Java project does not describe how IMS works.' },
-      { heading: 'What I carried forward', body: 'Working on the POS helped me understand the day-to-day flow of a small store. I brought that understanding into later inventory work, even though the architecture changed.' },
     ],
   },
 ]

@@ -10,12 +10,12 @@ test('publishes the complete single-mode route family', () => {
 })
 
 test('normalizes case, query, hash, and trailing slash', () => {
-  assert.equal(normalizePath('/PROJECTS/WaiveRight/?view=full#gallery'), '/projects/waiveright')
+  assert.equal(normalizePath('/PROJECTS/Court-Avenue/?view=full#gallery'), '/projects/court-avenue')
 })
 
 test('matches detail routes and returns notFound for unknown paths', () => {
-  assert.deepEqual(matchRoute('/projects/waiveright'), {
-    name: 'projectDetail', path: '/projects/waiveright', params: { slug: 'waiveright' },
+  assert.deepEqual(matchRoute('/projects/court-avenue'), {
+    name: 'projectDetail', path: '/projects/court-avenue', params: { slug: 'court-avenue' },
   })
   assert.equal(matchRoute('/missing').name, 'notFound')
   assert.equal(matchRoute('/license').name, 'notFound')

@@ -142,3 +142,7 @@
   .professional-profile > .activity-heatmap .activity-heatmap__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .project-detail-page__metadata .project-detail-page__client span { color: var(--ink); font-size: inherit; font-weight: inherit; }
+/* Maintenance notice (red) on project pages and cards */
+.project-notice { display: flex !important; width: fit-content; max-width: 100%; gap: 9px; align-items: center; margin: 18px 0 0 !important; padding: 9px 13px; border: 1px solid #f3b4b4; border-radius: 7px; background: #fef2f2; color: #b91c1c !important; font-size: 13px !important; font-weight: 600; line-height: 1.45 !important; }
+.project-notice i { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; background: #dc2626; box-shadow: 0 0 0 3px rgb(220 38 38 / 18%); }
+.project-notice--compact { margin: 8px 0 0 !important; padding: 4px 9px; font-size: 11px !important; }

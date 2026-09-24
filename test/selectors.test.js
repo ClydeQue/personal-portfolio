@@ -20,17 +20,19 @@ test('every published project resolves to a complete detail record', () => {
 })
 
 test('selectors return deterministic related records', () => {
-  assert.equal(projectBySlug('waiveright').title, 'WaiveRight')
-  assert.equal(relatedProjects('waiveright', 2).length, 2)
+  assert.equal(projectBySlug('court-avenue').title, 'Court Avenue ZC')
+  assert.equal(projectBySlug('waiveright'), undefined)
+  assert.equal(projectBySlug('offline-pos'), undefined)
+  assert.equal(relatedProjects('court-avenue', 2).length, 2)
   assert.equal(postBySlug('capytech-scorm-qa-sandbox').slug, 'capytech-scorm-qa-sandbox')
 })
 
 test('related project records honor explicit order and omit the current project', () => {
-  assert.deepEqual(relatedProjects('waiveright', 2).map(({ slug }) => slug), [
-    'social-development-unit', 'offline-pos',
+  assert.deepEqual(relatedProjects('court-avenue', 2).map(({ slug }) => slug), [
+    'casadelentes', 'ims',
   ])
-  assert.deepEqual(relatedPosts('waiveright-role-based-workflow', 2).map(({ slug }) => slug), [
-    'capytech-scorm-qa-sandbox', 'sdu-multi-office-dashboard',
+  assert.deepEqual(relatedPosts('capytech-scorm-qa-sandbox', 2).map(({ slug }) => slug), [
+    'sdu-multi-office-dashboard',
   ])
 })
 
@@ -55,6 +57,6 @@ test('collection search finds a named category and source within that category',
 
 test('collection detail defaults to the first visible resource and clears for empty results', () => {
   assert.equal(selectors.collectionSelection('', 'all')?.id, 'scorm-package-testing')
-  assert.equal(selectors.collectionSelection('learning & references', 'learning-references', 'scorm-package-testing')?.id, 'local-first-business-workflows')
+  assert.equal(selectors.collectionSelection('learning & references', 'learning-references', 'scorm-package-testing')?.id, 'multi-office-reporting')
   assert.equal(selectors.collectionSelection('a-query-that-does-not-exist', 'all', 'scorm-package-testing'), null)
 })

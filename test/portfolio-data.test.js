@@ -9,11 +9,11 @@ const collectMediaPaths = (value, found = []) => {
   return found
 }
 
-test('contains nine project case studies and four writing entries', () => {
-  assert.equal(portfolio.projects.length, 9)
+test('contains seven project case studies and two writing entries', () => {
+  assert.equal(portfolio.projects.length, 7)
   assert.deepEqual(portfolio.projects.slice(0, 3).map(({ slug }) => slug), ['ims', 'court-avenue', 'casadelentes'])
   assert.equal(portfolio.projects[0].title, 'Inventory Management System')
-  assert.equal(portfolio.posts.length, 4)
+  assert.equal(portfolio.posts.length, 2)
   assert.equal(portfolio.experiencePhases.length, 3)
   assert.deepEqual(portfolio.experiencePhases.map(({ organization }) => organization), [
     'Ngnair Brice Holding', 'Capytech E-Learning Solutions', 'JP Consulting and Services',

@@ -40,6 +40,7 @@ function ProjectDetailPage({ slug }) {
           <p className="page-kicker"><i aria-hidden="true" />{project.category} · {project.period}</p>
           <h1>{project.title}</h1>
           <p>{project.summary}</p>
+          {project.notice && <p className="project-notice" role="note"><i aria-hidden="true" />{project.notice}</p>}
           <div className="project-detail-page__actions">
             {project.externalUrl && <a href={project.externalUrl} target="_blank" rel="noreferrer"><Icon name="arrow" size={16} />Visit project</a>}
             {project.companyUrl && <a href={project.companyUrl} target="_blank" rel="noreferrer"><Icon name="arrow" size={16} />{project.externalLabel ?? 'Visit company'}</a>}

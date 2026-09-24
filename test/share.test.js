@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { shareProject } from '../src/app/share.js'
 
-const input = { title: 'WaiveRight', text: 'A workflow', url: 'https://portfolio.test/projects/waiveright' }
+const input = { title: 'Court Avenue ZC', text: 'A booking site', url: 'https://portfolio.test/projects/court-avenue' }
 
 test('shareProject reports Shared only after Web Share resolves', async () => {
   const result = await shareProject(input, { share: async () => undefined })
