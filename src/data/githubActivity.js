@@ -386,10 +386,10 @@ export const githubActivity = {
       "year": 2026,
       "from": "2026-01-01T00:00:00Z",
       "to": "2026-12-31T23:59:59Z",
-      "totalContributions": 250,
-      "activeDays": 50,
-      "currentStreak": 0,
-      "longestStreak": 17,
+      "totalContributions": 255,
+      "activeDays": 52,
+      "currentStreak": 18,
+      "longestStreak": 19,
       "contributionsByDate": [
         {
           "date": "2026-01-04",
@@ -590,6 +590,14 @@ export const githubActivity = {
         {
           "date": "2026-09-23",
           "contributions": 2
+        },
+        {
+          "date": "2026-09-24",
+          "contributions": 4
+        },
+        {
+          "date": "2026-09-25",
+          "contributions": 1
         }
       ]
     }
