@@ -6,6 +6,7 @@ import ImageWithFallback from '../components/ui/ImageWithFallback.jsx'
 import SplitFlapName from '../components/ui/SplitFlapName.jsx'
 import ProjectCard from '../components/ui/ProjectCard.jsx'
 import EducationEntry from '../components/ui/EducationEntry.jsx'
+import NowPanel from '../components/ui/NowPanel.jsx'
 import Icon from '../components/ui/Icon.jsx'
 import Reveal from '../components/ui/Reveal.jsx'
 import TechIcon from '../components/ui/TechIcon.jsx'
@@ -99,11 +100,12 @@ function ProfessionalHome() {
         <div className="professional-profile__cta"><a href={`${portfolio.socials.email}?subject=Portfolio%20call%20request`}>Schedule a Call</a><button type="button" onClick={() => navigate('/experience')}>Experience</button><a className="resume-link" href="/portfolio/KennethClydeQue_Resume.pdf" target="_blank" rel="noopener noreferrer">View Resume <span aria-hidden="true">↗</span></a></div>
         <section className="professional-profile__about" aria-labelledby="professional-about-title"><h2 id="professional-about-title"><Icon name="info" size={16} />About</h2>{portfolio.home.professional.about.map((paragraph, index) => <p key={index}><RichText paragraph={paragraph} /></p>)}</section>
         <section className="professional-profile__experience" aria-labelledby="professional-experience-title"><h2 id="professional-experience-title">Work experience</h2>{portfolio.experiencePhases.map((item) => <article key={item.organization}><p>{item.period}</p><h3>{item.role}</h3><strong>{item.organization}</strong><span>{item.summary}</span></article>)}</section>
+        <NowPanel />
+        <ActivityHeatmap />
       </Reveal>
       <Reveal as="section" className="professional-tech" aria-labelledby="professional-stack-title" delay={.04}><h2 id="professional-stack-title">Tech stack</h2><TechList compact /></Reveal>
       <Reveal as="section" className="professional-projects" aria-labelledby="professional-project-title" delay={.06}><div><h2 id="professional-project-title">Recent projects</h2><button type="button" onClick={() => navigate('/projects')}>All projects ↗</button></div><div>{portfolio.projects.slice(0, 3).map((project) => <ProjectCard project={project} variant="professional" key={project.slug} />)}</div></Reveal>
       <Reveal as="section" className="professional-education" aria-labelledby="education-title"><h2 id="education-title">Education & recognition</h2><EducationEntry /><div>{portfolio.recognition.map((item) => <span key={item.title}><b>{item.title}</b>{item.detail}</span>)}</div></Reveal>
-      <ActivityHeatmap />
     </section>
   </div>
 }

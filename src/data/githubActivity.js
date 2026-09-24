@@ -8,8 +8,8 @@ export const githubActivity = {
       "year": 2024,
       "from": "2024-01-01T00:00:00Z",
       "to": "2024-12-31T23:59:59Z",
-      "totalContributions": 6,
-      "activeDays": 4,
+      "totalContributions": 39,
+      "activeDays": 6,
       "currentStreak": 0,
       "longestStreak": 2,
       "contributionsByDate": [
@@ -22,12 +22,20 @@ export const githubActivity = {
           "contributions": 1
         },
         {
-          "date": "2024-11-23",
-          "contributions": 3
+          "date": "2024-11-24",
+          "contributions": 8
         },
         {
-          "date": "2024-11-24",
-          "contributions": 1
+          "date": "2024-11-25",
+          "contributions": 6
+        },
+        {
+          "date": "2024-11-30",
+          "contributions": 4
+        },
+        {
+          "date": "2024-12-01",
+          "contributions": 19
         }
       ]
     },
@@ -35,8 +43,8 @@ export const githubActivity = {
       "year": 2025,
       "from": "2025-01-01T00:00:00Z",
       "to": "2025-12-31T23:59:59Z",
-      "totalContributions": 749,
-      "activeDays": 85,
+      "totalContributions": 1000,
+      "activeDays": 100,
       "currentStreak": 0,
       "longestStreak": 9,
       "contributionsByDate": [
@@ -177,12 +185,56 @@ export const githubActivity = {
           "contributions": 16
         },
         {
+          "date": "2025-05-28",
+          "contributions": 2
+        },
+        {
           "date": "2025-07-23",
           "contributions": 17
         },
         {
           "date": "2025-07-24",
-          "contributions": 11
+          "contributions": 14
+        },
+        {
+          "date": "2025-07-25",
+          "contributions": 9
+        },
+        {
+          "date": "2025-07-31",
+          "contributions": 2
+        },
+        {
+          "date": "2025-08-02",
+          "contributions": 2
+        },
+        {
+          "date": "2025-08-05",
+          "contributions": 24
+        },
+        {
+          "date": "2025-08-06",
+          "contributions": 28
+        },
+        {
+          "date": "2025-08-07",
+          "contributions": 50
+        },
+        {
+          "date": "2025-08-08",
+          "contributions": 24
+        },
+        {
+          "date": "2025-08-11",
+          "contributions": 16
+        },
+        {
+          "date": "2025-08-12",
+          "contributions": 6
+        },
+        {
+          "date": "2025-08-14",
+          "contributions": 4
         },
         {
           "date": "2025-08-19",
@@ -198,7 +250,7 @@ export const githubActivity = {
         },
         {
           "date": "2025-08-27",
-          "contributions": 1
+          "contributions": 3
         },
         {
           "date": "2025-08-28",
@@ -222,7 +274,7 @@ export const githubActivity = {
         },
         {
           "date": "2025-09-03",
-          "contributions": 34
+          "contributions": 37
         },
         {
           "date": "2025-09-04",
@@ -254,7 +306,7 @@ export const githubActivity = {
         },
         {
           "date": "2025-09-23",
-          "contributions": 2
+          "contributions": 12
         },
         {
           "date": "2025-09-24",
@@ -265,16 +317,20 @@ export const githubActivity = {
           "contributions": 2
         },
         {
+          "date": "2025-09-28",
+          "contributions": 11
+        },
+        {
           "date": "2025-10-04",
           "contributions": 1
         },
         {
           "date": "2025-10-07",
-          "contributions": 2
+          "contributions": 7
         },
         {
           "date": "2025-10-08",
-          "contributions": 7
+          "contributions": 8
         },
         {
           "date": "2025-10-09",
@@ -306,7 +362,7 @@ export const githubActivity = {
         },
         {
           "date": "2025-10-23",
-          "contributions": 11
+          "contributions": 34
         },
         {
           "date": "2025-10-24",
@@ -314,11 +370,11 @@ export const githubActivity = {
         },
         {
           "date": "2025-10-27",
-          "contributions": 1
+          "contributions": 2
         },
         {
           "date": "2025-10-28",
-          "contributions": 4
+          "contributions": 5
         },
         {
           "date": "2025-11-03",
@@ -326,6 +382,10 @@ export const githubActivity = {
         },
         {
           "date": "2025-11-05",
+          "contributions": 2
+        },
+        {
+          "date": "2025-11-09",
           "contributions": 2
         },
         {
@@ -342,7 +402,7 @@ export const githubActivity = {
         },
         {
           "date": "2025-11-20",
-          "contributions": 9
+          "contributions": 21
         },
         {
           "date": "2025-11-21",
@@ -373,6 +433,14 @@ export const githubActivity = {
           "contributions": 2
         },
         {
+          "date": "2025-12-02",
+          "contributions": 4
+        },
+        {
+          "date": "2025-12-03",
+          "contributions": 6
+        },
+        {
           "date": "2025-12-05",
           "contributions": 7
         },
@@ -386,8 +454,8 @@ export const githubActivity = {
       "year": 2026,
       "from": "2026-01-01T00:00:00Z",
       "to": "2026-12-31T23:59:59Z",
-      "totalContributions": 255,
-      "activeDays": 52,
+      "totalContributions": 1151,
+      "activeDays": 94,
       "currentStreak": 18,
       "longestStreak": 19,
       "contributionsByDate": [
@@ -402,6 +470,14 @@ export const githubActivity = {
         {
           "date": "2026-01-08",
           "contributions": 1
+        },
+        {
+          "date": "2026-01-13",
+          "contributions": 1
+        },
+        {
+          "date": "2026-01-14",
+          "contributions": 2
         },
         {
           "date": "2026-01-15",
@@ -437,14 +513,42 @@ export const githubActivity = {
         },
         {
           "date": "2026-03-09",
-          "contributions": 2
+          "contributions": 10
         },
         {
-          "date": "2026-04-12",
+          "date": "2026-03-10",
           "contributions": 1
         },
         {
+          "date": "2026-03-27",
+          "contributions": 11
+        },
+        {
+          "date": "2026-04-10",
+          "contributions": 5
+        },
+        {
+          "date": "2026-04-12",
+          "contributions": 5
+        },
+        {
+          "date": "2026-04-13",
+          "contributions": 2
+        },
+        {
           "date": "2026-04-16",
+          "contributions": 1
+        },
+        {
+          "date": "2026-04-19",
+          "contributions": 3
+        },
+        {
+          "date": "2026-04-23",
+          "contributions": 2
+        },
+        {
+          "date": "2026-05-07",
           "contributions": 1
         },
         {
@@ -460,8 +564,24 @@ export const githubActivity = {
           "contributions": 3
         },
         {
-          "date": "2026-06-05",
+          "date": "2026-05-31",
           "contributions": 2
+        },
+        {
+          "date": "2026-06-01",
+          "contributions": 1
+        },
+        {
+          "date": "2026-06-05",
+          "contributions": 3
+        },
+        {
+          "date": "2026-06-06",
+          "contributions": 4
+        },
+        {
+          "date": "2026-06-07",
+          "contributions": 22
         },
         {
           "date": "2026-06-09",
@@ -469,19 +589,19 @@ export const githubActivity = {
         },
         {
           "date": "2026-06-21",
-          "contributions": 2
+          "contributions": 3
         },
         {
           "date": "2026-06-22",
-          "contributions": 20
+          "contributions": 21
         },
         {
           "date": "2026-06-23",
-          "contributions": 5
+          "contributions": 8
         },
         {
           "date": "2026-06-24",
-          "contributions": 5
+          "contributions": 9
         },
         {
           "date": "2026-06-25",
@@ -489,19 +609,135 @@ export const githubActivity = {
         },
         {
           "date": "2026-06-26",
-          "contributions": 3
-        },
-        {
-          "date": "2026-06-30",
           "contributions": 4
         },
         {
+          "date": "2026-06-30",
+          "contributions": 7
+        },
+        {
+          "date": "2026-07-02",
+          "contributions": 2
+        },
+        {
+          "date": "2026-07-03",
+          "contributions": 2
+        },
+        {
+          "date": "2026-07-07",
+          "contributions": 6
+        },
+        {
+          "date": "2026-07-08",
+          "contributions": 6
+        },
+        {
+          "date": "2026-07-15",
+          "contributions": 17
+        },
+        {
+          "date": "2026-07-16",
+          "contributions": 22
+        },
+        {
           "date": "2026-07-17",
+          "contributions": 2
+        },
+        {
+          "date": "2026-07-18",
+          "contributions": 27
+        },
+        {
+          "date": "2026-07-19",
+          "contributions": 11
+        },
+        {
+          "date": "2026-07-20",
+          "contributions": 6
+        },
+        {
+          "date": "2026-07-21",
+          "contributions": 2
+        },
+        {
+          "date": "2026-07-22",
+          "contributions": 38
+        },
+        {
+          "date": "2026-07-28",
           "contributions": 1
         },
         {
-          "date": "2026-08-25",
+          "date": "2026-07-29",
+          "contributions": 1
+        },
+        {
+          "date": "2026-07-30",
+          "contributions": 4
+        },
+        {
+          "date": "2026-08-02",
+          "contributions": 1
+        },
+        {
+          "date": "2026-08-10",
+          "contributions": 1
+        },
+        {
+          "date": "2026-08-12",
           "contributions": 7
+        },
+        {
+          "date": "2026-08-13",
+          "contributions": 6
+        },
+        {
+          "date": "2026-08-14",
+          "contributions": 51
+        },
+        {
+          "date": "2026-08-15",
+          "contributions": 35
+        },
+        {
+          "date": "2026-08-16",
+          "contributions": 7
+        },
+        {
+          "date": "2026-08-17",
+          "contributions": 11
+        },
+        {
+          "date": "2026-08-19",
+          "contributions": 18
+        },
+        {
+          "date": "2026-08-20",
+          "contributions": 17
+        },
+        {
+          "date": "2026-08-21",
+          "contributions": 25
+        },
+        {
+          "date": "2026-08-22",
+          "contributions": 4
+        },
+        {
+          "date": "2026-08-23",
+          "contributions": 28
+        },
+        {
+          "date": "2026-08-24",
+          "contributions": 40
+        },
+        {
+          "date": "2026-08-25",
+          "contributions": 51
+        },
+        {
+          "date": "2026-08-29",
+          "contributions": 2
         },
         {
           "date": "2026-08-30",
@@ -509,11 +745,11 @@ export const githubActivity = {
         },
         {
           "date": "2026-08-31",
-          "contributions": 24
+          "contributions": 25
         },
         {
           "date": "2026-09-01",
-          "contributions": 16
+          "contributions": 18
         },
         {
           "date": "2026-09-03",
@@ -521,83 +757,83 @@ export const githubActivity = {
         },
         {
           "date": "2026-09-05",
-          "contributions": 2
-        },
-        {
-          "date": "2026-09-07",
-          "contributions": 16
-        },
-        {
-          "date": "2026-09-08",
-          "contributions": 12
-        },
-        {
-          "date": "2026-09-09",
-          "contributions": 11
-        },
-        {
-          "date": "2026-09-10",
-          "contributions": 15
-        },
-        {
-          "date": "2026-09-11",
-          "contributions": 17
-        },
-        {
-          "date": "2026-09-12",
-          "contributions": 2
-        },
-        {
-          "date": "2026-09-13",
-          "contributions": 5
-        },
-        {
-          "date": "2026-09-14",
-          "contributions": 1
-        },
-        {
-          "date": "2026-09-15",
-          "contributions": 2
-        },
-        {
-          "date": "2026-09-16",
-          "contributions": 2
-        },
-        {
-          "date": "2026-09-17",
-          "contributions": 2
-        },
-        {
-          "date": "2026-09-18",
-          "contributions": 2
-        },
-        {
-          "date": "2026-09-19",
-          "contributions": 2
-        },
-        {
-          "date": "2026-09-20",
-          "contributions": 2
-        },
-        {
-          "date": "2026-09-21",
-          "contributions": 1
-        },
-        {
-          "date": "2026-09-22",
-          "contributions": 2
-        },
-        {
-          "date": "2026-09-23",
-          "contributions": 2
-        },
-        {
-          "date": "2026-09-24",
           "contributions": 4
         },
         {
+          "date": "2026-09-07",
+          "contributions": 17
+        },
+        {
+          "date": "2026-09-08",
+          "contributions": 48
+        },
+        {
+          "date": "2026-09-09",
+          "contributions": 22
+        },
+        {
+          "date": "2026-09-10",
+          "contributions": 29
+        },
+        {
+          "date": "2026-09-11",
+          "contributions": 38
+        },
+        {
+          "date": "2026-09-12",
+          "contributions": 22
+        },
+        {
+          "date": "2026-09-13",
+          "contributions": 26
+        },
+        {
+          "date": "2026-09-14",
+          "contributions": 76
+        },
+        {
+          "date": "2026-09-15",
+          "contributions": 18
+        },
+        {
+          "date": "2026-09-16",
+          "contributions": 8
+        },
+        {
+          "date": "2026-09-17",
+          "contributions": 24
+        },
+        {
+          "date": "2026-09-18",
+          "contributions": 21
+        },
+        {
+          "date": "2026-09-19",
+          "contributions": 11
+        },
+        {
+          "date": "2026-09-20",
+          "contributions": 8
+        },
+        {
+          "date": "2026-09-21",
+          "contributions": 11
+        },
+        {
+          "date": "2026-09-22",
+          "contributions": 28
+        },
+        {
+          "date": "2026-09-23",
+          "contributions": 33
+        },
+        {
+          "date": "2026-09-24",
+          "contributions": 18
+        },
+        {
           "date": "2026-09-25",
-          "contributions": 1
+          "contributions": 8
         }
       ]
     }

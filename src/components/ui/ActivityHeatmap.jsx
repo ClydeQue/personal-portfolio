@@ -86,7 +86,7 @@ function ActivityHeatmap() {
                 <div className="activity-heatmap__months">
                   {monthLabels.map(({ month, column }) => <span key={`${month}-${column}`} style={{ gridColumn: column }}>{month}</span>)}
                 </div>
-                <div className="activity-heatmap__cells" style={{ gridTemplateColumns: `repeat(${weeks}, minmax(10px, 1fr))` }}>
+                <div className="activity-heatmap__cells" style={{ gridTemplateColumns: `repeat(${weeks}, minmax(var(--heat-cell, 10px), 1fr))` }}>
                   {cells.map(({ dateKey, week, weekdayIndex, level, inYear, label }) => (
                     <i
                       key={dateKey}

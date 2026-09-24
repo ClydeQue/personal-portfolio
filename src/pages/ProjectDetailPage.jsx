@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { navigate } from '../app/router.js'
 import { projectBySlug, relatedProjects } from '../data/selectors.js'
-import { portfolio } from '../data/portfolio.js'
 import { shareProject } from '../app/share.js'
-import ActivityHeatmap from '../components/ui/ActivityHeatmap.jsx'
 import Icon from '../components/ui/Icon.jsx'
 import ImageWithFallback from '../components/ui/ImageWithFallback.jsx'
 import ProjectCard from '../components/ui/ProjectCard.jsx'
@@ -51,25 +49,24 @@ function ProjectDetailPage({ slug }) {
           {shareState && <p className="project-detail-page__share" role="status">{shareState}</p>}
         </header>
 
-        <section className="project-detail-page__metadata" aria-label={`${project.title} metadata`}>
-          <div><p className="page-kicker">Category</p><strong>{project.category}</strong></div>
-          <div><p className="page-kicker">Tags</p><ul className="project-detail-page__tags">{project.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul></div>
-          <div><p className="page-kicker">My role</p><strong>{portfolio.identity.name}</strong><span>{project.role}</span></div>
-          <div><p className="page-kicker">{project.company ? 'Company' : 'Official site'}</p>{project.company ? <>{project.logo && <img className="project-detail-page__company-logo" src={project.logo} alt={`${project.company} logo`} />}<strong>{project.company}</strong>{project.companyUrl && <a href={project.companyUrl} target="_blank" rel="noreferrer">Facebook page ↗</a>}</> : project.externalUrl ? <a href={project.externalUrl} target="_blank" rel="noreferrer">Visit project ↗</a> : <span>No public link</span>}</div>
-        </section>
+        <dl className="project-detail-page__metadata" aria-label={`${project.title} metadata`}>
+          <div><dt className="page-kicker">Role</dt><dd>{project.role}</dd></div>
+          <div><dt className="page-kicker">Client</dt><dd className="project-detail-page__client">{project.logo && <img className="project-detail-page__company-logo" src={project.logo} alt="" />}<span>{project.company ?? 'Personal / school project'}</span></dd></div>
+          <div><dt className="page-kicker">Timeline</dt><dd>{project.period}</dd></div>
+          <div><dt className="page-kicker">Links</dt><dd className="project-detail-page__links">{project.externalUrl && <a href={project.externalUrl} target="_blank" rel="noreferrer">Live site ↗</a>}{project.companyUrl && <a href={project.companyUrl} target="_blank" rel="noreferrer">Facebook page ↗</a>}{!project.externalUrl && !project.companyUrl && <span>Private system</span>}</dd></div>
+        </dl>
 
-        <section className="project-detail-page__delivery" aria-label={`${project.title} responsibilities and technologies`}>
-          <div><p className="page-kicker">Responsibilities</p><ul>{project.responsibilities.map((responsibility) => <li key={responsibility}>{responsibility}</li>)}</ul></div>
-          <div><p className="page-kicker">Technologies</p><ul className="project-detail-page__tags">{project.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul></div>
+        <section className="project-detail-page__delivery" aria-label={`${project.title} contribution and stack`}>
+          <div><p className="page-kicker">What I built</p><ul className="project-detail-page__points">{project.responsibilities.map((responsibility) => <li key={responsibility}>{responsibility}</li>)}</ul></div>
+          <div><p className="page-kicker">Stack</p><ul className="project-detail-page__tags">{project.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul></div>
         </section>
 
         <section className="project-detail-page__editorial" aria-label={`${project.title} case study and related projects`}>
           <div className="project-detail-page__description">
-            <header><p className="page-kicker">Case study</p><h2>Description</h2></header>
-            {project.bodySections.map((section) => <section key={section.heading}><h3>{section.heading}</h3><p>{section.body}</p></section>)}
-            {project.infrastructure && <section className="project-infrastructure" aria-label="IMS infrastructure"><h3>Infrastructure</h3><ol>{project.infrastructure.map(({ name, detail }) => <li key={name}><strong>{name}</strong><span>{detail}</span></li>)}</ol></section>}
+            <header><p className="page-kicker">Case study</p><h2>How it works</h2></header>
+            {project.bodySections.map((section) => <section key={section.heading}><h3>{section.heading}</h3><ul className="project-detail-page__points">{section.points.map((point) => <li key={point}>{point}</li>)}</ul></section>)}
             {project.placeholder ? <section className="project-detail-page__gallery"><h3>Project visuals</h3><p>Application screenshots are coming soon.</p></section> : <section className="project-detail-page__gallery" aria-labelledby="project-gallery-title">
-              <div><p className="page-kicker">Local media</p><h3 id="project-gallery-title">Inside the work</h3></div>
+              <div><p className="page-kicker">Screenshots</p><h3 id="project-gallery-title">Inside the work</h3></div>
               <div>{project.gallery.map((image, index) => <ImageWithFallback sources={[image, project.cover]} alt={`${project.title} screenshot ${index + 1}`} key={image} loading="lazy" />)}</div>
             </section>}
           </div>
@@ -79,7 +76,6 @@ function ProjectDetailPage({ slug }) {
             <button type="button" onClick={() => navigate('/projects')}>See more</button>
           </aside>
         </section>
-        <ActivityHeatmap />
       </article>
     </div>
   )

@@ -23,19 +23,28 @@ const projects = [
     ],
     technologies: ['C#', 'ASP.NET Core', 'EF Core', 'Next.js', 'React', 'TypeScript', 'TanStack Query', 'PostgreSQL', 'CockroachDB', 'Cloud Run', 'Cloudflare Workers', 'Cloudflare R2', 'Docker', 'GitHub Actions'],
     bodySections: [
-      { heading: 'Purpose and company', body: 'I built this Inventory Management System for Mi Cosas Suntastic Electrical & Equipment Parts Trading, a solar supplier in Zamboanga City. Before this, their solar sales, stock, and balances lived in separate records. So the goal was one application with a clear record of where stock moved and how each balance changed.' },
-      { heading: 'How people use it', body: 'The Admin manages Solar Items, Inverters, Solar Panels, Batteries, supplier receipts, and customer or installer projects. Clerks sell fixed-price solar parts from dedicated sales screens. Both roles work from the same centralized database, and the API decides what each role can access.' },
-      { heading: 'Batches and ledgers', body: 'Each supplier receipt is recorded as a batch with its own quantity and unit cost, so profit stays correct even when a later delivery costs more. Supplier repayments and customer collections have separate append-only ledgers. Payments, reversals, and stock movements keep their history, and repeated requests use operation IDs so a retry does not record the same transaction twice.' },
-      { heading: 'Application architecture', body: 'The system uses a modular ASP.NET Core API with EF Core as the database writer. The Next.js dashboard communicates through a same-origin backend-for-frontend. This gives the interface a single access point while the API owns authorization and business rules.' },
-      { heading: 'Infrastructure and delivery', body: 'The dashboard runs on Cloudflare Workers through OpenNext, and the API runs on Google Cloud Run. CockroachDB provides the hosted PostgreSQL-compatible database, while PostgreSQL and Docker support local development. Private media uses Cloudflare R2. GitHub Actions and Cloud Build support checks and releases across staging and production.' },
-      { heading: 'Reports and everyday performance', body: 'I use bounded server queries, cursor pagination, and on-demand detail views so the dashboard loads the information a person needs. Reports and exports use the same server-side rules as the screens. TanStack Query updates related views after a change without continuous polling.' },
-    ],
-    infrastructure: [
-      { name: 'Web application', detail: 'Next.js + React on Cloudflare Workers, deployed with OpenNext. The same-origin BFF handles browser requests.' },
-      { name: 'Business API', detail: 'ASP.NET Core + EF Core on Google Cloud Run. Authenticated service access and API-enforced roles protect business operations.' },
-      { name: 'Data', detail: 'CockroachDB for hosted PostgreSQL-compatible storage; PostgreSQL for local development. The API is the only database writer.' },
-      { name: 'Private media', detail: 'Cloudflare R2 stores images with API-authorized upload and retrieval. Database records retain metadata and audit history.' },
-      { name: 'Delivery', detail: 'Docker, GitHub Actions, and Cloud Build support testing and versioned staging and production releases.' },
+      { heading: 'The problem', points: [
+        'Mi Cosas Suntastic sells solar sets, panels, inverters, and batteries in Zamboanga City.',
+        'Sales, stock, and balances lived in separate records, so nobody had one true count.',
+        'Goal: one system that shows where every item moved and how every balance changed.',
+      ] },
+      { heading: 'Who uses it', points: [
+        'Admin: products, supplier receipts, customer and installer projects, company-wide reports.',
+        'Clerk: fixed-price solar part sales from dedicated sales screens.',
+        'Both roles share one centralized database. The API decides what each role sees.',
+      ] },
+      { heading: 'Batches and ledgers', points: [
+        'Each supplier receipt is a batch with its own quantity and unit cost.',
+        'Profit stays correct even when a later delivery costs more.',
+        'Supplier repayments and customer collections run on separate append-only ledgers.',
+        'Operation IDs make retries safe, so a payment is never recorded twice.',
+      ] },
+      { heading: 'Architecture', points: [
+        'Modular ASP.NET Core API with EF Core. The API is the only database writer.',
+        'Next.js dashboard behind a same-origin backend-for-frontend.',
+        'Dashboard on Cloudflare Workers, API on Google Cloud Run, media on Cloudflare R2.',
+        'Bounded queries, cursor pagination, and TanStack Query keep screens fast without polling.',
+      ] },
     ],
     cover: '/images/ims1.webp', gallery: ['/images/ims1.webp', '/images/ims2.webp', '/images/ims3.webp'],
     externalLabel: 'Visit Suntastic Zambo', relatedSlugs: ['court-avenue', 'casadelentes'],
@@ -52,10 +61,27 @@ const projects = [
     ],
     technologies: ['React', 'Vite', 'Tailwind CSS', 'Hono', 'Cloudflare Workers', 'Cloudflare D1', 'Resend'],
     bodySections: [
-      { heading: 'Purpose', body: 'Court Avenue is a pickleball venue in Zamboanga City with three courts. Before this site, bookings went through chat. So the goal was a page where players can see which hours are open and book one-hour slots on their own.' },
-      { heading: 'How a booking works', body: 'A player picks a court, a day, and back-to-back hours. Signing in holds those slots while they pay, so nobody else takes them. They pay through the venue\'s GCash QR outside the app, upload the receipt, and the owner approves the booking.' },
-      { heading: 'Why email sign-in', body: 'Most players open the link from Messenger or Instagram. Google sign-in is refused inside those in-app browsers, so I used email one-time codes instead. That works everywhere without asking anyone to leave the app.' },
-      { heading: 'How it was built', body: 'One Cloudflare Worker serves the React app and the Hono API, with D1 for bookings and slots. Resend sends the sign-in codes and booking emails from the venue\'s own domain.' },
+      { heading: 'The problem', points: [
+        'Court Avenue runs three pickleball courts in Zamboanga City.',
+        'Bookings went through chat, so double bookings and missed messages were common.',
+        'Goal: players see open hours and book one-hour slots on their own.',
+      ] },
+      { heading: 'How a booking works', points: [
+        'Pick a court, a day, and back-to-back hours.',
+        'Sign in to hold the slots while paying, so nobody else takes them.',
+        'Pay through the venue\'s GCash QR and upload the receipt.',
+        'The owner approves, and the player gets a confirmation email.',
+      ] },
+      { heading: 'Decisions', points: [
+        'Email one-time codes instead of Google sign-in.',
+        'Why: most players open the link inside Messenger or Instagram, where Google sign-in is refused.',
+        'Slots are held before the QR is shown, so payment never races another player.',
+      ] },
+      { heading: 'Architecture', points: [
+        'One Cloudflare Worker serves the React app and the Hono API.',
+        'Cloudflare D1 stores courts, slots, and bookings.',
+        'Resend sends sign-in codes and booking emails from the venue\'s own domain.',
+      ] },
     ],
     cover: '/images/courtavenue1.webp', gallery: ['/images/courtavenue1.webp', '/images/courtavenue2.webp', '/images/courtavenue3.webp', '/images/courtavenue4.webp'],
     externalUrl: 'https://courtavenuezc.com', relatedSlugs: ['casadelentes', 'ims'],
@@ -72,10 +98,26 @@ const projects = [
     ],
     technologies: ['React', 'Vite', 'Tailwind CSS', 'Hono', 'Cloudflare Workers', 'Cloudflare D1', 'Cloudflare R2'],
     bodySections: [
-      { heading: 'Purpose', body: 'Casadelentes rents out cameras by the day in Zamboanga City: a Canon G7X Mark III, a DJI Osmo Pocket 3, a Fujifilm Instax Mini Evo, and a DJI Osmo Action 5. The site helps renters pick the right camera for their plan, then send a request for their dates.' },
-      { heading: 'How renting works', body: 'A renter browses the catalog or answers "which one is for me?", checks the dates, and sends a request. The owner then calls to arrange pickup. Rates are per rental day, and bookings need 24 hours of notice.' },
-      { heading: 'Owner tools', body: 'The catalog lives in the database, not in code. So the owner updates cameras, wording, and rates from the dashboard, and every owner route is checked on the server.' },
-      { heading: 'How it was built', body: 'One Cloudflare Worker serves the React app and the Hono API, with D1 for data. Product photos and video are served from R2 through the shop\'s own CDN domain.' },
+      { heading: 'The problem', points: [
+        'Casadelentes rents cameras by the day in Zamboanga City.',
+        'Fleet: Canon G7X Mark III, DJI Osmo Pocket 3, Fujifilm Instax Mini Evo, DJI Osmo Action 5.',
+        'Renters asked the same questions in chat: which camera, which dates, how much.',
+      ] },
+      { heading: 'How renting works', points: [
+        'Browse the catalog, or answer "which one is for me?" to get a match.',
+        'Check the dates and send a request.',
+        'The owner calls to arrange pickup. Rates are per rental day, with 24 hours notice.',
+      ] },
+      { heading: 'Owner tools', points: [
+        'The catalog lives in the database, not in code.',
+        'The owner edits cameras, wording, and rates from the dashboard.',
+        'Every owner route is checked on the server.',
+      ] },
+      { heading: 'Architecture', points: [
+        'One Cloudflare Worker serves the React app and the Hono API.',
+        'Cloudflare D1 stores the catalog and requests.',
+        'Product photos and video are served from R2 through the shop\'s own CDN domain.',
+      ] },
     ],
     cover: '/images/casadelentes1.webp', gallery: ['/images/casadelentes1.webp', '/images/casadelentes2.webp', '/images/casadelentes3.webp', '/images/casadelentes4.webp'],
     externalUrl: 'https://casadelenteszc.com', relatedSlugs: ['court-avenue', 'ims'],
@@ -91,9 +133,19 @@ const projects = [
     ],
     technologies: ['Next.js 16', 'Supabase', 'TanStack Query', 'TypeScript'],
     bodySections: [
-      { heading: 'Workflow', body: 'I built WaiveRight with two portals. Students submit their academic waivers in one, and administrators review them in the other. So each person sees the tools they need for their part of the process.' },
-      { heading: 'Access model', body: 'I used Supabase RPC functions, Row-Level Security, pgcrypto, and session management for the custom authentication flow. The access rules control what each role can read and change.' },
-      { heading: 'My contribution', body: 'This was a freelance project where I worked on the flow, interface, and backend. I handled the full-stack implementation from student submission through administrator review.' },
+      { heading: 'The problem', points: [
+        'Accountancy students filed academic waivers on paper.',
+        'Administrators had no single place to track status or approve.',
+      ] },
+      { heading: 'Workflow', points: [
+        'Student portal: upload documents, submit the waiver, track its status.',
+        'Admin portal: review submissions and approve or return them.',
+      ] },
+      { heading: 'Access model', points: [
+        'Custom authentication with Supabase RPC functions and pgcrypto.',
+        'Row-Level Security controls what each role can read and change.',
+        'Full-stack, freelance: flow, interface, and backend.',
+      ] },
     ],
     cover: '/images/waiveright1.webp', gallery: ['/images/waiveright1.webp', '/images/waiveright2.webp'],
     externalUrl: 'https://waiveright.vercel.app', relatedSlugs: ['social-development-unit', 'offline-pos'],
@@ -109,9 +161,19 @@ const projects = [
     ],
     technologies: ['React', 'Vite', 'MUI', 'TanStack Query', 'Axios', 'React PDF', 'Express', 'Supabase', 'PostgreSQL', 'JWT'],
     bodySections: [
-      { heading: 'Problem', body: 'The Social Development Unit needed one place to keep track of projects and reports from six offices. Basically, the goal was to bring those updates together so they were easier to manage.' },
-      { heading: 'System', body: 'Each office can submit its reports in the system. The Unit Director has a separate view to see the updates in one place, including how the projects align with the SDGs.' },
-      { heading: 'My contribution', body: 'I worked as a full-stack developer and project manager from September to December 2025. My work covered the office workflows, reporting views, and the services behind them.' },
+      { heading: 'The problem', points: [
+        'Six university offices reported projects to the Social Development Unit separately.',
+        'The Unit Director had no single view of progress.',
+      ] },
+      { heading: 'System', points: [
+        'Each office submits projects and reports in its own view.',
+        'The Unit Director sees every update in one dashboard.',
+        'Projects are tagged by SDG alignment, and reports export to PDF.',
+      ] },
+      { heading: 'My role', points: [
+        'Full-stack developer and project manager, Sept to Dec 2025.',
+        'Built the office workflows, reporting views, and the Express services behind them.',
+      ] },
     ],
     cover: '/images/sdu1.webp', gallery: ['/images/sdu1.webp', '/images/sdu2.webp'],
     externalUrl: 'https://ateneo-sdu.vercel.app', relatedSlugs: ['waiveright', 'orsem-family-feud'],
@@ -127,9 +189,18 @@ const projects = [
     ],
     technologies: ['Figma', 'Tailwind CSS', 'React', 'Vite', 'React Router', 'Resend'],
     bodySections: [
-      { heading: 'Customer journey', body: 'I built this site so visitors can browse the cars and services, then send a booking inquiry. That includes trips like airport transfers and corporate travel.' },
-      { heading: 'Design and performance', body: 'I started with the design in Figma, then built the responsive pages. I used lazy-loaded images and IntersectionObserver for the scroll interactions.' },
-      { heading: 'Inquiry flow', body: 'I connected inquiries through Resend, with Porkbun supporting the domain and email setup. Visitors send an inquiry rather than pay through the website.' },
+      { heading: 'Customer journey', points: [
+        'Browse the fleet and services, including airport transfers and corporate travel.',
+        'Send a booking inquiry. No online payment.',
+      ] },
+      { heading: 'Design and performance', points: [
+        'Designed in Figma first, then built the responsive pages.',
+        'Lazy-loaded images and IntersectionObserver for scroll interactions.',
+      ] },
+      { heading: 'Inquiry flow', points: [
+        'Inquiries go to the owner by email through Resend.',
+        'Porkbun handles the domain and email setup.',
+      ] },
     ],
     cover: '/images/leo1.webp', gallery: ['/images/leo1.webp', '/images/leo2.webp'],
     externalUrl: 'https://leorentacar-git-main-clydefois-projects.vercel.app', relatedSlugs: ['waiveright', 'mujer-lgbtq'],
@@ -144,9 +215,18 @@ const projects = [
     ],
     technologies: ['Java', 'JavaFX', 'SQLite'],
     bodySections: [
-      { heading: 'Local-first workflow', body: 'I built this desktop system for a local mini grocery store. It handles stock and checkout using a local database, so the store does not need an internet connection for those tasks.' },
-      { heading: 'How it was built', body: 'I used Java, JavaFX, and SQLite for this project. It is separate from my later IMS web application, which uses ASP.NET Core and Next.js.' },
-      { heading: 'What I learned', body: 'This project helped me understand how a small store handles checkout, inventory, and product movements. I carried those lessons into later work, even when the technology and setup were different.' },
+      { heading: 'Local-first workflow', points: [
+        'Checkout and stock run on a local database.',
+        'The store keeps selling when the internet is down.',
+      ] },
+      { heading: 'How it was built', points: [
+        'Java and JavaFX desktop app with SQLite storage.',
+        'Separate from my later Inventory Management System, which is a web app.',
+      ] },
+      { heading: 'What I learned', points: [
+        'How a small store actually moves stock day to day.',
+        'Those lessons shaped the batch and ledger design in later inventory work.',
+      ] },
     ],
     cover: '/images/pos.webp', gallery: ['/images/pos.webp', '/images/pos1.webp'], relatedSlugs: ['waiveright', 'social-development-unit'],
   },
@@ -160,9 +240,16 @@ const projects = [
     ],
     technologies: ['HTML', 'CSS', 'JavaScript'],
     bodySections: [
-      { heading: 'Purpose', body: 'Our team worked on an informational website for Mujer-LGBT Organization Inc., a nonprofit human-rights organization.' },
-      { heading: 'Content', body: 'We brought together the organization’s history, advocates, and goals, along with information about LGBTQIA+ rights and community awareness.' },
-      { heading: 'My contribution', body: 'I contributed as part of the team. We worked together on the website and how the organization’s information was presented.' },
+      { heading: 'Purpose', points: [
+        'Informational site for Mujer-LGBT Organization Inc., a Zamboanga City nonprofit.',
+      ] },
+      { heading: 'Content', points: [
+        'The organization’s history, advocates, and goals.',
+        'LGBTQIA+ rights, HIV/AIDS awareness, and community resources.',
+      ] },
+      { heading: 'My role', points: [
+        'Team contributor on the pages and how the content was presented.',
+      ] },
     ],
     cover: '/images/lgbt1.webp', gallery: ['/images/lgbt1.webp', '/images/lgbt2.webp'],
     externalUrl: 'https://mujer-lgbt-zc.vercel.app', relatedSlugs: ['leo-rent-a-car', 'orsem-family-feud'],
@@ -177,9 +264,17 @@ const projects = [
     ],
     technologies: ['TypeScript', 'Next.js', 'PostgreSQL'],
     bodySections: [
-      { heading: 'Event experience', body: 'I helped build a Family Feud-style web app for OrSem 2025 at Ateneo de Zamboanga University.' },
-      { heading: 'Synchronized views', body: 'The game has a display for the audience and a controller for managing questions, answers, and scores. So the activity can be controlled from one view while the audience follows along on the other.' },
-      { heading: 'My contribution', body: 'A Computer Science senior led development, and I assisted with the implementation. My contribution included the display and controller interactions.' },
+      { heading: 'Event', points: [
+        'Family Feud-style game for OrSem 2025 at Ateneo de Zamboanga University.',
+      ] },
+      { heading: 'Synchronized views', points: [
+        'Audience display shows the board, answers, and scores.',
+        'Host controller runs questions, reveals, and scoring from a second screen.',
+      ] },
+      { heading: 'My role', points: [
+        'Assisted the Computer Science senior who led development.',
+        'Worked on the display and controller interactions.',
+      ] },
     ],
     cover: '/images/feud.png', gallery: ['/images/feud.png'], relatedSlugs: ['social-development-unit', 'mujer-lgbtq'],
   },

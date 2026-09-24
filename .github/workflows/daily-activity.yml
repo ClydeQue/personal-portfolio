@@ -30,8 +30,16 @@ jobs:
       - run: npm ci
       - name: Refresh real contribution data
         env:
-          GH_TOKEN: ${{ github.token }}
-        run: npm run sync:github-activity
+          # The Actions token only sees public contributions. ACTIVITY_TOKEN is a
+          # personal token (read:user) so private-repo contributions are counted.
+          # Without it the step is skipped rather than publishing a public-only count.
+          GH_TOKEN: ${{ secrets.ACTIVITY_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo 'ACTIVITY_TOKEN is not set; keeping the committed snapshot.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          npm run sync:github-activity
       - name: Validate graph and portfolio
         run: |
           npm run build

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { matchRoute, subscribeToRoute } from './app/router'
 import { readPortfolioView } from './app/uiState.js'
+import { applyDocumentMeta, pageMeta } from './app/seo.js'
 import PortfolioShell from './components/shell/PortfolioShell.jsx'
 import HomePage from './pages/HomePage.jsx'
 import AboutPage from './pages/AboutPage.jsx'
@@ -22,6 +23,7 @@ function App() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' })
+    applyDocumentMeta(pageMeta(route.path))
   }, [route.path])
 
   let page
