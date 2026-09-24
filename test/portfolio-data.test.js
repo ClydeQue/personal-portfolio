@@ -9,14 +9,17 @@ const collectMediaPaths = (value, found = []) => {
   return found
 }
 
-test('contains seven project case studies and four writing entries', () => {
-  assert.equal(portfolio.projects.length, 7)
+test('contains nine project case studies and four writing entries', () => {
+  assert.equal(portfolio.projects.length, 9)
+  assert.deepEqual(portfolio.projects.slice(0, 3).map(({ slug }) => slug), ['ims', 'court-avenue', 'casadelentes'])
+  assert.equal(portfolio.projects[0].title, 'Inventory Management System')
   assert.equal(portfolio.posts.length, 4)
-  assert.equal(portfolio.experiencePhases.length, 4)
+  assert.equal(portfolio.experiencePhases.length, 3)
   assert.deepEqual(portfolio.experiencePhases.map(({ organization }) => organization), [
-    'Ngnair Brice Holding', 'Capytech E-Learning Solutions',
-    'JP Consulting and Services', 'Ateneo de Zamboanga University',
+    'Ngnair Brice Holding', 'Capytech E-Learning Solutions', 'JP Consulting and Services',
   ])
+  assert.equal(portfolio.education.degree, 'Bachelor of Science in Computer Science')
+  assert.equal(portfolio.projects.find(({ slug }) => slug === 'leo-rent-a-car').externalUrl, 'https://leorentacar-git-main-clydefois-projects.vercel.app')
   assert.match(portfolio.experiencePhases[0].role, /Software Engineer.*AI Automation/)
   assert.match(portfolio.experiencePhases[0].summary, /microservices and microfrontends/)
   assert.ok(portfolio.projects.find(({ slug }) => slug === 'ims').technologies.includes('Cloudflare R2'))

@@ -5,6 +5,7 @@ import { navigate } from '../app/router.js'
 import ActivityHeatmap from '../components/ui/ActivityHeatmap.jsx'
 import { portfolio } from '../data/portfolio.js'
 import TechIcon from '../components/ui/TechIcon.jsx'
+import EducationEntry from '../components/ui/EducationEntry.jsx'
 
 const journeyValues = ['Build', 'Verify', 'Learn', 'Contribute']
 
@@ -109,7 +110,7 @@ function ExperiencePage() {
       <section>
         <p className="page-kicker">Education &amp; certificates</p>
         <h2>Education</h2>
-        <div className="experience-evidence__education"><strong>BS Computer Science</strong><p>Ateneo de Zamboanga University · 2023–Present</p><span>Current foundation in web development, cloud computing, and systems architecture.</span></div>
+        <EducationEntry />
       </section>
     </section>
   </div>

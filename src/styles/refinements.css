@@ -42,7 +42,15 @@
 .project-infrastructure li span { color: #616161; font-size: 13px; line-height: 1.65; }
 .resume-link { display: inline-flex; width: fit-content; align-items: center; gap: 8px; margin-top: 18px; padding: 10px 15px; border: 1px solid #d6d6d6; border-radius: 7px; background: #fff; color: #2855ff; font-size: 13px; font-weight: 700; text-decoration: none; transition: background-color 160ms, border-color 160ms, transform 160ms; }
 .resume-link:hover, .resume-link:focus-visible { border-color: #2855ff; background: #f2f5ff; transform: translateY(-1px); }
-.professional-profile__cta .resume-link { margin-top: 0; }
+.professional-profile__cta .resume-link { display: inline-flex; gap: 6px; margin-top: 0; padding: 0 15px; border-color: var(--rule); background: #fff; color: #2855ff; font-size: 11px; white-space: nowrap; }
+.education-entry { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 4px 14px; align-items: center; }
+.education-entry > a { grid-row: span 3; align-self: start; }
+.education-entry img { display: block; width: 48px; height: 48px; object-fit: contain; }
+.education-entry > strong { color: var(--ink); font-size: 14px; }
+.education-entry > p, .professional-education .education-entry > p { grid-column: 2; margin: 0; color: #707070; font-size: 12px; }
+.education-entry > span { grid-column: 2; color: #5c5c5c; font-size: 12px; line-height: 1.5; }
+.professional-education .education-entry { margin-bottom: 18px; }
+.professional-education .education-entry > span { display: block; padding: 0; border: 0; background: none; }
 @media (max-width: 900px) {
   .professional-profile__about { margin: 30px 0 0; padding: 28px 24px; }
   .professional-profile__about::before { left: 24px; right: 24px; }
@@ -60,3 +68,4 @@
   .project-placeholder { padding: 24px; }
   .project-detail-page__cover.project-placeholder { height: 280px; }
 }
+.project-detail-page__company-logo { display: block; width: 120px; height: auto; margin-bottom: 8px; }

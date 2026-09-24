@@ -11,21 +11,22 @@ const deepFreeze = (value) => {
 
 const projects = [
   {
-    slug: 'ims', title: 'IMS · Suntastic ZC', period: '2026–Present', category: 'Business application',
-    company: 'Suntastic ZC', placeholder: true,
-    summary: 'A Solar inventory, sales, and collections system that connects the stockroom, branch operations, suppliers, and customer projects.',
+    slug: 'ims', title: 'Inventory Management System', period: '2026–Present', category: 'Business application',
+    company: 'Mi Cosas Suntastic, Zamboanga City', companyUrl: 'https://www.facebook.com/p/Suntastic-Zambo-100063914957141/', logo: '/images/suntastic-logo.webp',
+    summary: 'An inventory system for Mi Cosas Suntastic that tracks solar sales, product items, receipt batches, and supplier and customer repayments in one centralized database shared by Admin and Clerk.',
     role: 'Full-stack developer',
     responsibilities: [
-      'I build the Admin and Clerk workflows, from receiving stock to recording sales and collections.',
-      'I implement the API rules that keep inventory movements, payments, and role permissions consistent.',
+      'I built the solar sales, product item, and receipt batch tracking, from receiving stock to recording each sale.',
+      'I built the ledgers for supplier repayments and customer collections, so every balance shows how it changed.',
+      'I set up one centralized database that Admin and Clerk both work from, with the API enforcing what each role can see and do.',
       'I work on the cloud infrastructure, private media, automated checks, and deployment workflows.',
     ],
     technologies: ['C#', 'ASP.NET Core', 'EF Core', 'Next.js', 'React', 'TypeScript', 'TanStack Query', 'PostgreSQL', 'CockroachDB', 'Cloud Run', 'Cloudflare Workers', 'Cloudflare R2', 'Docker', 'GitHub Actions'],
     bodySections: [
-      { heading: 'Purpose and company', body: 'I’m building IMS for Suntastic ZC to bring its Solar inventory, sales, supplier balances, and customer collections into one application. The goal is to make daily operations easier to follow, with a clear record of where stock moved and how each balance changed.' },
-      { heading: 'How people use it', body: 'The Admin manages Solar Items, Inverters, Solar Panels, Batteries, supplier receipts, and customer or installer projects. Clerks work with inventory allocated to their branch and use dedicated sales and collection screens. The API decides what each role can access.' },
-      { heading: 'Keeping stock and money consistent', body: 'I keep one global inventory record, with branch allocations traced back to receipt lots. Customer collections and supplier payments have separate ledgers. Payments, reversals, and stock movements preserve their history, and repeated requests use operation IDs so a retry does not record the same transaction twice.' },
-      { heading: 'Application architecture', body: 'IMS uses a modular ASP.NET Core API with EF Core as the database writer. The Next.js dashboard communicates through a same-origin backend-for-frontend. This gives the interface a single access point while the API owns authorization and business rules.' },
+      { heading: 'Purpose and company', body: 'I built this Inventory Management System for Mi Cosas Suntastic Electrical & Equipment Parts Trading, a solar supplier in Zamboanga City. Before this, their solar sales, stock, and balances lived in separate records. So the goal was one application with a clear record of where stock moved and how each balance changed.' },
+      { heading: 'How people use it', body: 'The Admin manages Solar Items, Inverters, Solar Panels, Batteries, supplier receipts, and customer or installer projects. Clerks sell fixed-price solar parts from dedicated sales screens. Both roles work from the same centralized database, and the API decides what each role can access.' },
+      { heading: 'Batches and ledgers', body: 'Each supplier receipt is recorded as a batch with its own quantity and unit cost, so profit stays correct even when a later delivery costs more. Supplier repayments and customer collections have separate append-only ledgers. Payments, reversals, and stock movements keep their history, and repeated requests use operation IDs so a retry does not record the same transaction twice.' },
+      { heading: 'Application architecture', body: 'The system uses a modular ASP.NET Core API with EF Core as the database writer. The Next.js dashboard communicates through a same-origin backend-for-frontend. This gives the interface a single access point while the API owns authorization and business rules.' },
       { heading: 'Infrastructure and delivery', body: 'The dashboard runs on Cloudflare Workers through OpenNext, and the API runs on Google Cloud Run. CockroachDB provides the hosted PostgreSQL-compatible database, while PostgreSQL and Docker support local development. Private media uses Cloudflare R2. GitHub Actions and Cloud Build support checks and releases across staging and production.' },
       { heading: 'Reports and everyday performance', body: 'I use bounded server queries, cursor pagination, and on-demand detail views so the dashboard loads the information a person needs. Reports and exports use the same server-side rules as the screens. TanStack Query updates related views after a change without continuous polling.' },
     ],
@@ -36,7 +37,48 @@ const projects = [
       { name: 'Private media', detail: 'Cloudflare R2 stores images with API-authorized upload and retrieval. Database records retain metadata and audit history.' },
       { name: 'Delivery', detail: 'Docker, GitHub Actions, and Cloud Build support testing and versioned staging and production releases.' },
     ],
-    cover: null, gallery: [], relatedSlugs: ['offline-pos', 'waiveright'],
+    cover: '/images/ims1.webp', gallery: ['/images/ims1.webp', '/images/ims2.webp', '/images/ims3.webp'],
+    externalLabel: 'Visit Suntastic Zambo', relatedSlugs: ['court-avenue', 'casadelentes'],
+  },
+  {
+    slug: 'court-avenue', title: 'Court Avenue ZC', period: 'Sep 2026', category: 'Client booking platform',
+    company: 'Court Avenue, Zamboanga City',
+    summary: 'A pickleball court booking site for a three-court venue in Zamboanga City, with live open times, GCash receipt uploads, and owner approval.',
+    role: 'Freelance full-stack developer and interface designer',
+    responsibilities: [
+      'I designed and built the booking flow: pick a court and your hours, sign in to hold them, pay with GCash, then get confirmed.',
+      'I built the owner side, where the venue reviews uploaded receipts and approves or declines each booking.',
+      'I set up email sign-in and booking emails, so players never need a password.',
+    ],
+    technologies: ['React', 'Vite', 'Tailwind CSS', 'Hono', 'Cloudflare Workers', 'Cloudflare D1', 'Resend'],
+    bodySections: [
+      { heading: 'Purpose', body: 'Court Avenue is a pickleball venue in Zamboanga City with three courts. Before this site, bookings went through chat. So the goal was a page where players can see which hours are open and book one-hour slots on their own.' },
+      { heading: 'How a booking works', body: 'A player picks a court, a day, and back-to-back hours. Signing in holds those slots while they pay, so nobody else takes them. They pay through the venue\'s GCash QR outside the app, upload the receipt, and the owner approves the booking.' },
+      { heading: 'Why email sign-in', body: 'Most players open the link from Messenger or Instagram. Google sign-in is refused inside those in-app browsers, so I used email one-time codes instead. That works everywhere without asking anyone to leave the app.' },
+      { heading: 'How it was built', body: 'One Cloudflare Worker serves the React app and the Hono API, with D1 for bookings and slots. Resend sends the sign-in codes and booking emails from the venue\'s own domain.' },
+    ],
+    cover: '/images/courtavenue1.webp', gallery: ['/images/courtavenue1.webp', '/images/courtavenue2.webp', '/images/courtavenue3.webp', '/images/courtavenue4.webp'],
+    externalUrl: 'https://courtavenuezc.com', relatedSlugs: ['casadelentes', 'ims'],
+  },
+  {
+    slug: 'casadelentes', title: 'Casadelentes ZC', period: 'Sep 2026', category: 'Client booking platform',
+    company: 'Casadelentes ZC, Zamboanga City',
+    summary: 'A camera rental site for a Zamboanga City shop, with a catalog of four cameras, date requests, and an owner dashboard.',
+    role: 'Freelance full-stack developer and interface designer',
+    responsibilities: [
+      'I designed and built the catalog, the camera comparison, and the rental request flow.',
+      'I built the owner dashboard, where the shop edits cameras, rates, and copy without a code change.',
+      'I prepared the product photos and video and serve them from a Cloudflare R2 CDN.',
+    ],
+    technologies: ['React', 'Vite', 'Tailwind CSS', 'Hono', 'Cloudflare Workers', 'Cloudflare D1', 'Cloudflare R2'],
+    bodySections: [
+      { heading: 'Purpose', body: 'Casadelentes rents out cameras by the day in Zamboanga City: a Canon G7X Mark III, a DJI Osmo Pocket 3, a Fujifilm Instax Mini Evo, and a DJI Osmo Action 5. The site helps renters pick the right camera for their plan, then send a request for their dates.' },
+      { heading: 'How renting works', body: 'A renter browses the catalog or answers "which one is for me?", checks the dates, and sends a request. The owner then calls to arrange pickup. Rates are per rental day, and bookings need 24 hours of notice.' },
+      { heading: 'Owner tools', body: 'The catalog lives in the database, not in code. So the owner updates cameras, wording, and rates from the dashboard, and every owner route is checked on the server.' },
+      { heading: 'How it was built', body: 'One Cloudflare Worker serves the React app and the Hono API, with D1 for data. Product photos and video are served from R2 through the shop\'s own CDN domain.' },
+    ],
+    cover: '/images/casadelentes1.webp', gallery: ['/images/casadelentes1.webp', '/images/casadelentes2.webp', '/images/casadelentes3.webp', '/images/casadelentes4.webp'],
+    externalUrl: 'https://casadelenteszc.com', relatedSlugs: ['court-avenue', 'ims'],
   },
   {
     slug: 'waiveright', title: 'WaiveRight', period: 'Nov–Dec 2025', category: 'Web system',
@@ -90,7 +132,7 @@ const projects = [
       { heading: 'Inquiry flow', body: 'I connected inquiries through Resend, with Porkbun supporting the domain and email setup. Visitors send an inquiry rather than pay through the website.' },
     ],
     cover: '/images/leo1.webp', gallery: ['/images/leo1.webp', '/images/leo2.webp'],
-    externalUrl: 'https://www.leorentacarph.com', relatedSlugs: ['waiveright', 'mujer-lgbtq'],
+    externalUrl: 'https://leorentacar-git-main-clydefois-projects.vercel.app', relatedSlugs: ['waiveright', 'mujer-lgbtq'],
   },
   {
     slug: 'offline-pos', title: 'Offline POS', period: '2025', category: 'Desktop system',
@@ -159,12 +201,13 @@ const experiencePhases = [
     summary: 'I worked on full-stack JavaScript and TypeScript projects for Australian clients, with guidance from a senior developer.',
     skills: [{ label: 'JavaScript', icon: 'experience-javascript' }, { label: 'TypeScript', icon: 'experience-typescript' }, { label: 'Web development' }],
   },
-  {
-    organization: 'Ateneo de Zamboanga University', role: 'BS Computer Science foundation', period: '2023–Present',
-    summary: 'I’m studying Computer Science and building my skills in web development, cloud computing, and systems architecture through coursework and projects.',
-    skills: [{ label: 'Web development' }, { label: 'Cloud computing' }, { label: 'Systems architecture' }],
-  },
 ]
+
+const education = {
+  school: 'Ateneo de Zamboanga University', degree: 'Bachelor of Science in Computer Science', period: '2023–Present',
+  logo: '/images/adzu_logo.png', href: 'https://adzu.edu.ph/',
+  summary: 'I’m studying Computer Science and building my skills in web development, cloud computing, and systems architecture through coursework and projects.',
+}
 
 const collection = {
   allCategory: { id: 'all', name: 'All resources', description: 'Browse the complete local collection.' },
@@ -294,5 +337,5 @@ export const portfolio = deepFreeze({
       ],
     },
   },
-  projects, experiencePhases, collection, posts, activity, recognition,
+  projects, experiencePhases, education, collection, posts, activity, recognition,
 })

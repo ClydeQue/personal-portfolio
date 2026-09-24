@@ -114,7 +114,7 @@ test('both portfolio views expose the same technology groups and accessible icon
   } finally { doms.forEach((dom) => dom.window.close()) }
 })
 
-test('IMS feature renders infrastructure and labeled placeholders without a client destination', async () => {
+test('IMS feature renders infrastructure, the client logo and screenshots without a system destination', async () => {
   const server = await createServer({ appType: 'custom', plugins: [react()], server: { middlewareMode: true } })
   try {
     const { default: Page } = await server.ssrLoadModule('/src/pages/ProjectDetailPage.jsx')
@@ -122,7 +122,8 @@ test('IMS feature renders infrastructure and labeled placeholders without a clie
     try {
       assert.equal(portfolio.projects[0].slug, 'ims')
       assert.equal(portfolio.projects[0].externalUrl, undefined)
-      assert.ok(dom.window.document.querySelector('.project-placeholder'))
+      assert.ok(dom.window.document.querySelector('img[src="/images/suntastic-logo.webp"]'))
+      assert.ok(dom.window.document.querySelector('a[href="https://www.facebook.com/p/Suntastic-Zambo-100063914957141/"]'))
       assert.equal(dom.window.document.querySelectorAll('.project-infrastructure li').length, 5)
       assert.match(dom.window.document.body.textContent, /Cloud Run/)
       assert.match(dom.window.document.body.textContent, /Cloudflare R2/)

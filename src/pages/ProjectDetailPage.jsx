@@ -44,6 +44,7 @@ function ProjectDetailPage({ slug }) {
           <p>{project.summary}</p>
           <div className="project-detail-page__actions">
             {project.externalUrl && <a href={project.externalUrl} target="_blank" rel="noreferrer"><Icon name="arrow" size={16} />Visit project</a>}
+            {project.companyUrl && <a href={project.companyUrl} target="_blank" rel="noreferrer"><Icon name="arrow" size={16} />{project.externalLabel ?? 'Visit company'}</a>}
             <a href="mailto:kennethque101@gmail.com?subject=Project%20discussion"><Icon name="calendar" size={16} />Schedule a call</a>
             <button type="button" onClick={handleShare}><Icon name="share" size={16} />Share project</button>
           </div>
@@ -54,7 +55,7 @@ function ProjectDetailPage({ slug }) {
           <div><p className="page-kicker">Category</p><strong>{project.category}</strong></div>
           <div><p className="page-kicker">Tags</p><ul className="project-detail-page__tags">{project.technologies.map((technology) => <li key={technology}>{technology}</li>)}</ul></div>
           <div><p className="page-kicker">My role</p><strong>{portfolio.identity.name}</strong><span>{project.role}</span></div>
-          <div><p className="page-kicker">{project.company ? 'Company' : 'Official site'}</p>{project.company ? <strong>{project.company}</strong> : project.externalUrl ? <a href={project.externalUrl} target="_blank" rel="noreferrer">Visit project ↗</a> : <span>No public link</span>}</div>
+          <div><p className="page-kicker">{project.company ? 'Company' : 'Official site'}</p>{project.company ? <>{project.logo && <img className="project-detail-page__company-logo" src={project.logo} alt={`${project.company} logo`} />}<strong>{project.company}</strong>{project.companyUrl && <a href={project.companyUrl} target="_blank" rel="noreferrer">Facebook page ↗</a>}</> : project.externalUrl ? <a href={project.externalUrl} target="_blank" rel="noreferrer">Visit project ↗</a> : <span>No public link</span>}</div>
         </section>
 
         <section className="project-detail-page__delivery" aria-label={`${project.title} responsibilities and technologies`}>
