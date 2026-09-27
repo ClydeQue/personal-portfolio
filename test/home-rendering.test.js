@@ -36,6 +36,8 @@ test('personal home renders organization marks and emphasized description copy',
   assert.match(html, /<img[^>]+alt="Capytech E-Learning Solutions"/)
   assert.match(html, /<strong[^>]*>microservices and microfrontends<\/strong>/)
   assert.match(html, /href="\/portfolio\/KennethClydeQue_Resume\.pdf"[^>]*>View Resume/)
+  assert.match(html, /class="project-showcase-card project-showcase-card--compact"/)
+  assert.match(html, /href="https:\/\/www\.facebook\.com\/p\/Suntastic-Zambo-100063914957141\/"/)
 })
 
 test('professional home renders compact rich copy without exposing a location', async () => {
@@ -47,6 +49,7 @@ test('professional home renders compact rich copy without exposing a location', 
   assert.match(html, /Codex CLI/)
   assert.match(html, /Software Engineer focused on frontend development, QA, and AI-assisted automation/)
   assert.match(html, /href="\/portfolio\/KennethClydeQue_Resume\.pdf"[^>]*>View Resume/)
+  assert.equal((html.match(/project-showcase-card--compact/g) || []).length, 3)
 })
 
 test('associated organizations are keyboard-accessible links to their official sites', async () => {

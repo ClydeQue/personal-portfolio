@@ -3,12 +3,14 @@ const techIconMap = {
   Python: 'python', HTML: 'html', CSS: 'css', 'Tailwind CSS': 'tailwind-mark', MUI: 'mui',
   'TanStack Query': 'tanstack', 'C#': 'csharp', 'ASP.NET Core': 'dotnet', 'Node.js': 'nodejs', Express: 'express',
   PostgreSQL: 'postgre', CockroachDB: 'cockroachlabs', Supabase: 'supabase', Neon: 'neon', SQLite: 'sqlite', 'EF Core': 'dotnet',
-  JWT: 'jsonwebtokens', GCP: 'googlecloud', 'Cloud Run': 'googlecloud', 'Cloud Build': 'googlecloud',
+  'JWT/JWKS': 'jsonwebtokens', 'Cloudflare Access (Zero Trust)': 'cloudflare', 'GCP IAM': 'googlecloud',
+  'Workload Identity Federation': 'googlecloud', GCP: 'googlecloud', 'Cloud Run': 'googlecloud', 'Cloud Build': 'googlecloud',
   'Cloud Storage': 'googlecloudstorage', 'Compute Engine': 'googlecloud', 'Secret Manager': 'googlecloud',
-  AWS: 'aws', EC2: 'aws', S3: 'aws', 'Cloudflare Workers': 'cloudflareworkers', 'Cloudflare R2': 'cloudflare',
+  'AWS EC2': 'aws', 'AWS S3': 'aws', 'Cloudflare D1': 'cloudflare',
+  'Cloudflare Workers': 'cloudflareworkers', 'Cloudflare R2': 'cloudflare',
   'Cloudflare WAF': 'cloudflare', Turnstile: 'cloudflare', Docker: 'docker', 'GitHub Actions': 'githubactions', Vercel: 'vercel',
-  'Codex CLI': 'openai', 'Claude Code CLI': 'claude', 'OpenAI API': 'openai', Neovim: 'neovim',
-  'lazy.nvim': 'lua', 'Custom Lua modules': 'lua', LazyGit: 'git', Git: 'git', Figma: 'figma', Vite: 'vite',
+  'Codex CLI': 'openai', 'Claude Code CLI': 'claude', 'OpenAI API': 'openai', Neovim: 'neovim', LazyVim: 'neovim',
+  'Custom Lua modules': 'lua', LazyGit: 'git', Git: 'git', Figma: 'figma', Vite: 'vite',
 }
 
 // Single-color marks can be normalized safely. Multicolor badges need their
@@ -25,6 +27,7 @@ const practicePaths = {
   Shell: 'M3 4h18v16H3zM7 9l3 3-3 3m6 0h4',
   'GitHub CLI': 'M3 4h18v16H3zM7 9l3 3-3 3m6 0h4',
   'REST APIs': 'M8 5l-6 7 6 7m8-14 6 7-6 7M14 3l-4 18',
+  Hono: 'M3 5h18v14H3zM3 10h18M7 15h5',
   Microservices: 'M9 2h6v6H9zM2 16h6v6H2zM16 16h6v6h-6zM12 8v4M5 16v-4h14v4',
   Microfrontends: 'M2 3h20v18H2zM2 8h20M9 8v13M9 14h13',
   SCORM: 'M3 3h7l2 2 2-2h7v16h-7l-2 2-2-2H3zM12 5v16',

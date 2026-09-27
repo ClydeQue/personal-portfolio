@@ -4,7 +4,7 @@ import { navigate } from '../app/router.js'
 import ActivityHeatmap from '../components/ui/ActivityHeatmap.jsx'
 import ImageWithFallback from '../components/ui/ImageWithFallback.jsx'
 import SplitFlapName from '../components/ui/SplitFlapName.jsx'
-import ProjectCard from '../components/ui/ProjectCard.jsx'
+import ProjectShowcaseCard from '../components/ui/ProjectShowcaseCard.jsx'
 import EducationEntry from '../components/ui/EducationEntry.jsx'
 import NowPanel from '../components/ui/NowPanel.jsx'
 import Icon from '../components/ui/Icon.jsx'
@@ -76,7 +76,7 @@ function PersonalHome() {
       </Reveal>
       <Reveal as="section" className="home-panel home-panel--featured" aria-labelledby="featured-title" delay={.06}>
         <h2 id="featured-title">Featured Projects</h2>
-        <div className="featured-project-list">{featuredProjects.map((project) => <ProjectCard project={project} variant="home" key={project.slug} />)}</div>
+        <div className="featured-project-list">{featuredProjects.map((project) => <ProjectShowcaseCard project={project} compact key={project.slug} />)}</div>
         <button className="featured-project-more" type="button" onClick={() => navigate('/projects')}>See more projects <span>↗</span></button>
       </Reveal>
       <Reveal as="section" className="home-panel home-panel--recognition" aria-labelledby="recognition-title">
@@ -104,7 +104,7 @@ function ProfessionalHome() {
         <ActivityHeatmap />
       </Reveal>
       <Reveal as="section" className="professional-tech" aria-labelledby="professional-stack-title" delay={.04}><h2 id="professional-stack-title">Tech stack</h2><TechList compact /></Reveal>
-      <Reveal as="section" className="professional-projects" aria-labelledby="professional-project-title" delay={.06}><div><h2 id="professional-project-title">Recent projects</h2><button type="button" onClick={() => navigate('/projects')}>All projects ↗</button></div><div>{portfolio.projects.slice(0, 3).map((project) => <ProjectCard project={project} variant="professional" key={project.slug} />)}</div></Reveal>
+      <Reveal as="section" className="professional-projects" aria-labelledby="professional-project-title" delay={.06}><div><h2 id="professional-project-title">Recent projects</h2><button type="button" onClick={() => navigate('/projects')}>All projects ↗</button></div><div>{portfolio.projects.slice(0, 3).map((project) => <ProjectShowcaseCard project={project} compact key={project.slug} />)}</div></Reveal>
       <Reveal as="section" className="professional-education" aria-labelledby="education-title"><h2 id="education-title">Education & recognition</h2><EducationEntry /><div>{portfolio.recognition.map((item) => <span key={item.title}><b>{item.title}</b>{item.detail}</span>)}</div></Reveal>
     </section>
   </div>

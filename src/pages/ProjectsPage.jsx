@@ -1,6 +1,6 @@
 import { portfolio } from '../data/portfolio.js'
 import Icon from '../components/ui/Icon.jsx'
-import ProjectCard from '../components/ui/ProjectCard.jsx'
+import ProjectShowcaseCard from '../components/ui/ProjectShowcaseCard.jsx'
 
 function ProjectsPage() {
   return (
@@ -15,7 +15,7 @@ function ProjectsPage() {
         </div>
       </header>
       <section className="projects-page__grid" aria-label="All portfolio projects">
-        {portfolio.projects.map((project) => <ProjectCard project={project} variant="index" key={project.slug} />)}
+        {portfolio.projects.map((project) => <ProjectShowcaseCard project={project} key={project.slug} />)}
       </section>
     </div>
   )

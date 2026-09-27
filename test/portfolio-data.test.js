@@ -47,23 +47,27 @@ test('tech stack reflects project, GitHub, cloud, AI, and editor evidence withou
   const groups = new Map(portfolio.home.professional.techGroups.map(({ title, items }) => [title, items]))
 
   assert.deepEqual([...groups.keys()], [
-    'Languages & frontend', 'Services & application architecture', 'Data & security',
-    'Cloud & delivery', 'AI engineering', 'Developer tooling',
+    'Languages & frontend', 'Services & architecture', 'Data stores',
+    'Authentication & security', 'Cloud & delivery', 'AI tools & automation', 'Developer tooling',
   ])
-  assert.deepEqual(groups.get('Data & security'), [
-    'PostgreSQL', 'CockroachDB', 'Supabase', 'Neon', 'SQLite', 'EF Core', 'JWT', 'Row-Level Security',
-  ])
-  for (const item of ['GCP', 'Cloud Run', 'Cloud Build', 'Cloud Storage', 'AWS', 'EC2', 'S3', 'Cloudflare Workers', 'Cloudflare R2', 'Docker']) {
+  assert.deepEqual(groups.get('Data stores'), ['PostgreSQL', 'CockroachDB', 'Supabase', 'Neon', 'SQLite', 'Cloudflare D1'])
+  for (const item of ['JWT/JWKS', 'Cloudflare Access (Zero Trust)', 'GCP IAM', 'Workload Identity Federation', 'Row-Level Security']) {
+    assert.ok(groups.get('Authentication & security').includes(item), `${item} is categorized under Authentication & security`)
+  }
+  for (const item of ['GCP', 'Cloud Run', 'Cloud Build', 'Cloud Storage', 'AWS EC2', 'AWS S3', 'Cloudflare Workers', 'Cloudflare R2', 'Docker']) {
     assert.ok(groups.get('Cloud & delivery').includes(item), `${item} is categorized under Cloud & delivery`)
   }
   for (const item of ['Codex CLI', 'Claude Code CLI', 'OpenAI API', 'AI-assisted QA', 'Context engineering']) {
-    assert.ok(groups.get('AI engineering').includes(item), `${item} is categorized under AI engineering`)
+    assert.ok(groups.get('AI tools & automation').includes(item), `${item} is categorized under AI tools & automation`)
   }
-  for (const item of ['Neovim', 'lazy.nvim', 'Custom Lua modules', 'LazyGit']) {
+  for (const item of ['Neovim', 'LazyVim', 'Custom Lua modules', 'LazyGit']) {
     assert.ok(groups.get('Developer tooling').includes(item), `${item} is categorized under Developer tooling`)
   }
-  assert.ok(groups.get('Services & application architecture').includes('Microservices'))
-  assert.ok(groups.get('Services & application architecture').includes('Microfrontends'))
+  assert.ok(groups.get('Services & architecture').includes('Microservices'))
+  assert.ok(groups.get('Services & architecture').includes('Microfrontends'))
+  assert.ok(groups.get('Services & architecture').includes('Hono'))
+  assert.ok(!groups.get('Authentication & security').includes('Better Auth'))
+  assert.ok(!groups.get('Cloud & delivery').includes('AWS IAM'))
   assert.equal(portfolio.identity.location, undefined)
   const descriptionCopy = portfolio.home.personal.description
     .flatMap(({ segments }) => segments.map(({ text }) => text))
