@@ -7,7 +7,7 @@ const featurePhrases = {
   'social-development-unit': ['Submissions from six offices in one platform', 'Office and Unit Director views', 'SDG alignment in reports'],
   'leo-rent-a-car': ['Fleet and service pages designed in Figma', 'Responsive site with optimized images', 'Email-based booking inquiries'],
   'mujer-lgbtq': ['Team-built organization website', 'History, advocates, and goals', 'LGBTQIA+ rights and HIV awareness'],
-  'orsem-family-feud': ['Assisted the lead student developer', 'Synchronized display and controller views', 'Questions, answers, and scores'],
+  'orsem-family-feud': ['Custom Next.js game for OrSem 2025', 'Host controls and audience board', 'Answer reveals, strikes, and scores'],
 }
 
 function ProjectShowcaseCard({ project, compact = false }) {
@@ -19,7 +19,7 @@ function ProjectShowcaseCard({ project, compact = false }) {
     .toUpperCase()
   const features = featurePhrases[project.slug] || project.responsibilities
   const visibleFeatures = compact ? features.slice(0, 2) : features
-  const destination = project.externalUrl || project.companyUrl
+  const destination = project.externalUrl || project.companyUrl || project.sourceUrl
 
   return <article className={`project-showcase-card${compact ? ' project-showcase-card--compact' : ''}`}>
     <header className="project-showcase-card__top">
@@ -28,7 +28,7 @@ function ProjectShowcaseCard({ project, compact = false }) {
       </span>
       {destination
         ? <a href={destination} target="_blank" rel="noreferrer noopener" title={project.externalLabel || `Open ${project.title}`}>
-          {project.companyUrl && !project.externalUrl ? 'Client page' : project.notice ? 'Preview site' : 'Live site'} <span aria-hidden="true">↗</span>
+          {project.sourceUrl && !project.externalUrl && !project.companyUrl ? 'Source code' : project.companyUrl && !project.externalUrl ? 'Client page' : project.notice ? 'Preview site' : 'Live site'} <span aria-hidden="true">↗</span>
         </a>
         : <button type="button" onClick={() => navigate('/projects/' + project.slug)}>
           Project details <span aria-hidden="true">↗</span>

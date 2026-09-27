@@ -27,6 +27,16 @@ test('contains seven project case studies and two writing entries', () => {
   assert.ok(portfolio.projects.find(({ slug }) => slug === 'leo-rent-a-car').technologies.includes('React Router'))
 })
 
+test('Family Feud uses the finished Figma screens and source-backed stack', () => {
+  const project = portfolio.projects.find(({ slug }) => slug === 'orsem-family-feud')
+  assert.equal(project.sourceUrl, 'https://github.com/Arainf/familyfeud')
+  assert.deepEqual(project.gallery, ['/images/feud-idle-figma.webp', '/images/feud-game-figma.webp'])
+  assert.equal(project.galleryLabel, 'Finished Figma screens')
+  assert.ok(project.technologies.includes('Next.js'))
+  assert.ok(project.technologies.includes('Supabase'))
+  assert.doesNotMatch(project.summary, /cross-device|real-time sync/i)
+})
+
 test('writing entries keep unpublished case-study metadata and do not invent reading times', () => {
   for (const post of portfolio.posts) {
     assert.match(post.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/)

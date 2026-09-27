@@ -44,6 +44,7 @@ function ProjectDetailPage({ slug }) {
           <div className="project-detail-page__actions">
             {project.externalUrl && <a href={project.externalUrl} target="_blank" rel="noreferrer"><Icon name="arrow" size={16} />Visit project</a>}
             {project.companyUrl && <a href={project.companyUrl} target="_blank" rel="noreferrer"><Icon name="arrow" size={16} />{project.externalLabel ?? 'Visit company'}</a>}
+            {project.sourceUrl && <a href={project.sourceUrl} target="_blank" rel="noreferrer"><Icon name="github" size={16} />View source</a>}
             <a href="mailto:kennethque101@gmail.com?subject=Project%20discussion"><Icon name="calendar" size={16} />Schedule a call</a>
             <button type="button" onClick={handleShare}><Icon name="share" size={16} />Share project</button>
           </div>
@@ -54,7 +55,7 @@ function ProjectDetailPage({ slug }) {
           <div><dt className="page-kicker">Role</dt><dd>{project.role}</dd></div>
           <div><dt className="page-kicker">Client</dt><dd className="project-detail-page__client">{project.logo && <img className="project-detail-page__company-logo" src={project.logo} alt="" />}<span>{project.company ?? 'Personal / school project'}</span></dd></div>
           <div><dt className="page-kicker">Timeline</dt><dd>{project.period}</dd></div>
-          <div><dt className="page-kicker">Links</dt><dd className="project-detail-page__links">{project.externalUrl && <a href={project.externalUrl} target="_blank" rel="noreferrer">Live site ↗</a>}{project.companyUrl && <a href={project.companyUrl} target="_blank" rel="noreferrer">Facebook page ↗</a>}{!project.externalUrl && !project.companyUrl && <span>Private system</span>}</dd></div>
+          <div><dt className="page-kicker">Links</dt><dd className="project-detail-page__links">{project.externalUrl && <a href={project.externalUrl} target="_blank" rel="noreferrer">Live site ↗</a>}{project.companyUrl && <a href={project.companyUrl} target="_blank" rel="noreferrer">Facebook page ↗</a>}{project.sourceUrl && <a href={project.sourceUrl} target="_blank" rel="noreferrer">Source code ↗</a>}{!project.externalUrl && !project.companyUrl && !project.sourceUrl && <span>Private system</span>}</dd></div>
         </dl>
 
         <section className="project-detail-page__delivery" aria-label={`${project.title} contribution and stack`}>
@@ -66,9 +67,9 @@ function ProjectDetailPage({ slug }) {
           <div className="project-detail-page__description">
             <header><p className="page-kicker">Case study</p><h2>How it works</h2></header>
             {project.bodySections.map((section) => <section key={section.heading}><h3>{section.heading}</h3><ul className="project-detail-page__points">{section.points.map((point) => <li key={point}>{point}</li>)}</ul></section>)}
-            {project.placeholder ? <section className="project-detail-page__gallery"><h3>Project visuals</h3><p>Application screenshots are coming soon.</p></section> : <section className="project-detail-page__gallery" aria-labelledby="project-gallery-title">
-              <div><p className="page-kicker">Screenshots</p><h3 id="project-gallery-title">Inside the work</h3></div>
-              <div>{project.gallery.map((image, index) => <ImageWithFallback sources={[image, project.cover]} alt={`${project.title} screenshot ${index + 1}`} key={image} loading="lazy" />)}</div>
+            {project.placeholder ? <section className="project-detail-page__gallery"><h3>Project visuals</h3><p>Application screenshots are coming soon.</p></section> : <section className={`project-detail-page__gallery${project.galleryLabel ? ' project-detail-page__gallery--design' : ''}`} aria-labelledby="project-gallery-title">
+              <div><p className="page-kicker">{project.galleryLabel ?? 'Screenshots'}</p><h3 id="project-gallery-title">Inside the work</h3></div>
+              <div>{project.gallery.map((image, index) => <ImageWithFallback sources={[image, project.cover]} alt={project.galleryAlt?.[index] ?? `${project.title} screenshot ${index + 1}`} key={image} loading="lazy" />)}</div>
             </section>}
           </div>
           <aside className="project-detail-page__related" aria-labelledby="related-projects-title">

@@ -198,3 +198,13 @@
 @media (max-width: 1180px) { .projects-page__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 680px) { .projects-page__grid { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 18px; } .project-showcase-card { padding: 19px; } .project-showcase-card__top { margin-bottom: 19px; } .project-showcase-card h2 { font-size: 24px; } .project-showcase-card--compact { padding: 17px; } .project-showcase-card--compact h2 { font-size: 22px; } }
 @media (prefers-reduced-motion: reduce) { .project-showcase-card { transition: none; } .project-showcase-card:hover { transform: none; } }
+.project-detail-page__gallery--design > div:last-child {
+  grid-template-columns: 1fr;
+}
+
+.project-detail-page__gallery--design img {
+  aspect-ratio: 1642 / 1024;
+  min-height: 0;
+  object-fit: contain;
+  background: #fff;
+}

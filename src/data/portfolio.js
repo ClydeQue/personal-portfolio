@@ -206,27 +206,34 @@ const projects = [
   },
   {
     slug: 'orsem-family-feud', title: 'OrSem 2025 Family Feud', period: '2025', category: 'Event experience',
-    summary: 'An orientation-week game experience with synchronized display and controller views.', role: 'Implementation contributor',
+    summary: 'For OrSem 2025, we built a custom Family Feud game with Next.js. A host control panel manages questions, answer reveals, strikes, and scores while a separate audience view shows the game board.', role: 'Implementation contributor',
     responsibilities: [
-      'I assisted a Computer Science senior who led the OrSem 2025 game implementation.',
-      'I helped with the synchronized game display and controller views.',
-      'I contributed to question, answer, and score management.',
+      'I worked with a Computer Science senior who led the build and helped implement the host controls and audience display.',
+      'I contributed to the question, answer reveal, strike, and scoring flow.',
+      'I helped prepare the separate game views used during the orientation event.',
     ],
-    technologies: ['TypeScript', 'Next.js', 'PostgreSQL'],
+    technologies: ['TypeScript', 'Next.js', 'Tailwind CSS', 'Supabase', 'Framer Motion'],
     bodySections: [
       { heading: 'Event', points: [
-        'Family Feud-style game for OrSem 2025 at Ateneo de Zamboanga University.',
+        'We built a custom Family Feud system for OrSem 2025 at Ateneo de Zamboanga University.',
+        'The game uses Next.js and TypeScript, with a host control panel and a separate audience-facing board.',
       ] },
-      { heading: 'Synchronized views', points: [
-        'Audience display shows the board, answers, and scores.',
-        'Host controller runs questions, reveals, and scoring from a second screen.',
+      { heading: 'Game flow', points: [
+        'The host sets up teams and questions, reveals answers, records strikes, and adjusts scores.',
+        'The audience board presents the active round, question, revealed answers, and team scores.',
+        'The host and audience views read browser-local game state in this implementation.',
       ] },
       { heading: 'My role', points: [
-        'Assisted the Computer Science senior who led development.',
-        'Worked on the display and controller interactions.',
+        'I assisted the Computer Science senior who led development.',
+        'I helped with the controller and display interactions, including question and score handling.',
       ] },
     ],
-    cover: '/images/feud.png', gallery: ['/images/feud.png'], relatedSlugs: ['social-development-unit', 'mujer-lgbtq'],
+    cover: '/images/feud.png',
+    gallery: ['/images/feud-idle-figma.webp', '/images/feud-game-figma.webp'],
+    galleryLabel: 'Finished Figma screens',
+    galleryAlt: ['OrSem Family Feud idle screen design', 'OrSem Family Feud round-one game board design'],
+    sourceUrl: 'https://github.com/Arainf/familyfeud',
+    relatedSlugs: ['social-development-unit', 'mujer-lgbtq'],
   },
 ]
 
