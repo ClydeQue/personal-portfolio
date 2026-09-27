@@ -35,6 +35,8 @@ const practicePaths = {
   'AI-assisted QA': 'M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5zM18 17l2 2 3-4',
   'Context engineering': 'M3 4h12v12H3zM8 8h12v12H8M6 8h5M6 12h5',
   'Prompt engineering': 'M3 3h18v14H8l-5 4zM7 7l3 3-3 3m6 0h4',
+  'Graph Engineering': 'M5 5h.01M19 5h.01M12 12h.01M5 19h.01M19 19h.01M5 5l7 7 7-7M5 19l7-7 7 7',
+  'Loop Engineering': 'M20 11a8 8 0 0 0-14-5L4 8m0-4v4h4M4 13a8 8 0 0 0 14 5l2-2m0 4v-4h-4',
   'Product QA': 'M5 3h14v18H5zM8 12l3 3 5-6',
   'Web development': 'M2 3h20v18H2zM2 8h20M9 11l-3 3 3 3m6-6 3 3-3 3',
   'Cloud computing': 'M7 18a5 5 0 1 1 0-10 6 6 0 0 1 11-2 6 6 0 0 1 0 12H7',

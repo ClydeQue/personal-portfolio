@@ -57,7 +57,7 @@ test('tech stack reflects project, GitHub, cloud, AI, and editor evidence withou
   for (const item of ['GCP', 'Cloud Run', 'Cloud Build', 'Cloud Storage', 'AWS EC2', 'AWS S3', 'Cloudflare Workers', 'Cloudflare R2', 'Docker']) {
     assert.ok(groups.get('Cloud & delivery').includes(item), `${item} is categorized under Cloud & delivery`)
   }
-  for (const item of ['Codex CLI', 'Claude Code CLI', 'OpenAI API', 'AI-assisted QA', 'Context engineering']) {
+  for (const item of ['Codex CLI', 'Claude Code CLI', 'OpenAI API', 'AI-assisted QA', 'Context engineering', 'Graph Engineering', 'Loop Engineering']) {
     assert.ok(groups.get('AI tools & automation').includes(item), `${item} is categorized under AI tools & automation`)
   }
   for (const item of ['Neovim', 'LazyVim', 'Custom Lua modules', 'LazyGit']) {
@@ -73,6 +73,11 @@ test('tech stack reflects project, GitHub, cloud, AI, and editor evidence withou
     .flatMap(({ segments }) => segments.map(({ text }) => text))
     .join(' ')
   assert.match(descriptionCopy, /microservices and microfrontends/i)
+})
+
+test('client booking projects use the logos from their sites', () => {
+  assert.equal(portfolio.projects.find(({ slug }) => slug === 'court-avenue').logo, '/images/court-avenue-badge.webp')
+  assert.equal(portfolio.projects.find(({ slug }) => slug === 'casadelentes').logo, '/images/casadelentes-mark.webp')
 })
 
 test('home associations render as meaningful local organization marks', () => {

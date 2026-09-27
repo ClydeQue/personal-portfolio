@@ -52,6 +52,7 @@ const projects = [
   {
     slug: 'court-avenue', title: 'Court Avenue ZC', period: 'Sep 2026', category: 'Client booking platform',
     company: 'Court Avenue, Zamboanga City',
+    logo: '/images/court-avenue-badge.webp',
     summary: 'A pickleball court booking site for a three-court venue in Zamboanga City, with live open times, GCash receipt uploads, and owner approval.',
     role: 'Freelance full-stack developer and interface designer',
     responsibilities: [
@@ -89,6 +90,7 @@ const projects = [
   {
     slug: 'casadelentes', title: 'Casadelentes ZC', period: 'Sep 2026', category: 'Client booking platform',
     company: 'Casadelentes ZC, Zamboanga City',
+    logo: '/images/casadelentes-mark.webp',
     summary: 'A camera rental site for a Zamboanga City shop, with a catalog of four cameras, date requests, and an owner dashboard.',
     role: 'Freelance full-stack developer and interface designer',
     responsibilities: [
