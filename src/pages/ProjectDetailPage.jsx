@@ -53,7 +53,7 @@ function ProjectDetailPage({ slug }) {
 
         <dl className="project-detail-page__metadata" aria-label={`${project.title} metadata`}>
           <div><dt className="page-kicker">Role</dt><dd>{project.role}</dd></div>
-          <div><dt className="page-kicker">Client</dt><dd className="project-detail-page__client">{project.logo && <img className="project-detail-page__company-logo" src={project.logo} alt="" />}<span>{project.company ?? 'Personal / school project'}</span></dd></div>
+          <div><dt className="page-kicker">Organization</dt><dd className="project-detail-page__client">{project.logo && <img className="project-detail-page__company-logo" src={project.logo} alt="" data-project={project.slug} />}<span>{project.company ?? 'Personal / school project'}</span></dd></div>
           <div><dt className="page-kicker">Timeline</dt><dd>{project.period}</dd></div>
           <div><dt className="page-kicker">Links</dt><dd className="project-detail-page__links">{project.externalUrl && <a href={project.externalUrl} target="_blank" rel="noreferrer">Live site ↗</a>}{project.companyUrl && <a href={project.companyUrl} target="_blank" rel="noreferrer">Facebook page ↗</a>}{project.sourceUrl && <a href={project.sourceUrl} target="_blank" rel="noreferrer">Source code ↗</a>}{!project.externalUrl && !project.companyUrl && !project.sourceUrl && <span>Private system</span>}</dd></div>
         </dl>

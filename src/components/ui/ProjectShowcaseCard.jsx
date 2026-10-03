@@ -11,20 +11,14 @@ const featurePhrases = {
 }
 
 function ProjectShowcaseCard({ project, compact = false }) {
-  const mark = (project.category || 'Project')
-    .split(/\s+/)
-    .map((word) => word[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase()
   const features = featurePhrases[project.slug] || project.responsibilities
   const visibleFeatures = compact ? features.slice(0, 2) : features
   const destination = project.externalUrl || project.companyUrl || project.sourceUrl
 
   return <article className={`project-showcase-card${compact ? ' project-showcase-card--compact' : ''}`}>
     <header className="project-showcase-card__top">
-      <span className="project-showcase-card__mark" aria-hidden="true">
-        {project.logo ? <img src={project.logo} alt="" loading="lazy" /> : <span>{mark}</span>}
+      <span className="project-showcase-card__mark" data-project={project.slug} aria-hidden="true">
+        <img src={project.logo || project.cover} alt="" loading="lazy" />
       </span>
       {destination
         ? <a href={destination} target="_blank" rel="noreferrer noopener" title={project.externalLabel || `Open ${project.title}`}>

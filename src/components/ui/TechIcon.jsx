@@ -1,7 +1,7 @@
 const techIconMap = {
   React: 'experience-react', 'Next.js': 'nextdotjs', TypeScript: 'typescript', JavaScript: 'javascript',
   Python: 'python', HTML: 'html', CSS: 'css', 'Tailwind CSS': 'tailwind-mark', MUI: 'mui',
-  'TanStack Query': 'tanstack', 'C#': 'csharp', 'ASP.NET Core': 'dotnet', 'Node.js': 'nodejs', Express: 'express',
+  'TanStack Query': 'tanstack', 'C#': 'csharp', 'ASP.NET Core': 'dotnet', NestJS: 'nestjs', 'Node.js': 'nodejs', Express: 'express', GraphQL: 'graphql',
   PostgreSQL: 'postgre', CockroachDB: 'cockroachlabs', Supabase: 'supabase', Neon: 'neon', SQLite: 'sqlite', 'EF Core': 'dotnet',
   'JWT/JWKS': 'jsonwebtokens', 'Cloudflare Access (Zero Trust)': 'cloudflare', 'GCP IAM': 'googlecloud',
   'Workload Identity Federation': 'googlecloud', GCP: 'googlecloud', 'Cloud Run': 'googlecloud', 'Cloud Build': 'googlecloud',
@@ -16,7 +16,7 @@ const techIconMap = {
 // Single-color marks can be normalized safely. Multicolor badges need their
 // internal light/dark detail, so flattening every SVG would hide their lettering.
 const monochromeIcons = new Set([
-  'react', 'experience-react', 'nextdotjs', 'mui', 'tanstack', 'dotnet', 'express', 'cockroachlabs',
+  'react', 'experience-react', 'nextdotjs', 'mui', 'tanstack', 'dotnet', 'nestjs', 'graphql', 'express', 'cockroachlabs',
   'neon', 'sqlite', 'jsonwebtokens', 'googlecloud', 'googlecloudstorage',
   'cloudflareworkers', 'cloudflare', 'githubactions', 'vercel', 'claude', 'neovim', 'lua', 'vite',
 ])

@@ -76,6 +76,9 @@ test('tech stack reflects project, GitHub, cloud, AI, and editor evidence withou
   assert.ok(groups.get('Services & architecture').includes('Microservices'))
   assert.ok(groups.get('Services & architecture').includes('Microfrontends'))
   assert.ok(groups.get('Services & architecture').includes('Hono'))
+  assert.ok(groups.get('Services & architecture').includes('NestJS'))
+  assert.ok(groups.get('Services & architecture').includes('GraphQL'))
+  assert.ok(groups.get('Services & architecture').includes('REST APIs'))
   assert.ok(!groups.get('Authentication & security').includes('Better Auth'))
   assert.ok(!groups.get('Cloud & delivery').includes('AWS IAM'))
   assert.equal(portfolio.identity.location, undefined)
@@ -88,6 +91,21 @@ test('tech stack reflects project, GitHub, cloud, AI, and editor evidence withou
 test('client booking projects use the logos from their sites', () => {
   assert.equal(portfolio.projects.find(({ slug }) => slug === 'court-avenue').logo, '/images/court-avenue-badge.webp')
   assert.equal(portfolio.projects.find(({ slug }) => slug === 'casadelentes').logo, '/images/casadelentes-mark.webp')
+})
+
+test('every project card uses a local project or organization logo', () => {
+  for (const project of portfolio.projects) {
+    assert.match(project.logo, /^\/images\/[a-z0-9-]+\.webp$/)
+  }
+})
+
+test('bio covers current role, client work, APIs, delivery, and AI workflow', () => {
+  for (const paragraphs of [portfolio.home.personal.description, portfolio.home.professional.about]) {
+    const copy = paragraphs.flatMap(({ segments }) => segments.map(({ text }) => text)).join(' ')
+    for (const term of ['NGnair', 'Capytech', '5+ clients', 'Next.js', 'NestJS', 'ASP.NET Core', 'GraphQL', 'REST APIs', 'AWS', 'Cloudflare', 'Docker', 'GitHub Actions', 'Codex', 'Claude Code']) {
+      assert.ok(copy.includes(term), `${term} appears in both introductions`)
+    }
+  }
 })
 
 test('home associations render as meaningful local organization marks', () => {

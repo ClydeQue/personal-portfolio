@@ -126,6 +126,7 @@ const projects = [
   },
   {
     slug: 'social-development-unit', title: 'Social Development Unit', period: 'Sept–Dec 2025', category: 'Full-stack platform',
+    company: 'Ateneo de Zamboanga University · Social Development Unit', logo: '/images/sdu-logo-white.webp',
     summary: 'A centralized project-monitoring and reporting platform for six university offices.',
     role: 'Full-stack developer and project manager',
     responsibilities: [
@@ -154,6 +155,7 @@ const projects = [
   },
   {
     slug: 'leo-rent-a-car', title: 'LeoRentACar', period: 'Jul–Aug 2025', category: 'Client website',
+    company: 'LeoRentACar', logo: '/images/leo-logo.webp',
     notice: 'Client production site under maintenance. The link below opens the preview build.',
     summary: 'A responsive fleet and services website with email-based booking inquiries.',
     role: 'Freelance web developer and interface designer',
@@ -182,6 +184,7 @@ const projects = [
   },
   {
     slug: 'mujer-lgbtq', title: 'Mujer LGBTQ+', period: '2024', category: 'Informational website',
+    company: 'Mujer-LGBT Organization Inc.', logo: '/images/mujer-logo.webp',
     summary: 'A team-built informational website for a Zamboanga City nonprofit human-rights organization.', role: 'Team contributor',
     responsibilities: [
       'I contributed to the website as part of the team.',
@@ -206,6 +209,7 @@ const projects = [
   },
   {
     slug: 'orsem-family-feud', title: 'OrSem 2025 Family Feud', period: '2025', category: 'Event experience',
+    company: 'Ateneo de Zamboanga University · OrSem 2025', logo: '/images/feud-logo.webp',
     summary: 'For OrSem 2025, we built a custom Family Feud game with Next.js. A host control panel manages questions, answer reveals, strikes, and scores while a separate audience view shows the game board.', role: 'Implementation contributor',
     responsibilities: [
       'I worked with a Computer Science senior who led the build and helped implement the host controls and audience display.',
@@ -322,7 +326,7 @@ export const portfolio = deepFreeze({
   home: {
     personal: {
       eyebrow: 'Software engineer / product builder', title: 'Clyde Que', greeting: 'I’m', displayName: 'CLYDE',
-      statement: 'I’m a software engineer. I build web applications, interfaces, and business systems that make everyday work easier.',
+      statement: 'I build web applications and business systems that make everyday work easier.',
       associations: [
         { name: 'Ngnair Brice Holding', logo: '/images/associations/ngnair.svg', alt: 'Ngnair Brice Holding', href: 'https://ngnair.com/' },
         { name: 'Ateneo de Zamboanga University', logo: '/images/adzu_logo.png', alt: 'Ateneo de Zamboanga University', href: 'https://adzu.edu.ph/' },
@@ -331,16 +335,21 @@ export const portfolio = deepFreeze({
       techGroups: personalTechGroups,
       description: [
         { segments: [
-          { text: 'Basically, I like understanding how a process works, then building something that makes it easier for people to use. My work covers ' },
-          { text: 'frontend and backend development', emphasis: true },
-          { text: ', including ' },
-          { text: 'microservices and microfrontends', emphasis: true },
-          { text: ', QA, and cloud deployment. I’ve worked on university platforms, payment products, e-learning tools, and systems for local businesses.' },
+          { text: 'I started as a full-stack developer and now work remotely as a ' },
+          { text: 'software engineer at NGnair', emphasis: true },
+          { text: ', a US-based company. I like being part of an engineering team where I can contribute and keep learning. In summer 2026, I interned at Capytech as a Solutions Developer.' },
         ] },
         { segments: [
-          { text: 'I also use ' },
-          { text: 'Claude Code, Codex, and my custom Neovim setup', emphasis: true },
-          { text: ' in my workflow. These tools help me build and learn, but I still take time to understand and test what I’m working on.' },
+          { text: 'I’ve worked with ' },
+          { text: '5+ clients', emphasis: true },
+          { text: ' on booking websites, content management systems, inventory systems, and POS integrations with thermal printers. My work includes ' },
+          { text: 'Next.js, NestJS, ASP.NET Core, GraphQL, and REST APIs', emphasis: true },
+          { text: '. I’ve also worked on microservices and microfrontends, and I use AWS, Cloudflare, Docker, and GitHub Actions for delivery.' },
+        ] },
+        { segments: [
+          { text: 'I use ' },
+          { text: 'Codex and Claude Code', emphasis: true },
+          { text: ' in my agentic AI coding workflow. I still review the code and test what I build.' },
         ] },
       ],
       recognitionLabel: 'Recognition from project work and hackathons',
@@ -350,19 +359,21 @@ export const portfolio = deepFreeze({
       techGroups: professionalTechGroups,
       about: [
         { segments: [
-          { text: 'I’m Clyde, a software engineer. My work includes ' },
-          { text: 'frontend design, full-stack systems, microservices, and microfrontends', emphasis: true },
-          { text: ', along with QA and cloud deployment. I start by understanding what people need to do, then work on the design and code to support it.' },
+          { text: 'Hi, I’m Clyde. I started as a full-stack developer and now work remotely as a ' },
+          { text: 'software engineer at NGnair', emphasis: true },
+          { text: ', a US-based company. I like contributing to an engineering team and learning from the people I work with. In summer 2026, I interned at Capytech as a Solutions Developer.' },
         ] },
         { segments: [
-          { text: 'I’m currently contributing to ' },
-          { text: 'payment-product engineering with Ngnair Brice Holding', emphasis: true },
-          { text: ' as a Software Engineer focused on frontend development, QA, and AI-assisted automation, working closely with the lead software engineer across payment-product microservices and microfrontends. Before that, I worked on e-learning tools at Capytech. I’ve also built university reporting systems and freelance client projects. Each experience helps me learn more about building software and working with a team.' },
+          { text: 'I’ve worked with ' },
+          { text: '5+ clients', emphasis: true },
+          { text: ' on booking websites, content management systems, inventory systems, and POS integrations with thermal printers. I work with ' },
+          { text: 'Next.js, NestJS, ASP.NET Core, GraphQL, and REST APIs', emphasis: true },
+          { text: '. I’ve also worked on microservices and microfrontends, and I use AWS, Cloudflare, Docker, and GitHub Actions for delivery.' },
         ] },
         { segments: [
           { text: 'I use ' },
-          { text: 'Claude Code, Codex, and Neovim', emphasis: true },
-          { text: ' to support my work. So while AI helps me move faster, understanding the code and checking how it behaves are still part of my process.' },
+          { text: 'Codex and Claude Code', emphasis: true },
+          { text: ' in my agentic AI coding workflow. I still review the code and test what I build.' },
         ] },
       ],
     },

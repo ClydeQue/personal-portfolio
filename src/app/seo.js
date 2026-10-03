@@ -7,12 +7,12 @@ export const DEFAULT_IMAGE = '/og-image.png'
 
 const person = 'Kenneth Clyde Que'
 const defaults = {
-  title: `${person} | Software Engineer in Zamboanga City, Philippines`,
-  description: 'Kenneth Clyde Que (Clyde Que) is a software engineer in Zamboanga City, Philippines, building full-stack web applications, business systems, and interfaces. Software Engineer at Ngnair Brice Holding and BS Computer Science student at Ateneo de Zamboanga University.',
+  title: `${person} | Software Engineer`,
+  description: 'Clyde Que is a software engineer at Ngnair. He builds web applications and business systems with Next.js, NestJS, ASP.NET Core, GraphQL, and REST APIs.',
 }
 
 const staticPages = {
-  about: { title: `About | ${person}, Software Engineer`, description: 'About Kenneth Clyde Que: software engineer and product builder from Zamboanga City, Philippines, working across frontend, full-stack systems, QA, and cloud delivery.' },
+  about: { title: `About | ${person}, Software Engineer`, description: 'About Clyde Que: software engineer at Ngnair, former Capytech Solutions Developer intern, and full-stack builder for client systems and websites.' },
   projects: { title: `Projects | ${person}`, description: 'Projects by Kenneth Clyde Que: an inventory management system, court and camera booking platforms, university systems, and client websites.' },
   experience: { title: `Experience | ${person}`, description: 'Work experience of Kenneth Clyde Que: Software Engineer at Ngnair Brice Holding, Solutions Developer Intern at Capytech, and Web Development Intern at JP Consulting.' },
   collection: { title: `Collection | ${person}`, description: 'Reference notes and resources collected by Kenneth Clyde Que on development, architecture, and tooling.' },
@@ -54,8 +54,7 @@ export const personSchema = {
   jobTitle: 'Software Engineer',
   worksFor: { '@type': 'Organization', name: 'Ngnair Brice Holding', url: 'https://ngnair.com/' },
   alumniOf: { '@type': 'CollegeOrUniversity', name: 'Ateneo de Zamboanga University', url: 'https://adzu.edu.ph/' },
-  address: { '@type': 'PostalAddress', addressLocality: 'Zamboanga City', addressCountry: 'PH' },
-  knowsAbout: ['Software engineering', 'Full-stack development', 'React', 'Next.js', 'TypeScript', 'ASP.NET Core', 'Cloudflare Workers', 'QA automation'],
+  knowsAbout: ['Software engineering', 'Full-stack development', 'React', 'Next.js', 'NestJS', 'TypeScript', 'ASP.NET Core', 'GraphQL', 'REST APIs', 'Cloudflare Workers', 'QA automation'],
   sameAs: [portfolio.socials.github, portfolio.socials.linkedin],
 }
 

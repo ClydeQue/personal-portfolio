@@ -10,15 +10,10 @@ import NowPanel from '../components/ui/NowPanel.jsx'
 import Icon from '../components/ui/Icon.jsx'
 import Reveal from '../components/ui/Reveal.jsx'
 import TechIcon from '../components/ui/TechIcon.jsx'
+import RichText from '../components/ui/RichText.jsx'
 
 const portraitSources = ['/images/profme.webp', '/images/profme.png']
 const ParticlePortrait = lazy(() => import('../components/ui/ParticlePortrait.jsx'))
-
-function RichText({ paragraph }) {
-  return <>{paragraph.segments.map(({ text, emphasis }, index) => emphasis
-    ? <strong key={`${text}-${index}`}>{text}</strong>
-    : <span key={`${text}-${index}`}>{text}</span>)}</>
-}
 
 function TechList({ compact = false }) {
   const groups = compact ? portfolio.home.professional.techGroups : portfolio.home.personal.techGroups
@@ -94,7 +89,7 @@ function ProfessionalHome() {
       <Reveal className="professional-profile">
         <div className="professional-profile__intro">
           <ImageWithFallback sources={portraitSources} alt={portfolio.identity.name} />
-          <div className="professional-profile__identity"><h1 id="professional-home-title"><span>{portfolio.home.professional.title}</span><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 12 4 4 8-8" /></svg></i></h1><strong>{portfolio.identity.role}</strong></div>
+          <div className="professional-profile__identity"><h1 id="professional-home-title"><span>{portfolio.home.professional.title} <i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 12 4 4 8-8" /></svg></i></span></h1><strong>{portfolio.identity.role}</strong></div>
         </div>
         <div className="professional-profile__actions"><a href={portfolio.socials.github} aria-label="GitHub"><Icon name="github" /></a><a href={portfolio.socials.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a><a href={portfolio.socials.email} aria-label="Email"><Icon name="mail" /></a></div>
         <div className="professional-profile__cta"><a href={`${portfolio.socials.email}?subject=Portfolio%20call%20request`}>Schedule a Call</a><button type="button" onClick={() => navigate('/experience')}>Experience</button><a className="resume-link" href="/portfolio/KennethClydeQue_Resume.pdf" target="_blank" rel="noopener noreferrer">View Resume <span aria-hidden="true">↗</span></a></div>

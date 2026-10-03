@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { pageMeta, renderHead, sitemapPaths } from '../src/app/seo.js'
+import { pageMeta, personSchema, renderHead, sitemapPaths } from '../src/app/seo.js'
 import { portfolio } from '../src/data/portfolio.js'
 
 test('sitemap lists every page, project, and post', () => {
@@ -18,4 +18,13 @@ test('every route head names Kenneth Clyde Que with an absolute canonical', () =
     assert.match(head, /og:image" content="https:\/\/www\.kcque\.dev\//)
   }
   assert.match(renderHead(pageMeta('/missing-page')), /noindex/)
+})
+
+test('personal metadata describes the current role without publishing a location', () => {
+  for (const path of ['/', '/about']) {
+    const head = renderHead(pageMeta(path))
+    assert.match(head, /software engineer/i)
+    assert.doesNotMatch(head, /Zamboanga City|Philippines/)
+  }
+  assert.equal(personSchema.address, undefined)
 })

@@ -34,7 +34,8 @@ test('personal home renders organization marks and emphasized description copy',
   assert.match(html, /<img[^>]+alt="Ngnair Brice Holding"/)
   assert.match(html, /<img[^>]+alt="Ateneo de Zamboanga University"/)
   assert.match(html, /<img[^>]+alt="Capytech E-Learning Solutions"/)
-  assert.match(html, /<strong[^>]*>microservices and microfrontends<\/strong>/)
+  assert.match(html, /<strong[^>]*>software engineer at NGnair<\/strong>/)
+  assert.match(html, /GraphQL, and REST APIs/)
   assert.match(html, /href="\/portfolio\/KennethClydeQue_Resume\.pdf"[^>]*>View Resume/)
   assert.match(html, /class="project-showcase-card project-showcase-card--compact"/)
   assert.match(html, /href="https:\/\/www\.facebook\.com\/p\/Suntastic-Zambo-100063914957141\/"/)
@@ -43,11 +44,11 @@ test('personal home renders organization marks and emphasized description copy',
 test('professional home renders compact rich copy without exposing a location', async () => {
   const html = await renderHome('professional')
 
-  assert.match(html, /<strong[^>]*>frontend design, full-stack systems, microservices, and microfrontends<\/strong>/)
+  assert.match(html, /<strong[^>]*>software engineer at NGnair<\/strong>/)
   assert.doesNotMatch(html, /Metro Manila|Philippines/)
   assert.match(html, /Tech stack/)
   assert.match(html, /Codex CLI/)
-  assert.match(html, /Software Engineer focused on frontend development, QA, and AI-assisted automation/)
+  assert.match(html, /Codex and Claude Code/)
   assert.match(html, /href="\/portfolio\/KennethClydeQue_Resume\.pdf"[^>]*>View Resume/)
   assert.equal((html.match(/project-showcase-card--compact/g) || []).length, 3)
 })
