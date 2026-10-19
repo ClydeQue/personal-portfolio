@@ -15,12 +15,12 @@ const calendar = {
   totalContributions: 6,
   weeks: [
     { contributionDays: [
-      { date: '2024-01-03', contributionCount: 3 },
-      { date: '2024-01-01', contributionCount: 0 },
+      { date: '2024-01-03', contributionCount: 3, contributionLevel: 'THIRD_QUARTILE' },
+      { date: '2024-01-01', contributionCount: 0, contributionLevel: 'NONE' },
     ] },
     { contributionDays: [
-      { date: '2024-01-02', contributionCount: 1 },
-      { date: '2024-01-04', contributionCount: 2 },
+      { date: '2024-01-02', contributionCount: 1, contributionLevel: 'FIRST_QUARTILE' },
+      { date: '2024-01-04', contributionCount: 2, contributionLevel: 'SECOND_QUARTILE' },
     ] },
   ],
 }
@@ -41,9 +41,9 @@ test('normalizes GraphQL contribution days in stable date order and derives year
     currentStreak: 3,
     longestStreak: 3,
     contributionsByDate: [
-      { date: '2024-01-02', contributions: 1 },
-      { date: '2024-01-03', contributions: 3 },
-      { date: '2024-01-04', contributions: 2 },
+      { date: '2024-01-02', contributions: 1, level: 1 },
+      { date: '2024-01-03', contributions: 3, level: 3 },
+      { date: '2024-01-04', contributions: 2, level: 2 },
     ],
   })
 })
@@ -53,6 +53,7 @@ test('rejects empty and malformed contribution calendar responses', () => {
   assert.throws(() => normalizeContributionCalendar({ totalContributions: 0, weeks: [{}] }, { year: 2024, snapshotDate: '2024-01-04' }), /contributionDays/)
   assert.throws(() => normalizeContributionCalendar({ totalContributions: 1, weeks: [{ contributionDays: [{ date: 'not-a-date', contributionCount: 1 }] }] }, { year: 2024, snapshotDate: '2024-01-04' }), /ISO date/)
   assert.throws(() => normalizeContributionCalendar({ totalContributions: 1, weeks: [{ contributionDays: [{ date: '2026-02-30', contributionCount: 1 }] }] }, { year: 2026, snapshotDate: '2026-08-31' }), /ISO date/)
+  assert.throws(() => normalizeContributionCalendar({ weeks: [{ contributionDays: [{ date: '2024-01-02', contributionCount: 1, contributionLevel: 'UNKNOWN' }] }] }, { year: 2024, snapshotDate: '2024-01-04' }), /contributionLevel/)
   assert.throws(() => buildSnapshot({ years: [2024], calendars: new Map([[2024, calendar]]), snapshotDate: '2024-02-30' }), /ISO snapshot date/)
 })
 

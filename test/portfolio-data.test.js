@@ -154,6 +154,7 @@ test('activity uses the generated GitHub contribution calendar snapshot', () => 
   for (const year of activity.years) {
     assert.equal(year.totalContributions, year.contributionsByDate.reduce((total, day) => total + day.contributions, 0))
     assert.equal(year.activeDays, year.contributionsByDate.length)
+    assert.ok(year.contributionsByDate.every(({ level }) => Number.isInteger(level) && level >= 1 && level <= 4))
     assert.equal(typeof year.currentStreak, 'number')
     assert.equal(typeof year.longestStreak, 'number')
   }

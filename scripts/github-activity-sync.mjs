@@ -6,6 +6,13 @@ import { fileURLToPath } from 'node:url'
 const account = 'ClydeQue'
 const generatedPath = fileURLToPath(new URL('../src/data/githubActivity.js', import.meta.url))
 const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/
+const contributionLevels = {
+  NONE: 0,
+  FIRST_QUARTILE: 1,
+  SECOND_QUARTILE: 2,
+  THIRD_QUARTILE: 3,
+  FOURTH_QUARTILE: 4,
+}
 
 const dayIndex = (date) => Date.parse(`${date}T00:00:00Z`) / 86_400_000
 const toUtcDate = (value = new Date()) => value.toISOString().slice(0, 10)
@@ -62,9 +69,10 @@ export function normalizeContributionCalendar(contributionCalendar, { year, snap
       .filter((day) => {
         assertIsoDate(day?.date)
         if (!nonNegativeInteger(day?.contributionCount)) throw new Error('GitHub contribution day must contain a non-negative contributionCount')
+        if (!(day?.contributionLevel in contributionLevels)) throw new Error('GitHub contribution day must contain a contributionLevel')
         return day.contributionCount > 0
       })
-      .map(({ date, contributionCount }) => ({ date, contributions: contributionCount }))
+      .map(({ date, contributionCount, contributionLevel }) => ({ date, contributions: contributionCount, level: contributionLevels[contributionLevel] }))
   }).sort((left, right) => left.date.localeCompare(right.date))
 
   if (new Set(contributionsByDate.map(({ date }) => date)).size !== contributionsByDate.length) throw new Error('GitHub contribution calendar contains duplicate dates')
@@ -124,7 +132,7 @@ const graphql = async (query, variables) => new Promise((resolve, reject) => {
 })
 
 const yearsQuery = 'query($login: String!) { user(login: $login) { contributionsCollection { contributionYears } } }'
-const calendarQuery = 'query($login: String!, $from: DateTime!, $to: DateTime!) { user(login: $login) { contributionsCollection(from: $from, to: $to) { contributionCalendar { weeks { contributionDays { date contributionCount } } } } } }'
+const calendarQuery = 'query($login: String!, $from: DateTime!, $to: DateTime!) { user(login: $login) { contributionsCollection(from: $from, to: $to) { contributionCalendar { weeks { contributionDays { date contributionCount contributionLevel } } } } } }'
 
 export async function syncGithubActivity({ now = new Date(), outputPath = generatedPath } = {}) {
   const snapshotDate = toUtcDate(now)

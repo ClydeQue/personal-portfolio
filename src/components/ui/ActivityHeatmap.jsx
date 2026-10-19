@@ -3,28 +3,29 @@ import { activityYear } from '../../app/interaction.js'
 import { portfolio } from '../../data/portfolio.js'
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 const keyFor = (date) => date.toISOString().slice(0, 10)
 
 const buildYearGrid = (year, contributionsByDate) => {
-  const contributions = new Map(contributionsByDate.map(({ date, contributions: count }) => [date, count]))
+  const contributions = new Map(contributionsByDate.map(({ date, contributions: count, level }) => [date, { count, level }]))
   const start = new Date(Date.UTC(year, 0, 1))
   const end = new Date(Date.UTC(year, 11, 31))
-  const firstMonday = new Date(start)
-  firstMonday.setUTCDate(start.getUTCDate() - ((start.getUTCDay() + 6) % 7))
-  const totalWeeks = Math.ceil(((end - firstMonday) / 86_400_000 + 1) / 7)
+  const firstSunday = new Date(start)
+  firstSunday.setUTCDate(start.getUTCDate() - start.getUTCDay())
+  const totalWeeks = Math.ceil(((end - firstSunday) / 86_400_000 + 1) / 7)
   const monthLabels = []
   let previousMonth = -1
 
   const cells = Array.from({ length: totalWeeks * 7 }, (_, index) => {
-    const date = new Date(firstMonday)
-    date.setUTCDate(firstMonday.getUTCDate() + index)
+    const date = new Date(firstSunday)
+    date.setUTCDate(firstSunday.getUTCDate() + index)
     const dateKey = keyFor(date)
     const inYear = date.getUTCFullYear() === year
-    const count = inYear ? contributions.get(dateKey) ?? 0 : 0
+    const contribution = inYear ? contributions.get(dateKey) : null
+    const count = contribution?.count ?? 0
     const week = Math.floor(index / 7) + 1
-    const weekdayIndex = (date.getUTCDay() + 6) % 7
+    const weekdayIndex = date.getUTCDay()
 
     if (inYear && date.getUTCDate() === 1 && date.getUTCMonth() !== previousMonth) {
       previousMonth = date.getUTCMonth()
@@ -37,7 +38,7 @@ const buildYearGrid = (year, contributionsByDate) => {
       week,
       weekdayIndex,
       inYear,
-      level: Math.min(count, 4),
+      level: contribution?.level ?? 0,
       label: count ? `${dateKey}: ${count} ${count === 1 ? 'contribution' : 'contributions'}` : `${dateKey}: no contributions`,
     }
   })
@@ -80,7 +81,7 @@ function ActivityHeatmap() {
           <div className="activity-heatmap__scroll" role="group" aria-label={`${year} contribution grid. Scroll horizontally on small screens.`} tabIndex={0}>
             <div className="activity-heatmap__year">
               <div className="activity-heatmap__days" aria-hidden="true">
-                {weekdays.map((day, index) => <span key={day}>{index % 2 === 0 ? day : ''}</span>)}
+                {weekdays.map((day, index) => <span key={day}>{index % 2 === 1 ? day : ''}</span>)}
               </div>
               <div className="activity-heatmap__grid">
                 <div className="activity-heatmap__months">
@@ -102,6 +103,7 @@ function ActivityHeatmap() {
                   <i className="activity-heatmap__cell level-0" aria-hidden="true" />
                   <i className="activity-heatmap__cell level-1" aria-hidden="true" />
                   <i className="activity-heatmap__cell level-2" aria-hidden="true" />
+                  <i className="activity-heatmap__cell level-3" aria-hidden="true" />
                   <i className="activity-heatmap__cell level-4" aria-hidden="true" />
                   <span>More</span>
                 </div>

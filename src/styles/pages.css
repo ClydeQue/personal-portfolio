@@ -123,18 +123,18 @@
 .activity-heatmap__scroll { overflow-x: auto; padding-bottom: 6px; border: 1px solid #e1e1e1; border-radius: 16px; background: rgb(255 255 255 / 72%); }
 .activity-heatmap__scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .activity-heatmap__year { display: grid; grid-template-columns: 34px minmax(620px, 1fr); gap: 12px; align-items: start; min-width: fit-content; padding: 18px; }
-.activity-heatmap__days { display: grid; gap: 6px; padding-top: 28px; color: var(--muted); font-family: var(--font-mono); font-size: 9px; line-height: 1; }
+.activity-heatmap__days { display: grid; gap: 3px; padding-top: 19px; color: var(--muted); font-family: var(--font-mono); font-size: 9px; line-height: 1; }
 .activity-heatmap__days span { display: block; min-height: 11px; }
 .activity-heatmap__grid { min-width: 0; }
 .activity-heatmap__months { display: grid; grid-auto-columns: minmax(10px, 1fr); margin-bottom: 8px; color: var(--muted); font-family: var(--font-mono); font-size: 9px; }
 .activity-heatmap__months span { white-space: nowrap; }
 .activity-heatmap__cells { display: grid; grid-template-rows: repeat(7, 11px); grid-auto-flow: column; gap: 3px; }
-.activity-heatmap__cell { display: block; width: 100%; min-width: 10px; border-radius: 3px; background: #ececec; }
-.activity-heatmap__cell.is-outside-year { background: #f4f4f4; }
-.activity-heatmap__cell.level-1 { background: #c5efcf; }
-.activity-heatmap__cell.level-2 { background: #93dca7; }
-.activity-heatmap__cell.level-3 { background: #57b975; }
-.activity-heatmap__cell.level-4 { background: #287143; }
+.activity-heatmap__cell { display: block; width: 100%; min-width: 10px; border-radius: 2px; background: #ebedf0; }
+.activity-heatmap__cell.is-outside-year { background: transparent; }
+.activity-heatmap__cell.level-1 { background: #9be9a8; }
+.activity-heatmap__cell.level-2 { background: #40c463; }
+.activity-heatmap__cell.level-3 { background: #30a14e; }
+.activity-heatmap__cell.level-4 { background: #216e39; }
 .activity-heatmap__legend { display: flex; gap: 6px; align-items: center; justify-content: flex-end; margin-top: 14px; color: var(--muted); font-family: var(--font-mono); font-size: 10px; }
 .activity-heatmap__legend .activity-heatmap__cell { width: 12px; min-width: 12px; height: 12px; }
 .activity-heatmap__years { display: grid; gap: 8px; }
