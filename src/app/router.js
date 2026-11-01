@@ -35,6 +35,12 @@ export function navigate(to, { replace = false } = {}) {
   window.dispatchEvent(new PopStateEvent('popstate'))
 }
 
+export function navigateFromLink(event) {
+  if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+  event.preventDefault()
+  navigate(event.currentTarget.getAttribute('href'))
+}
+
 export function subscribeToRoute(listener) {
   window.addEventListener('popstate', listener)
   return () => window.removeEventListener('popstate', listener)

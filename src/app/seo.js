@@ -14,7 +14,7 @@ const defaults = {
 const staticPages = {
   about: { title: `About | ${person}, Software Engineer`, description: 'About Clyde Que: software engineer at Ngnair, former Capytech Solutions Developer intern, and full-stack builder for client systems and websites.' },
   projects: { title: `Projects | ${person}`, description: 'Projects by Kenneth Clyde Que: an inventory management system, court and camera booking platforms, university systems, and client websites.' },
-  experience: { title: `Experience | ${person}`, description: 'Work experience of Kenneth Clyde Que: Software Engineer at Ngnair Brice Holding, Solutions Developer Intern at Capytech, and Web Development Intern at JP Consulting.' },
+  experience: { title: `Experience | ${person}`, description: 'Work experience of Kenneth Clyde Que: Software Engineer at Ngnair Brice Holding, Solutions Developer Intern at Capytech, and Full Stack Developer at JP Consulting & Services LLC from June 2025 to July 2026.' },
   collection: { title: `Collection | ${person}`, description: 'Reference notes and resources collected by Kenneth Clyde Que on development, architecture, and tooling.' },
   blog: { title: `Writing | ${person}`, description: 'Case-study notes by Kenneth Clyde Que on the systems he has built.' },
 }

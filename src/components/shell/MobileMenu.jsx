@@ -1,26 +1,32 @@
 import { useEffect, useRef } from 'react'
 import { portfolio } from '../../data/portfolio.js'
-import { navigate } from '../../app/router.js'
+import { navigateFromLink } from '../../app/router.js'
 
-function MobileMenu({ open, view, onViewChange, onClose, triggerRef }) {
+function MobileMenu({ open, view, onViewChange, onClose, triggerRef, route }) {
   const wasOpen = useRef(false)
+  const menuRef = useRef(null)
 
   useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key === 'Escape') onClose()
     }
-    if (open) document.addEventListener('keydown', onKeyDown)
+    const onPointerDown = (event) => {
+      if (!menuRef.current?.contains(event.target) && !triggerRef.current?.contains(event.target)) onClose()
+    }
+    if (open) {
+      document.addEventListener('keydown', onKeyDown)
+      document.addEventListener('pointerdown', onPointerDown)
+      if (!wasOpen.current) menuRef.current?.querySelector('a')?.focus()
+    }
     if (wasOpen.current && !open) triggerRef.current?.focus()
     wasOpen.current = open
-    return () => document.removeEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('pointerdown', onPointerDown)
+    }
   }, [onClose, open, triggerRef])
 
   if (!open) return null
-
-  const goTo = (path) => {
-    onClose()
-    navigate(path)
-  }
 
   const selectView = (nextView) => {
     onClose()
@@ -28,9 +34,9 @@ function MobileMenu({ open, view, onViewChange, onClose, triggerRef }) {
   }
 
   return (
-    <section id="portfolio-mobile-menu" className="portfolio-mobile-menu" role="dialog" aria-label="Navigation menu">
+    <section id="portfolio-mobile-menu" className="portfolio-mobile-menu" ref={menuRef} aria-label="Navigation menu">
       <nav aria-label="Mobile navigation">
-        {portfolio.navigation.map(({ label, path }) => <button key={path} type="button" onClick={() => goTo(path)}>{label}</button>)}
+        {portfolio.navigation.map(({ label, path }) => <a key={path} href={path} aria-current={route.path === path || route.path.startsWith(`${path}/`) ? 'page' : undefined} onClick={(event) => { navigateFromLink(event); onClose() }}>{label}<span aria-hidden="true">↗</span></a>)}
       </nav>
       <div className="portfolio-view-switch" aria-label="Portfolio view">
         <button type="button" aria-pressed={view === 'personal'} onClick={() => selectView('personal')}>Personal</button>

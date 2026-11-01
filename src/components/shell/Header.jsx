@@ -1,23 +1,23 @@
 import { portfolio } from '../../data/portfolio.js'
-import { navigate } from '../../app/router.js'
+import { navigateFromLink } from '../../app/router.js'
 import Icon from '../ui/Icon.jsx'
 
 function Header({ route, view, onViewChange, menuOpen, onMenuToggle, menuTriggerRef }) {
-  const isActive = (path) => route.path === path || (path === '/projects' && route.path.startsWith('/projects/'))
+  const isActive = (path) => route.path === path || route.path.startsWith(`${path}/`)
 
   return (
     <header className="portfolio-header">
       <div className="portfolio-frame portfolio-header__row">
-        <button className="portfolio-brand" type="button" onClick={() => navigate('/')} aria-label={`Go to ${portfolio.identity.shortName} home`}>
+        <a className="portfolio-brand" href="/" onClick={navigateFromLink} aria-label={`Go to ${portfolio.identity.shortName} home`}>
           <img src={portfolio.identity.brandMark} alt="" aria-hidden="true" />
           <span>{portfolio.identity.shortName}</span>
-        </button>
+        </a>
 
         <nav className="portfolio-header__nav" aria-label="Primary navigation">
           {portfolio.navigation.map(({ label, path }) => (
-            <button className={isActive(path) ? 'is-active' : ''} key={path} type="button" onClick={() => navigate(path)} aria-current={isActive(path) ? 'page' : undefined}>
+            <a className={isActive(path) ? 'is-active' : ''} key={path} href={path} onClick={navigateFromLink} aria-current={isActive(path) ? 'page' : undefined}>
               {label}
-            </button>
+            </a>
           ))}
         </nav>
 
@@ -26,7 +26,7 @@ function Header({ route, view, onViewChange, menuOpen, onMenuToggle, menuTrigger
           <button type="button" aria-pressed={view === 'professional'} onClick={() => onViewChange('professional')}>Professional</button>
         </div>
 
-        <a className="portfolio-header__message" href={portfolio.socials.email}><i aria-hidden="true" /> Shoot a DM</a>
+        <a className="portfolio-header__message" href={portfolio.socials.email}><i aria-hidden="true" /> Email me</a>
         <a className="portfolio-header__schedule" href={`${portfolio.socials.email}?subject=Portfolio%20call%20request`}>
           Schedule a Call <Icon name="arrow" size={14} />
         </a>

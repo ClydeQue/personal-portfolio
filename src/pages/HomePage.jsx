@@ -1,6 +1,6 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useRef, useState } from 'react'
 import { portfolio } from '../data/portfolio.js'
-import { navigate } from '../app/router.js'
+import { navigate, navigateFromLink } from '../app/router.js'
 import ActivityHeatmap from '../components/ui/ActivityHeatmap.jsx'
 import ImageWithFallback from '../components/ui/ImageWithFallback.jsx'
 import SplitFlapName from '../components/ui/SplitFlapName.jsx'
@@ -11,9 +11,11 @@ import Icon from '../components/ui/Icon.jsx'
 import Reveal from '../components/ui/Reveal.jsx'
 import TechIcon from '../components/ui/TechIcon.jsx'
 import RichText from '../components/ui/RichText.jsx'
+import EmploymentCertificate from '../components/ui/EmploymentCertificate.jsx'
 
 const portraitSources = ['/images/profme.webp', '/images/profme.png']
 const ParticlePortrait = lazy(() => import('../components/ui/ParticlePortrait.jsx'))
+const brandTones = ['black', 'white', 'iridescent']
 
 function TechList({ compact = false }) {
   const groups = compact ? portfolio.home.professional.techGroups : portfolio.home.personal.techGroups
@@ -32,7 +34,15 @@ function TechList({ compact = false }) {
 
 function PersonalHome() {
   const [brandTone, setBrandTone] = useState('black')
+  const brandTabs = useRef([])
   const featuredProjects = portfolio.projects.slice(0, 2)
+  const onToneKeyDown = (event, index) => {
+    const nextIndex = { ArrowRight: (index + 1) % brandTones.length, ArrowLeft: (index + brandTones.length - 1) % brandTones.length, Home: 0, End: brandTones.length - 1 }[event.key]
+    if (nextIndex === undefined) return
+    event.preventDefault()
+    setBrandTone(brandTones[nextIndex])
+    brandTabs.current[nextIndex]?.focus()
+  }
   return <div className="home-page home-page--personal">
     <section className="home-hero" aria-labelledby="personal-home-title">
       <Suspense fallback={<div className="particle-portrait" aria-label="Loading particle portrait" />}>
@@ -41,7 +51,10 @@ function PersonalHome() {
       <div className="home-hero__copy">
         <h1 id="personal-home-title"><span>{portfolio.home.personal.greeting}</span><SplitFlapName name={portfolio.home.personal.displayName} /></h1>
         <p>{portfolio.home.personal.statement}</p>
-        <a className="resume-link" href="/portfolio/KennethClydeQue_Resume.pdf" target="_blank" rel="noopener noreferrer">View Resume <span aria-hidden="true">↗</span></a>
+        <div className="home-hero__actions">
+          <a className="home-hero__primary" href="/projects" onClick={navigateFromLink}>View projects <span aria-hidden="true">↗</span></a>
+          <a className="resume-link" href="/portfolio/KennethClydeQue_Resume.pdf" target="_blank" rel="noopener noreferrer">View Resume <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
       <Reveal as="section" className="home-associations" aria-label="Associated organizations" delay={.08}>
         <h2>Associated</h2>
@@ -64,9 +77,11 @@ function PersonalHome() {
       <Reveal as="section" className="home-panel home-panel--brand" aria-labelledby="brand-title">
         <h2 id="brand-title">Brand Assets</h2>
         <div className="brand-assets" data-tone={brandTone}>
-          <div className="brand-assets__tabs" role="tablist" aria-label="Brand mark treatment">{['black', 'white', 'iridescent'].map((tone) => <button key={tone} type="button" role="tab" aria-selected={brandTone === tone} onClick={() => setBrandTone(tone)}>/{tone[0].toUpperCase()}{tone.slice(1)}</button>)}</div>
-          <div className="brand-assets__wide" data-tone={brandTone}><img src={portfolio.identity.brandMark} alt="" /><strong>{portfolio.identity.shortName}</strong></div>
-          <div className="brand-assets__small"><div><img src={portfolio.identity.brandMark} alt="Clyde Que mark" /></div><strong>{portfolio.identity.shortName}</strong></div>
+          <div className="brand-assets__tabs" role="tablist" aria-label="Brand mark treatment">{brandTones.map((tone, index) => <button key={tone} ref={(node) => { brandTabs.current[index] = node }} id={`brand-tab-${tone}`} type="button" role="tab" tabIndex={brandTone === tone ? 0 : -1} aria-selected={brandTone === tone} aria-controls="brand-preview" onKeyDown={(event) => onToneKeyDown(event, index)} onClick={() => setBrandTone(tone)}>{tone[0].toUpperCase()}{tone.slice(1)}</button>)}</div>
+          <div id="brand-preview" role="tabpanel" tabIndex={0} aria-labelledby={`brand-tab-${brandTone}`}>
+            <div className="brand-assets__wide" data-tone={brandTone}><img src={portfolio.identity.brandMark} alt="" /><strong>{portfolio.identity.shortName}</strong></div>
+            <div className="brand-assets__small"><div><img src={portfolio.identity.brandMark} alt="Clyde Que mark" /></div><strong>{portfolio.identity.shortName}</strong></div>
+          </div>
         </div>
       </Reveal>
       <Reveal as="section" className="home-panel home-panel--featured" aria-labelledby="featured-title" delay={.06}>
@@ -94,7 +109,7 @@ function ProfessionalHome() {
         <div className="professional-profile__actions"><a href={portfolio.socials.github} aria-label="GitHub"><Icon name="github" /></a><a href={portfolio.socials.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a><a href={portfolio.socials.email} aria-label="Email"><Icon name="mail" /></a></div>
         <div className="professional-profile__cta"><a href={`${portfolio.socials.email}?subject=Portfolio%20call%20request`}>Schedule a Call</a><button type="button" onClick={() => navigate('/experience')}>Experience</button><a className="resume-link" href="/portfolio/KennethClydeQue_Resume.pdf" target="_blank" rel="noopener noreferrer">View Resume <span aria-hidden="true">↗</span></a></div>
         <section className="professional-profile__about" aria-labelledby="professional-about-title"><h2 id="professional-about-title"><Icon name="info" size={16} />About</h2>{portfolio.home.professional.about.map((paragraph, index) => <p key={index}><RichText paragraph={paragraph} /></p>)}</section>
-        <section className="professional-profile__experience" aria-labelledby="professional-experience-title"><h2 id="professional-experience-title">Work experience</h2>{portfolio.experiencePhases.map((item) => <article key={item.organization}><p>{item.period}</p><h3>{item.role}</h3><strong>{item.organization}</strong><span>{item.summary}</span></article>)}</section>
+        <section className="professional-profile__experience" aria-labelledby="professional-experience-title"><h2 id="professional-experience-title">Work experience</h2>{portfolio.experiencePhases.map((item) => <article key={item.organization}><p>{item.period}{item.duration && <small>{item.duration}</small>}</p><h3>{item.role}</h3><strong>{item.organization}</strong><span>{item.summary}</span>{item.certificate && <EmploymentCertificate certificate={item.certificate} />}</article>)}</section>
         <NowPanel />
         <ActivityHeatmap />
       </Reveal>
@@ -105,8 +120,7 @@ function ProfessionalHome() {
   </div>
 }
 
-function HomePage({ view, onViewChange }) {
-  void onViewChange
+function HomePage({ view }) {
   return <>
     <p className="sr-only" aria-live="polite">{view === 'professional' ? 'Professional view selected' : 'Personal view selected'}</p>
     {view === 'professional' ? <ProfessionalHome /> : <PersonalHome />}

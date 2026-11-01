@@ -16,7 +16,7 @@ test('contains seven project case studies and two writing entries', () => {
   assert.equal(portfolio.posts.length, 2)
   assert.equal(portfolio.experiencePhases.length, 3)
   assert.deepEqual(portfolio.experiencePhases.map(({ organization }) => organization), [
-    'Ngnair Brice Holding', 'Capytech E-Learning Solutions', 'JP Consulting and Services',
+    'Ngnair Brice Holding', 'Capytech E-Learning Solutions', 'JP Consulting & Services LLC',
   ])
   assert.equal(portfolio.education.degree, 'Bachelor of Science in Computer Science')
   assert.equal(portfolio.projects.find(({ slug }) => slug === 'leo-rent-a-car').externalUrl, 'https://leorentacar-git-main-clydefois-projects.vercel.app')
@@ -25,6 +25,14 @@ test('contains seven project case studies and two writing entries', () => {
   assert.ok(portfolio.projects.find(({ slug }) => slug === 'ims').technologies.includes('Cloudflare R2'))
   assert.ok(portfolio.projects.find(({ slug }) => slug === 'social-development-unit').technologies.includes('React PDF'))
   assert.ok(portfolio.projects.find(({ slug }) => slug === 'leo-rent-a-car').technologies.includes('React Router'))
+})
+
+test('JPCS employment matches the supplied certificate', () => {
+  const employment = portfolio.experiencePhases.find(({ organization }) => organization === 'JP Consulting & Services LLC')
+  assert.equal(employment.role, 'Full Stack Developer')
+  assert.equal(employment.period, 'Jun 2025–Jul 2026')
+  assert.equal(employment.duration, '1 year 1 month')
+  assert.equal(employment.certificate.period, 'June 6, 2025 to July 12, 2026')
 })
 
 test('Family Feud uses the finished Figma screens and source-backed stack', () => {

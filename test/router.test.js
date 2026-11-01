@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { matchRoute, normalizePath, routeTable } from '../src/app/router.js'
+import { matchRoute, navigateFromLink, normalizePath, routeTable } from '../src/app/router.js'
 
 test('publishes the complete single-mode route family', () => {
   assert.deepEqual(routeTable.map(({ pattern }) => pattern), [
@@ -19,4 +19,12 @@ test('matches detail routes and returns notFound for unknown paths', () => {
   })
   assert.equal(matchRoute('/missing').name, 'notFound')
   assert.equal(matchRoute('/license').name, 'notFound')
+})
+
+test('navigation links preserve browser shortcuts and middle clicks', () => {
+  for (const modifier of [{ button: 1 }, { metaKey: true }, { ctrlKey: true }, { shiftKey: true }, { altKey: true }, { defaultPrevented: true }]) {
+    let prevented = false
+    navigateFromLink({ button: 0, preventDefault: () => { prevented = true }, ...modifier })
+    assert.equal(prevented, false)
+  }
 })
