@@ -28,11 +28,12 @@ function PortfolioShell({ route, view, onViewChange, children }) {
 
   return (
     <div className="portfolio-shell" data-route={route.name}>
+      <a className="portfolio-skip-link" href="#main-content">Skip to content</a>
       <AmbientCanvas />
       <CustomCursor />
       <Header route={route} view={selectedView} onViewChange={selectView} menuOpen={ui.menuOpen} onMenuToggle={() => dispatch({ type: 'menu/toggle' })} menuTriggerRef={menuTriggerRef} />
-      <MobileMenu open={ui.menuOpen} view={selectedView} onViewChange={selectView} onClose={() => dispatch({ type: 'menu/close' })} triggerRef={menuTriggerRef} />
-      <main className="portfolio-main">{children}</main>
+      <MobileMenu open={ui.menuOpen} view={selectedView} onViewChange={selectView} onClose={() => dispatch({ type: 'menu/close' })} triggerRef={menuTriggerRef} route={route} />
+      <main className="portfolio-main" id="main-content" tabIndex={-1}>{children}</main>
       <Footer />
       <BackToTop />
     </div>

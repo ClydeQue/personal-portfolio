@@ -117,7 +117,7 @@ test('Professional Home uses reusable mail and info icons without exposing home 
     assert.match(iconSource, new RegExp(`${name}: '/icons/`))
     assert.match(homeSource, new RegExp(`name="${name}"`))
   }
-  for (const source of [homeSource, read('src/pages/AboutPage.jsx'), read('src/components/shell/StatusBar.jsx')]) {
+  for (const source of [homeSource, read('src/pages/AboutPage.jsx')]) {
     assert.doesNotMatch(source, /identity\.location|professional\.location|Based in/)
   }
   assert.doesNotMatch(documentSource, /based in Zamboanga City|Zamboanga City, Philippines/i)
@@ -145,9 +145,4 @@ test('Experience writing entries open their local case-study route without a pro
   const source = read('src/pages/ExperiencePage.jsx')
   assert.match(source, /navigate\(`\/blog\/\$\{post\.slug\}`\)/)
   assert.doesNotMatch(source, /post\.readingTime/)
-})
-
-test('Experience preserves the mobile text space after the Career Path ampersand', () => {
-  const source = read('src/pages/ExperiencePage.jsx')
-  assert.match(source, /Career Path &amp;<br \/>\{' '\}Milestones/)
 })

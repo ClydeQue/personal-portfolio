@@ -74,7 +74,7 @@ function ProjectDetailPage({ slug }) {
           </div>
           <aside className="project-detail-page__related" aria-labelledby="related-projects-title">
             <header><p className="page-kicker">Continue exploring</p><h2 id="related-projects-title">Other projects</h2></header>
-            <div>{relatedProjects(project.slug, 2).map((related) => <ProjectCard project={related} variant="related" key={related.slug} />)}</div>
+            <div>{relatedProjects(project.slug, 2).map((related) => <ProjectCard project={related} key={related.slug} />)}</div>
             <button type="button" onClick={() => navigate('/projects')}>See more</button>
           </aside>
         </section>

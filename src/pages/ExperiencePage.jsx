@@ -6,13 +6,12 @@ import ActivityHeatmap from '../components/ui/ActivityHeatmap.jsx'
 import { portfolio } from '../data/portfolio.js'
 import TechIcon from '../components/ui/TechIcon.jsx'
 import EducationEntry from '../components/ui/EducationEntry.jsx'
+import EmploymentCertificate from '../components/ui/EmploymentCertificate.jsx'
 
-const journeyValues = ['Build', 'Verify', 'Learn', 'Contribute']
-
-function Skill({ skill, className = '', style }) {
-  return <span className={`experience-skill ${className}`} style={style}>
+function Skill({ skill }) {
+  return <span className="experience-skill">
     <TechIcon name={skill.label} focusable={false} />
-    {!className.includes('experience-orbit') && <small>{skill.label}</small>}
+    <small>{skill.label}</small>
   </span>
 }
 
@@ -23,6 +22,7 @@ function ExperiencePage() {
   const activeIndex = state.experienceIndex
   const activePhase = phases[activeIndex]
   const panelId = 'experience-phase-panel'
+  const certificate = phases.find((phase) => phase.certificate)?.certificate
 
   const selectPhase = (index) => dispatch({ type: 'experience/select', index })
   const onPhaseKeyDown = (event, index) => {
@@ -35,13 +35,11 @@ function ExperiencePage() {
 
   return <div className="experience-page portfolio-frame">
     <section className="experience-hero" aria-labelledby="experience-title">
-      <h1 id="experience-title">The<br />Journey</h1>
-      <div className="experience-hero__path">
-        <h2>Career Path &amp;<br />{' '}Milestones</h2>
-        <div className="experience-hero__values" aria-label="Working values">
-          {journeyValues.map((value, index) => <span key={value}>{value}<i>{`{0${index + 1}}`}</i></span>)}
-        </div>
+      <div>
+        <h1 id="experience-title">Work &amp; experience.</h1>
+        <p>I build, test, and maintain web applications with teams and clients.</p>
       </div>
+      <a className="resume-link" href="/portfolio/KennethClydeQue_Resume.pdf" target="_blank" rel="noopener noreferrer">View Resume <span aria-hidden="true">↗</span></a>
     </section>
 
     <section className="experience-phase" aria-labelledby="experience-phase-title">
@@ -60,34 +58,32 @@ function ExperiencePage() {
             aria-controls={panelId}
             onClick={() => selectPhase(index)}
             onKeyDown={(event) => onPhaseKeyDown(event, index)}
-          ><i aria-hidden="true" /><span><strong>{phase.role}</strong><small>{phase.organization}</small></span><em>{`{0${index + 1}}`}</em><b aria-hidden="true">›</b></button>)}
+          ><i aria-hidden="true" /><span><strong>{phase.role}</strong><small>{phase.organization}</small><small>{phase.period}</small></span><b aria-hidden="true">›</b></button>)}
         </div>
-        <div className="experience-phase__learning">
-          <p className="page-kicker">Learning path</p>
-          <div>{activePhase.skills.map((skill) => <Skill key={skill.label} skill={skill} />)}</div>
-        </div>
+        <p className="experience-phase__hint">Select a role to see my work and the tools I used.</p>
       </div>
 
-      <article className="experience-phase__detail" id={panelId} role="tabpanel" aria-labelledby={`experience-phase-${activeIndex}`}>
-        <div className="experience-orbit" aria-hidden="true" style={{ '--tech-count': activePhase.skills.length }}>
-          <i className="experience-orbit__ring experience-orbit__ring--outer" />
-          <i className="experience-orbit__ring experience-orbit__ring--inner" />
-          <b className="experience-orbit__core" />
-          {activePhase.skills.map((skill, index) => <Skill key={skill.label} skill={skill} className="experience-orbit__tech" style={{ '--tech-index': index }} />)}
-        </div>
+      <article className="experience-phase__detail" id={panelId} role="tabpanel" tabIndex={0} aria-labelledby={`experience-phase-${activeIndex}`}>
         <header>
           <h2>{activePhase.role}</h2>
         </header>
         <div className="experience-phase__summary">
           <div className="experience-phase__metadata">
-            <p className="page-kicker">Current focus</p>
-            <p><strong>{activePhase.organization}</strong> <span>·</span> {activePhase.period}</p>
+            <strong>{activePhase.organization}</strong>
+            <p>{activePhase.period}{activePhase.duration && <span className="experience-phase__duration">{activePhase.duration}</span>}</p>
+            {activePhase.location && <p>{activePhase.location}</p>}
           </div>
           <p>{activePhase.summary}</p>
-          <div aria-label={`${activePhase.role} skills`}>{activePhase.skills.map((skill) => <Skill key={skill.label} skill={skill} className="experience-phase__skill" />)}</div>
+          <div className="experience-phase__skills" aria-label={`${activePhase.role} skills`}>{activePhase.skills.map((skill) => <Skill key={skill.label} skill={skill} />)}</div>
+          {activePhase.certificate && <a className="experience-phase__certificate-link" href="#employment-certificate">View my employment certificate <span aria-hidden="true">↓</span></a>}
         </div>
       </article>
     </section>
+
+    {certificate && <section className="experience-credentials" id="employment-certificate" aria-labelledby="employment-certificate-title">
+      <div><h2 id="employment-certificate-title">Employment certificate</h2><p>My full stack role at JP Consulting &amp; Services, documented.</p></div>
+      <EmploymentCertificate certificate={certificate} />
+    </section>}
 
     <ActivityHeatmap />
 

@@ -15,7 +15,9 @@ import NotFoundPage from './pages/NotFoundPage.jsx'
 
 function App() {
   const [route, setRoute] = useState(() => matchRoute(window.location.pathname))
-  const [view, setView] = useState(() => readPortfolioView(window.localStorage))
+  const [view, setView] = useState(() => {
+    try { return readPortfolioView(window.localStorage) } catch { return 'personal' }
+  })
 
   useEffect(() => subscribeToRoute(() => {
     setRoute(matchRoute(window.location.pathname))
@@ -28,7 +30,7 @@ function App() {
 
   let page
 
-  if (route.name === 'home') page = <HomePage view={view} onViewChange={setView} />
+  if (route.name === 'home') page = <HomePage view={view} />
   if (route.name === 'about') page = <AboutPage />
   if (route.name === 'projects') page = <ProjectsPage />
   if (route.name === 'projectDetail') page = <ProjectDetailPage slug={route.params.slug} />

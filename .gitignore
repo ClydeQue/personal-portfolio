@@ -25,3 +25,7 @@ dist-ssr
 *.sw?
 .vercel
 .env*
+
+# Local browser verification artifacts
+.playwright-cli/
+output/

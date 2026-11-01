@@ -253,8 +253,16 @@ const experiencePhases = [
     skills: [{ label: 'C#' }, { label: 'ASP.NET Core' }, { label: 'SQLite' }, { label: 'SCORM' }],
   },
   {
-    organization: 'JP Consulting and Services', role: 'Web Development Intern', period: 'Apr–May 2026',
-    summary: 'I worked on full-stack JavaScript and TypeScript projects for Australian clients, with guidance from a senior developer.',
+    organization: 'JP Consulting & Services LLC', role: 'Full Stack Developer', period: 'Jun 2025–Jul 2026',
+    duration: '1 year 1 month',
+    location: 'United Arab Emirates · Remote',
+    summary: 'I worked remotely as a full stack developer on JavaScript and TypeScript projects for Australian clients, with guidance from a senior developer. I contributed across frontend and backend development, API integrations, and responsive interfaces.',
+    certificate: {
+      title: 'Certificate of employment',
+      issuer: 'JP Consulting & Services LLC',
+      period: 'June 6, 2025 to July 12, 2026',
+      image: '/portfolio/Certificate_Of_Employment_Kenneth_Clyde_Que.png',
+    },
     skills: [{ label: 'JavaScript', icon: 'experience-javascript' }, { label: 'TypeScript', icon: 'experience-typescript' }, { label: 'Web development' }],
   },
 ]

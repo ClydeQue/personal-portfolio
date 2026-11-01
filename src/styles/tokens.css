@@ -4,7 +4,7 @@
 :root {
   --paper: #f8f8f8; --ink: #383838; --ink-strong: #424242;
   --accent: #1342ff; --rule: #d5d5d5; --muted: #6b7280;
-  --canvas: 1074px; --status-height: 36px; --nav-height: 66px;
+  --canvas: 1074px; --nav-height: 66px;
   --font-sans: 'Geist Sans', Arial, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
   --cursor-x: -24px; --cursor-y: -24px;

@@ -60,6 +60,15 @@ diff before committing. Keep credentials out of source files.
 
 ## Publishing
 
+The résumé source lives in `resume/resume.typ`. It uses native Typst layout and
+has no package imports. Compile it with Typst to update the website download:
+
+```sh
+typst compile resume/resume.typ public/portfolio/KennethClydeQue_Resume.pdf
+```
+
+Render the PDF and inspect its layout before publishing.
+
 Complete verification before publishing through the existing Git deployment
 integration. After a push, confirm the remote commit, provider deployment
 status, and live assets. A successful local build or Git push alone does not
