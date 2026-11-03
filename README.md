@@ -60,11 +60,11 @@ diff before committing. Keep credentials out of source files.
 
 ## Publishing
 
-The résumé source lives in `resume/resume.typ`. It uses native Typst layout and
-has no package imports. Compile it with Typst to update the website download:
+The résumé source lives in `resume/resume.typ`. It uses `basic-resume:0.2.9`
+and the bundled Montserrat fonts. Compile it with Typst to update the website download:
 
 ```sh
-typst compile resume/resume.typ public/portfolio/KennethClydeQue_Resume.pdf
+typst compile --font-path resume/fonts resume/resume.typ public/portfolio/KennethClydeQue_Resume.pdf
 ```
 
 Render the PDF and inspect its layout before publishing.
