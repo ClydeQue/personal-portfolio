@@ -25,7 +25,9 @@
   font-size: 10pt,
 )
 
-#set par(leading: 0.38em, spacing: 0.4em)
+#set par(leading: 0.38em)
+#set list(indent: 1.5em, body-indent: 0.45em, spacing: 0.36em)
+#show list: set block(below: 0.65em)
 #show heading.where(level: 2): it => block(
   width: 100%,
   above: 6pt,
@@ -33,7 +35,6 @@
   inset: (bottom: 2pt),
   stroke: (bottom: 0.6pt),
 )[#text(size: 11pt, weight: "bold")[#smallcaps(it.body)]]
-#set list(indent: 1.5em, body-indent: 0.45em, spacing: 0.36em)
 
 == Education
 
